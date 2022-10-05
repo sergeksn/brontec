@@ -1,0 +1,209 @@
+/*всё для символа рубля*/
+@font-face {
+    font-family: 'icomoon';
+    src: url('data:font/ttf;charset=utf-8;base64,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') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+.simvol_ruble_currency {
+    font-family: 'icomoon' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.simvol_ruble_currency:before {
+    content: "\e900";
+}
+
+/*всё для символа рубля*/
+
+/*иконки макета
+<div class="icon_close_button_bold">
+    <div class="svg_wrapper" style="padding-top:100%;">
+        <svg>
+            <use data-href="<?php echo $base_kit_svg_url ?>#icon_close_button_bold" />
+        </svg>
+    </div>
+</div>*/
+[class^="icon_"],
+[class*=" icon_"] {
+    /*width: 100%;*/
+}
+
+.icon_search_glas {
+    width: var(--15px);
+    height: var(--15px);
+}
+
+@media (max-width: 39.9375em) {
+    .icon_search_glas {
+        width: var(--20px);
+        height: var(--20px);
+    }
+}
+
+.icon_search_glas .svg_wrapper {
+    padding-top: 100%;
+}
+
+.icon_search_glas_bold {
+    width: var(--15px);
+    height: var(--15px);
+}
+
+.icon_search_glas_bold .svg_wrapper {
+    padding-top: 100%;
+}
+
+.icon_phone {
+    width: var(--10px);
+    height: var(--14px);
+}
+
+.icon_phone .svg_wrapper {
+    padding-top: 140%;
+}
+
+.icon_cart {
+    width: var(--33px);
+    height: var(--22px);
+}
+
+.icon_cart .svg_wrapper {
+    padding-top: 68.5714%;
+}
+
+.icon_cart_mobile {
+    width: var(--20px);
+    height: var(--20px);
+}
+
+@media (max-width: 39.9375em) {
+    .icon_cart_mobile {
+        width: var(--30px);
+        height: var(--30px);
+    }
+}
+
+.icon_cart_mobile .svg_wrapper {
+    padding-top: 100%;
+}
+
+.icon_close_button {
+    width: var(--20px);
+    height: var(--20px);
+}
+
+.icon_close_button .svg_wrapper {
+    padding-top: 100%;
+}
+
+.icon_close_button_bold {
+    width: var(--20px);
+    height: var(--20px);
+}
+
+.icon_close_button_bold .svg_wrapper {
+    padding-top: 100%;
+}
+
+.icon_small_arrow {}
+
+.icon_small_arrow .svg_wrapper {
+    padding-top: 86.6667%;
+}
+
+.icon_middle_arrow {
+    width: var(--22px);
+    height: var(--18px);
+}
+
+.icon_middle_arrow .svg_wrapper {
+    padding-top: 81.8182%;
+}
+
+.icon_large_arrow {}
+
+.icon_large_arrow .svg_wrapper {
+    padding-top: 45%;
+}
+
+.icon_scrol_to_top_arrow {
+    width: var(--15px);
+    height: var(--24px);
+}
+
+.icon_scrol_to_top_arrow .svg_wrapper {
+    padding-top: 152.9412%;
+}
+
+.icon_logo_footer {}
+
+.icon_logo_footer .svg_wrapper {
+    padding-top: 16.9492%;
+}
+
+.icon_facebook {}
+
+.icon_facebook .svg_wrapper {
+    padding-top: 212.5%;
+}
+
+.icon_instagram {}
+
+.icon_instagram .svg_wrapper {
+    padding-top: 100%;
+}
+
+.icon_odnoklasniki {}
+
+.icon_odnoklasniki .svg_wrapper {
+    padding-top: 168.75%;
+}
+
+.icon_telegram {}
+
+.icon_telegram .svg_wrapper {
+    padding-top: 86.2745%;
+}
+
+.icon_vk {}
+
+.icon_vk .svg_wrapper {
+    padding-top: 56.1404%;
+}
+
+.icon_whatsapp {}
+
+.icon_whatsapp .svg_wrapper {
+    padding-top: 100%;
+}
+
+.icon_payment_mastercard {}
+
+.icon_payment_mastercard .svg_wrapper {
+    padding-top: 64.2857%;
+}
+
+.icon_payment_mir {}
+
+.icon_payment_mir .svg_wrapper {
+    padding-top: 64.2857%;
+}
+
+.icon_payment_visa {}
+
+.icon_payment_visa .svg_wrapper {
+    padding-top: 64.2857%;
+}
+
+/*иконки макета*/

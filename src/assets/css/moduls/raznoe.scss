@@ -1,0 +1,206 @@
+/*оболочка картинок*/
+[data-img-type] {
+    position: relative;
+}
+
+[data-img-type] img,
+[data-img-type] .img_body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity var(--standart-anim);
+    background: center / cover no-repeat border-box;
+}
+
+
+
+[data-img-type].uploaded img,
+[data-img-type].uploaded .img_body,
+[data-img-type].portrait_uploaded img,
+[data-img-type].portrait_uploaded .img_body,
+[data-img-type].landscape_uploaded img,
+[data-img-type].landscape_uploaded .img_body {
+    opacity: 1;
+}
+
+/*оболочка картинок*/
+
+
+/*оболочка svg вставленных через тег use в svg*/
+.svg_wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.svg_wrapper svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/*оболочка svg вставленных через тег use в svg*/
+
+
+
+
+
+
+
+/*
+*
+ГЛАВНАЯ
+*
+*/
+
+/*
+*
+БЛОК фоновая картинка, заголовок H1 и выбор марки с кнопкой
+*
+*/
+.home_top_blok_fon_img_select_marka {
+    padding-top: 80px;
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+/*картинка с текстом по кругу*/
+.home_top_blok_fon_img_select_marka .circle_text_img_wrapper {
+    justify-content: end;
+}
+
+.home_top_blok_fon_img_select_marka .circle_text_img {
+    margin-right: 16.66%;
+}
+
+/*картинка с текстом по кругу*/
+
+/*вторая половина блока (справа)*/
+.home_top_blok_fon_img_select_marka .second_block {
+    padding-left: 20px;
+}
+
+/*вторая половина блока (справа)*/
+
+/*текст заголовка и под ним*/
+.home_top_blok_fon_img_select_marka h1 {
+    font-size: 50px;
+    font-weight: 400;
+    line-height: 60px;
+    padding-top: 10px;
+    padding-bottom: 40px;
+}
+
+/*текст заголовка и под ним*/
+
+/*выбор марки*/
+.home_top_blok_fon_img_select_marka .wrapper_select {
+    min-height: 80px;
+    margin: 40px 0;
+}
+
+.home_top_blok_fon_img_select_marka .select_marka {
+    display: flex;
+    overflow-x: hidden;
+}
+
+.home_top_blok_fon_img_select_marka .select_marka a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--b-radius);
+    transition: all var(--standart-anim);
+}
+
+.home_top_blok_fon_img_select_marka .select_marka a:hover {
+    background-color: var(--blue-hover);
+    cursor: pointer;
+}
+
+.home_top_blok_fon_img_select_marka .arrow_select_marka {
+    min-width: 20px;
+    position: absolute;
+    top: 50%;
+    right: -25px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+/*выбор марки*/
+
+/*кнопка выбора марки*/
+.home_top_blok_fon_img_select_marka .select_marka_button {
+    padding: 18px 60px;
+    text-align: center;
+    background-color: var(--black);
+    border-radius: var(--b-radius);
+    cursor: pointer;
+    transition: all var(--fast-anim);
+}
+
+.home_top_blok_fon_img_select_marka .select_marka_button:hover {
+    background-color: var(--black-hover);
+}
+
+/*кнопка выбора марки*/
+
+/*декоративная вертикальная полоска*/
+.dekor_line_on_home_page {
+    background-color: var(--blue);
+    justify-content: center;
+    padding-bottom: 80px;
+}
+
+.dekor_vertical_line {
+    min-height: 80px;
+    border-left: 2px solid var(--white);
+}
+
+/*декоративная вертикальная полоска*/
+
+/*
+*
+БЛОК фоновая картинка, заголовок H1 и выбор марки с кнопкой
+*
+*/
+
+
+
+
+
+/*
+*
+БЛОК видео на сине-белом фоне в верхней части главной страницы
+*
+*/
+.video_on_white_blue_fon {
+    background: linear-gradient(to bottom, var(--blue) 50%, var(--white) 50%);
+}
+
+.video_on_white_blue_fon .video_wrper {
+    border-radius: var(--b-radius);
+}
+
+.video_on_white_blue_fon .video_wrper img {
+    width: 100%;
+}
+
+/*
+*
+БЛОК видео на сине-белом фоне в верхней части главной страницы
+*
+*/
+
+/*
+*
+ГЛАВНАЯ
+*
+*/

@@ -1,0 +1,59 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "baseUrl": "./",
+        "paths": {
+            "@assets": [
+                "src\\assets"
+            ],
+            "@assets/*": [
+                "src\\assets/*"
+            ],
+            "@fonts": [
+                "@assets\\fonts"
+            ],
+            "@fonts/*": [
+                "@assets\\fonts/*"
+            ],
+            "@img": [
+                "@assets\\img"
+            ],
+            "@img/*": [
+                "@assets\\img/*"
+            ],
+            "@css": [
+                "@assets\\css"
+            ],
+            "@css/*": [
+                "@assets\\css/*"
+            ],
+            "@css_moduls": [
+                "@css\\moduls"
+            ],
+            "@css_moduls/*": [
+                "@css\\moduls/*"
+            ],
+            "@js": [
+                "@assets\\js"
+            ],
+            "@js/*": [
+                "@assets\\js/*"
+            ],
+            "@js_moduls": [
+                "@js\\moduls"
+            ],
+            "@js_moduls/*": [
+                "@js\\moduls/*"
+            ],
+            "@js_base_func": [
+                "@js\\base_func"
+            ],
+            "@js_base_func/*": [
+                "@js\\base_func/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRONTEC</title>
+  <link rel="shortcut icon" href="<%= base_url %>favicon.ico" />
+  <link rel="preload" href="<%= base_url %>assets/fonts/manrope.ttf" as="font" type="font/ttf" crossorigin>
+  <!--для того чтоб не было cls из-за дёргания букв при поддгрузке шрифта-->
+  <script>
+    const GDS = {};/*global data site  тут будут хранится все необходимые данные для работы фронтенда сайта, размеры блоков или какието-то данные для взаимодействия модулей*/
+        // GDS.base_kit_svg_url = "<?php echo $base_kit_svg_url ?>";
+  </script>
+  <style>
+    /* #header_fon_podlozka{
+        background-color: var(
+        <?php 
+        $url = $_SERVER["REQUEST_URI"];
+        $blue = ["/", "/about-us/"];
+        $find = false;
+        foreach ($blue as $page_url) {
+            if($page_url == $url){
+                echo "--blue";
+                $find = true;
+                break;
+            }
+        }
+
+        if(!$find) echo "--white";
+
+        ?>
+        );
+    } */
+  </style>
+</head>
+
+<body data-custom-scrollbar>
+  <header data-custom-scrollbar>
+    <%- include('./components/header/baner.ejs', { base_url: base_url })%>
+    <%- include('./components/header/header_block.ejs', { base_url: base_url })%>
+  </header>
+  <div id="header_fon_podlozka"></div>
+  <div id="header_overlay"></div>
+  <script>
+    /*нужно чтоб в момент загрузки страницы меню занимало нужную позицию и не прыгало относитель но контента*/
+    (() => {
+      let header = document.getElementsByTagName("header")[0],/*элемент header*/
+        header_fon_podlozka = document.getElementById("header_fon_podlozka"),/*элемент #header_fon_podlozka*/
+        header_height = window.getComputedStyle(header).height;/*высота хедера числом*/
+        header_fon_podlozka.style.height = header_height;/*задаём высоту подложки хедера*/
+    })()
+  </script>

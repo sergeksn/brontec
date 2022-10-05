@@ -1,0 +1,139 @@
+/*блок с картинкой товара*/
+.product_previv_block {
+    width: 100%;
+    border: var(--1px) solid var(--gray);
+    border-radius: var(--b-radius);
+    display: flex;
+    position: relative;
+}
+
+.product_prevu_img_block {
+    width: 100%;
+    position: relative;
+    opacity: 0;
+    transition: opacity var(--standart-anim);
+}
+
+.product_prevu_img_block.loaded {
+    opacity: 1;
+}
+
+.product_prevu_img_block img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.description {
+    width: 61.54%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: var(--30px) var(--20px) var(--30px) var(--40px);
+}
+
+.title {
+    width: 100%;
+    font: var(--h3);
+    padding-bottom: var(--10px);
+}
+
+.small_dec {
+    width: 100%;
+    font: var(--default);
+    padding-bottom: var(--25px);
+}
+
+.price_block {
+    width: 100%;
+    display: flex;
+    font: var(--default);
+    align-items: center;
+}
+
+.old_price {
+    color: var(--gray);
+    text-decoration: line-through;
+    padding-right: var(--10px);
+}
+
+.current_price {
+    padding-right: var(--10px);
+    display: flex;
+    align-items: center;
+}
+
+.discont {
+    color: var(--blue);
+}
+
+.previv_images_wraper {
+    width: 38.46%;
+    display: flex;
+    align-items: center;
+    padding: var(--7px) var(--20px) var(--7px) 0;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+span.search_target {
+    color: var(--blue);
+}
+
+
+a.arrow_link {
+    position: absolute;
+    width: var(--20px);
+    top: var(--35px);
+    right: var(--20px);
+    filter: invert(71%) sepia(7%) saturate(9%) hue-rotate(28deg) brightness(85%) contrast(88%);
+}
+
+@media (max-width: 59.9375em) {
+    .description{
+        width: 54.89%;
+        padding: var(--20px) var(--20px) var(--20px) var(--14px);
+    }
+    .previv_images_wraper{
+        padding: var(--15px) var(--5px) var(--19px) 0;
+        width: 45.11%;
+    }
+    .previv_images_wraper .grad_fon {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 96.28%);
+    }
+
+    a.arrow_link {
+        top: var(--20px);
+        right: var(--8px);
+        filter: invert(15%) sepia(100%) saturate(3709%) hue-rotate(224deg) brightness(102%) contrast(110%);
+    }
+
+    .small_dec {
+        padding-bottom: var(--5px);
+    }
+}
+
+@media (max-width: 39.9375em) {
+    .description {
+        padding: var(--15px) var(--20px);
+    }
+
+    .previv_images_wraper {
+        width: 69.29%;
+        position: absolute;
+        right: 0;
+    }
+
+    .product_previv_block .description {
+        width: 80%;
+        z-index: 1;
+    }
+}
+
+/*блок с картинкой товара*/

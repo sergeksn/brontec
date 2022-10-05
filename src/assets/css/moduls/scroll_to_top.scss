@@ -1,0 +1,53 @@
+/*кнопка вверх*/
+.scroll_to_top_wrapper {
+    position: fixed;
+    display: none;
+    opacity: 0;
+    border-radius: 50%;
+    background: var(--black-transparent);
+    transition: background var(--standart-anim);
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+    width: var(--50px);
+    height: var(--50px);
+    bottom: var(--120px);
+    right: var(--50px);
+    cursor: pointer;
+}
+
+.touch_devise .scroll_to_top_wrapper {
+    right: 0;
+    left: var(--50px);
+}
+
+
+body:not(.touch_devise) .scroll_to_top_wrapper:hover {
+    background: var(--blue-transparent);
+}
+
+@media(max-width: 959px) {
+    .scroll_to_top_wrapper {
+        bottom: var(--110px);
+        right: var(--30px);
+    }
+
+    .touch_devise .scroll_to_top_wrapper {
+        right: 0;
+        left: var(--30px);
+    }
+}
+
+@media(max-width: 639px) {
+    .scroll_to_top_wrapper {
+        bottom: var(--40px);
+        right: var(--30px);
+    }
+
+    .touch_devise .scroll_to_top_wrapper {
+        right: 0;
+        left: var(--30px);
+    }
+}
+
+/*кнопка вверх*/
