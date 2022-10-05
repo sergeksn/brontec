@@ -3,11 +3,17 @@
         "jsx": "react",
         "baseUrl": "./",
         "paths": {
+            "@": [
+                "src"
+            ],
+            "@/*": [
+                "src/*"
+            ],
             "@assets": [
-                "src\\assets"
+                "@\\assets"
             ],
             "@assets/*": [
-                "src\\assets/*"
+                "@\\assets/*"
             ],
             "@fonts": [
                 "@assets\\fonts"

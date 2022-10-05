@@ -35,7 +35,8 @@ module.exports = {
   target: "browserslist",
   resolve: {
     alias: {
-      "@assets": path.resolve(__dirname, "../src/assets"), //будет работать в подключённых css и js файлах но не в шаблонах ejs
+      "@": path.resolve(__dirname, "../src"),
+      "@assets": "@/assets", //будет работать в подключённых css js ejs
       "@fonts": "@assets/fonts",
       "@img": "@assets/img",
       "@css": "@assets/css",
