@@ -30,13 +30,19 @@ const PAGES = [
 
 process.env.BROWSERSLIST_CONFIG = path.resolve(__dirname, "./.browserslistrc"); //путь к файлу со списком поддерживаемых браузеров
 
+function edit_output_assets_path(original_fill_path){
+  //original_fill_path.replase("")
+  console.log(original_fill_path);
+  return original_fill_path;
+}
+
 module.exports = {
   mode: "production",
   target: "browserslist",
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "../src"),
-      "@assets": "@/assets", //будет работать в подключённых css js ejs
+      "@": path.resolve(__dirname, "../src"), //будет работать в подключённых css js ejs
+      "@assets": "@/assets",
       "@fonts": "@assets/fonts",
       "@img": "@assets/img",
       "@css": "@assets/css",
@@ -152,7 +158,7 @@ module.exports = {
         test: /\.(jpe?g|png|svg)$/i,
         type: "asset/resource",
         generator: {
-          filename: "assets/img/[name][ext]",
+          filename: "[path]/../[name].[ext]",
         },
       },
       {
