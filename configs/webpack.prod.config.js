@@ -30,12 +30,6 @@ const PAGES = [
 
 process.env.BROWSERSLIST_CONFIG = path.resolve(__dirname, "./.browserslistrc"); //путь к файлу со списком поддерживаемых браузеров
 
-function edit_output_assets_path(original_fill_path){
-  //original_fill_path.replase("")
-  console.log(original_fill_path);
-  return original_fill_path;
-}
-
 module.exports = {
   mode: "production",
   target: "browserslist",
@@ -148,24 +142,17 @@ module.exports = {
         ],
       },
       {
-        test: /(favicon\.ico)$/i,
+        test: /\.(jpe?g|png|svg|ico)$/i,
         type: "asset/resource",
         generator: {
-          filename: "[name][ext]",
-        },
-      },
-      {
-        test: /\.(jpe?g|png|svg)$/i,
-        type: "asset/resource",
-        generator: {
-          filename: "[path]/../[name].[ext]",
+          filename: asset_object =>  asset_object.module.resourceResolveData.relativePath.replace("./src/", ""),
         },
       },
       {
         test: /\.(woff2?|ttf)$/i,
         type: "asset/resource",
         generator: {
-          filename: "assets/fonts/[name][ext]",
+          filename: asset_object =>  asset_object.module.resourceResolveData.relativePath.replace("./src/", ""),
         },
       },
     ],

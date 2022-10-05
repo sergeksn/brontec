@@ -16,7 +16,8 @@ module.exports = {
   devtool: "source-map",
   resolve: {
     alias: {
-      "@assets": path.resolve(__dirname, "../src/assets"), //будет работать в подключённых css и js файлах но не в шаблонах ejs
+      "@": path.resolve(__dirname, "../src"), //будет работать в подключённых css js ejs
+      "@assets": "@/assets",
       "@fonts": "@assets/fonts",
       "@img": "@assets/img",
       "@css": "@assets/css",
@@ -108,24 +109,17 @@ module.exports = {
         ],
       },
       {
-        test: /(favicon\.ico)$/i,
+        test: /\.(jpe?g|png|svg|ico)$/i,
         type: "asset/resource",
         generator: {
-          filename: "[name][ext]",
-        },
-      },
-      {
-        test: /\.(jpe?g|png|svg)$/i,
-        type: "asset/resource",
-        generator: {
-          filename: "assets/img/[name][ext]",
+          filename: asset_object =>  asset_object.module.resourceResolveData.relativePath.replace("./src/", ""),
         },
       },
       {
         test: /\.(woff2?|ttf)$/i,
         type: "asset/resource",
         generator: {
-          filename: "assets/fonts/[name][ext]",
+          filename: asset_object =>  asset_object.module.resourceResolveData.relativePath.replace("./src/", ""),
         },
       },
     ],
