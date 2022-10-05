@@ -6,7 +6,7 @@
     "start server": "webpack server --config ./configs/webpack.server.config.js",
     "prod build": "webpack --config ./configs/webpack.prod.config.js",
     "dev build": "webpack --config ./configs/webpack.dev.config.js",
-    "git-push": "git add . && git commit -m 'node-console' && git push"
+    "git-push": "git add . && git commit -m node-console && git push"
   },
   "author": "Serge",
   "license": "ISC",
