@@ -450,6 +450,7 @@ const KSN_jQuery = {
                     }
                 }
                 //если в названии свойства больше одного слова
+                
                 return property; //возвращаем название css свойства в нужном виде webkitBorderRadius borderRadius
             },
             //переводим css название свойства в камелкейс формат

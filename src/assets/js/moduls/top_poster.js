@@ -141,7 +141,7 @@ GDS.header.top_baner = {
             baner_script = $("#top_banner_script"), //скрипт в коде который уже не нужен
             baner_height = this.top_baner.height(), //высота блока банера
             header_h = GDS.header.get_header_always_visible_h(), //получаем актуальную высоту блока хедера без учёта скрытой части
-            header_fon_podlozka_height = header_h - baner_height; //высота для подложки хедера
+            header_backdrop_height = header_h - baner_height; //высота для подложки хедера
 
         //если скрытый блок открыт и его размер на всю высоту окна или открыто окно с результатами поиска
         if ((GDS.header.toggle_block.status === "open" && GDS.header.toggle_block.size === "full") || GDS.header.search.status === "open") {
@@ -162,7 +162,7 @@ GDS.header.top_baner = {
                 if ((GDS.header.toggle_block.status === "open" && GDS.header.toggle_block.size === "full") || GDS.header.search.status === "open") await GDS.scrollbar.search_neaded_object(this.header).scroll_slider.animate({ "top": "+=" + baner_height + "px" }, GDS.anim_time, GDS.anim_tf); //если скрытый блок открыт и его размер на всю высоту окна или открыто окно с результатами поиска то мы должны синхронно опускать ползунок срола на высоту банера чтоб он не скрылся за верхом экрана
             })(),
             this.header.animate({ "top": "-" + baner_height + "px" }, GDS.anim_time, GDS.anim_tf), //поднимаем хедер чтоб скрыть банер за пределами видимой части экрана
-            $("#header_fon_podlozka").animate({ "height": header_fon_podlozka_height + "px" }, GDS.anim_time, GDS.anim_tf), //плавно поднимаем подложку хедера и после того как анимация закончится вызываем колбек
+            $("#header_backdrop").animate({ "height": header_backdrop_height + "px" }, GDS.anim_time, GDS.anim_tf), //плавно поднимаем подложку хедера и после того как анимация закончится вызываем колбек
             this.cart.animate({ "height": "+=" + baner_height + "px" }, GDS.anim_time, GDS.anim_tf) //увеличиываем высоту корзины на высоту банера чтоб она заняла всё освободившееся по вертикали место
         ]);
         //поднимаем хедер и уменщаем высоту его подложки

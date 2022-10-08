@@ -1,31 +1,31 @@
 import anime from "./../base_func/anime.js";
 
-export default new class {
-    status = "open" //хранит текущее состояние блока хедера, свёрнут он или открыт или в процессе
+export default new (class {
+    status = "open"; //хранит текущее состояние блока хедера, свёрнут он или открыт или в процессе
 
     constructor() {
         //записываем все неоходимые переменные для удобства доступа
         this.top_banner_wrap = $(".top_banner_wrap");
         this.has_top_baner = this.top_banner_wrap.length > 0 ? true : false; //определяет есть ли в хедере банер
         this.header = $("header"); //хедер
-        this.header_fon_podlozka = $("#header_fon_podlozka");
+        this.header_backdrop = $("#header_backdrop");
         this.header_menu_wrapper = $(".header_menu_wrapper");
-        this.visible_header_part = $(".visible_header_part")
+        this.visible_header_part = $(".visible_header_part");
         //записываем все неоходимые переменные для удобства доступа
 
         //скрываем/показываем хедер при прокрутке скролл блока в body
-        GDS.body_scroll_wrap.on({
+        $(window).on({
             events: "scroll_throttle",
             callback: this.toggle_header.bind(this),
             custom_settings: {
-                interval: GDS.trotling
-            }
+                interval: GDS.trotling,
+            },
         });
         //скрываем/показываем хедер при прокрутке скролл блока в body
 
         $(window).on({
             events: "resize_optimize",
-            callback: () => this.header_fon_podlozka.css("height", this.get_header_always_visible_h() + "px")
+            callback: () => this.header_backdrop.css("height", this.get_header_always_visible_h() + "px"),
         }); //при изменении размера экрана пересчитываем новую высоту подкладки хедера
     }
 
@@ -55,15 +55,15 @@ export default new class {
                 top: 0,
                 easing: GDS.anim_tf,
                 duration: spead,
-                begin: function(anim) {
+                begin: function (anim) {
                     _this.status = "pending to open";
                 },
-                update: function(anim) {
+                update: function (anim) {
                     if (_this.status !== "pending to open") anim.remove();
                 },
-                complete: function(anim) {
+                complete: function (anim) {
                     if (_this.status === "pending to open") _this.status = "open";
-                }
+                },
             });
 
         await animation.finished; //показываем хедер
@@ -80,15 +80,15 @@ export default new class {
                 top: "-" + this.get_header_h(),
                 easing: GDS.anim_tf,
                 duration: spead,
-                begin: function(anim) {
+                begin: function (anim) {
                     _this.status = "pending to close"; //вначале анимации задём статус что стрелка в процессе скрытия
                 },
-                update: function(anim) {
+                update: function (anim) {
                     if (_this.status !== "pending to close") anim.remove(); //сли в процессе анимации мы замечаем что статус не в процесе скрытия мы завершаем анимацию
                 },
-                complete: function(anim) {
+                complete: function (anim) {
                     if (_this.status === "pending to close") _this.status = "close";
-                }
+                },
             });
 
         await animation.finished; //дожидаемся завершения анимации появления
@@ -102,4 +102,4 @@ export default new class {
         GDS.scroll_dir === "bottom" && GDS.scrollTop > this.get_header_h() ? await this.close() : await this.open(); //если скролим вниз и высота скрола больше высоты хедера скрываем хедер, в противном случае показываем хедер
     }
     //функция оправляет сворачиванием и разворачиванием хедера
-}
+})();

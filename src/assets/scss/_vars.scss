@@ -17,7 +17,6 @@ lg - min-width:1280px   80em
   --black: #262626;
   --black-hover: #000;
   --black-transparent: rgba(0, 0, 0, 0.3);
-  --black-disabled: rgba(0, 0, 0, 0.3);
   --white: #fff;
   --white-disabled: rgba(255, 255, 255, 0.6);
   /*--white-disabled применяется для текстов в кнопках с отключённым статусом*/
@@ -50,7 +49,7 @@ lg - min-width:1280px   80em
   /*шрифты*/
 
   --fast-anim: 0s ease-in-out;
-  --standart-anim: 1.2s ease-in-out;
+  --standart-anim: .5s ease-in-out;
   --b-radius: var(--10px);
 
   --1px: 0.0625rem;

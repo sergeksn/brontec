@@ -1,24 +1,19 @@
-new class {
+new (class {
     constructor() {
         //записываем все неоходимые переменные для удобства доступа
-        this.footer_item_first = $($("footer .footer_item")[0]);
-        this.foter_decoration = $("footer .foter_decoration");
+        this.footer_item_first = document.querySelector(".footer_item:first-child");
+        this.foter_decoration = document.querySelector(".foter_decoration");
         //записываем все неоходимые переменные для удобства доступа
 
-        //управляет размерами синей декорации в зависимости от разера экрана
-        this.footer_decoration_modification_on_mobile();
+        this.footer_decoration_modification_on_mobile(); //управляет размерами синей декорации
 
-        $(window).on({
-            events: "resize_optimize",
-            callback: this.footer_decoration_modification_on_mobile.bind(this)
-        });
-        //управляет размерами синей декорации в зависимости от разера экрана
+        window._on("resize_optimize", this.footer_decoration_modification_on_mobile.bind(this)); //перестраиваем в зависимости от разера экрана
     }
 
     //при размере экрана меньше 639 px синяя декорация в футере должа менть свою высоту
     footer_decoration_modification_on_mobile() {
-        if (GDS.win_width <= 639) this.foter_decoration.css("height", this.footer_item_first.height({ type: "outerHeight" }) + 55 + "px"); //задаём декорации явную высоту для того чтоб он захватывал по высоте только первый блок  сменю
+        if (GDS.win.width <= 639) this.foter_decoration.style.height = Number(window.getComputedStyle(this.footer_item_first).height.replace("px", "")) + 55 + "px"; //задаём декорации явную высоту для того чтоб он захватывал по высоте только первый блок  сменю
         //55 - это верхний отступ
     }
     //при размере экрана меньше 639 px синяя декорация в футере должа менть свою высоту
-}
+})();

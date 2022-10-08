@@ -1,4 +1,3 @@
-
 "use strict"; //используем современный режим
 //ВАЖНО: нужно использовать имеено touchend, т.к. touchstart вызывает ошибки если элементы разположенны близко друг к другу
 //ПРИМЕЧАНИЕ: не играет особой роли как обращаться к элементу и его свойствам при большом количестве операций, при ожидании изменение какого-то параметра элемента например, что через мою ksn библеотеку что через нативный js
@@ -22,38 +21,43 @@
 
 //ВАЖНО: скорость выполнения функции зависит от её фактического размера, особенно если в ней объявляются очень большие объекты, так что чтоб увеличисть производительность нужно выносить всё большое за пределы функции
 import "./base_func/dom_helper.js"; //самописный аналог jquery с очень урезазнным функционалом, чтоб облегчить рутинную работу
-import '@js_moduls/base';//тут будут записаны основные функции для взаимодействи я с общими элементами сайта и установленны основные слушатели и те действия которые нужно выполнять на любой странице сайта в самом начале
 
-import '@js_moduls/scrollbar';//КАСТОМНЙ СКРОЛБАР
+import "./base_func/dom_add_func.js";
 
-import '@js_moduls/media';//КАРТИНКИ
-import '@js_moduls/overlays';//ВСЕ ПОДЛОЖКИ
-import '@js_moduls/header';//HEADER
-import '@js_moduls/header_toggle_block';//СКРЫТЫЙ БЛОК В ХЕДЕРЕ
-import '@js_moduls/header_search';//ОКНО ПОИСКА
+import "@js_moduls/base"; //тут будут записаны основные функции для взаимодействи я с общими элементами сайта и установленны основные слушатели и те действия которые нужно выполнять на любой странице сайта в самом начале
+
+import "@js_moduls/media"; //КАРТИНКИ
+import "@js_moduls/overlays"; //ВСЕ ПОДЛОЖКИ
+import "@js_moduls/header"; //HEADER
+import "@js_moduls/header_toggle_block"; //СКРЫТЫЙ БЛОК В ХЕДЕРЕ
+import "@js_moduls/header_search"; //ОКНО ПОИСКА
 //import '@js_moduls/cart';
 //import '@js_moduls/top_poster';
 
-import '@js_moduls/scroll_to_top';//КНОПКА СКРОЛА ВВЕРХ
-import '@js_moduls/footer';//ФУТЕР
-import '@js_moduls/small_product_previv_block';//отвечает за рендер блоков в выдаче поиска товаров
+import "@js_moduls/scroll_to_top"; //КНОПКА СКРОЛА ВВЕРХ
+import "@js_moduls/footer"; //ФУТЕР
+import "@js_moduls/small_product_previv_block"; //отвечает за рендер блоков в выдаче поиска товаров
 
 
 
 
+// console.log(document.getElementsByClassName("standart_container")._siblings("div"));
 
+// console.log(document.querySelectorAll(".standart_container")._siblings("div"));
 
+// console.log(document.querySelectorAll("main")._childs("div.standart_container"))
 
+// console.log(document.getElementsByTagName("main")._childs("div.standart_container"))
 
+// console.log(document.querySelectorAll("body")._find(".standart_container, div.test_item:not(.opa)"))
 
+// console.log(document.querySelectorAll(".standart_container")._parent("footer, .hidden_header_part"));
 
+// console.log(document.querySelectorAll("div.img_wrapper")._parents("a, .header_logo, div.footer_item, main"));
 
-
-
-
+// console.log(document.getElementById("header_overlay")._siblings("div"));
 
 $(document).on({
     events: "DOMContentLoaded",
-    callback: function() {
-    }
+    callback: function () {},
 });

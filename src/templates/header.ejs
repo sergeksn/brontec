@@ -10,44 +10,45 @@
   <!--для того чтоб не было cls из-за дёргания букв при поддгрузке шрифта-->
   <script>
     const GDS = {};/*global data site  тут будут хранится все необходимые данные для работы фронтенда сайта, размеры блоков или какието-то данные для взаимодействия модулей*/
-        // GDS.base_kit_svg_url = "<?php echo $base_kit_svg_url ?>";
+    // GDS.base_kit_svg_url = "<?php echo $base_kit_svg_url ?>";
+    (() => {/*скрипт создаёт и обновляет при ресайзе css переменный для высоты и ширины экрна в rem*/
+      let head = document.getElementsByTagName("head")[0],
+        style_el = document.createElement("style");
+
+      function set_css_vars() {
+        let w = document.documentElement.clientWidth,
+          h = document.documentElement.clientHeight;
+        style_el.innerHTML = "";
+        style_el.innerHTML = `:root{
+        --win-width-rem: ${w / 16}rem;
+        --win-heigth-rem: ${h / 16}rem;
+      }`;
+        /*
+          --win-width-px: ${w}px;
+          --win-heigth-px: ${h}px;
+        */
+        head.append(style_el);
+      }
+      set_css_vars();
+      window.addEventListener("resize", set_css_vars);
+    })();
   </script>
-  <style>
-    /* #header_fon_podlozka{
-        background-color: var(
-        <?php 
-        $url = $_SERVER["REQUEST_URI"];
-        $blue = ["/", "/about-us/"];
-        $find = false;
-        foreach ($blue as $page_url) {
-            if($page_url == $url){
-                echo "--blue";
-                $find = true;
-                break;
-            }
-        }
-
-        if(!$find) echo "--white";
-
-        ?>
-        );
-    } */
-  </style>
 </head>
 
-<body data-custom-scrollbar>
-  <header data-custom-scrollbar>
+<body class="custom_scrollbar">
+  <header class="custom_scrollbar">
     <%- include('./components/header/baner.ejs', { base_url: base_url })%>
-    <%- include('./components/header/header_block.ejs', { base_url: base_url })%>
+      <%- include('./components/header/header_block.ejs', { base_url: base_url })%>
   </header>
-  <div id="header_fon_podlozka"></div>
+  <div id="header_backdrop"></div>
   <div id="header_overlay"></div>
   <script>
     /*нужно чтоб в момент загрузки страницы меню занимало нужную позицию и не прыгало относитель но контента*/
+    /*загоняем в самовызывающуюся функцию для того чтоб инкапсулировать переменные*/
     (() => {
       let header = document.getElementsByTagName("header")[0],/*элемент header*/
-        header_fon_podlozka = document.getElementById("header_fon_podlozka"),/*элемент #header_fon_podlozka*/
+        header_backdrop = document.getElementById("header_backdrop"),/*элемент #header_backdrop*/
         header_height = window.getComputedStyle(header).height;/*высота хедера числом*/
-        header_fon_podlozka.style.height = header_height;/*задаём высоту подложки хедера*/
+      header_backdrop.style.height = header_height;/*задаём высоту подложки хедера*/
     })()
   </script>

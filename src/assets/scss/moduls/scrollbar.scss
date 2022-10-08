@@ -1,0 +1,42 @@
+body {
+  overflow: hidden auto;
+}
+
+//для браузеров с поддержкой наложения скролбара
+@supports (overflow: overlay) {
+  body {
+    overflow: hidden overlay;
+  }
+}
+
+.lock_scroll {
+  overflow: hidden !important;
+}
+
+//в любом браузере резервируем место под скрол в блоках в которых он точно или скорее всего будет чтоб избежать дёргания макета
+.custom_scrollbar {
+  scrollbar-gutter: stable;
+}
+
+.custom_scrollbar::-webkit-scrollbar {
+  width: var(--6px);
+}
+
+.custom_scrollbar::-webkit-scrollbar-thumb {
+  border-radius: var(--5px);
+  background-color: var(--black-transparent);
+}
+
+.custom_scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--black-hover);
+}
+
+//в браузере фаерфокс меняем ширину и цвет скрола, а так же резервируем место под скролбар в любом случае
+@supports (scrollbar-width: thin) {
+  html,
+  .custom_scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--black-transparent) transparent;
+    scrollbar-gutter: stable;
+  }
+}

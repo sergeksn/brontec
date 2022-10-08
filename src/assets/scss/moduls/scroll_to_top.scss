@@ -1,11 +1,11 @@
 /*кнопка вверх*/
-.scroll_to_top_wrapper {
+.scroll_to_top_button {
     position: fixed;
-    display: none;
+    display: flex;
     opacity: 0;
     border-radius: 50%;
-    background: var(--black-transparent);
-    transition: background var(--standart-anim);
+    background-color: var(--black-transparent);
+    transition: background-color var(--standart-anim), opacity var(--standart-anim);
     z-index: 10;
     justify-content: center;
     align-items: center;
@@ -16,35 +16,34 @@
     cursor: pointer;
 }
 
-.touch_devise .scroll_to_top_wrapper {
+.touch_devise .scroll_to_top_button {
     right: 0;
     left: var(--50px);
 }
 
-
-body:not(.touch_devise) .scroll_to_top_wrapper:hover {
-    background: var(--blue-transparent);
+body:not(.touch_devise) .scroll_to_top_button:hover {
+    background-color: var(--blue-transparent);
 }
 
-@media(max-width: 959px) {
-    .scroll_to_top_wrapper {
+@media (max-width: 959px) {
+    .scroll_to_top_button {
         bottom: var(--110px);
         right: var(--30px);
     }
 
-    .touch_devise .scroll_to_top_wrapper {
+    .touch_devise .scroll_to_top_button {
         right: 0;
         left: var(--30px);
     }
 }
 
-@media(max-width: 639px) {
-    .scroll_to_top_wrapper {
+@media (max-width: 639px) {
+    .scroll_to_top_button {
         bottom: var(--40px);
         right: var(--30px);
     }
 
-    .touch_devise .scroll_to_top_wrapper {
+    .touch_devise .scroll_to_top_button {
         right: 0;
         left: var(--30px);
     }

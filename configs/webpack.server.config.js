@@ -23,14 +23,17 @@ module.exports = {
     open: true,
     hot: true,
   },
+  stats: {
+    loggingDebug: ['sass-loader'],//позволяет выводить логи scss в консоль сервера
+  },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "../src"), //будет работать в подключённых css js ejs
+      "@": path.resolve(__dirname, "../src"), //будет работать в подключённых scss js ejs
       "@assets": "@/assets",
       "@fonts": "@assets/fonts",
       "@img": "@assets/img",
-      "@css": "@assets/css",
-      "@css_moduls": "@css/moduls",
+      "@scss": "@assets/scss",
+      "@scss_moduls": "@scss/moduls",
       "@js": "@assets/js",
       "@js_moduls": "@js/moduls",
       "@js_base_func": "@js/base_func",

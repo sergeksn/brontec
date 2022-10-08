@@ -1,5 +1,22 @@
 <%- include('./templates/header.ejs', { base_url: "./" })%>
-  <main style="position: relative; height: 1400px;background-color: blue; overflow-y: hidden;">
+  <main style="position: relative; height: 2300px;background-color: blue; overflow-y: hidden;">
+
+    <div class="test_text_size">
+      Тестовый текст
+    </div>
+
+    <div class="top_page_block" data-header-backdrop-color="var(--blue)">
+      <script>
+        /*указываем цвет подкладки хедера опираясь на data-header-backdrop-color атрибут первого блока*/
+        (()=>{
+          let top_page_block = document.querySelector(".top_page_block"),/*первый контент блок на странице сразу после хедера*/
+          header_backdrop = document.getElementById("header_backdrop");/*элемент #header_backdrop*/
+          header_backdrop.style.backgroundColor = top_page_block.getAttribute("data-header-backdrop-color");
+        })();
+      </script>
+    </div>
+
+
     <style>
       .test_wrap {
         height: 300px;
@@ -37,7 +54,8 @@
     </div>
     <div class="standart_container">
       <div class="img_wrapper obrabotka_salona" data-img-type="img" style="padding-top:57.14%;">
-        <img data-src="./assets/img/media-test/obrabotka_salona_3-1.jpg" data-original-w="6720" data-original-h="3840"
+        <img data-src="./assets/img/media-test/obrabotka_salona_3-1-1400x800.jpg" data-original-w="6720"
+             data-original-h="3840"
              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
         <!-- <div class="img_body" data-src="./assets/img/media-test/obrabotka_salona_3-1.jpg" data-original-w="6720" data-original-h="3840"></div> -->
         <div class="loader_wrap">
@@ -45,7 +63,6 @@
         </div>
       </div>
     </div>
-    <img src="~@img/header/banner.jpg" alt="">
     <div id="bg_green_block"
          style="height:1250px; width: 500px; margin: auto; background-color: green; position: relative; left: 0px; display:flex; flex-direction: column;">
       <div id="block_1" style="
@@ -75,8 +92,31 @@
         <img data-src="./assets/img/footer/logo_footer.svg"
              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
       </div>
-      <div class="test_block" data-custom-scrollbar
+      <div class="test_block custom_scrollbar" data-custom-scrollbar
            style="width:200px; height: 200px; margin: 0 auto; overflow-y: auto; background-color: #19E54D;">
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+        <div>text</div>
+      </div>
+      <div class="test_block scroll_test_block custom_scrollbar"
+           style="width:200px; height: 200px; margin: 50px auto; overflow-y: auto; background-color: #19E54D;">
         <div>text</div>
         <div>text</div>
         <div>text</div>

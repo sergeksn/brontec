@@ -1,0 +1,17 @@
+@use "sass:math";
+
+@import "_vars";
+@import "_normalize";
+@import "_base";
+
+@import '@scss_moduls/cart.scss';
+@import '@scss_moduls/footer.scss';
+@import '@scss_moduls/grid.scss';
+@import '@scss_moduls/header_search.scss';
+@import '@scss_moduls/header.scss';
+@import '@scss_moduls/icons.scss';
+@import '@scss_moduls/product_info_block.scss';
+@import '@scss_moduls/raznoe.scss';
+@import '@scss_moduls/scroll_to_top.scss';
+@import '@scss_moduls/scrollbar.scss';
+@import '@scss_moduls/ui_figures.scss';

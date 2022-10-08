@@ -1,7 +1,7 @@
 //тут храним все необходимые данные для работы функций
 const list_data = {
-    swipe: []
-}
+    swipe: [],
+};
 //тут храним все необходимые данные для работы функций
 
 //ПРИМЕЧАНИЕ: не знаю почему но при движении нескольких точек по экрану в момент одновременного их события touchmove идентификаторы и соответсвенно события первого касание перекрывает более позние, тем самым переодически получаются глюки что когда движется второй палец браузер считает что движентся первый
@@ -16,7 +16,7 @@ const swipe_event = {
     touchend — пользователь отпустил экран;
     touchcancel — отмена касания. Это событие срабатывает, если пользователь заходит за край страницы, переворачивает экран, сворачивает браузер и так далее.*/
     //срабатывает в момент подключения слушателя swipe к элементу
-    init: function(el, settings, add_listener = true) {
+    init: function (el, settings, add_listener = true) {
         //если передано что нужно удалить слушатель
         //ПРИМЕЧАНИЕ: это используется когда мы отключаем слушатель события от элемента
         if (!add_listener) {
@@ -25,12 +25,12 @@ const swipe_event = {
             //функция удаляет прослушивание всех событий для обнаружения свайпа
             $(el).off({
                 events: "click " + settings.start_events + " " + settings.move_events + " " + settings.finall_events + " " + settings.leave_events,
-                callback: swipe_event.remove_default
+                callback: swipe_event.remove_default,
             }); //включаем события по умолчанию
             $(el).off({
                 events: settings.start_events,
-                callback: swipe_event.start
-            }); //отключаем прослушивани событий mousedown touchstart для функции start 
+                callback: swipe_event.start,
+            }); //отключаем прослушивани событий mousedown touchstart для функции start
             //функция удаляет прослушивание всех событий для обнаружения свайпа
             return; //прерываем дальнейщее выполнение функции
         }
@@ -76,12 +76,12 @@ const swipe_event = {
                 top: true,
                 right: true,
                 bottom: true,
-                left: true
+                left: true,
             }, //направления в которых нужно учитывать свайп
             permission_mouse_buttons: {
                 1: true, //левая
                 2: false, //центральная
-                3: false //правая
+                3: false, //правая
             }, //какие кнопки мыши учитывать при свайпе
             start_time: 0, //время начало свайпа
             total_time: 0, //сколько времени занял свайп
@@ -91,7 +91,7 @@ const swipe_event = {
             y: 0, //будет хранить изменяемую позицию точки нажатия при перемещении по вертикали
             x_dist: 0, //дистанция проейдаеная по горизонтали
             y_dist: 0, //дистанция проейдаеная по вертикали
-            abort_swipe_fail: false //может быть использованно для принудительного прерывания свайпа как неудачный
+            abort_swipe_fail: false, //может быть использованно для принудительного прерывания свайпа как неудачный
         };
         // настройки по умолчанию
 
@@ -133,7 +133,7 @@ const swipe_event = {
         //записываем в глобальный список данные этого элемента
         list_data.swipe.push({
             element: el,
-            settings: settings
+            settings: settings,
         });
         //записываем в глобальный список данные этого элемента
 
@@ -144,7 +144,7 @@ const swipe_event = {
             $(el).on({
                 events: "click " + settings.start_events + " " + settings.move_events + " " + settings.finall_events + " " + settings.leave_events,
                 callback: swipe_event.remove_default,
-                options_event: { passive: false }
+                options_event: { passive: false },
             });
         }
         //отключаем события по умолчанию если задано в настройках
@@ -155,7 +155,7 @@ const swipe_event = {
     //срабатывает в момент подключения слушателя swipe к элементу
 
     //при ресайзе пересчитываем максимальные и минимальные длинны свайпа в пикселях
-    resize_recalculete: function() {
+    resize_recalculete: function () {
         for (let i = 0; i < list_data.swipe.length; i++) {
             let settings = list_data.swipe[i].settings,
                 el_width = $(settings.el).width(),
@@ -170,18 +170,17 @@ const swipe_event = {
     //при ресайзе пересчитываем максимальные и минимальные длинны свайпа в пикселях
 
     //ищем текущий элемент с его настройками для свайпа
-    get_settings: function(el) {
+    get_settings: function (el) {
         for (let i = 0; i < list_data.swipe.length; i++) {
             if (list_data.swipe[i].element === el) {
                 return list_data.swipe[i].settings;
             }
-
         }
     },
     //ищем текущий элемент с его настройками для свайпа
 
     //проверяем сколько точек касания на экране и какая кнопка мыши нажата
-    check_touch_and_mouses_buttons: function(e, settings) {
+    check_touch_and_mouses_buttons: function (e, settings) {
         /*touches: список всех точек соприкосновения пальцев с экраном.
         targetTouches: список всех точек соприкосновения с текущим элементом DOM.
         changedTouches: список всех точек соприкосновения, участвующих в текущем событии. Например, в случае события touchend это будет точка, в которой пользователь убрал палец с экрана.*/
@@ -197,7 +196,7 @@ const swipe_event = {
     //проверяем сколько точек касания на экране и какая кнопка мыши нажата
 
     //стартует после нажатия клавиши мыши или касания пальца на элементе
-    start: function(e) {
+    start: function (e) {
         //this элемент до которого дошло всплытие события, т.е. element.addEventListener(type, test) в данном случае если клик был по любому дочернему элементу element или нему самому , то в this будет этот element на котором вызвано слушанье события
         let settings = swipe_event.get_settings(this); //настройки свайпа текущего элемента
 
@@ -232,7 +231,7 @@ const swipe_event = {
     //стартует после нажатия клавиши мыши или касания пальца на элементе
 
     //перемещения курсора или пальца
-    move: function(e) {
+    move: function (e) {
         let settings = swipe_event.get_settings(this), //настройки свайпа текущего элемента
             event = swipe_event.check_touch_and_mouses_buttons(e, settings); //вернёт объект события или false если не указатель не прошёл проверку
 
@@ -282,7 +281,7 @@ const swipe_event = {
     //перемещения курсора или пальца
 
     //курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на сенсоре
-    leave: function(e) {
+    leave: function (e) {
         let settings = swipe_event.get_settings(this), //настройки свайпа текущего элемента
             result = swipe_event.analiz_swipe(settings), //определяем соответствует ли жест свайпу
             event = swipe_event.check_touch_and_mouses_buttons(e, settings); //вернёт объект события или false если не указатель не прошёл проверку
@@ -301,7 +300,7 @@ const swipe_event = {
     //курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на сенсоре
 
     //будет вызвана когда указатель будет отпущен
-    finall: function(e) {
+    finall: function (e) {
         let settings = swipe_event.get_settings(this), //настройки свайпа текущего элемента
             result = swipe_event.analiz_swipe(settings), //определяем соответствует ли жест свайпу
             event = swipe_event.check_touch_and_mouses_buttons(e, settings); //вернёт объект события или false если не указатель не прошёл проверку
@@ -317,13 +316,15 @@ const swipe_event = {
     //будет вызвана когда указатель будет отпущен
 
     //завершаем обработку события
-    end: function(result, settings) {
+    end: function (result, settings) {
         swipe_event.clean(settings); //функция чистит все ненужные слушатели после того как указатель убран
 
-        if (result) { //свайп
+        if (result) {
+            //свайп
             settings.callback_success();
             swipe_event.run_event(settings);
-        } else { //не свайп
+        } else {
+            //не свайп
             settings.callback_fail();
         }
 
@@ -332,7 +333,7 @@ const swipe_event = {
     //завершаем обработку события
 
     //возвращает объект со списком свойств текущего события для текущего устройства
-    events_props: function(e) {
+    events_props: function (e) {
         if (typeof e.touches !== "undefined") {
             let event = null;
             //перебираем события данного типа (touchemove например) которые происходят в данный момент
@@ -358,24 +359,24 @@ const swipe_event = {
     //возвращает объект со списком свойств текущего события для текущего устройства
 
     //функция чистит все ненужные слушатели
-    clean: function(settings) {
+    clean: function (settings) {
         $(settings.el).off({
             events: settings.move_events,
-            callback: swipe_event.move
+            callback: swipe_event.move,
         }); //удаляем слушатель события для перемещения курсора или пальца
         $(settings.el).off({
             events: settings.finall_events,
-            callback: swipe_event.finall
+            callback: swipe_event.finall,
         }); //удаляем слушатель события когда кнопка мыши отпущена или палец поднят
         $(settings.el).off({
             events: settings.leave_events,
-            callback: swipe_event.leave
-        }); //удаляем слушатель курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на 
+            callback: swipe_event.leave,
+        }); //удаляем слушатель курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на
     },
     //функция чистит все ненужные слушатели
 
     //оцениваем жест как свайп
-    analiz_swipe: function(settings) {
+    analiz_swipe: function (settings) {
         settings.x_dist = Math.abs(settings.x - settings.start_x); //получаем на сколько пикселей было смещение по горизонтали
         settings.y_dist = Math.abs(settings.y - settings.start_y); //получаем на сколько пикселей было смещение по вертикали
 
@@ -440,16 +441,18 @@ const swipe_event = {
     },
     //оцениваем жест как свайп
 
-    remove_default: function(e) { e.preventDefault() }, //функция призвана остановить события браузера по умолчанию для тех элементов и событий к которым она вызвана
+    remove_default: function (e) {
+        e.preventDefault();
+    }, //функция призвана остановить события браузера по умолчанию для тех элементов и событий к которым она вызвана
 
     //запускаем привязку события
-    run_event: function(settings) {
+    run_event: function (settings) {
         //данные которые будут переданы в событие
         let data = {
                 direction: settings.direction,
                 x_dist: settings.x_dist,
                 y_dist: settings.y_dist,
-                total_time: settings.total_time
+                total_time: settings.total_time,
             },
             //данные которые будут переданы в событие
 
@@ -457,14 +460,14 @@ const swipe_event = {
             swipeEvent = new CustomEvent("swipe", {
                 bubbles: true,
                 cancelable: true,
-                detail: data
+                detail: data,
             });
         //создаём кастомное событие
 
         settings.el.dispatchEvent(swipeEvent); //привязываем событие к элементу
-    }
+    },
     //запускаем привязку события
-}
+};
 //функция реализует событие свайпа
 
 //добавляем кастомный слушатель на элемент Optimaze_And_Throttle
@@ -493,7 +496,7 @@ class Add_Custom_Event_Optimaze_And_Throttle {
             handleEvent: custom_event_name.includes("_optimize") ? this.func_optimize : this.func_throttle, //передаём ссылку на калбек функцию
             instance: this, //задём новое свойство instance с содержимым this этого экземпляра класса, это свойство instance будет доступно в this из handleEvent функции слушателя
             custom_settings: custom_settings, //передаём кастомные настройки
-            callback: el_callback //функция которая была привязанна к element для слушателя события custom_event_name
+            callback: el_callback, //функция которая была привязанна к element для слушателя события custom_event_name
         };
 
         element[custom_event_name].push(event_listener_data); //создаём в элементе свойство с данными для данного кастомного слушателя
@@ -510,7 +513,8 @@ class Add_Custom_Event_Optimaze_And_Throttle {
         let interval = this.custom_settings && this.custom_settings.interval ? this.custom_settings.interval : 100; //по умолчанию интервал 100 мс
 
         //выполянем функцию после заданной паузы
-        this.instance.timeout_id = setTimeout(() => { // устанавливаем время ожидания
+        this.instance.timeout_id = setTimeout(() => {
+            // устанавливаем время ожидания
             this.instance.element.dispatchEvent(this.instance.custom_event); //вызываем срабытывание кастомного свойства, scroll_optimize к примеру
             this.instance.permission_to_execute = true; //даём разрешение на выполнении фукнции func_optimize при следующем вызове
         }, interval);
@@ -532,95 +536,98 @@ class Add_Custom_Event_Optimaze_And_Throttle {
         //инициализируем перерисовку кадра в браузере
     }
     //калбек функция для неоптимизированного события event, scroll например
-};
+}
 //добавляем кастомный слушатель на элемент Optimaze_And_Throttle
 
 //отключаем слушатель от данного элемента Optimaze_And_Throttle
 class Remove_Custom_Event_Optimaze_And_Throttle {
-    constructor(custom_event_name, element, el_callback, custom_settings) {
+    constructor(custom_event_name, element, el_callback) {
         let event_listener_data,
             timeout_id,
             base_event = custom_event_name.replace(/_.*/, ""),
             arr = element[custom_event_name]; //массив со всеми объектами слушателей данного кастомного события
 
         //перебираем все слушатели этого кастомного события привязанные к элементу
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i].callback === el_callback) event_listener_data = arr[i]; //находим в массиве с данными этого кастомного события элемента объект, в котором callback тот же что и тот который нужно отключить от данного элемента на этом кастомном событии и записываем нужный нам объект в event_listener_data
+        arr.forEach((item, i) => {
+            if (item.callback !== el_callback) return; //если функция калбека не там что нужно отключить
 
-            timeout_id = arr[i].instance.timeout_id; //запишет сюда таймер текущего тротлинга или будет просто undefined
+            event_listener_data = item; //находим в массиве с данными этого кастомного события элемента объект, в котором callback тот же что и тот который нужно отключить от данного элемента на этом кастомном событии и записываем нужный нам объект в event_listener_data
+
+            timeout_id = item.instance.timeout_id; //запишет сюда таймер текущего тротлинга или будет просто undefined
 
             if (timeout_id) clearTimeout(timeout_id); //если есть таймер то прерываем его, чтоб не было такого что тратлинг с большой задержкой и функция слушателя выполниться через время после удаления самого слушателя
 
-            arr.splice(arr[i], 1); //удаляем из массива объект данного слушателя
-        }
+            arr.splice(i, 1); //удаляем из массива объект данного слушателя
+        });
         //перебираем все слушатели этого кастомного события привязанные к элементу
 
         if (arr.length === 0) delete element[custom_event_name]; //если у этого элемента больше нет слушателей данного кастомного события то можно удалить его свойство из объекта элемента
 
         element.removeEventListener(base_event, event_listener_data); //отключаем слушатель от данного элемента
     }
-};
+}
 //отключаем слушатель от данного элемента Optimaze_And_Throttle
 
 //добавляем кастомные события измения ориентации
 //ПРИМЕЧАНИЕ: этот слушатель актуален только для window, он работает как для пк так и для мобильных!
 (() => {
     let mql = window.matchMedia("(orientation: portrait)"), //хранит медиа запрос, от сюда мы можем узнать соостветствует состояние страницы медиазапросу или нет
-        orientation_events_list = { //хранит объекты кастомных событий ориентации чтоб брать их от сюда и не содавать каждый раз по новой при каждом событии смены ориентации
+        orientation_events_list = {
+            //хранит объекты кастомных событий ориентации чтоб брать их от сюда и не содавать каждый раз по новой при каждом событии смены ориентации
             orientation_chenge: new CustomEvent("orientation_chenge"),
             orientation_portrait: new CustomEvent("orientation_portrait"),
-            orientation_landscape: new CustomEvent("orientation_landscape")
+            orientation_landscape: new CustomEvent("orientation_landscape"),
         };
 
     //добавляет кастомные события
     function add_custom_orientation_events(e) {
-        window.dispatchEvent(orientation_events_list.orientation_chenge);//срабатывает в момент смены ориентации
+        window.dispatchEvent(orientation_events_list.orientation_chenge); //срабатывает в момент смены ориентации
 
-        e.matches ? window.dispatchEvent(orientation_events_list.orientation_portrait) : window.dispatchEvent(orientation_events_list.orientation_landscape);//в зависимости от соответствия условиям медиа запроса orientation: portrait срабатывает то или иное событие ориентации
+        e.matches ? window.dispatchEvent(orientation_events_list.orientation_portrait) : window.dispatchEvent(orientation_events_list.orientation_landscape); //в зависимости от соответствия условиям медиа запроса orientation: portrait срабатывает то или иное событие ориентации
     }
 
-    typeof window.matchMedia("").addListener === "function" ? mql.addListener(add_custom_orientation_events) : mql.addEventListener("change", add_custom_orientation_events);//проблема в том что addListener сейчас доступен во всех соременных браузерах, но помечен как устаревший и нужно использовать addEventListener с change, но change для matchMedia не поддерживается в версиях ios до 13, а ним их нужно поддерживать, по этому проверяем есть ли в браузере функиця addListener то используем её, если же она удалени в новых браузерах используем современное свойство addEventListener с change
+    typeof window.matchMedia("").addListener === "function" ? mql.addListener(add_custom_orientation_events) : mql.addEventListener("change", add_custom_orientation_events); //проблема в том что addListener сейчас доступен во всех соременных браузерах, но помечен как устаревший и нужно использовать addEventListener с change, но change для matchMedia не поддерживается в версиях ios до 13, а ним их нужно поддерживать, по этому проверяем есть ли в браузере функиця addListener то используем её, если же она удалени в новых браузерах используем современное свойство addEventListener с change
 })();
 //добавляем кастомные события измения ориентации
 
 //тут храняться кастомные собития и функции которые нужно вызывать при добавлени или удалении каждого события
 const custom_events_list = {
-    "swipe": {
+    swipe: {
         event: new CustomEvent("swipe"),
-        initiator: swipe_event.init
+        initiator: swipe_event.init,
     },
-    "resize_optimize": {
+    resize_optimize: {
         event: new CustomEvent("resize_optimize"),
-        initiator: custom_events_optimaze_and_throttle_init
+        initiator: custom_events_optimaze_and_throttle_init,
     },
-    "scroll_optimize": {
+    scroll_optimize: {
         event: new CustomEvent("scroll_optimize"),
-        initiator: custom_events_optimaze_and_throttle_init
+        initiator: custom_events_optimaze_and_throttle_init,
     },
-    "touchmove_optimize": {
+    touchmove_optimize: {
         event: new CustomEvent("touchmove_optimize"),
-        initiator: custom_events_optimaze_and_throttle_init
+        initiator: custom_events_optimaze_and_throttle_init,
     },
-    "mousemove_optimize": {
+    mousemove_optimize: {
         event: new CustomEvent("mousemove_optimize"),
-        initiator: custom_events_optimaze_and_throttle_init
+        initiator: custom_events_optimaze_and_throttle_init,
     },
-    "resize_throttle": {
+    resize_throttle: {
         event: new CustomEvent("resize_throttle"),
-        initiator: custom_events_optimaze_and_throttle_init
+        initiator: custom_events_optimaze_and_throttle_init,
     },
-    "scroll_throttle": {
+    scroll_throttle: {
         event: new CustomEvent("scroll_throttle"),
-        initiator: custom_events_optimaze_and_throttle_init
+        initiator: custom_events_optimaze_and_throttle_init,
     },
-    "touchmove_throttle": {
+    touchmove_throttle: {
         event: new CustomEvent("touchmove_throttle"),
-        initiator: custom_events_optimaze_and_throttle_init
+        initiator: custom_events_optimaze_and_throttle_init,
     },
-    "mousemove_throttle": {
+    mousemove_throttle: {
         event: new CustomEvent("mousemove_throttle"),
-        initiator: custom_events_optimaze_and_throttle_init
-    }
+        initiator: custom_events_optimaze_and_throttle_init,
+    },
 };
 //тут храняться кастомные собития и функции которые нужно вызывать при добавлени или удалении каждого события
 
@@ -630,7 +637,6 @@ const custom_events_list = {
 //custom_settings - возможно были переданны кастомные настройки
 //listener_action - если true то значит слушатель нужно добавить к element, если false то удалить слушатель события custom_event_name с element для которого калбек фунункция это el_callback
 function custom_events_optimaze_and_throttle_init({ custom_event_name, element, el_callback, custom_settings, listener_action }) {
-
     let params = [custom_event_name, element, el_callback, custom_settings]; //записываем все параметры в масив, чтоб далее удобно их в ставить в два новых экземпляпа класса
 
     listener_action ? new Add_Custom_Event_Optimaze_And_Throttle(...params) : new Remove_Custom_Event_Optimaze_And_Throttle(...params); //в зависимости от того что нужно добавить или удалить кастомный слушатель на элементе вызваем разные функции

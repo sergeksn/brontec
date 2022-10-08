@@ -27,17 +27,17 @@
             "@img/*": [
                 "@assets\\img/*"
             ],
-            "@css": [
-                "@assets\\css"
+            "@scss": [
+                "@assets\\scss"
             ],
-            "@css/*": [
-                "@assets\\css/*"
+            "@scss/*": [
+                "@assets\\scss/*"
             ],
-            "@css_moduls": [
-                "@css\\moduls"
+            "@scss_moduls": [
+                "@scss\\moduls"
             ],
-            "@css_moduls/*": [
-                "@css\\moduls/*"
+            "@scss_moduls/*": [
+                "@scss\\moduls/*"
             ],
             "@js": [
                 "@assets\\js"
