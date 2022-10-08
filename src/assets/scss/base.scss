@@ -1,0 +1,104 @@
+/*
+*
+ОСНОВНЫЕ СТИЛИ
+*
+*/
+
+@font-face {
+    font-family: Manrope;
+    src: url(@fonts/manrope.ttf);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a[title="Вы тут!"] {
+    color: var(--gray);
+    cursor: default;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+body,
+html {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background-color: var(--white);
+    margin: 0;
+    font: var(--default);
+    min-width: 20rem;
+    /*320px*/
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.disabled {
+    opacity: 0.3;
+}
+
+/*ширина основных блоков не стандартная так что задаём её отлельно от сетки*/
+.standart_container {
+    max-width: 73.75rem;
+    /*1180px*/
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--10px);
+    padding-right: var(--10px);
+}
+
+@media (min-width: 40em) {
+    .standart_container {
+        padding-left: var(--15px);
+        padding-right: var(--15px);
+    }
+}
+
+@media (min-width: 1920px) {
+    .standart_container {
+        max-width: 61.458vw;
+    }
+}
+
+/*ширина основных блоков не стандартная так что задаём её отлельно от сетки*/
+
+/*
+  *
+  ОСНОВНЫЕ СТИЛИ И ПЕРЕМЕННЫЕ
+  *
+  */
+
+
+
+.test_text_size {
+    margin: rem(25) auto;
+    background-color: #fff;
+    text-align: center;
+    font-size: adaptiv_size(25, 640, 50, 1919);
+    line-height: normal;
+    //height: var(--big);
+
+    @media (min-width: rem(1920)) {
+        font-size: adaptiv_size(50, 1920);
+    }
+}

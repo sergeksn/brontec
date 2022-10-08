@@ -1,8 +1,7 @@
-@use "sass:math";
-
+@import "_functions";
 @import "_vars";
 @import "_normalize";
-@import "_base";
+@import "base";
 
 @import '@scss_moduls/cart.scss';
 @import '@scss_moduls/footer.scss';

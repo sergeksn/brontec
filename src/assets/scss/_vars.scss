@@ -13,182 +13,86 @@ lg - min-width:1280px   80em
 1920px = 120em
 */
 :root {
-  /*цвета*/
-  --black: #262626;
-  --black-hover: #000;
-  --black-transparent: rgba(0, 0, 0, 0.3);
-  --white: #fff;
-  --white-disabled: rgba(255, 255, 255, 0.6);
-  /*--white-disabled применяется для текстов в кнопках с отключённым статусом*/
-  --gray: #999999;
-  --blue: #0049ff;
-  --blue-hover: #003acc;
-  --blue-transparent: rgba(0, 73, 255, 0.5);
-  --light: #e6e6e6;
-  --error: #ff5050;
-  --warning: #ffce50;
-  --success: #69d243;
-  /*цвета*/
+    /*цвета*/
+    --black: #262626;
+    --black-hover: #000;
+    --black-transparent: rgba(0, 0, 0, 0.3);
+    --white: #fff;
+    --white-disabled: rgba(255, 255, 255, 0.6);
+    /*--white-disabled применяется для текстов в кнопках с отключённым статусом*/
+    --gray: #999999;
+    --blue: #0049ff;
+    --blue-hover: #003acc;
+    --blue-transparent: rgba(0, 73, 255, 0.5);
+    --light: #e6e6e6;
+    --error: #ff5050;
+    --warning: #ffce50;
+    --success: #69d243;
+    /*цвета*/
 
-  /*отступы между блоками*/
-  --big: var(--100px);
-  --medium: var(--40px);
-  --little: var(--20px);
-  /*отступы между блоками*/
+    $start_w: 960; //начальное значение ширины
+    $final_w: 1919; //конечное значение ширины
 
-  /*шрифты*/
-  --font-bold: 700;
-  --font-normal: 400;
-  --h1: var(--font-bold) var(--25px) / var(--30px) Manrope;
-  --h2: var(--font-bold) var(--22px) / var(--30px) Manrope;
-  --h3: var(--font-normal) var(--18px) / var(--25px) Manrope;
-  --default: var(--font-normal) var(--15px) / var(--20px) Manrope;
-  /*--default обычный текст на страницах*/
-  --small: var(--font-normal) var(--13px) / var(--20px) Manrope;
-  /*--small маленький текст на страницах*/
-  /*шрифты*/
+    /*отступы между блоками*/
+    --big: #{adaptiv_size(100, $start_w, 200, $final_w)};
+    --medium: #{adaptiv_size(40, $start_w, 80, $final_w)};
+    --little: #{adaptiv_size(20, $start_w, 40, $final_w)};
+    /*отступы между блоками*/
 
-  --fast-anim: 0s ease-in-out;
-  --standart-anim: .5s ease-in-out;
-  --b-radius: var(--10px);
-
-  --1px: 0.0625rem;
-  --2px: 0.125rem;
-  --4px: 0.25rem;
-  --5px: 0.3125rem;
-  --6px: 0.375rem;
-  --7px: 0.4375rem;
-  --8px: 0.5rem;
-  --9px: 0.5625rem;
-  --10px: 0.625rem;
-  --11px: 0.6875rem;
-  --12px: 0.75rem;
-  --13px: 0.8125rem;
-  --14px: 0.875rem;
-  --15px: 0.9375rem;
-  --16px: 1rem;
-  --17px: 1.0625rem;
-  --18px: 1.125rem;
-  --19px: 1.1875rem;
-  --20px: 1.25rem;
-  --22px: 1.375rem;
-  --23px: 1.4375rem;
-  --24px: 1.5rem;
-  --25px: 1.5625rem;
-  --26px: 1.625rem;
-  --27px: 1.6875rem;
-  --30px: 1.875rem;
-  --32px: 2rem;
-  --33px: 2.0625rem;
-  --34px: 2.125rem;
-  --35px: 2.1875rem;
-  --36px: 2.25rem;
-  --37px: 2.3125rem;
-  --38px: 2.375rem;
-  --40px: 2.5rem;
-  --45px: 2.8125rem;
-  --48px: 3rem;
-  --50px: 3.125rem;
-  --55px: 3.4375rem;
-  --60px: 3.75rem;
-  --62px: 3.875rem;
-  --65px: 4.0625rem;
-  --70px: 4.375rem;
-  --72px: 4.5rem;
-  --75px: 4.6875rem;
-  --80px: 5rem;
-  --90px: 5.625rem;
-  --100px: 6.25rem;
-  --110px: 6.875rem;
-  --120px: 7.5rem;
-  --130px: 8.125rem;
-  --150px: 9.375rem;
-  --170px: 10.625rem;
-  --180px: 11.25rem;
-  --200px: 12.5rem;
-  --240px: 15rem;
-  --260px: 16.25rem;
-}
-
-/*960px*/
-@media (min-width: 60em) {
-  :root {
     /*шрифты*/
-    --h1: var(--font-bold) var(--50px) / var(--60px) Manrope;
-    --h2: var(--font-bold) var(--32px) / var(--40px) Manrope;
-    --h3: var(--font-normal) var(--24px) / var(--30px) Manrope;
-    --default: var(--font-normal) var(--17px) / var(--25px) Manrope;
+    --font-bold: 700;
+    --font-normal: 400;
+    --font-family: Manrope, Arial, "Times New Roman";
+    --h1: var(--font-bold) #{adaptiv_size(25, $start_w, 50, $final_w)} / #{adaptiv_size(30, $start_w, 60, $final_w)} var(--font-family);
+    --h2: var(--font-bold) #{adaptiv_size(22, $start_w, 32, $final_w)} / #{adaptiv_size(30, $start_w, 40, $final_w)} var(--font-family);
+    --h3: var(--font-normal) #{adaptiv_size(18, $start_w, 24, $final_w)} / #{adaptiv_size(25, $start_w, 30, $final_w)} var(--font-family);
+    --default: var(--font-normal) #{adaptiv_size(15, $start_w, 17, $final_w)} / #{adaptiv_size(20, $start_w, 25, $final_w)} var(--font-family);
     /*--default обычный текст на страницах*/
-    --small: var(--font-normal) var(--14px) / var(--20px) Manrope;
+    --small: var(--font-normal) #{adaptiv_size(13, $start_w, 14, $final_w)} / #{rem(20)} var(--font-family);
     /*--small маленький текст на страницах*/
     /*шрифты*/
 
-    /*отступы между блоками*/
-    --big: var(--200px);
-    --medium: var(--80px);
-    --little: var(--40px);
-    /*отступы между блоками*/
-  }
-}
+    --fast-anim: 0s ease-in-out;
+    --standart-anim: 0.5s ease-in-out;
+    --b-radius: #{rem(10)};
 
-/*1920px*/
-@media (min-width: 120em) {
-  :root {
-    --1px: 0.052vw;
-    --2px: 0.104vw;
-    --4px: 0.208vw;
-    --5px: 0.26vw;
-    --6px: 0.313vw;
-    --7px: 0.365vw;
-    --8px: 0.417vw;
-    --9px: 0.469vw;
-    --10px: 0.521vw;
-    --11px: 0.573vw;
-    --12px: 0.625vw;
-    --13px: 0.677vw;
-    --14px: 0.729vw;
-    --15px: 0.781vw;
-    --16px: 0.833vw;
-    --17px: 0.885vw;
-    --18px: 0.938vw;
-    --19px: 0.99vw;
-    --20px: 1.042vw;
-    --22px: 1.146vw;
-    --23px: 1.198vw;
-    --24px: 1.25vw;
-    --25px: 1.302vw;
-    --26px: 1.354vw;
-    --27px: 1.406vw;
-    --30px: 1.563vw;
-    --32px: 1.667vw;
-    --33px: 1.719vw;
-    --34px: 1.771vw;
-    --35px: 1.823vw;
-    --36px: 1.875vw;
-    --37px: 1.927vw;
-    --38px: 1.979vw;
-    --40px: 2.083vw;
-    --45px: 2.344vw;
-    --48px: 2.5vw;
-    --50px: 2.604vw;
-    --55px: 2.865vw;
-    --60px: 3.125vw;
-    --62px: 3.229vw;
-    --65px: 3.385vw;
-    --70px: 3.646vw;
-    --72px: 3.75vw;
-    --75px: 3.906vw;
-    --80px: 4.167vw;
-    --90px: 4.688vw;
-    --100px: 5.208vw;
-    --110px: 5.729vw;
-    --120px: 6.25vw;
-    --130px: 6.771vw;
-    --150px: 7.813vw;
-    --170px: 8.854vw;
-    --180px: 9.375vw;
-    --200px: 10.417vw;
-    --240px: 12.5vw;
-    --260px: 13.542vw;
-  }
+    @media (min-width: rem(1920)) {
+        $start_w: 1920; //начальное значение ширины
+
+        /*шрифты*/
+        --h1: var(--font-bold) #{adaptiv_size(50, $start_w)} / #{adaptiv_size(60, $start_w)} var(--font-family);
+        --h2: var(--font-bold) #{adaptiv_size(32, $start_w)} / #{adaptiv_size(40, $start_w)} var(--font-family);
+        --h3: var(--font-normal) #{adaptiv_size(24, $start_w)} / #{adaptiv_size(30, $start_w)} var(--font-family);
+        --default: var(--font-normal) #{adaptiv_size(17, $start_w)} / #{adaptiv_size(25, $start_w)} var(--font-family);
+        /*--default обычный текст на страницах*/
+        --small: var(--font-normal) #{adaptiv_size(14, $start_w)} / #{adaptiv_size(20, $start_w)} var(--font-family);
+        /*--small маленький текст на страницах*/
+        /*шрифты*/
+
+        /*отступы между блоками*/
+        --big: #{adaptiv_size(200, $start_w)};
+        --medium: #{adaptiv_size(80, $start_w)};
+        --little: #{adaptiv_size(40, $start_w)};
+        /*отступы между блоками*/
+    }
+
+    @media (max-width: rem(959)) {
+        /*шрифты*/
+        //эти размеры шрифта актуальны до самых малых размеров экрана, т.к. эти размеры не меняются
+        --h1: var(--font-bold) #{rem(25)} / #{rem(30)} var(--font-family);
+        --h2: var(--font-bold) #{rem(22)} / #{rem(30)} var(--font-family);
+        --h3: var(--font-normal) #{rem(18)} / #{rem(25)} var(--font-family);
+        --default: var(--font-normal) #{rem(15)} / #{rem(20)} var(--font-family);
+        /*--default обычный текст на страницах*/
+        --small: var(--font-normal) #{rem(13)} / #{rem(20)} var(--font-family);
+        /*--small маленький текст на страницах*/
+        /*шрифты*/
+
+        /*отступы между блоками*/
+        //эти отсупы актуальны до самых малых размеров экрана, т.к. эти отсупы не меняются
+        --big: #{rem(100)};
+        --medium: #{rem(40)};
+        --little: #{rem(20)};
+        /*отступы между блоками*/
+    }
 }

@@ -14,14 +14,15 @@
     (() => {/*скрипт создаёт и обновляет при ресайзе css переменный для высоты и ширины экрна в rem*/
       let head = document.getElementsByTagName("head")[0],
         style_el = document.createElement("style");
-
+      /*--wwr = --win-width-rem
+      --whr = --win-heigth-rem*/
       function set_css_vars() {
         let w = document.documentElement.clientWidth,
           h = document.documentElement.clientHeight;
         style_el.innerHTML = "";
         style_el.innerHTML = `:root{
-        --win-width-rem: ${w / 16}rem;
-        --win-heigth-rem: ${h / 16}rem;
+        --wwr: ${w / 16}rem;
+        --whr: ${h / 16}rem;
       }`;
         /*
           --win-width-px: ${w}px;
