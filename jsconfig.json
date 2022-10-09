@@ -33,11 +33,35 @@
             "@scss/*": [
                 "@assets\\scss/*"
             ],
-            "@scss_moduls": [
-                "@scss\\moduls"
+            "@scss-ui": [
+                "@scss\\ui"
             ],
-            "@scss_moduls/*": [
-                "@scss\\moduls/*"
+            "@scss-ui/*": [
+                "@scss\\ui/*"
+            ],
+            "@scss-blocks": [
+                "@scss\\blocks"
+            ],
+            "@scss-blocks/*": [
+                "@scss\\blocks/*"
+            ],
+            "@scss-libs": [
+                "@scss\\libs"
+            ],
+            "@scss-libs/*": [
+                "@scss\\libs/*"
+            ],
+            "@scss-general": [
+                "@scss\\general"
+            ],
+            "@scss-general/*": [
+                "@scss\\general/*"
+            ],
+            "@scss-func": [
+                "@scss\\_scss-func"
+            ],
+            "@scss-func/*": [
+                "@scss\\_scss-func/*"
             ],
             "@js": [
                 "@assets\\js"
@@ -45,17 +69,17 @@
             "@js/*": [
                 "@assets\\js/*"
             ],
-            "@js_moduls": [
+            "@js-moduls": [
                 "@js\\moduls"
             ],
-            "@js_moduls/*": [
+            "@js-moduls/*": [
                 "@js\\moduls/*"
             ],
-            "@js_base_func": [
-                "@js\\base_func"
+            "@js-base-func": [
+                "@js\\base-func"
             ],
-            "@js_base_func/*": [
-                "@js\\base_func/*"
+            "@js-base-func/*": [
+                "@js\\base-func/*"
             ]
         }
     },

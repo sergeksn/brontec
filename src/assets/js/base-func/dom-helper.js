@@ -1,4 +1,4 @@
-import { custom_events_list } from "./custom_events.js";
+import { custom_events_list } from "./custom-events.js";
 
 //объект с основными функциями
 const KSN_jQuery = {

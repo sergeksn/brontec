@@ -1,0 +1,61 @@
+
+
+/*бургер кнопка переходящая при активации в крестик и обратно при деактивации
+<div class="burger_button_wrap">
+    <div class="burger_button">
+        <div class="burger_line_1"></div>
+        <div class="burger_line_2"></div>
+        <div class="burger_line_3"></div>
+        <div class="burger_line_4"></div>
+    </div>
+</div>
+*/
+@media (max-width: 39.9375em) {
+    .burger_button_wrap {
+        position: relative;
+        padding-top: 100%;
+    }
+
+    .burger_button_wrap .burger_button {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+    .burger_button_wrap .burger_button>div {
+        width: 100%;
+        border-top: var(--2px) solid var(--black);
+        position: absolute;
+        transition: all var(--standart-anim);
+    }
+
+    .burger_button_wrap .burger_button .burger_line_1 {
+        top: calc(20% - var(--2px));
+    }
+
+    .burger_button_wrap .burger_button .burger_line_3,
+    .burger_button_wrap .burger_button .burger_line_2 {
+        top: calc(50% - var(--2px)/2);
+    }
+
+    .burger_button_wrap .burger_button .burger_line_4 {
+        top: 80%;
+    }
+
+    .open .burger_button_wrap .burger_button .burger_line_2 {
+        transform: rotate(45deg);
+    }
+
+    .open .burger_button_wrap .burger_button .burger_line_3 {
+        transform: rotate(-45deg);
+    }
+
+    .open .burger_button_wrap .burger_button .burger_line_1,
+    .open .burger_button_wrap .burger_button .burger_line_4 {
+        opacity: 0;
+    }
+}
+
+/*бургер кнопка переходящая при активации в крестик и обратно при деактивации*/

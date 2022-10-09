@@ -90,15 +90,4 @@ body {
 
 
 
-.test_text_size {
-    margin: rem(25) auto;
-    background-color: #fff;
-    text-align: center;
-    font-size: adaptiv_size(25, 640, 50, 1919);
-    line-height: normal;
-    //height: var(--big);
 
-    @media (min-width: rem(1920)) {
-        font-size: adaptiv_size(50, 1920);
-    }
-}

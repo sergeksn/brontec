@@ -19,7 +19,7 @@ body {
 }
 
 .custom_scrollbar::-webkit-scrollbar {
-  width: var(--6px);
+  width: rem(6);
 }
 
 .custom_scrollbar::-webkit-scrollbar-thumb {

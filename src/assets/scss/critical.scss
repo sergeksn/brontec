@@ -1,3 +1,13 @@
+@import "@scss-func/functions";
+
+@import "@scss-general/vars";
+@import "@scss-general/base";
+@import "@scss-general/font-icons";
+@import "@scss-general/grid";
+@import "@scss-general/images";
+@import "@scss-general/normalize";
+@import "@scss-general/scrollbar";
+
 body {
     color: red !important;
 }

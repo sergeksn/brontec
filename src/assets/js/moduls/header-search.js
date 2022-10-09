@@ -1,10 +1,10 @@
 import Header from "./header.js";
-import { wait, request_to_server } from "./../base_func/func_kit.js";
-import { set_cookie, get_cookie, delete_cookie } from "./../base_func/cookie.js";
-import Header_Toggle_Block from "./header_toggle_block.js";
-import Small_Product_Previv_Block from "./small_product_previv_block.js";
+import { wait, request_to_server } from "./../base-func/func-kit.js";
+import { set_cookie, get_cookie, delete_cookie } from "./../base-func/cookie.js";
+import Header_Toggle_Block from "./header-toggle-block.js";
+import Small_Product_Previv_Block from "./small-product-previv-block.js";
 import { Img_Loader } from "./media.js";
-import anime from "./../base_func/anime.js";
+import anime from "./../base-func/anime.js";
 
 export default new class {
     //pending to close - в процессе закрытия окна

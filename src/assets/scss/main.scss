@@ -1,18 +1,11 @@
+@import "@scss-func/functions";
 
+@import "@scss-ui/loader";
+@import "@scss-ui/burger-button";
+@import "@scss-ui/scroll-to-top-button";
 
-@import "_functions";
-@import "_vars";
-@import "_normalize";
-@import "base";
-
-@import '@scss_moduls/cart.scss';
-@import '@scss_moduls/footer.scss';
-@import '@scss_moduls/grid.scss';
-@import '@scss_moduls/header_search.scss';
-@import '@scss_moduls/header.scss';
-@import '@scss_moduls/icons.scss';
-@import '@scss_moduls/product_info_block.scss';
-@import '@scss_moduls/raznoe.scss';
-@import '@scss_moduls/scroll_to_top.scss';
-@import '@scss_moduls/scrollbar.scss';
-@import '@scss_moduls/ui_figures.scss';
+@import '@scss-blocks/header';
+@import '@scss-blocks/footer';
+@import '@scss-blocks/header-search';
+@import '@scss-blocks/cart';
+@import '@scss-blocks/product-info-block';
