@@ -1,7 +1,8 @@
 const path = require("path"); //нодовский модуль для получение путей
 const HtmlWebpackPlugin = require("html-webpack-plugin"); //плагин создаёт новый html файл по нашему шаблону и подключает в него скрипты и стили
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); //плагин собирает css в один файл для дальнейшего подключаения
-//ПРИМЕЧАНИЕ: будет создавать новый css файл на каждый файл подключённый в скриптах
+//ПРИМЕЧАНИЕ: будет создавать новый css файл на каждый файл точки входа
+const HtmlWebpackSkipAssetsPlugin = require('html-webpack-skip-assets-plugin').HtmlWebpackSkipAssetsPlugin;//исключит excludeAssets в HtmlWebpackPlugin
 //const Copy_Webpack_Plagin = require("copy-webpack-plugin"); //плагин позволит копировать файлы из одной поки в другуюnpx jsconfig.json /configs
 const Alias = require("alias-jsconfig-webpack-plugin"); //создаст файл jsconfig.json для поддержки алиасов в js файлах дял vscode
 
@@ -47,7 +48,8 @@ module.exports = {
     },
   },
   entry: {
-    main: `${ENTRY_PATH}/main_entry_point.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
+    critical: `${ENTRY_PATH}/entrys/main/critical.js`,
+    main: `${ENTRY_PATH}/entrys/main/index.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
   },
   output: {
     path: OUTPUT_PATH, //путь по которому будут выгружаться итоговые файлы
@@ -68,6 +70,7 @@ module.exports = {
       inject: "body",
       scriptLoading: "blocking",
       minify: false,
+      excludeAssets: [/critical.*.js/], 
     }),
     ...PAGES.map(
       (page) =>
@@ -78,8 +81,10 @@ module.exports = {
           inject: "body",
           scriptLoading: "blocking",
           minify: false,
-        })
+          excludeAssets: [/critical.*.js/], 
+        }),
     ),
+    new HtmlWebpackSkipAssetsPlugin(),//исключит excludeAssets в HtmlWebpackPlugin
     new MiniCssExtractPlugin({
       filename: "./assets/css/[name].[contenthash].css", //указывает куда сохранить и как назвать выходные css файлы
     }),

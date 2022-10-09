@@ -40,7 +40,7 @@ module.exports = {
     },
   },
   entry: {
-    main: `${ENTRY_PATH}/server_entry_point.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
+    main: `${ENTRY_PATH}/entrys/server/index.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
   },
   plugins: [
     new HtmlWebpackPlugin({
