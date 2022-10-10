@@ -140,6 +140,7 @@ module.exports = {
                             },
                         },
                     },
+                    "group-css-media-queries-loader",
                     "sass-loader", //переводит код и scss или sass в css
                 ],
             },

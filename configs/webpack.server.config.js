@@ -113,6 +113,7 @@ module.exports = {
           MiniCssExtractPlugin.loader, //вставляет css в свой файл
           // "style-loader", //вставляет css в head
           "css-loader", //позволяет ноде обработать файл css
+          "group-css-media-queries-loader",
           "sass-loader", //переводит код и scss или sass в css
         ],
       },

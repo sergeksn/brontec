@@ -18,6 +18,7 @@
     "css-loader": "^6.7.1",
     "cssnano": "^5.1.13",
     "esbuild-loader": "^2.20.0",
+    "group-css-media-queries-loader": "^4.3.0",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
     "html-webpack-skip-assets-plugin": "^1.0.3",
