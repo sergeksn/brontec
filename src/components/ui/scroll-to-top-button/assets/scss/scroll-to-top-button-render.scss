@@ -21,10 +21,6 @@
     left: var(--50px);
 }
 
-body:not(.touch_devise) .scroll_to_top_button:hover {
-    background-color: var(--blue-transparent);
-}
-
 @media (max-width: 959px) {
     .scroll_to_top_button {
         bottom: var(--110px);

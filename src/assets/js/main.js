@@ -34,13 +34,13 @@ import "@js-moduls/header-search"; //ОКНО ПОИСКА
 //import '@js-moduls/cart';
 //import '@js-moduls/top-poster';
 
-import "@js-moduls/scroll-to-top"; //КНОПКА СКРОЛА ВВЕРХ
 import "@js-moduls/footer"; //ФУТЕР
 import "@js-moduls/small-product-previv-block"; //отвечает за рендер блоков в выдаче поиска товаров
 
 //@dinamic node import fils
-import "@components/blocks/header/assets/js/main.js";
-import "@components/ui/scroll-to-top-button/assets/js/main.js";
+import "@header-main-js";
+import "@burger-button-main-js";
+import "@scroll-to-top-button-main-js";
 //@dinamic node import fils
 
 

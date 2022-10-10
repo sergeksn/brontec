@@ -11,8 +11,9 @@
 
 
 //@dinamic node import fils
-@import "@components/blocks/header/assets/scss/render.scss";
-@import "@components/ui/scroll-to-top-button/assets/scss/render.scss";
+@import "@header-render-scss";
+@import "@burger-button-render-scss";
+@import "@scroll-to-top-button-render-scss";
 //@dinamic node import fils
 
 body {

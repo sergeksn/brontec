@@ -9,6 +9,14 @@ const Alias = require("alias-jsconfig-webpack-plugin"); //создаст фай�
 const ENTRY_PATH = path.resolve(__dirname, "../src"); //путь к папке с исходниками
 const OUTPUT_PATH = path.resolve(__dirname, "../dist/prod_build"); //путь к папке куда будет собираться проект как готовый вариант для продакшена
 
+const { Get_Alias_list } = require("../scripts/create-webpack-alias"); //получает список алиасов компонентов
+//${component_name}-main.js
+//${component_name}-render.scss
+//${component_name}-interaction.scss
+
+const Import_Components_Assets = require("../scripts/import-components"); //записывает иморты компонетов в соответсвующие файлы
+Import_Components_Assets(); //записывает иморты компонетов в соответсвующие файлы
+
 // const JUST_COPY_FILS = {
 //   patterns: [
 //     {
@@ -29,6 +37,8 @@ module.exports = {
         alias: {
             "@": path.resolve(__dirname, "../src"), //будет работать в подключённых scss js ejs
             "@components": "@/components",
+            "@temp":"@/templates",
+            "@components-blocks": "@components/blocks",
             "@assets": "@/assets",
             "@fonts": "@assets/fonts",
             "@img": "@assets/img",
@@ -41,6 +51,7 @@ module.exports = {
             "@js": "@assets/js",
             "@js-moduls": "@js/moduls",
             "@js-base-func": "@js/base-func",
+            ...Get_Alias_list(), //добавляем алиасы компонетов
         },
         extensions: [".js", ".json", ".css", ".scss", ".ejs", ".png", ".jpg", ".jpeg", ".svg", ".ico"],
     },
