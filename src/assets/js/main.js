@@ -38,7 +38,10 @@ import "@js-moduls/scroll-to-top"; //КНОПКА СКРОЛА ВВЕРХ
 import "@js-moduls/footer"; //ФУТЕР
 import "@js-moduls/small-product-previv-block"; //отвечает за рендер блоков в выдаче поиска товаров
 
-
+//@dinamic node import fils
+import "@components/blocks/header/assets/js/main.js";
+import "@components/ui/scroll-to-top-button/assets/js/main.js";
+//@dinamic node import fils
 
 
 // console.log(document.getElementsByClassName("standart_container")._siblings("div"));

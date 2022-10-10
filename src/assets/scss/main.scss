@@ -9,3 +9,9 @@
 @import '@scss-blocks/header-search';
 @import '@scss-blocks/cart';
 @import '@scss-blocks/product-info-block';
+
+
+//@dinamic node import fils
+@import "@components/blocks/header/assets/scss/interaction.scss";
+@import "@components/ui/scroll-to-top-button/assets/scss/interaction.scss";
+//@dinamic node import fils

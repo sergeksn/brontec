@@ -8,6 +8,13 @@
 @import "@scss-general/normalize";
 @import "@scss-general/scrollbar";
 
+
+
+//@dinamic node import fils
+@import "@components/blocks/header/assets/scss/render.scss";
+@import "@components/ui/scroll-to-top-button/assets/scss/render.scss";
+//@dinamic node import fils
+
 body {
     color: green !important;
 }

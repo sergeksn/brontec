@@ -29,6 +29,7 @@ module.exports = {
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "../src"), //будет работать в подключённых scss js ejs
+      "@components": "@/components",
       "@assets": "@/assets",
       "@fonts": "@assets/fonts",
       "@img": "@assets/img",
