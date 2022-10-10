@@ -9,6 +9,12 @@
             "@/*": [
                 "src/*"
             ],
+            "@components": [
+                "@\\components"
+            ],
+            "@components/*": [
+                "@\\components/*"
+            ],
             "@assets": [
                 "@\\assets"
             ],

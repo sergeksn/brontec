@@ -9,7 +9,7 @@ const Alias = require("alias-jsconfig-webpack-plugin");//создаст файл
 const PAGES = ["abaut", "instruction", "dostavka_i_oplata", "vibrat_complekt", "komplekt", "detal", "oformit_zakaz", "ostavit_otziv"]; //список страниц с путями
 
 const ENTRY_PATH = path.resolve(__dirname, "../src"); //путь к папке с исходниками
-const OUTPUT_PATH = path.resolve(__dirname, "../dev_build"); //путь к папке куда будет собираться проект как готовый вариант для разработки
+const OUTPUT_PATH = path.resolve(__dirname, "../dist/dev_build"); //путь к папке куда будет собираться проект как готовый вариант для разработки
 
 module.exports = {
   mode: "development",

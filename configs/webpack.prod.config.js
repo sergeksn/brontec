@@ -7,7 +7,7 @@ const HtmlWebpackSkipAssetsPlugin = require("html-webpack-skip-assets-plugin").H
 const Alias = require("alias-jsconfig-webpack-plugin"); //создаст файл jsconfig.json для поддержки алиасов в js файлах дял vscode
 
 const ENTRY_PATH = path.resolve(__dirname, "../src"); //путь к папке с исходниками
-const OUTPUT_PATH = path.resolve(__dirname, "../prod_build"); //путь к папке куда будет собираться проект как готовый вариант для продакшена
+const OUTPUT_PATH = path.resolve(__dirname, "../dist/prod_build"); //путь к папке куда будет собираться проект как готовый вариант для продакшена
 
 // const JUST_COPY_FILS = {
 //   patterns: [
