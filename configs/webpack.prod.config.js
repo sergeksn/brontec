@@ -6,9 +6,6 @@ const HtmlWebpackSkipAssetsPlugin = require("html-webpack-skip-assets-plugin").H
 //const Copy_Webpack_Plagin = require("copy-webpack-plugin"); //плагин позволит копировать файлы из одной поки в другуюnpx jsconfig.json /configs
 const Alias = require("alias-jsconfig-webpack-plugin"); //создаст файл jsconfig.json для поддержки алиасов в js файлах дял vscode
 
-const ENTRY_PATH = path.resolve(__dirname, "../src"); //путь к папке с исходниками
-const OUTPUT_PATH = path.resolve(__dirname, "../dist/prod_build"); //путь к папке куда будет собираться проект как готовый вариант для продакшена
-
 const { Get_Alias_list } = require("../scripts/create-webpack-alias"); //получает список алиасов компонентов
 //${component_name}-main.js
 //${component_name}-render.scss
@@ -16,6 +13,9 @@ const { Get_Alias_list } = require("../scripts/create-webpack-alias"); //пол�
 
 const Import_Components_Assets = require("../scripts/import-components"); //записывает иморты компонетов в соответсвующие файлы
 Import_Components_Assets(); //записывает иморты компонетов в соответсвующие файлы
+
+const ENTRY_PATH = path.resolve(__dirname, "../src"); //путь к папке с исходниками
+const OUTPUT_PATH = path.resolve(__dirname, "../dist/prod_build"); //путь к папке куда будет собираться проект как готовый вариант для продакшена
 
 // const JUST_COPY_FILS = {
 //   patterns: [
@@ -37,7 +37,6 @@ module.exports = {
         alias: {
             "@": path.resolve(__dirname, "../src"), //будет работать в подключённых scss js ejs
             "@components": "@/components",
-            "@temp":"@/templates",
             "@components-blocks": "@components/blocks",
             "@assets": "@/assets",
             "@fonts": "@assets/fonts",

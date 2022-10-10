@@ -15,12 +15,6 @@
             "@components/*": [
                 "@\\components/*"
             ],
-            "@temp": [
-                "@\\templates"
-            ],
-            "@temp/*": [
-                "@\\templates/*"
-            ],
             "@components-blocks": [
                 "@components\\blocks"
             ],
