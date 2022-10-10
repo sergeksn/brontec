@@ -37,19 +37,4 @@
 </head>
 
 <body class="custom_scrollbar">
-  <header class="custom_scrollbar">
-    <%- include('./components/header/baner.ejs', { base_url: base_url })%>
-      <%- include('./components/header/header_block.ejs', { base_url: base_url })%>
-  </header>
-  <div id="header_backdrop"></div>
-  <div id="header_overlay"></div>
-  <script>
-    /*нужно чтоб в момент загрузки страницы меню занимало нужную позицию и не прыгало относитель но контента*/
-    /*загоняем в самовызывающуюся функцию для того чтоб инкапсулировать переменные*/
-    (() => {
-      let header = document.getElementsByTagName("header")[0],/*элемент header*/
-        header_backdrop = document.getElementById("header_backdrop"),/*элемент #header_backdrop*/
-        header_height = window.getComputedStyle(header).height;/*высота хедера числом*/
-      header_backdrop.style.height = header_height;/*задаём высоту подложки хедера*/
-    })()
-  </script>
+  <%- include('./../components/blocks/header/header.ejs')%>

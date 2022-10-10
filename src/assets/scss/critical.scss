@@ -12,10 +12,8 @@
 
 //@dinamic node import fils
 @import "@header-render-scss";
+@import "@header-baner-render-scss";
+@import "@header-menu-render-scss";
 @import "@burger-button-render-scss";
 @import "@scroll-to-top-button-render-scss";
 //@dinamic node import fils
-
-body {
-    color: green !important;
-}

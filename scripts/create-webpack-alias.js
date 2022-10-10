@@ -14,11 +14,11 @@ function Refresh_Alias_Json() {
     fs.readdirSync(components_path).forEach(components_type_dir => {
         fs.readdirSync(components_path + "/" + components_type_dir).forEach(component_name => {
             alias[`@${component_name}`] = `@components/${components_type_dir}/${component_name}`;
-            alias[`@${component_name}-main-js`] = `@components/${components_type_dir}/${component_name}/assets/js/${component_name}-main.js`;
-            alias[`@${component_name}-render-scss`] = `@components/${components_type_dir}/${component_name}/assets/scss/${component_name}-render.scss`;
-            alias[`@${component_name}-interaction-scss`] = `@components/${components_type_dir}/${component_name}/assets/scss/${component_name}-interaction.scss`;
-            alias[`@${component_name}-fonts`] = `@components/${components_type_dir}/${component_name}/assets/fonts`;
-            alias[`@${component_name}-img`] = `@components/${components_type_dir}/${component_name}/assets/img`;
+            alias[`@${component_name}-main-js`] = `@components/${components_type_dir}/${component_name}/js/${component_name}-main.js`;
+            alias[`@${component_name}-render-scss`] = `@components/${components_type_dir}/${component_name}/scss/${component_name}-render.scss`;
+            alias[`@${component_name}-interaction-scss`] = `@components/${components_type_dir}/${component_name}/scss/${component_name}-interaction.scss`;
+            alias[`@${component_name}-fonts`] = `@components/${components_type_dir}/${component_name}/fonts`;
+            alias[`@${component_name}-img`] = `@components/${components_type_dir}/${component_name}/img`;
         });
     });
 
@@ -37,5 +37,5 @@ function Refresh_Alias_Json() {
 //     }
 // }
 //"alias refresh": "node ./scripts/create-webpack-alias.js Create_Alias_Json"
-
+Get_Alias_list();
 module.exports = { Get_Alias_list, Refresh_Alias_Json };

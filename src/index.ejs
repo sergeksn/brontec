@@ -1,142 +1,14 @@
 <%- include('./templates/header.ejs', { base_url: "./" })%>
-  <main style="position: relative; height: 2300px;background-color: blue; overflow-y: hidden;">
-
-    <div class="test_text_size">
-      Тестовый текст
-    </div>
-
+  <main style="position: relative; height: 900px;background-color: blue; overflow-y: hidden;">
     <div class="top_page_block" data-header-backdrop-color="var(--blue)">
       <script>
         /*указываем цвет подкладки хедера опираясь на data-header-backdrop-color атрибут первого блока*/
-        (()=>{
+        (() => {
           let top_page_block = document.querySelector(".top_page_block"),/*первый контент блок на странице сразу после хедера*/
-          header_backdrop = document.getElementById("header_backdrop");/*элемент #header_backdrop*/
+            header_backdrop = document.getElementById("header_backdrop");/*элемент #header_backdrop*/
           header_backdrop.style.backgroundColor = top_page_block.getAttribute("data-header-backdrop-color");
         })();
       </script>
-    </div>
-
-    <style>
-      .test_wrap {
-        height: 300px;
-        background-color: gray;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      [class^=test_item] {
-        height: 100px;
-        max-width: 200px;
-        width: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        /* background-color: var(--black);
-              font-size: var(--30px); */
-      }
-
-      .test_item.opa {
-        opacity: 0.5;
-      }
-
-      .test_item:not(.opa) {
-        height: 80px;
-      }
-    </style>
-    <div class="test_wrap standart_container">
-      <div class="test_item"></div>
-      <div class="test_item"></div>
-      <div class="test_item" style="background-color: #fff;"></div>
-      <div class="test_item opa"></div>
-      <div class="test_item"></div>
-    </div>
-    <div class="standart_container">
-      <div class="img_wrapper obrabotka_salona" data-img-type="img" style="padding-top:57.14%;">
-        <img data-src="./assets/img/media-test/obrabotka_salona_3-1-1400x800.jpg" data-original-w="6720"
-             data-original-h="3840"
-             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-        <!-- <div class="img_body" data-src="./assets/img/media-test/obrabotka_salona_3-1.jpg" data-original-w="6720" data-original-h="3840"></div> -->
-        <div class="loader_wrap">
-          <div class="loader"></div>
-        </div>
-      </div>
-    </div>
-    <div id="bg_green_block"
-         style="height:1250px; width: 500px; margin: auto; background-color: green; position: relative; left: 0px; display:flex; flex-direction: column;">
-      <div id="block_1" style="
-          height:100px; 
-          width: 100px; 
-          margin: 10px 0; 
-          background-color: yellow;
-          position: relative; 
-          left: 0px;
-          ">block_1</div>
-      <div id="block_2" style="
-          height:100px; 
-          width: 100px; 
-          background-color: red;
-          position: absolute; 
-          left: 0px;
-          ">block_2</div>
-      <div id="block_3" style="
-          height:100px; 
-          width: 100px; 
-          margin: 10px 0; 
-          background-color: blue;
-          position: relative; 
-          left: 0px;
-          ">block_3</div>
-      <div class="img_wrapper footer" data-img-type="img" style="padding-top:16.95%;">
-        <img data-src="./assets/img/footer/logo_footer.svg"
-             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-      </div>
-      <div class="test_block custom_scrollbar" data-custom-scrollbar
-           style="width:200px; height: 200px; margin: 0 auto; overflow-y: auto; background-color: #19E54D;">
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-      </div>
-      <div class="test_block scroll_test_block custom_scrollbar"
-           style="width:200px; height: 200px; margin: 50px auto; overflow-y: auto; background-color: #19E54D;">
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-        <div>text</div>
-      </div>
     </div>
   </main>
   <%- include('./templates/footer.ejs', { base_url: "./" })%>

@@ -1,17 +1,18 @@
 @import "@scss-func/functions";
 
-@import "@scss-ui/loader";
-@import "@scss-ui/burger-button";
+// @import "@scss-ui/loader";
+// @import "@scss-ui/burger-button";
 
-@import '@scss-blocks/header';
-@import '@scss-blocks/footer';
-@import '@scss-blocks/header-search';
-@import '@scss-blocks/cart';
-@import '@scss-blocks/product-info-block';
+// @import '@scss-blocks/footer';
+// @import '@scss-blocks/header-search';
+// @import '@scss-blocks/cart';
+// @import '@scss-blocks/product-info-block';
 
 
 //@dinamic node import fils
 @import "@header-interaction-scss";
+@import "@header-baner-interaction-scss";
+@import "@header-menu-interaction-scss";
 @import "@burger-button-interaction-scss";
 @import "@scroll-to-top-button-interaction-scss";
 //@dinamic node import fils
