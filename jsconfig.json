@@ -9,6 +9,12 @@
             "@/*": [
                 "src/*"
             ],
+            "temp": [
+                "@\\templates"
+            ],
+            "temp/*": [
+                "@\\templates/*"
+            ],
             "@components": [
                 "@\\components"
             ],
@@ -87,11 +93,11 @@
             "@js-moduls/*": [
                 "@js\\moduls/*"
             ],
-            "@js-base-func": [
-                "@js\\base-func"
+            "@js-libs": [
+                "@js\\libs"
             ],
-            "@js-base-func/*": [
-                "@js\\base-func/*"
+            "@js-libs/*": [
+                "@js\\libs/*"
             ],
             "@header": [
                 "@components\\blocks\\header"

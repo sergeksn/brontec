@@ -1,5 +1,5 @@
-import anime from "@js-base-func/anime.js";
-//import Header_Search_Block from "./header-search.js";
+import anime from "@js-libs/anime.js";
+//import Header_Search_Block from "@header-search-main-js";
 import Header from "@header-main-js";
 
 export default new (class {

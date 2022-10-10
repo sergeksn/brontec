@@ -1,4 +1,4 @@
-import anime from "./../base-func/anime.js";
+import anime from "./../libs/anime.js";
 
 class Overlay_Controller {
     //показывыаем подложку

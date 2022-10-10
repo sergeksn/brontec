@@ -1,4 +1,4 @@
-import anime from "./../base-func/anime.js";
+import anime from "./../libs/anime.js";
 
 export default new (class {
     status = "open"; //хранит текущее состояние блока хедера, свёрнут он или открыт или в процессе

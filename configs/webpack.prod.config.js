@@ -36,6 +36,7 @@ module.exports = {
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "../src"), //будет работать в подключённых scss js ejs
+            "temp": "@/templates",
             "@components": "@/components",
             "@components-blocks": "@components/blocks",
             "@assets": "@/assets",
@@ -49,7 +50,7 @@ module.exports = {
             "@scss-func": "@scss/_scss-func",
             "@js": "@assets/js",
             "@js-moduls": "@js/moduls",
-            "@js-base-func": "@js/base-func",
+            "@js-libs": "@js/libs",
             ...Get_Alias_list(), //добавляем алиасы компонетов
         },
         extensions: [".js", ".json", ".css", ".scss", ".ejs", ".png", ".jpg", ".jpeg", ".svg", ".ico"],
@@ -99,7 +100,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ejs$/i,
+                test: /\.(ejs|html)$/i,
                 use: [
                     {
                         loader: "html-loader",

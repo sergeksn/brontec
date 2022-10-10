@@ -1,5 +1,5 @@
-import { wait } from "./../base-func/func-kit.js";
-import anime from "./../base-func/anime.js";
+import { wait } from "./../libs/func-kit.js";
+import anime from "./../libs/anime.js";
 
 const Img_Loader = new (class {
   //инициализатор загрузки картинок

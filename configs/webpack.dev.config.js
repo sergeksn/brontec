@@ -39,7 +39,7 @@ module.exports = {
       "@scss-func": "@scss/_scss-func",
       "@js": "@assets/js",
       "@js-moduls": "@js/moduls",
-      "@js-base-func": "@js/base-func",
+      "@js-libs": "@js/libs",
       ...Get_Alias_list(), //добавляем алиасы компонетов
   },
     extensions: [".js", ".json", ".css", ".scss", ".ejs", ".png", ".jpg", ".jpeg", ".svg", ".ico"],

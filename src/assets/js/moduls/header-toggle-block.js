@@ -2,8 +2,8 @@ import Header from "./header.js";
 import Header_Search_Block from "./header-search.js";
 import Scroll_To_Top from "./scroll-to-top.js";
 import { Header_Overlay } from "./overlays.js";
-import { wait } from "./../base-func/func-kit.js";
-import anime from "./../base-func/anime.js";
+import { wait } from "./../libs/func-kit.js";
+import anime from "./../libs/anime.js";
 
 export default new class {
     //pending to close - в процессе закрытия меню
