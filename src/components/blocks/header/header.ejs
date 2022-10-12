@@ -1,16 +1,15 @@
 <header class="custom_scrollbar">
   <%- include('./../header-baner/header-baner.ejs')%>
-     
-  </header>
-  <div id="header_backdrop"></div>
-  <div id="header_overlay"></div>
-  <script>
-    /*нужно чтоб в момент загрузки страницы меню занимало нужную позицию и не прыгало относитель но контента*/
-    /*загоняем в самовызывающуюся функцию для того чтоб инкапсулировать переменные*/
-    (() => {
-      let header = document.getElementsByTagName("header")[0],/*элемент header*/
-        header_backdrop = document.getElementById("header_backdrop"),/*элемент #header_backdrop*/
-        header_height = window.getComputedStyle(header).height;/*высота хедера числом*/
-      header_backdrop.style.height = header_height;/*задаём высоту подложки хедера*/
-    })()
-  </script>
+</header>
+<div id="header_backdrop"></div>
+<div id="header_overlay"></div>
+<script>
+  /*нужно чтоб в момент загрузки страницы меню занимало нужную позицию и не прыгало относитель но контента*/
+  /*загоняем в самовызывающуюся функцию для того чтоб инкапсулировать переменные*/
+  (() => {
+    let header = document.getElementsByTagName("header")[0],/*элемент header*/
+      header_backdrop = document.getElementById("header_backdrop"),/*элемент #header_backdrop*/
+      header_height = window.getComputedStyle(header).height;/*высота хедера числом*/
+    header_backdrop.style.height = header_height;/*задаём высоту подложки хедера*/
+  })()
+</script>
