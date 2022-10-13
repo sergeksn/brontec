@@ -25,6 +25,7 @@ process.env.BROWSERSLIST_CONFIG = path.resolve(__dirname, "../configs/.browsersl
 function Get_Base_Aliases() {
     let aliases = {
         "@": path.resolve(__dirname, "../src"), //будет работать в подключённых scss js ejs
+        "@pages": "@/pages",
         "@components": "@/components",
         "@components-blocks": "@components/blocks",
         "@assets": "@/assets",
