@@ -38,7 +38,213 @@
 
 <body class="custom_scrollbar">
   <header class="custom_scrollbar">
-    <%- include('./../../blocks/header-baner/header-baner.ejs')%>
+    <div class="top_banner_wrap col-12 plr-0" id="id_NKkGUF0X9DGuvct">
+      <a href="#">
+        <div class="desktop_baner">
+          <div class="img_wrapper" data-img-type="bg" style="padding-top: 4.1667%;">
+            <div class="img_body" data-src="~@header-img/banner.jpg" data-original-w="1920" data-original-h="80">
+            </div>
+            <div class="loader_wrap">
+              <div class="loader"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tablet_baner">
+          <div class="img_wrapper" data-img-type="bg" style="padding-top: 4.1667%;">
+            <div class="img_body" data-src="~@header-img/banner.jpg" data-original-w="1920" data-original-h="80">
+            </div>
+            <div class="loader_wrap">
+              <div class="loader"></div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile_baner">
+          <div class="img_wrapper" data-img-type="bg" style="padding-top: 18.75%;">
+            <div class="img_body" data-src="~@header-img/banner2.jpg" data-original-w="320" data-original-h="60">
+            </div>
+            <div class="loader_wrap">
+              <div class="loader"></div>
+            </div>
+          </div>
+        </div>
+      </a>
+      <div class="close_banner_wrap">
+        <div class="icon_close_button_bold">
+          <div class="svg_wrapper">
+            <svg>
+              <use data-href="<?php echo $base_kit_svg_url ?>#icon_close_button_bold" />
+            </svg>
+          </div>
+        </div>
+        <div class="icon_close_button">
+          <div class="svg_wrapper">
+            <svg>
+              <use data-href="<?php echo $base_kit_svg_url ?>#icon_close_button" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script id="top_banner_script">
+      (() => {
+        let top_banner_wrap = document.getElementsByClassName("top_banner_wrap")[0],
+          top_banner_script = document.getElementById("top_banner_script"),
+          parent_top_banner = top_banner_wrap.parentNode,
+          top_banner_id = top_banner_wrap.getAttribute("id"),
+          cookie_top_baner = document.cookie.match(new RegExp("(?:^|; )top_baner_hide_" + top_banner_id + "=([^;]*)")); //пытаемся получить значение из куки
+
+        cookie_top_baner = cookie_top_baner ? cookie_top_baner[1] : false; //если значения нет занчит показываем банер, если есть то скрываем
+
+        if (cookie_top_baner) {
+          parent_top_banner.removeChild(top_banner_wrap);
+          parent_top_banner.removeChild(top_banner_script);
+        }
+      })();
+    </script>
+    <div class="header_menu_wrapper col-12 plr-0">
+      <div class="visible_header_part">
+        <div class="header_logo">
+          <a href="/">
+            <div class="img_wrapper" data-img-type="img" style="padding-top: 16.67%;">
+              <img data-src="~@header-img/logo.svg" alt="">
+            </div>
+          </a>
+        </div>
+        <div class="header_search_bold_button_wrap">
+          <div class="icon_search_glas_bold">
+            <div class="svg_wrapper">
+              <svg>
+                <use data-href="<?php echo $base_kit_svg_url ?>#icon_search_glas_bold" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="standart_container">
+          <div class="col-10 offset-1 col-lg-12 offset-lg-0 desktop_menu_search">
+            <div class="header_search_button_wrap">
+              <div class="icon_search_glas">
+                <div class="svg_wrapper">
+                  <svg>
+                    <use data-href="<?php echo $base_kit_svg_url ?>#icon_search_glas" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <nav class="header_menu">
+              <div class="header_menu_item">
+                <a href="#">Выбрать комплект</a>
+              </div>
+              <div class="header_menu_item">
+                <a href="#">Инструкции</a>
+              </div>
+              <div class="header_menu_item">
+                <a href="#">Доставка и оплата</a>
+              </div>
+              <div class="header_menu_item">
+                <a href="#">О нас</a>
+              </div>
+            </nav>
+          </div>
+        </div>
+        <div class="header_phone_cart_burger_wrap">
+          <div class="header_phone">
+            <a href="tel:+88000000000">8 800 000-00-00</a>
+          </div>
+          <div class="header_cart">
+            <div class="img_cart">
+              <div class="icon_cart">
+                <div class="svg_wrapper">
+                  <svg>
+                    <use data-href="<?php echo $base_kit_svg_url ?>#icon_cart" />
+                  </svg>
+                </div>
+              </div>
+              <div class="icon_cart_mobile">
+                <div class="svg_wrapper">
+                  <svg>
+                    <use data-href="<?php echo $base_kit_svg_url ?>#icon_cart_mobile" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="amount_product_in_cart">1</div>
+          </div>
+          <div class="header_burger_button_wrap">
+            <div class="header_burger_button">
+              <div class="burger_button_wrap">
+                <div class="burger_button">
+                  <div class="burger_line_1"></div>
+                  <div class="burger_line_2"></div>
+                  <div class="burger_line_3"></div>
+                  <div class="burger_line_4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hidden_header_part">
+        <div class="search_wrapper standart_container">
+          <input type="text" placeholder="Найти" maxlength="100" class="col-12 offset-sm-1 col-sm-9 col-lg-8">
+          <div class="close_search col-sm-1 offset-lg-1">
+            <div class="icon_close_button">
+              <div class="svg_wrapper">
+                <svg>
+                  <use data-href="<?php echo $base_kit_svg_url ?>#icon_close_button" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="mobile_search_glas">
+            <div class="icon_search_glas">
+              <div class="svg_wrapper">
+                <svg>
+                  <use data-href="<?php echo $base_kit_svg_url ?>#icon_search_glas" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="search_results standart_container">
+          <div class="search_loader">
+            <div class="loader_wrap">
+              <div class="loader"></div>
+            </div>
+          </div>
+          <div class="results_wrapper col-12 offset-sm-1 col-sm-9 col-lg-8"></div>
+        </div>
+        <nav class="header_menu_mobile">
+          <div class="header_menu_item">
+            <a href="#">Главная</a>
+          </div>
+          <div class="header_menu_item">
+            <a href="#">Выбрать комплект</a>
+          </div>
+          <div class="header_menu_item">
+            <a href="#">Инструкции</a>
+          </div>
+          <div class="header_menu_item">
+            <a href="#">Доставка и оплата</a>
+          </div>
+          <div class="header_menu_item">
+            <a href="#">О нас</a>
+          </div>
+          <div class="header_menu_item">
+            <a href="#">Корзина</a>
+          </div>
+        </nav>
+        <div class="header_phone_mobile">
+          <div class="icon_phone">
+            <div class="svg_wrapper">
+              <svg>
+                <use data-href="<?php echo $base_kit_svg_url ?>#icon_phone" />
+              </svg>
+            </div>
+          </div>
+          <a href="tel:+88000000000">8 800 000-00-00</a>
+        </div>
+      </div>
+    </div>
   </header>
   <div id="header_backdrop"></div>
   <div id="header_overlay"></div>
@@ -52,4 +258,4 @@
       header_backdrop.style.height = header_height;/*задаём высоту подложки хедера*/
     })()
   </script>
- <main style="position: relative; height: 1400px;background-color: green; overflow-y: hidden;">
+  <main style="position: relative; height: 1400px;background-color: green; overflow-y: hidden;">

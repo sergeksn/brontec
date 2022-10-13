@@ -46,8 +46,6 @@ import "@js-moduls/media"; //КАРТИНКИ
 
 //@dinamic node import fils
 import "@burger-button-main-js";
-import "@header-baner-main-js";
-import "@header-menu-main-js";
 import "@scroll-to-top-button-main-js";
 import "@footer-main-js";
 import "@header-main-js";
