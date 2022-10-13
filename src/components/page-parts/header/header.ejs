@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BRONTEC</title>
+  <link rel="shortcut icon" href="~@/favicon.ico" />
+  <link rel="preload" href="~@fonts/manrope.ttf" as="font" type="font/ttf" crossorigin>
+  <!--для того чтоб не было cls из-за дёргания букв при поддгрузке шрифта-->
+  <script>
+    const GDS = {};/*global data site  тут будут хранится все необходимые данные для работы фронтенда сайта, размеры блоков или какието-то данные для взаимодействия модулей*/
+    // GDS.base_kit_svg_url = "<?php echo $base_kit_svg_url ?>";
+    (() => {/*скрипт создаёт и обновляет при ресайзе css переменный для высоты и ширины экрна в rem*/
+      let head = document.getElementsByTagName("head")[0],
+        style_el = document.createElement("style");
+      /*--wwr = --win-width-rem
+      --whr = --win-heigth-rem*/
+      function set_css_vars() {
+        let w = document.documentElement.clientWidth,
+          h = document.documentElement.clientHeight;
+        style_el.innerHTML = "";
+        style_el.innerHTML = `:root{
+        --wwr: ${w / 16}rem;
+        --whr: ${h / 16}rem;
+      }`;
+        /*
+          --win-width-px: ${w}px;
+          --win-heigth-px: ${h}px;
+        */
+        head.append(style_el);
+      }
+      set_css_vars();
+      window.addEventListener("resize", set_css_vars);
+    })();
+  </script>
+</head>
+
+<body class="custom_scrollbar">
+  <header class="custom_scrollbar">
+    <%- include('./../../blocks/header-baner/header-baner.ejs')%>
+  </header>
+  <div id="header_backdrop"></div>
+  <div id="header_overlay"></div>
+  <script>
+    /*нужно чтоб в момент загрузки страницы меню занимало нужную позицию и не прыгало относитель но контента*/
+    /*загоняем в самовызывающуюся функцию для того чтоб инкапсулировать переменные*/
+    (() => {
+      let header = document.getElementsByTagName("header")[0],/*элемент header*/
+        header_backdrop = document.getElementById("header_backdrop"),/*элемент #header_backdrop*/
+        header_height = window.getComputedStyle(header).height;/*высота хедера числом*/
+      header_backdrop.style.height = header_height;/*задаём высоту подложки хедера*/
+    })()
+  </script>

@@ -10,7 +10,8 @@ function Get_Alias_list() {
 
 function Refresh_Alias_Json() {
     let components_path = path.resolve(__dirname, "../src/components"),
-        alias = {};
+        alias = require("./data-for-webpack").Get_Base_Aliases();
+
     fs.readdirSync(components_path).forEach(components_type_dir => {
         fs.readdirSync(components_path + "/" + components_type_dir).forEach(component_name => {
             alias[`@${component_name}`] = `@components/${components_type_dir}/${component_name}`;
@@ -37,5 +38,5 @@ function Refresh_Alias_Json() {
 //     }
 // }
 //"alias refresh": "node ./scripts/create-webpack-alias.js Create_Alias_Json"
-Get_Alias_list();
+//Get_Alias_list();
 module.exports = { Get_Alias_list, Refresh_Alias_Json };

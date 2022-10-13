@@ -93,42 +93,6 @@
             "@js-libs/*": [
                 "@js\\libs/*"
             ],
-            "@header": [
-                "@components\\blocks\\header"
-            ],
-            "@header/*": [
-                "@components\\blocks\\header/*"
-            ],
-            "@header-main-js": [
-                "@components\\blocks\\header\\js\\header-main.js"
-            ],
-            "@header-main-js/*": [
-                "@components\\blocks\\header\\js\\header-main.js/*"
-            ],
-            "@header-render-scss": [
-                "@components\\blocks\\header\\scss\\header-render.scss"
-            ],
-            "@header-render-scss/*": [
-                "@components\\blocks\\header\\scss\\header-render.scss/*"
-            ],
-            "@header-interaction-scss": [
-                "@components\\blocks\\header\\scss\\header-interaction.scss"
-            ],
-            "@header-interaction-scss/*": [
-                "@components\\blocks\\header\\scss\\header-interaction.scss/*"
-            ],
-            "@header-fonts": [
-                "@components\\blocks\\header\\fonts"
-            ],
-            "@header-fonts/*": [
-                "@components\\blocks\\header\\fonts/*"
-            ],
-            "@header-img": [
-                "@components\\blocks\\header\\img"
-            ],
-            "@header-img/*": [
-                "@components\\blocks\\header\\img/*"
-            ],
             "@header-baner": [
                 "@components\\blocks\\header-baner"
             ],
@@ -200,6 +164,78 @@
             ],
             "@header-menu-img/*": [
                 "@components\\blocks\\header-menu\\img/*"
+            ],
+            "@footer": [
+                "@components\\page-parts\\footer"
+            ],
+            "@footer/*": [
+                "@components\\page-parts\\footer/*"
+            ],
+            "@footer-main-js": [
+                "@components\\page-parts\\footer\\js\\footer-main.js"
+            ],
+            "@footer-main-js/*": [
+                "@components\\page-parts\\footer\\js\\footer-main.js/*"
+            ],
+            "@footer-render-scss": [
+                "@components\\page-parts\\footer\\scss\\footer-render.scss"
+            ],
+            "@footer-render-scss/*": [
+                "@components\\page-parts\\footer\\scss\\footer-render.scss/*"
+            ],
+            "@footer-interaction-scss": [
+                "@components\\page-parts\\footer\\scss\\footer-interaction.scss"
+            ],
+            "@footer-interaction-scss/*": [
+                "@components\\page-parts\\footer\\scss\\footer-interaction.scss/*"
+            ],
+            "@footer-fonts": [
+                "@components\\page-parts\\footer\\fonts"
+            ],
+            "@footer-fonts/*": [
+                "@components\\page-parts\\footer\\fonts/*"
+            ],
+            "@footer-img": [
+                "@components\\page-parts\\footer\\img"
+            ],
+            "@footer-img/*": [
+                "@components\\page-parts\\footer\\img/*"
+            ],
+            "@header": [
+                "@components\\page-parts\\header"
+            ],
+            "@header/*": [
+                "@components\\page-parts\\header/*"
+            ],
+            "@header-main-js": [
+                "@components\\page-parts\\header\\js\\header-main.js"
+            ],
+            "@header-main-js/*": [
+                "@components\\page-parts\\header\\js\\header-main.js/*"
+            ],
+            "@header-render-scss": [
+                "@components\\page-parts\\header\\scss\\header-render.scss"
+            ],
+            "@header-render-scss/*": [
+                "@components\\page-parts\\header\\scss\\header-render.scss/*"
+            ],
+            "@header-interaction-scss": [
+                "@components\\page-parts\\header\\scss\\header-interaction.scss"
+            ],
+            "@header-interaction-scss/*": [
+                "@components\\page-parts\\header\\scss\\header-interaction.scss/*"
+            ],
+            "@header-fonts": [
+                "@components\\page-parts\\header\\fonts"
+            ],
+            "@header-fonts/*": [
+                "@components\\page-parts\\header\\fonts/*"
+            ],
+            "@header-img": [
+                "@components\\page-parts\\header\\img"
+            ],
+            "@header-img/*": [
+                "@components\\page-parts\\header\\img/*"
             ],
             "@burger-button": [
                 "@components\\ui\\burger-button"
