@@ -59,7 +59,8 @@ function Get_Extensions() {
 
 function Get_Pages() {
     let pages = [
-        "abaut", //
+        "glavnaya", //
+        "abaut",
         "instruction",
         "dostavka_i_oplata",
         "vibrat_complekt",
@@ -79,15 +80,6 @@ function Get_Plagins(mode = "prod") {
             indentation: 4, // default to 4, the indentation of jsconfig.json file
         }),
         //new Copy_Webpack_Plagin(JUST_COPY_FILS),//скопирует файлы в сборку
-        new HtmlWebpackPlugin({
-            //плагин переносить добавляет во все файл из массива PAGES скрипты и стили с указание актуальных хешей
-            template: `${ENTRY_PATH}/index.ejs`,
-            filename: `./index.html`,
-            inject: "body",
-            scriptLoading: "blocking",
-            minify: false,
-            excludeAssets: [/critical\.?.*\.js/],
-        }),
         ...Get_Pages().map(
             page =>
                 new HtmlWebpackPlugin({
@@ -108,6 +100,20 @@ function Get_Plagins(mode = "prod") {
 
     return plagins;
 }
+
+function Componets_Assets_Chenge_Output_Path(asset_object, type) {
+    let result = asset_object.module.resourceResolveData.relativePath.replace("./src/", "");//сразу очищаем путь к исходной попке
+
+        let test = result.match(`components\/[^\/]+\/([^\/]+)\/${type}\/(.+)`);//проверяем что этот файл подключён в компоненте
+
+        if(test) result = `assets/${type}/${test[1]}/${test[2]}`;//если он подключён в компоненте то строим новый путь
+        //type - тип файла
+        //${test[1]} - имя компонета
+        //${test[2]} - файл
+    
+    return result;
+}
+
 
 function Get_Rules(mode = "prod") {
     let rules = [
@@ -176,17 +182,23 @@ function Get_Rules(mode = "prod") {
                       ],
         },
         {
-            test: /\.(jpe?g|png|svg|ico|woff2?|ttf)$/i,
+            test: /\.(jpe?g|png|svg|ico)$/i,
             type: "asset/resource",
             generator: {
-                filename: asset_object => asset_object.module.resourceResolveData.relativePath.replace("./src/", ""),
+                filename: asset_object => Componets_Assets_Chenge_Output_Path(asset_object, "img"),
+            },
+        },
+        {
+            test: /\.(woff2?|ttf)$/i,
+            type: "asset/resource",
+            generator: {
+                filename: asset_object => Componets_Assets_Chenge_Output_Path(asset_object, "fonts"),
             },
         },
     ];
 
     return rules;
 }
-
 module.exports = {
     ENTRY_PATH,
     OUTPUT_PATH,

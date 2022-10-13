@@ -93,6 +93,42 @@
             "@js-libs/*": [
                 "@js\\libs/*"
             ],
+            "@burger-button": [
+                "@components\\blocks\\burger-button"
+            ],
+            "@burger-button/*": [
+                "@components\\blocks\\burger-button/*"
+            ],
+            "@burger-button-main-js": [
+                "@components\\blocks\\burger-button\\js\\burger-button-main.js"
+            ],
+            "@burger-button-main-js/*": [
+                "@components\\blocks\\burger-button\\js\\burger-button-main.js/*"
+            ],
+            "@burger-button-render-scss": [
+                "@components\\blocks\\burger-button\\scss\\burger-button-render.scss"
+            ],
+            "@burger-button-render-scss/*": [
+                "@components\\blocks\\burger-button\\scss\\burger-button-render.scss/*"
+            ],
+            "@burger-button-interaction-scss": [
+                "@components\\blocks\\burger-button\\scss\\burger-button-interaction.scss"
+            ],
+            "@burger-button-interaction-scss/*": [
+                "@components\\blocks\\burger-button\\scss\\burger-button-interaction.scss/*"
+            ],
+            "@burger-button-fonts": [
+                "@components\\blocks\\burger-button\\fonts"
+            ],
+            "@burger-button-fonts/*": [
+                "@components\\blocks\\burger-button\\fonts/*"
+            ],
+            "@burger-button-img": [
+                "@components\\blocks\\burger-button\\img"
+            ],
+            "@burger-button-img/*": [
+                "@components\\blocks\\burger-button\\img/*"
+            ],
             "@header-baner": [
                 "@components\\blocks\\header-baner"
             ],
@@ -165,6 +201,42 @@
             "@header-menu-img/*": [
                 "@components\\blocks\\header-menu\\img/*"
             ],
+            "@scroll-to-top-button": [
+                "@components\\blocks\\scroll-to-top-button"
+            ],
+            "@scroll-to-top-button/*": [
+                "@components\\blocks\\scroll-to-top-button/*"
+            ],
+            "@scroll-to-top-button-main-js": [
+                "@components\\blocks\\scroll-to-top-button\\js\\scroll-to-top-button-main.js"
+            ],
+            "@scroll-to-top-button-main-js/*": [
+                "@components\\blocks\\scroll-to-top-button\\js\\scroll-to-top-button-main.js/*"
+            ],
+            "@scroll-to-top-button-render-scss": [
+                "@components\\blocks\\scroll-to-top-button\\scss\\scroll-to-top-button-render.scss"
+            ],
+            "@scroll-to-top-button-render-scss/*": [
+                "@components\\blocks\\scroll-to-top-button\\scss\\scroll-to-top-button-render.scss/*"
+            ],
+            "@scroll-to-top-button-interaction-scss": [
+                "@components\\blocks\\scroll-to-top-button\\scss\\scroll-to-top-button-interaction.scss"
+            ],
+            "@scroll-to-top-button-interaction-scss/*": [
+                "@components\\blocks\\scroll-to-top-button\\scss\\scroll-to-top-button-interaction.scss/*"
+            ],
+            "@scroll-to-top-button-fonts": [
+                "@components\\blocks\\scroll-to-top-button\\fonts"
+            ],
+            "@scroll-to-top-button-fonts/*": [
+                "@components\\blocks\\scroll-to-top-button\\fonts/*"
+            ],
+            "@scroll-to-top-button-img": [
+                "@components\\blocks\\scroll-to-top-button\\img"
+            ],
+            "@scroll-to-top-button-img/*": [
+                "@components\\blocks\\scroll-to-top-button\\img/*"
+            ],
             "@footer": [
                 "@components\\page-parts\\footer"
             ],
@@ -236,78 +308,6 @@
             ],
             "@header-img/*": [
                 "@components\\page-parts\\header\\img/*"
-            ],
-            "@burger-button": [
-                "@components\\ui\\burger-button"
-            ],
-            "@burger-button/*": [
-                "@components\\ui\\burger-button/*"
-            ],
-            "@burger-button-main-js": [
-                "@components\\ui\\burger-button\\js\\burger-button-main.js"
-            ],
-            "@burger-button-main-js/*": [
-                "@components\\ui\\burger-button\\js\\burger-button-main.js/*"
-            ],
-            "@burger-button-render-scss": [
-                "@components\\ui\\burger-button\\scss\\burger-button-render.scss"
-            ],
-            "@burger-button-render-scss/*": [
-                "@components\\ui\\burger-button\\scss\\burger-button-render.scss/*"
-            ],
-            "@burger-button-interaction-scss": [
-                "@components\\ui\\burger-button\\scss\\burger-button-interaction.scss"
-            ],
-            "@burger-button-interaction-scss/*": [
-                "@components\\ui\\burger-button\\scss\\burger-button-interaction.scss/*"
-            ],
-            "@burger-button-fonts": [
-                "@components\\ui\\burger-button\\fonts"
-            ],
-            "@burger-button-fonts/*": [
-                "@components\\ui\\burger-button\\fonts/*"
-            ],
-            "@burger-button-img": [
-                "@components\\ui\\burger-button\\img"
-            ],
-            "@burger-button-img/*": [
-                "@components\\ui\\burger-button\\img/*"
-            ],
-            "@scroll-to-top-button": [
-                "@components\\ui\\scroll-to-top-button"
-            ],
-            "@scroll-to-top-button/*": [
-                "@components\\ui\\scroll-to-top-button/*"
-            ],
-            "@scroll-to-top-button-main-js": [
-                "@components\\ui\\scroll-to-top-button\\js\\scroll-to-top-button-main.js"
-            ],
-            "@scroll-to-top-button-main-js/*": [
-                "@components\\ui\\scroll-to-top-button\\js\\scroll-to-top-button-main.js/*"
-            ],
-            "@scroll-to-top-button-render-scss": [
-                "@components\\ui\\scroll-to-top-button\\scss\\scroll-to-top-button-render.scss"
-            ],
-            "@scroll-to-top-button-render-scss/*": [
-                "@components\\ui\\scroll-to-top-button\\scss\\scroll-to-top-button-render.scss/*"
-            ],
-            "@scroll-to-top-button-interaction-scss": [
-                "@components\\ui\\scroll-to-top-button\\scss\\scroll-to-top-button-interaction.scss"
-            ],
-            "@scroll-to-top-button-interaction-scss/*": [
-                "@components\\ui\\scroll-to-top-button\\scss\\scroll-to-top-button-interaction.scss/*"
-            ],
-            "@scroll-to-top-button-fonts": [
-                "@components\\ui\\scroll-to-top-button\\fonts"
-            ],
-            "@scroll-to-top-button-fonts/*": [
-                "@components\\ui\\scroll-to-top-button\\fonts/*"
-            ],
-            "@scroll-to-top-button-img": [
-                "@components\\ui\\scroll-to-top-button\\img"
-            ],
-            "@scroll-to-top-button-img/*": [
-                "@components\\ui\\scroll-to-top-button\\img/*"
             ]
         }
     },

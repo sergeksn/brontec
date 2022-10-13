@@ -45,12 +45,12 @@ import "@js-moduls/media"; //КАРТИНКИ
 // import "@js-moduls/small-product-previv-block"; //отвечает за рендер блоков в выдаче поиска товаров
 
 //@dinamic node import fils
+import "@burger-button-main-js";
 import "@header-baner-main-js";
 import "@header-menu-main-js";
+import "@scroll-to-top-button-main-js";
 import "@footer-main-js";
 import "@header-main-js";
-import "@burger-button-main-js";
-import "@scroll-to-top-button-main-js";
 //@dinamic node import fils
 
 
