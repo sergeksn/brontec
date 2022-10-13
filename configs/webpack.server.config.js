@@ -1,3 +1,5 @@
+process.env.ksn_mode = "server";
+
 const {
     ENTRY_PATH, //
     Get_Extensions,
@@ -12,8 +14,9 @@ module.exports = {
     devtool: "source-map",
     devServer: {
         port: 3579,
-        open: true,
+        open: "/pages/glavnaya.html",
         hot: true,
+        compress: true, //включит сжатие gzip
     },
     stats: {
         loggingDebug: ["sass-loader"], //позволяет выводить логи scss в консоль сервера
@@ -25,8 +28,8 @@ module.exports = {
     entry: {
         main: `${ENTRY_PATH}/entrys/server/index.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
     },
-    plugins: Get_Plagins("server"),
+    plugins: Get_Plagins(),
     module: {
-        rules: Get_Rules("server"),
+        rules: Get_Rules(),
     },
 };

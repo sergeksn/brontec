@@ -1,5 +1,4 @@
-import "@/index.ejs";
-
+import "@/pages/glavnaya.ejs";
 import "@/pages/abaut.ejs";
 import "@/pages/instruction.ejs";
 import "@/pages/dostavka_i_oplata.ejs";

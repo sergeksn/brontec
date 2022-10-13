@@ -1,3 +1,5 @@
+process.env.ksn_mode = "dev";
+
 const {
     ENTRY_PATH, //
     OUTPUT_PATH,
@@ -24,8 +26,8 @@ module.exports = {
         filename: "./assets/js/[name].js", //имя итоговых файлов js
         clean: true, //сообщает что нужно очистить выходную попку перед тем как записать обновлённые или новые файлы
     },
-    plugins: Get_Plagins("dev"),
+    plugins: Get_Plagins(),
     module: {
-        rules: Get_Rules("dev"),
+        rules: Get_Rules(),
     },
 };

@@ -1,3 +1,5 @@
+const mode = process.env.ksn_mode;//режим сборки проекта
+
 const path = require("path"); //нодовский модуль для получение путей
 
 const HtmlWebpackPlugin = require("html-webpack-plugin"); //плагин создаёт новый html файл по нашему шаблону и подключает в него скрипты и стили
@@ -8,7 +10,7 @@ const HtmlWebpackSkipAssetsPlugin = require("html-webpack-skip-assets-plugin").H
 const Alias = require("alias-jsconfig-webpack-plugin"); //создаст файл jsconfig.json для поддержки алиасов в js файлах дял vscode
 
 const ENTRY_PATH = path.resolve(__dirname, "../src"); //путь к папке с исходниками
-const OUTPUT_PATH = path.resolve(__dirname, "../dist/prod_build"); //путь к папке куда будет собираться проект как готовый вариант для продакшена
+const OUTPUT_PATH = path.resolve(__dirname, `../dist/${mode === "prod" ? "prod_build" : "dev_build"}`); //путь к папке куда будет собираться проект как готовый вариант для продакшена
 
 const { Get_Alias_list } = require("./create-webpack-alias"); //получает список алиасов компонентов
 //${component_name}-main.js
@@ -72,7 +74,7 @@ function Get_Pages() {
     return pages;
 }
 
-function Get_Plagins(mode = "prod") {
+function Get_Plagins() {
     let plagins = [
         new Alias({
             language: "js", // or 'ts'
@@ -102,20 +104,19 @@ function Get_Plagins(mode = "prod") {
 }
 
 function Componets_Assets_Chenge_Output_Path(asset_object, type) {
-    let result = asset_object.module.resourceResolveData.relativePath.replace("./src/", "");//сразу очищаем путь к исходной попке
+    let result = asset_object.module.resourceResolveData.relativePath.replace("./src/", ""); //сразу очищаем путь к исходной попке
 
-        let test = result.match(`components\/[^\/]+\/([^\/]+)\/${type}\/(.+)`);//проверяем что этот файл подключён в компоненте
+    let test = result.match(`components\/[^\/]+\/([^\/]+)\/${type}\/(.+)`); //проверяем что этот файл подключён в компоненте
 
-        if(test) result = `assets/${type}/${test[1]}/${test[2]}`;//если он подключён в компоненте то строим новый путь
-        //type - тип файла
-        //${test[1]} - имя компонета
-        //${test[2]} - файл
-    
+    if (test) result = `assets/${type}/${test[1]}/${test[2]}`; //если он подключён в компоненте то строим новый путь
+    //type - тип файла
+    //${test[1]} - имя компонета
+    //${test[2]} - файл
+
     return result;
 }
 
-
-function Get_Rules(mode = "prod") {
+function Get_Rules() {
     let rules = [
         {
             test: /\.(ejs|html)$/i,
