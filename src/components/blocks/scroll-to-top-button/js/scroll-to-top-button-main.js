@@ -1,6 +1,6 @@
 import anime from "@js-libs/anime.js";
-//import Header_Search_Block from "@header-search-main-js";
-import Header from "@header-main-js";
+
+import { Header, Header_Search } from "@header-main-js";
 
 export default new (class {
     //hide - скрыто
@@ -63,7 +63,7 @@ export default new (class {
         GDS.win.interact_elems.lock(); //блокируем кнопку
 
         //если открыт блок с результатами поиска
-        if (Header_Search_Block.status === "open") {
+        if (Header_Search.status === "open") {
             await anime({
                 targets: this.header[0],
                 easing: "linear",

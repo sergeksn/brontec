@@ -75,8 +75,8 @@ new (class {
         //перебираем все элементы которые будут прокручиваемыми и будут считаться условным телом страницы в соответствующий момент времени
 
         //ПРИМЕЧАНИЕ: по умолчанию прокрутка блокируется/разблокируется для body
-        GDS.scroll.lock = (target = this.body) => target.classList.add("lock_scroll"); //блокирует прокуртку указанного элемента
-        GDS.scroll.unlock = (target = this.body) => target.classList.remove("lock_scroll"); //разблокирует прокрутку указанного элемента
+        GDS.scroll.lock = (target = this.body) => target.classList.add("lock-scroll"); //блокирует прокуртку указанного элемента
+        GDS.scroll.unlock = (target = this.body) => target.classList.remove("lock-scroll"); //разблокирует прокрутку указанного элемента
     }
     //определяем направление скрола и его значение
 

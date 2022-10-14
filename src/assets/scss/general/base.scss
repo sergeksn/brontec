@@ -1,21 +1,12 @@
-/*
-*
-ОСНОВНЫЕ СТИЛИ
-*
-*/
-
 @font-face {
     font-family: Manrope;
-    src: url(@fonts/manrope.ttf);
+    src: url(@fonts/manrope.woff2) format("woff2"), url(@fonts/manrope.woff) format("woff");
 }
 
-* {
-    box-sizing: border-box;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 a[title="Вы тут!"] {
@@ -23,29 +14,10 @@ a[title="Вы тут!"] {
     cursor: default;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-body,
-html {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
 body {
     background-color: var(--white);
-    margin: 0;
     font: var(--default);
-    min-width: 20rem;
-    /*320px*/
+    min-width: rem(320);
 }
 
 .flex {
@@ -87,7 +59,3 @@ body {
   ОСНОВНЫЕ СТИЛИ И ПЕРЕМЕННЫЕ
   *
   */
-
-
-
-

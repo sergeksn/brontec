@@ -12,13 +12,10 @@ const Alias = require("alias-jsconfig-webpack-plugin"); //создаст фай�
 const ENTRY_PATH = path.resolve(__dirname, "../src"); //путь к папке с исходниками
 const OUTPUT_PATH = path.resolve(__dirname, `../dist/${mode === "prod" ? "prod_build" : "dev_build"}`); //путь к папке куда будет собираться проект как готовый вариант для продакшена
 
-const { Get_Alias_list } = require("./create-webpack-alias"); //получает список алиасов компонентов
+const { Get_Alias_list } = require("./webpack-create-alias"); //получает список алиасов компонентов
 //${component_name}-main.js
 //${component_name}-render.scss
 //${component_name}-interaction.scss
-
-const Import_Components_Assets = require("./import-components"); //записывает иморты компонетов в соответсвующие файлы
-Import_Components_Assets(); //записывает иморты компонетов в соответсвующие файлы
 
 process.env.BROWSERSLIST_CONFIG = path.resolve(__dirname, "../configs/.browserslistrc"); //путь к файлу со списком поддерживаемых браузеров
 
@@ -27,13 +24,10 @@ function Get_Base_Aliases() {
         "@": path.resolve(__dirname, "../src"), //будет работать в подключённых scss js ejs
         "@pages": "@/pages",
         "@components": "@/components",
-        "@components-blocks": "@components/blocks",
         "@assets": "@/assets",
         "@fonts": "@assets/fonts",
         "@img": "@assets/img",
         "@scss": "@assets/scss",
-        "@scss-ui": "@scss/ui",
-        "@scss-blocks": "@scss/blocks",
         "@scss-libs": "@scss/libs",
         "@scss-general": "@scss/general",
         "@scss-func": "@scss/_scss-func",

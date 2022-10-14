@@ -21,12 +21,6 @@
             "@components/*": [
                 "@\\components/*"
             ],
-            "@components-blocks": [
-                "@components\\blocks"
-            ],
-            "@components-blocks/*": [
-                "@components\\blocks/*"
-            ],
             "@assets": [
                 "@\\assets"
             ],
@@ -50,18 +44,6 @@
             ],
             "@scss/*": [
                 "@assets\\scss/*"
-            ],
-            "@scss-ui": [
-                "@scss\\ui"
-            ],
-            "@scss-ui/*": [
-                "@scss\\ui/*"
-            ],
-            "@scss-blocks": [
-                "@scss\\blocks"
-            ],
-            "@scss-blocks/*": [
-                "@scss\\blocks/*"
             ],
             "@scss-libs": [
                 "@scss\\libs"

@@ -7,7 +7,7 @@ const {
     Get_Plagins,
     Get_Rules,
     Get_Alias_list,
-} = require("../scripts/data-for-webpack"); //получаем данный для данной сборки, такие как список расширений, набор плагинов и правил загрузки ресурсов
+} = require("../scripts/webpack-data"); //получаем данный для данной сборки, такие как список расширений, набор плагинов и правил загрузки ресурсов
 
 // const JUST_COPY_FILS = {
 //   patterns: [

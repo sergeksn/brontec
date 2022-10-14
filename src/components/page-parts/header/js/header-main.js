@@ -1,6 +1,10 @@
-import anime from "@js-libs/anime.js";
+import anime from "@js-libs/anime";
 
-export default new (class {
+import Header_Toggle_Block from "./header-toggle-block";
+import Header_Search from "./header-search";
+import Header_Poster from "./header-poster";
+
+let Header = new (class {
     status = "open"; //хранит текущее состояние блока хедера, свёрнут он или открыт или в процессе
 
     constructor() {
@@ -103,3 +107,5 @@ export default new (class {
     }
     //функция оправляет сворачиванием и разворачиванием хедера
 })();
+
+export { Header, Header_Toggle_Block, Header_Search, Header_Poster };

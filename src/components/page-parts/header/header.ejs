@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BRONTEC</title>
   <link rel="shortcut icon" href="~@/favicon.ico" />
-  <link rel="preload" href="~@fonts/manrope.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="~@fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="~@fonts/icon-font.woff" as="font" type="font/woff" crossorigin>
+  <!--не забыть поменть на woff2-->
   <!--для того чтоб не было cls из-за дёргания букв при поддгрузке шрифта-->
   <script>
     const GDS = {};/*global data site  тут будут хранится все необходимые данные для работы фронтенда сайта, размеры блоков или какието-то данные для взаимодействия модулей*/
@@ -36,8 +38,8 @@
   </script>
 </head>
 
-<body class="custom_scrollbar">
-  <header class="custom_scrollbar">
+<body class="custom-scrollbar">
+  <header class="custom-scrollbar">
     <div class="top_banner_wrap col-12 plr-0" id="id_NKkGUF0X9DGuvct">
       <a href="#">
         <div class="desktop_baner">
@@ -68,21 +70,9 @@
           </div>
         </div>
       </a>
-      <div class="close_banner_wrap">
-        <div class="icon_close_button_bold">
-          <div class="svg_wrapper">
-            <svg>
-              <use data-href="<?php echo $base_kit_svg_url ?>#icon_close_button_bold" />
-            </svg>
-          </div>
-        </div>
-        <div class="icon_close_button">
-          <div class="svg_wrapper">
-            <svg>
-              <use data-href="<?php echo $base_kit_svg_url ?>#icon_close_button" />
-            </svg>
-          </div>
-        </div>
+      <div class="header-banner__close-button">
+        <div class="icon-close"></div>
+        <div class="icon-close_bold"></div>
       </div>
     </div>
     <script id="top_banner_script">
@@ -120,7 +110,7 @@
           </div>
         </div>
         <div class="standart_container">
-          <div class="col-10 offset-1 col-lg-12 offset-lg-0 desktop_menu_search">
+          <div class="col-10 offset-1 col-1280-12 offset-1280-0 desktop_menu_search">
             <div class="header_search_button_wrap">
               <div class="icon_search_glas">
                 <div class="svg_wrapper">
@@ -185,8 +175,8 @@
       </div>
       <div class="hidden_header_part">
         <div class="search_wrapper standart_container">
-          <input type="text" placeholder="Найти" maxlength="100" class="col-12 offset-sm-1 col-sm-9 col-lg-8">
-          <div class="close_search col-sm-1 offset-lg-1">
+          <input type="text" placeholder="Найти" maxlength="100" class="col-12 offset-640-1 col-640-9 col-1280-8">
+          <div class="close_search col-640-1 offset-1280-1">
             <div class="icon_close_button">
               <div class="svg_wrapper">
                 <svg>
@@ -211,7 +201,7 @@
               <div class="loader"></div>
             </div>
           </div>
-          <div class="results_wrapper col-12 offset-sm-1 col-sm-9 col-lg-8"></div>
+          <div class="results_wrapper col-12 offset-640-1 col-640-9 col-1280-8"></div>
         </div>
         <nav class="header_menu_mobile">
           <div class="header_menu_item">

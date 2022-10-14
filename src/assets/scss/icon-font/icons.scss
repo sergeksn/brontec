@@ -1,0 +1,81 @@
+@import "icon-variables.scss";
+
+@font-face {
+  font-family: 'icon-font';
+  src: url(@fonts/icon-font.woff) format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class*="icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icon-font' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-cart {
+  &:before {
+    content: $icon-cart; 
+  }
+}
+.icon-cart_bold {
+  &:before {
+    content: $icon-cart_bold; 
+  }
+}
+.icon-close {
+  &:before {
+    content: $icon-close; 
+  }
+}
+.icon-close_bold {
+  &:before {
+    content: $icon-close_bold; 
+  }
+}
+.icon-error_load {
+  &:before {
+    content: $icon-error_load; 
+  }
+}
+.icon-phone {
+  &:before {
+    content: $icon-phone; 
+  }
+}
+.icon-ruble_currency {
+  &:before {
+    content: $icon-ruble_currency; 
+  }
+}
+.icon-search {
+  &:before {
+    content: $icon-search; 
+  }
+}
+.icon-search_bold {
+  &:before {
+    content: $icon-search_bold; 
+  }
+}
+.icon-arrow_middle {
+  &:before {
+    content: $icon-arrow_middle; 
+  }
+}
+.icon-arrow_scroll_to_top {
+  &:before {
+    content: $icon-arrow_scroll_to_top; 
+  }
+}
+
