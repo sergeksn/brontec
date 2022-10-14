@@ -1,5 +1,5 @@
 //БАНЕР
-GDS.header.top_baner = {
+GDS.top_baner = {
     //инициализируем все скрипты для работы с верхним банером
     init: function() {
         if (GDS.header.has_top_baner === false) return; //если блока банера нет в теле документа прерываем инициализацию модуля

@@ -57,10 +57,10 @@
             "@scss-general/*": [
                 "@scss\\general/*"
             ],
-            "@scss-func": [
+            "@scss-data": [
                 "@scss\\_scss-func"
             ],
-            "@scss-func/*": [
+            "@scss-data/*": [
                 "@scss\\_scss-func/*"
             ],
             "@js": [

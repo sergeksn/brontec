@@ -30,7 +30,7 @@ function Get_Base_Aliases() {
         "@scss": "@assets/scss",
         "@scss-libs": "@scss/libs",
         "@scss-general": "@scss/general",
-        "@scss-func": "@scss/_scss-func",
+        "@scss-data": "@scss/_scss-data",
         "@js": "@assets/js",
         "@js-moduls": "@js/moduls",
         "@js-libs": "@js/libs",

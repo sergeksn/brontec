@@ -1,60 +1,68 @@
-/*
-*
-ПЕРЕМЕННЫЕ
-*
-1 em = 16px стандартно во всех браузерах, и является размером шрифта по умолчанию который пользователь может менять, а мы долны подстраиваться
-медиа запросы мы пишем в em, так как они будут браться всё равно от шрифта браузера по умолчанию,
-а все остальные размеры в rem так чтоб ориентироватья на шрифт браузера по умолчанию не учитывая унаследованный от родителя размер шрифта
-кторый может быть кратно изменён при использовании em
-
-sm - min-width:640px    40em
-md - min-width:960px    60em      
-lg - min-width:1280px   80em
-1920px = 120em
-*/
 :root {
     /*цвета*/
     --black: #262626;
     --black-hover: #000;
-    --black-transparent: rgba(0, 0, 0, 0.3);
+    --black-disabled: #{rgba(#000000, 0.3)};
+    --black-gradient: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
     --white: #fff;
-    --white-disabled: rgba(255, 255, 255, 0.6);
-    /*--white-disabled применяется для текстов в кнопках с отключённым статусом*/
-    --gray: #999999;
+    --white-disabled: #{rgba(#ffffff, 0.6)}; //--white-disabled применяется для текстов в кнопках с отключённым статусом
+    --white-gradient: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 96.28%);
     --blue: #0049ff;
     --blue-hover: #003acc;
-    --blue-transparent: rgba(0, 73, 255, 0.5);
+    --blue-transparent: #{rgba(#0049ff, 0.5)};
+    --popup-backdrop: #{rgba(#ffffff, 0.9)};
+    --gray: #999999;
     --light: #e6e6e6;
     --error: #ff5050;
     --warning: #ffce50;
     --success: #69d243;
+    --link: #0049ff;
+    --link-hover: #003acc;
+    --link-visited: #4e00cc;
     /*цвета*/
 
-    $start_w: 960; //начальное значение ширины
-    $final_w: 1919; //конечное значение ширины
-
-    /*отступы между блоками*/
-    --big: #{adaptiv_size(100, $start_w, 200, $final_w)};
-    --medium: #{adaptiv_size(40, $start_w, 80, $final_w)};
-    --little: #{adaptiv_size(20, $start_w, 40, $final_w)};
-    /*отступы между блоками*/
-
     /*шрифты*/
+    //эти размеры шрифта актуальны до самых малых размеров экрана, т.к. эти размеры не меняются
     --font-bold: 700;
     --font-normal: 400;
-    --font-family: Manrope, Arial, "Times New Roman";
-    --h1: var(--font-bold) #{adaptiv_size(25, $start_w, 50, $final_w)} / #{adaptiv_size(30, $start_w, 60, $final_w)} var(--font-family);
-    --h2: var(--font-bold) #{adaptiv_size(22, $start_w, 32, $final_w)} / #{adaptiv_size(30, $start_w, 40, $final_w)} var(--font-family);
-    --h3: var(--font-normal) #{adaptiv_size(18, $start_w, 24, $final_w)} / #{adaptiv_size(25, $start_w, 30, $final_w)} var(--font-family);
-    --default: var(--font-normal) #{adaptiv_size(15, $start_w, 17, $final_w)} / #{adaptiv_size(20, $start_w, 25, $final_w)} var(--font-family);
-    /*--default обычный текст на страницах*/
-    --small: var(--font-normal) #{adaptiv_size(13, $start_w, 14, $final_w)} / #{rem(20)} var(--font-family);
-    /*--small маленький текст на страницах*/
+    --font-family: Manrope;
+    --h1: var(--font-bold) #{rem(25)} / #{rem(30)} var(--font-family);
+    --h2: var(--font-bold) #{rem(22)} / #{rem(30)} var(--font-family);
+    --h3: var(--font-normal) #{rem(18)} / #{rem(25)} var(--font-family);
+    --default: var(--font-normal) #{rem(15)} / #{rem(20)} var(--font-family); //--default обычный текст на страницах
+    --small: var(--font-normal) #{rem(13)} / #{rem(20)} var(--font-family); //--small маленький текст на страницах
     /*шрифты*/
+
+    /*отступы между блоками*/
+    //эти отсупы актуальны до самых малых размеров экрана, т.к. эти отсупы не меняются
+    --big: #{rem(100)};
+    --medium: #{rem(40)};
+    --little: #{rem(20)};
+    /*отступы между блоками*/
 
     --fast-anim: 0s ease-in-out;
     --standart-anim: 0.5s ease-in-out;
     --b-radius: #{rem(10)};
+
+    @media (min-width: rem(960)) {
+        $start_w: 960; //начальное значение ширины
+        $final_w: 1919; //конечное значение ширины
+
+        /*отступы между блоками*/
+        --big: #{adaptiv_size(100, $start_w, 200, $final_w)};
+        --medium: #{adaptiv_size(40, $start_w, 80, $final_w)};
+        --little: #{adaptiv_size(20, $start_w, 40, $final_w)};
+        /*отступы между блоками*/
+
+        /*шрифты*/
+
+        --h1: var(--font-bold) #{adaptiv_size(25, $start_w, 50, $final_w)} / #{adaptiv_size(30, $start_w, 60, $final_w)} var(--font-family);
+        --h2: var(--font-bold) #{adaptiv_size(22, $start_w, 32, $final_w)} / #{adaptiv_size(30, $start_w, 40, $final_w)} var(--font-family);
+        --h3: var(--font-normal) #{adaptiv_size(18, $start_w, 24, $final_w)} / #{adaptiv_size(25, $start_w, 30, $final_w)} var(--font-family);
+        --default: var(--font-normal) #{adaptiv_size(15, $start_w, 17, $final_w)} / #{adaptiv_size(20, $start_w, 25, $final_w)} var(--font-family);
+        --small: var(--font-normal) #{adaptiv_size(13, $start_w, 14, $final_w)} / #{rem(20)} var(--font-family);
+        /*шрифты*/
+    }
 
     @media (min-width: rem(1920)) {
         $start_w: 1920; //начальное значение ширины
@@ -64,35 +72,13 @@ lg - min-width:1280px   80em
         --h2: var(--font-bold) #{adaptiv_size(32, $start_w)} / #{adaptiv_size(40, $start_w)} var(--font-family);
         --h3: var(--font-normal) #{adaptiv_size(24, $start_w)} / #{adaptiv_size(30, $start_w)} var(--font-family);
         --default: var(--font-normal) #{adaptiv_size(17, $start_w)} / #{adaptiv_size(25, $start_w)} var(--font-family);
-        /*--default обычный текст на страницах*/
         --small: var(--font-normal) #{adaptiv_size(14, $start_w)} / #{adaptiv_size(20, $start_w)} var(--font-family);
-        /*--small маленький текст на страницах*/
         /*шрифты*/
 
         /*отступы между блоками*/
         --big: #{adaptiv_size(200, $start_w)};
         --medium: #{adaptiv_size(80, $start_w)};
         --little: #{adaptiv_size(40, $start_w)};
-        /*отступы между блоками*/
-    }
-
-    @media (max-width: rem(959)) {
-        /*шрифты*/
-        //эти размеры шрифта актуальны до самых малых размеров экрана, т.к. эти размеры не меняются
-        --h1: var(--font-bold) #{rem(25)} / #{rem(30)} var(--font-family);
-        --h2: var(--font-bold) #{rem(22)} / #{rem(30)} var(--font-family);
-        --h3: var(--font-normal) #{rem(18)} / #{rem(25)} var(--font-family);
-        --default: var(--font-normal) #{rem(15)} / #{rem(20)} var(--font-family);
-        /*--default обычный текст на страницах*/
-        --small: var(--font-normal) #{rem(13)} / #{rem(20)} var(--font-family);
-        /*--small маленький текст на страницах*/
-        /*шрифты*/
-
-        /*отступы между блоками*/
-        //эти отсупы актуальны до самых малых размеров экрана, т.к. эти отсупы не меняются
-        --big: #{rem(100)};
-        --medium: #{rem(40)};
-        --little: #{rem(20)};
         /*отступы между блоками*/
     }
 }

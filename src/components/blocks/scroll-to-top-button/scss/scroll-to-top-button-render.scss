@@ -4,7 +4,7 @@
     display: flex;
     opacity: 0;
     border-radius: 50%;
-    background-color: var(--black-transparent);
+    background-color: var(--black-disabled);
     transition: background-color var(--standart-anim), opacity var(--standart-anim);
     z-index: 10;
     justify-content: center;

@@ -24,7 +24,7 @@ body {
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   border-radius: var(--5px);
-  background-color: var(--black-transparent);
+  background-color: var(--black-disabled);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -36,7 +36,7 @@ body {
   html,
   .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: var(--black-transparent) transparent;
+    scrollbar-color: var(--black-disabled) transparent;
     scrollbar-gutter: stable;
   }
 }

@@ -1,13 +1,11 @@
-@import "@scss-func/functions";
+@import "@scss-data/functions";
 
 @import "@scss-general/variables";
-@import "@scss-general/base";
-@import "@scss/icon-font/icons";
 @import "@scss-general/grid";
-@import "@scss-libs/normalize";
+@import "@scss-general/base";
 @import "@scss-general/scrollbar";
-
-
+@import "@scss/icon-font/icons";
+@import "@scss-libs/normalize";
 
 //@dinamic node import fils
 @import "@burger-button-render-scss";
