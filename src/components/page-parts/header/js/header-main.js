@@ -1,8 +1,10 @@
 import anime from "@js-libs/anime";
 
+import Header_Poster from "./header-poster";
+import Header_Menu from "./header-menu";
 import Header_Toggle_Block from "./header-toggle-block";
 import Header_Search from "./header-search";
-import Header_Poster from "./header-poster";
+
 
 let Header = new (class {
     status = "open"; //хранит текущее состояние блока хедера, свёрнут он или открыт или в процессе
@@ -12,7 +14,7 @@ let Header = new (class {
         this.top_banner_wrap = $(".top_banner_wrap");
         this.has_top_baner = this.top_banner_wrap.length > 0 ? true : false; //определяет есть ли в хедере банер
         this.header = $("header"); //хедер
-        this.header_backdrop = $("#header_backdrop");
+        this.header_backdrop = $("#header-backdrop");
         this.header_menu_wrapper = $(".header_menu_wrapper");
         this.visible_header_part = $(".visible_header_part");
         //записываем все неоходимые переменные для удобства доступа
@@ -108,4 +110,4 @@ let Header = new (class {
     //функция оправляет сворачиванием и разворачиванием хедера
 })();
 
-export { Header, Header_Toggle_Block, Header_Search, Header_Poster };
+export { Header, Header_Poster, Header_Menu, Header_Toggle_Block, Header_Search };

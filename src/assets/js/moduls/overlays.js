@@ -64,7 +64,7 @@ const Header_Overlay = new class {
     //show - видно
     status = "hide"
 
-    overlay = $("#header_overlay") //полупрозрачная бела подложка для хедера
+    overlay = $("#header-overlay") //полупрозрачная бела подложка для хедера
 
     constructor() {
         let teplate = new Overlay_Controller; //объект с функция управления для подложек

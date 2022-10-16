@@ -1,4 +1,4 @@
-const mode = process.env.ksn_mode;//режим сборки проекта
+const mode = process.env.ksn_mode; //режим сборки проекта
 
 const path = require("path"); //нодовский модуль для получение путей
 
@@ -33,6 +33,7 @@ function Get_Base_Aliases() {
         "@scss-data": "@scss/_scss-data",
         "@js": "@assets/js",
         "@js-moduls": "@js/moduls",
+        "@js-polyfills": "@js/polyfills",
         "@js-libs": "@js/libs",
     };
     return aliases;
@@ -111,6 +112,7 @@ function Componets_Assets_Chenge_Output_Path(asset_object, type) {
     return result;
 }
 
+
 function Get_Rules() {
     let rules = [
         {
@@ -163,6 +165,7 @@ function Get_Rules() {
                                       plugins: [
                                           require("autoprefixer"), //добавляет префиксы на основе браузер листа
                                           require("cssnano"), //максимально минифицирует код
+                                          require('postcss-inset'),//полифил для inset
                                       ],
                                   },
                               },

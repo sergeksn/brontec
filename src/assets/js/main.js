@@ -46,6 +46,8 @@ import "@js-moduls/media"; //Запускает загрузку медиа ес
 
 //@dinamic node import fils
 import "@burger-button-main-js";
+import "@images-main-js";
+import "@loader-main-js";
 import "@scroll-to-top-button-main-js";
 import "@footer-main-js";
 import "@header-main-js";
@@ -66,7 +68,7 @@ import "@header-main-js";
 
 // console.log(document.querySelectorAll("div.img_wrapper")._parents("a, .header_logo, div.footer_item, main"));
 
-// console.log(document.getElementById("header_overlay")._siblings("div"));
+// console.log(document.getElementById("header-overlay")._siblings("div"));
 
 $(document).on({
     events: "DOMContentLoaded",

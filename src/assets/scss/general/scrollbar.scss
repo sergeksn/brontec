@@ -23,7 +23,7 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  border-radius: var(--5px);
+  border-radius: rem(5);
   background-color: var(--black-disabled);
 }
 

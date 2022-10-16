@@ -58,10 +58,10 @@
                 "@scss\\general/*"
             ],
             "@scss-data": [
-                "@scss\\_scss-func"
+                "@scss\\_scss-data"
             ],
             "@scss-data/*": [
-                "@scss\\_scss-func/*"
+                "@scss\\_scss-data/*"
             ],
             "@js": [
                 "@assets\\js"
@@ -74,6 +74,12 @@
             ],
             "@js-moduls/*": [
                 "@js\\moduls/*"
+            ],
+            "@js-polyfills": [
+                "@js\\polyfills"
+            ],
+            "@js-polyfills/*": [
+                "@js\\polyfills/*"
             ],
             "@js-libs": [
                 "@js\\libs"
@@ -116,6 +122,78 @@
             ],
             "@burger-button-img/*": [
                 "@components\\blocks\\burger-button\\img/*"
+            ],
+            "@images": [
+                "@components\\blocks\\images"
+            ],
+            "@images/*": [
+                "@components\\blocks\\images/*"
+            ],
+            "@images-main-js": [
+                "@components\\blocks\\images\\js\\images-main.js"
+            ],
+            "@images-main-js/*": [
+                "@components\\blocks\\images\\js\\images-main.js/*"
+            ],
+            "@images-render-scss": [
+                "@components\\blocks\\images\\scss\\images-render.scss"
+            ],
+            "@images-render-scss/*": [
+                "@components\\blocks\\images\\scss\\images-render.scss/*"
+            ],
+            "@images-interaction-scss": [
+                "@components\\blocks\\images\\scss\\images-interaction.scss"
+            ],
+            "@images-interaction-scss/*": [
+                "@components\\blocks\\images\\scss\\images-interaction.scss/*"
+            ],
+            "@images-fonts": [
+                "@components\\blocks\\images\\fonts"
+            ],
+            "@images-fonts/*": [
+                "@components\\blocks\\images\\fonts/*"
+            ],
+            "@images-img": [
+                "@components\\blocks\\images\\img"
+            ],
+            "@images-img/*": [
+                "@components\\blocks\\images\\img/*"
+            ],
+            "@loader": [
+                "@components\\blocks\\loader"
+            ],
+            "@loader/*": [
+                "@components\\blocks\\loader/*"
+            ],
+            "@loader-main-js": [
+                "@components\\blocks\\loader\\js\\loader-main.js"
+            ],
+            "@loader-main-js/*": [
+                "@components\\blocks\\loader\\js\\loader-main.js/*"
+            ],
+            "@loader-render-scss": [
+                "@components\\blocks\\loader\\scss\\loader-render.scss"
+            ],
+            "@loader-render-scss/*": [
+                "@components\\blocks\\loader\\scss\\loader-render.scss/*"
+            ],
+            "@loader-interaction-scss": [
+                "@components\\blocks\\loader\\scss\\loader-interaction.scss"
+            ],
+            "@loader-interaction-scss/*": [
+                "@components\\blocks\\loader\\scss\\loader-interaction.scss/*"
+            ],
+            "@loader-fonts": [
+                "@components\\blocks\\loader\\fonts"
+            ],
+            "@loader-fonts/*": [
+                "@components\\blocks\\loader\\fonts/*"
+            ],
+            "@loader-img": [
+                "@components\\blocks\\loader\\img"
+            ],
+            "@loader-img/*": [
+                "@components\\blocks\\loader\\img/*"
             ],
             "@scroll-to-top-button": [
                 "@components\\blocks\\scroll-to-top-button"

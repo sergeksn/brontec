@@ -44,7 +44,7 @@
     --standart-anim: 0.5s ease-in-out;
     --b-radius: #{rem(10)};
 
-    @media (min-width: rem(960)) {
+    @media (min-width: em(960)) {
         $start_w: 960; //начальное значение ширины
         $final_w: 1919; //конечное значение ширины
 
@@ -64,7 +64,7 @@
         /*шрифты*/
     }
 
-    @media (min-width: rem(1920)) {
+    @media (min-width: em(1920)) {
         $start_w: 1920; //начальное значение ширины
 
         /*шрифты*/

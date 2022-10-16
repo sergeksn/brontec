@@ -1,12 +1,13 @@
 <%- include('./../components/page-parts/header/header.ejs')%>
-  <div class="top_page_block" data-header-backdrop-color="var(--blue)">
-    <script>
-      /*указываем цвет подкладки хедера опираясь на data-header-backdrop-color атрибут первого блока*/
-      (() => {
-        let top_page_block = document.querySelector(".top_page_block"),/*первый контент блок на странице сразу после хедера*/
-          header_backdrop = document.getElementById("header_backdrop");/*элемент #header_backdrop*/
-        header_backdrop.style.backgroundColor = top_page_block.getAttribute("data-header-backdrop-color");
-      })();
-    </script>
-  </div>
-  <%- include('./../components/page-parts/footer/footer.ejs')%>
+<div class="top-page-block" data-header-backdrop-color="var(--blue)">
+  <script>
+    /*указываем цвет подкладки хедера опираясь на data-header-backdrop-color атрибут первого блока*/
+    (() => {
+      let top_page_block = document.querySelector(".top-page-block"),
+        /*первый контент блок на странице сразу после хедера*/
+        header_backdrop = document.getElementById("header-backdrop"); /*элемент #header-backdrop*/
+      header_backdrop.style.backgroundColor = top_page_block.getAttribute("data-header-backdrop-color");
+    })();
+  </script>
+</div>
+<%- include('./../components/page-parts/footer/footer.ejs')%>

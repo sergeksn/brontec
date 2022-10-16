@@ -6,7 +6,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 a[title="Вы тут!"] {
@@ -20,37 +20,34 @@ body {
     min-width: rem(320);
 }
 
+button {
+    cursor: pointer;
+}
+
 .disabled {
     opacity: 0.3;
 }
 
+.plr-0 {
+    padding-right: 0;
+    padding-left: 0;
+}
+
 /*ширина основных блоков не стандартная так что задаём её отлельно от сетки*/
 .standart_container {
-    max-width: 73.75rem;
-    /*1180px*/
+    max-width: rem(1180);
     margin-left: auto;
     margin-right: auto;
-    padding-left: var(--10px);
-    padding-right: var(--10px);
-}
+    padding-left: rem(10);
+    padding-right: rem(10);
 
-@media (min-width: 40em) {
-    .standart_container {
-        padding-left: var(--15px);
-        padding-right: var(--15px);
+    @media (min-width: em(640)) {
+        padding-left: rem(15);
+        padding-right: rem(15);
     }
-}
 
-@media (min-width: 1920px) {
-    .standart_container {
+    @media (min-width: em(1920)) {
         max-width: 61.458vw;
     }
 }
-
 /*ширина основных блоков не стандартная так что задаём её отлельно от сетки*/
-
-/*
-  *
-  ОСНОВНЫЕ СТИЛИ И ПЕРЕМЕННЫЕ
-  *
-  */

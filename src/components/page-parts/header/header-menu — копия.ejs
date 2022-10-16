@@ -1,0 +1,114 @@
+<div class="header_menu_wrapper col-12 plr-0">
+  <div class="visible_header_part">
+    <div class="header_logo">
+      <a href="/">
+        <%- include('./../../blocks/images/images.ejs', {data:{type: "img", url:"~@header-img/logo.svg", pt:16.67,}})%>
+      </a>
+    </div>
+    <div class="header_search_bold_button_wrap">
+      <div class="icon_search_glas_bold">
+        <div class="svg_wrapper">
+          <svg>
+            <use data-href="<?php echo $base_kit_svg_url ?>#icon_search_glas_bold" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="standart_container">
+      <div class="col-10 offset-1 col-1280-12 offset-1280-0 desktop_menu_search">
+        <div class="header_search_button_wrap">
+          <div class="icon_search_glas">
+            <div class="svg_wrapper">
+              <svg>
+                <use data-href="<?php echo $base_kit_svg_url ?>#icon_search_glas" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <nav class="header_menu">
+          <div class="header_menu_item">
+            <a href="#">Выбрать комплект</a>
+          </div>
+          <div class="header_menu_item">
+            <a href="#">Инструкции</a>
+          </div>
+          <div class="header_menu_item">
+            <a href="#">Доставка и оплата</a>
+          </div>
+          <div class="header_menu_item">
+            <a href="#">О нас</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="header_phone_cart_burger_wrap">
+      <div class="header_phone">
+        <a href="tel:+88000000000">8 800 000-00-00</a>
+      </div>
+      <div class="header_cart">
+        <div class="img_cart">
+          <div class="icon_cart">
+            <div class="svg_wrapper">
+              <svg>
+                <use data-href="<?php echo $base_kit_svg_url ?>#icon_cart" />
+              </svg>
+            </div>
+          </div>
+          <div class="icon_cart_mobile">
+            <div class="svg_wrapper">
+              <svg>
+                <use data-href="<?php echo $base_kit_svg_url ?>#icon_cart_mobile" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="amount_product_in_cart">1</div>
+      </div>
+      <div class="header_burger_button_wrap">
+        <div class="header_burger_button">
+          <div class="burger_button_wrap">
+            <div class="burger_button">
+              <div class="burger_line_1"></div>
+              <div class="burger_line_2"></div>
+              <div class="burger_line_3"></div>
+              <div class="burger_line_4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hidden_header_part">
+    <%- include('./header-search')%>
+    <nav class="header_menu_mobile">
+      <div class="header_menu_item">
+        <a href="#">Главная</a>
+      </div>
+      <div class="header_menu_item">
+        <a href="#">Выбрать комплект</a>
+      </div>
+      <div class="header_menu_item">
+        <a href="#">Инструкции</a>
+      </div>
+      <div class="header_menu_item">
+        <a href="#">Доставка и оплата</a>
+      </div>
+      <div class="header_menu_item">
+        <a href="#">О нас</a>
+      </div>
+      <div class="header_menu_item">
+        <a href="#">Корзина</a>
+      </div>
+    </nav>
+    <div class="header_phone_mobile">
+      <div class="icon_phone">
+        <div class="svg_wrapper">
+          <svg>
+            <use data-href="<?php echo $base_kit_svg_url ?>#icon_phone" />
+          </svg>
+        </div>
+      </div>
+      <a href="tel:+88000000000">8 800 000-00-00</a>
+    </div>
+  </div>
+</div>

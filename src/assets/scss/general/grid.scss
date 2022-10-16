@@ -1,3 +1,41 @@
+$breakpoints: 640px, 960px, 1280px; //брейкпоинты
+$colums-count: 12; //количество колонок в сетке
+
+//формирует блоки вида .col-640-1 или .col-1
+@mixin grid-col($point) {
+    @if ($point) {
+        $point: "-#{$point}";
+    } @else {
+        $point: null;
+    }
+
+    @for $i from 1 through $colums-count {
+        $size: calc((100% / $colums-count) * $i);
+
+        .col#{$point}-#{$i} {
+            flex: 0 0 $size;
+            max-width: $size;
+        }
+    }
+}
+
+//формирует блоки вида .offset-640-1 или .offset-1
+@mixin grid-offset($point) {
+    @if ($point) {
+        $point: "-#{$point}";
+    } @else {
+        $point: null;
+    }
+
+    @for $i from 1 through $colums-count {
+        @if ($i < $colums-count) {
+            .offset#{$point}-#{$i} {
+                margin-left: calc((100% / $colums-count) * $i);
+            }
+        }
+    }
+}
+
 [class*="col-"] {
     position: relative;
     width: 100%;
@@ -5,441 +43,16 @@
     padding-right: rem(10);
 }
 
-.plr-0 {
-    padding-right: 0;
-    padding-left: 0;
-}
-
-.col-1 {
-    flex: 0 0 8.333333%;
-    max-width: 8.333333%;
-}
-
-.col-2 {
-    flex: 0 0 16.666667%;
-    max-width: 16.666667%;
-}
-
-.col-3 {
-    flex: 0 0 25%;
-    max-width: 25%;
-}
-
-.col-4 {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-}
-
-.col-5 {
-    flex: 0 0 41.666667%;
-    max-width: 41.666667%;
-}
-
-.col-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-
-.col-7 {
-    flex: 0 0 58.333333%;
-    max-width: 58.333333%;
-}
-
-.col-8 {
-    flex: 0 0 66.666667%;
-    max-width: 66.666667%;
-}
-
-.col-9 {
-    flex: 0 0 75%;
-    max-width: 75%;
-}
-
-.col-10 {
-    flex: 0 0 83.333333%;
-    max-width: 83.333333%;
-}
-
-.col-11 {
-    flex: 0 0 91.666667%;
-    max-width: 91.666667%;
-}
-
-.col-12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-}
-
-.offset-1 {
-    margin-left: 8.333333%;
-}
-
-.offset-2 {
-    margin-left: 16.666667%;
-}
-
-.offset-3 {
-    margin-left: 25%;
-}
-
-.offset-4 {
-    margin-left: 33.333333%;
-}
-
-.offset-5 {
-    margin-left: 41.666667%;
-}
-
-.offset-6 {
-    margin-left: 50%;
-}
-
-.offset-7 {
-    margin-left: 58.333333%;
-}
-
-.offset-8 {
-    margin-left: 66.666667%;
-}
-
-.offset-9 {
-    margin-left: 75%;
-}
-
-.offset-10 {
-    margin-left: 83.333333%;
-}
-
-.offset-11 {
-    margin-left: 91.666667%;
-}
-
-@media (min-width: em(640)) {
-    .col-640-1 {
-        flex: 0 0 8.333333%;
-        max-width: 8.333333%;
-    }
-
-    .col-640-2 {
-        flex: 0 0 16.666667%;
-        max-width: 16.666667%;
-    }
-
-    .col-640-3 {
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-
-    .col-640-4 {
-        flex: 0 0 33.333333%;
-        max-width: 33.333333%;
-    }
-
-    .col-640-5 {
-        flex: 0 0 41.666667%;
-        max-width: 41.666667%;
-    }
-
-    .col-640-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-
-    .col-640-7 {
-        flex: 0 0 58.333333%;
-        max-width: 58.333333%;
-    }
-
-    .col-640-8 {
-        flex: 0 0 66.666667%;
-        max-width: 66.666667%;
-    }
-
-    .col-640-9 {
-        flex: 0 0 75%;
-        max-width: 75%;
-    }
-
-    .col-640-10 {
-        flex: 0 0 83.333333%;
-        max-width: 83.333333%;
-    }
-
-    .col-640-11 {
-        flex: 0 0 91.666667%;
-        max-width: 91.666667%;
-    }
-
-    .col-640-12 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-
-    .offset-640-0 {
-        margin-left: 0;
-    }
-
-    .offset-640-1 {
-        margin-left: 8.333333%;
-    }
-
-    .offset-640-2 {
-        margin-left: 16.666667%;
-    }
-
-    .offset-640-3 {
-        margin-left: 25%;
-    }
-
-    .offset-640-4 {
-        margin-left: 33.333333%;
-    }
-
-    .offset-640-5 {
-        margin-left: 41.666667%;
-    }
-
-    .offset-640-6 {
-        margin-left: 50%;
-    }
-
-    .offset-640-7 {
-        margin-left: 58.333333%;
-    }
-
-    .offset-640-8 {
-        margin-left: 66.666667%;
-    }
-
-    .offset-640-9 {
-        margin-left: 75%;
-    }
-
-    .offset-640-10 {
-        margin-left: 83.333333%;
-    }
-
-    .offset-640-11 {
-        margin-left: 91.666667%;
-    }
-}
-
-@media (min-width: em(960)) {
-    .col-960-1 {
-        flex: 0 0 8.333333%;
-        max-width: 8.333333%;
-    }
-
-    .col-960-2 {
-        flex: 0 0 16.666667%;
-        max-width: 16.666667%;
-    }
-
-    .col-960-3 {
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-
-    .col-960-4 {
-        flex: 0 0 33.333333%;
-        max-width: 33.333333%;
-    }
-
-    .col-960-5 {
-        flex: 0 0 41.666667%;
-        max-width: 41.666667%;
-    }
-
-    .col-960-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-
-    .col-960-7 {
-        flex: 0 0 58.333333%;
-        max-width: 58.333333%;
-    }
-
-    .col-960-8 {
-        flex: 0 0 66.666667%;
-        max-width: 66.666667%;
-    }
-
-    .col-960-9 {
-        flex: 0 0 75%;
-        max-width: 75%;
-    }
-
-    .col-960-10 {
-        flex: 0 0 83.333333%;
-        max-width: 83.333333%;
-    }
-
-    .col-960-11 {
-        flex: 0 0 91.666667%;
-        max-width: 91.666667%;
-    }
-
-    .col-960-12 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-
-    .offset-960-0 {
-        margin-left: 0;
-    }
-
-    .offset-960-1 {
-        margin-left: 8.333333%;
-    }
-
-    .offset-960-2 {
-        margin-left: 16.666667%;
-    }
-
-    .offset-960-3 {
-        margin-left: 25%;
-    }
-
-    .offset-960-4 {
-        margin-left: 33.333333%;
-    }
-
-    .offset-960-5 {
-        margin-left: 41.666667%;
-    }
-
-    .offset-960-6 {
-        margin-left: 50%;
-    }
-
-    .offset-960-7 {
-        margin-left: 58.333333%;
-    }
-
-    .offset-960-8 {
-        margin-left: 66.666667%;
-    }
-
-    .offset-960-9 {
-        margin-left: 75%;
-    }
-
-    .offset-960-10 {
-        margin-left: 83.333333%;
-    }
-
-    .offset-960-11 {
-        margin-left: 91.666667%;
-    }
-}
-
-@media (min-width: em(1280)) {
-    .col-1280-1 {
-        flex: 0 0 8.333333%;
-        max-width: 8.333333%;
-    }
-
-    .col-1280-2 {
-        flex: 0 0 16.666667%;
-        max-width: 16.666667%;
-    }
-
-    .col-1280-3 {
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-
-    .col-1280-4 {
-        flex: 0 0 33.333333%;
-        max-width: 33.333333%;
-    }
-
-    .col-1280-5 {
-        flex: 0 0 41.666667%;
-        max-width: 41.666667%;
-    }
-
-    .col-1280-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-
-    .col-1280-7 {
-        flex: 0 0 58.333333%;
-        max-width: 58.333333%;
-    }
-
-    .col-1280-8 {
-        flex: 0 0 66.666667%;
-        max-width: 66.666667%;
-    }
-
-    .col-1280-9 {
-        flex: 0 0 75%;
-        max-width: 75%;
-    }
-
-    .col-1280-10 {
-        flex: 0 0 83.333333%;
-        max-width: 83.333333%;
-    }
-
-    .col-1280-11 {
-        flex: 0 0 91.666667%;
-        max-width: 91.666667%;
-    }
-
-    .col-1280-12 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-
-    .offset-1280-0 {
-        margin-left: 0;
-    }
-
-    .offset-1280-1 {
-        margin-left: 8.333333%;
-    }
-
-    .offset-1280-2 {
-        margin-left: 16.666667%;
-    }
-
-    .offset-1280-3 {
-        margin-left: 25%;
-    }
-
-    .offset-1280-4 {
-        margin-left: 33.333333%;
-    }
-
-    .offset-1280-5 {
-        margin-left: 41.666667%;
-    }
-
-    .offset-1280-6 {
-        margin-left: 50%;
-    }
-
-    .offset-1280-7 {
-        margin-left: 58.333333%;
-    }
-
-    .offset-1280-8 {
-        margin-left: 66.666667%;
-    }
-
-    .offset-1280-9 {
-        margin-left: 75%;
-    }
-
-    .offset-1280-10 {
-        margin-left: 83.333333%;
-    }
-
-    .offset-1280-11 {
-        margin-left: 91.666667%;
+//формирует блоки вида .col-1 и .offset-1
+@include grid-col(null);
+@include grid-offset(null);
+
+//формирует блоки вида .col-640-1 и .offset-640-1
+@each $point in $breakpoints {
+    @media (min-width: em($point)) {
+        $point: #{str-replace($point, "px")};
+
+        @include grid-col($point);
+        @include grid-offset($point);
     }
 }

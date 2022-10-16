@@ -37,7 +37,7 @@ export default new (class {
             callback: this.click_header_search_button_wrap_or_burger_button.bind(this),
         }); //клик по кнопке поиска в меню или по кнопке бургер меню
 
-        $("#header_overlay").on({
+        $("#header-overlay").on({
             events: "click tochend",
             callback: this.click_header_overlay.bind(this),
         }); //скрываем окно поиска по клику на полупрозрачную подложку

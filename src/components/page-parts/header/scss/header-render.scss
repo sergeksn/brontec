@@ -1,3 +1,6 @@
+@import "./header-poster-render.scss";
+@import "./header-menu-render.scss";
+@import "./header-toggle-block-render.scss";
 @import "./header-search-render.scss";
 /*
 *
@@ -14,7 +17,7 @@ header {
   background-color: var(--white);
 }
 
-#header_overlay {
+#header-overlay {
   position: fixed;
   display: none;
   top: 0;

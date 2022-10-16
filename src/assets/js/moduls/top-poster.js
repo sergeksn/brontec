@@ -162,7 +162,7 @@ GDS.header.top_baner = {
                 if ((GDS.header.toggle_block.status === "open" && GDS.header.toggle_block.size === "full") || GDS.header.search.status === "open") await GDS.scrollbar.search_neaded_object(this.header).scroll_slider.animate({ "top": "+=" + baner_height + "px" }, GDS.anim_time, GDS.anim_tf); //если скрытый блок открыт и его размер на всю высоту окна или открыто окно с результатами поиска то мы должны синхронно опускать ползунок срола на высоту банера чтоб он не скрылся за верхом экрана
             })(),
             this.header.animate({ "top": "-" + baner_height + "px" }, GDS.anim_time, GDS.anim_tf), //поднимаем хедер чтоб скрыть банер за пределами видимой части экрана
-            $("#header_backdrop").animate({ "height": header_backdrop_height + "px" }, GDS.anim_time, GDS.anim_tf), //плавно поднимаем подложку хедера и после того как анимация закончится вызываем колбек
+            $("#header-backdrop").animate({ "height": header_backdrop_height + "px" }, GDS.anim_time, GDS.anim_tf), //плавно поднимаем подложку хедера и после того как анимация закончится вызываем колбек
             this.cart.animate({ "height": "+=" + baner_height + "px" }, GDS.anim_time, GDS.anim_tf) //увеличиываем высоту корзины на высоту банера чтоб она заняла всё освободившееся по вертикали место
         ]);
         //поднимаем хедер и уменщаем высоту его подложки
