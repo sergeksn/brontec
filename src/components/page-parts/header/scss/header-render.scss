@@ -168,7 +168,7 @@ header {
 
 
 /*оболочка меню и картинки поска для пк*/
-.header_menu_wrapper>.visible_header_part>.standart_container {
+.header_menu_wrapper>.visible_header_part>.standart-container {
   margin: 0;
   margin-left: auto;
   display: flex;
@@ -184,7 +184,7 @@ header {
 }
 
 @media (max-width: 79.9375em) {
-  .header_menu_wrapper>.visible_header_part>.standart_container {
+  .header_menu_wrapper>.visible_header_part>.standart-container {
       width: 100%;
       margin: 0 auto;
       order: 1;
@@ -194,7 +194,7 @@ header {
 }
 
 @media (max-width: 39.9375em) {
-  .header_menu_wrapper>.visible_header_part>.standart_container {
+  .header_menu_wrapper>.visible_header_part>.standart-container {
       display: none;
   }
 }

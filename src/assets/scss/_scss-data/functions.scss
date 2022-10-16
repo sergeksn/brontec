@@ -44,7 +44,7 @@
 //$max_value - максимальное значение, т.е. значение выше которого нельзя подниматься, если оно будет не задано то будет использованно значение пропорциональне $min_value для текущей ширины экрана
 //$wax_win_width - итоговая ширина на котрой заканчивается увеличение $min_value и оно становиться равным $max_value
 //--wwr - это ширина окна браузера в данный момент в rem
-@function adaptiv_size($min_value, $min_win_width, $max_value: false, $wax_win_width: false) {
+@function adaptiv_rem_size($min_value, $min_win_width, $max_value: false, $wax_win_width: false) {
     @if $wax_win_width == false {
         $wax_win_width: 99999;
     }

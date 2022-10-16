@@ -54,17 +54,17 @@ import "@header-main-js";
 //@dinamic node import fils
 
 
-// console.log(document.getElementsByClassName("standart_container")._siblings("div"));
+// console.log(document.getElementsByClassName("standart-container")._siblings("div"));
 
-// console.log(document.querySelectorAll(".standart_container")._siblings("div"));
+// console.log(document.querySelectorAll(".standart-container")._siblings("div"));
 
-// console.log(document.querySelectorAll("main")._childs("div.standart_container"))
+// console.log(document.querySelectorAll("main")._childs("div.standart-container"))
 
-// console.log(document.getElementsByTagName("main")._childs("div.standart_container"))
+// console.log(document.getElementsByTagName("main")._childs("div.standart-container"))
 
-// console.log(document.querySelectorAll("body")._find(".standart_container, div.test_item:not(.opa)"))
+// console.log(document.querySelectorAll("body")._find(".standart-container, div.test_item:not(.opa)"))
 
-// console.log(document.querySelectorAll(".standart_container")._parent("footer, .hidden_header_part"));
+// console.log(document.querySelectorAll(".standart-container")._parent("footer, .hidden_header_part"));
 
 // console.log(document.querySelectorAll("div.img_wrapper")._parents("a, .header_logo, div.footer_item, main"));
 

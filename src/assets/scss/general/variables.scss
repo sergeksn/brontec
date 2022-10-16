@@ -44,23 +44,27 @@
     --standart-anim: 0.5s ease-in-out;
     --b-radius: #{rem(10)};
 
+    //bottons size
+    --btn-width: #{rem(50)};
+    --btn-height: #{rem(50)};
+
     @media (min-width: em(960)) {
         $start_w: 960; //начальное значение ширины
         $final_w: 1919; //конечное значение ширины
 
         /*отступы между блоками*/
-        --big: #{adaptiv_size(100, $start_w, 200, $final_w)};
-        --medium: #{adaptiv_size(40, $start_w, 80, $final_w)};
-        --little: #{adaptiv_size(20, $start_w, 40, $final_w)};
+        --big: #{adaptiv_rem_size(100, $start_w, 200, $final_w)};
+        --medium: #{adaptiv_rem_size(40, $start_w, 80, $final_w)};
+        --little: #{adaptiv_rem_size(20, $start_w, 40, $final_w)};
         /*отступы между блоками*/
 
         /*шрифты*/
 
-        --h1: var(--font-bold) #{adaptiv_size(25, $start_w, 50, $final_w)} / #{adaptiv_size(30, $start_w, 60, $final_w)} var(--font-family);
-        --h2: var(--font-bold) #{adaptiv_size(22, $start_w, 32, $final_w)} / #{adaptiv_size(30, $start_w, 40, $final_w)} var(--font-family);
-        --h3: var(--font-normal) #{adaptiv_size(18, $start_w, 24, $final_w)} / #{adaptiv_size(25, $start_w, 30, $final_w)} var(--font-family);
-        --default: var(--font-normal) #{adaptiv_size(15, $start_w, 17, $final_w)} / #{adaptiv_size(20, $start_w, 25, $final_w)} var(--font-family);
-        --small: var(--font-normal) #{adaptiv_size(13, $start_w, 14, $final_w)} / #{rem(20)} var(--font-family);
+        --h1: var(--font-bold) #{adaptiv_rem_size(25, $start_w, 50, $final_w)} / #{adaptiv_rem_size(30, $start_w, 60, $final_w)} var(--font-family);
+        --h2: var(--font-bold) #{adaptiv_rem_size(22, $start_w, 32, $final_w)} / #{adaptiv_rem_size(30, $start_w, 40, $final_w)} var(--font-family);
+        --h3: var(--font-normal) #{adaptiv_rem_size(18, $start_w, 24, $final_w)} / #{adaptiv_rem_size(25, $start_w, 30, $final_w)} var(--font-family);
+        --default: var(--font-normal) #{adaptiv_rem_size(15, $start_w, 17, $final_w)} / #{adaptiv_rem_size(20, $start_w, 25, $final_w)} var(--font-family);
+        --small: var(--font-normal) #{adaptiv_rem_size(13, $start_w, 14, $final_w)} / #{rem(20)} var(--font-family);
         /*шрифты*/
     }
 
@@ -68,17 +72,17 @@
         $start_w: 1920; //начальное значение ширины
 
         /*шрифты*/
-        --h1: var(--font-bold) #{adaptiv_size(50, $start_w)} / #{adaptiv_size(60, $start_w)} var(--font-family);
-        --h2: var(--font-bold) #{adaptiv_size(32, $start_w)} / #{adaptiv_size(40, $start_w)} var(--font-family);
-        --h3: var(--font-normal) #{adaptiv_size(24, $start_w)} / #{adaptiv_size(30, $start_w)} var(--font-family);
-        --default: var(--font-normal) #{adaptiv_size(17, $start_w)} / #{adaptiv_size(25, $start_w)} var(--font-family);
-        --small: var(--font-normal) #{adaptiv_size(14, $start_w)} / #{adaptiv_size(20, $start_w)} var(--font-family);
+        --h1: var(--font-bold) #{adaptiv_rem_size(50, $start_w)} / #{adaptiv_rem_size(60, $start_w)} var(--font-family);
+        --h2: var(--font-bold) #{adaptiv_rem_size(32, $start_w)} / #{adaptiv_rem_size(40, $start_w)} var(--font-family);
+        --h3: var(--font-normal) #{adaptiv_rem_size(24, $start_w)} / #{adaptiv_rem_size(30, $start_w)} var(--font-family);
+        --default: var(--font-normal) #{adaptiv_rem_size(17, $start_w)} / #{adaptiv_rem_size(25, $start_w)} var(--font-family);
+        --small: var(--font-normal) #{adaptiv_rem_size(14, $start_w)} / #{adaptiv_rem_size(20, $start_w)} var(--font-family);
         /*шрифты*/
 
         /*отступы между блоками*/
-        --big: #{adaptiv_size(200, $start_w)};
-        --medium: #{adaptiv_size(80, $start_w)};
-        --little: #{adaptiv_size(40, $start_w)};
+        --big: #{adaptiv_rem_size(200, $start_w)};
+        --medium: #{adaptiv_rem_size(80, $start_w)};
+        --little: #{adaptiv_rem_size(40, $start_w)};
         /*отступы между блоками*/
     }
 }
