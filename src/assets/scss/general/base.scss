@@ -1,3 +1,19 @@
+// /* смартфоны, устройства с сенсорным экраном, с которым работают пальцами */
+// @media (hover: none) and (pointer: coarse) {
+//     /* ... */
+// }
+// /* устройства с сенсорным экраном, с которым работают стилусом */
+// @media (hover: none) and (pointer: fine) {
+//     /* ... */
+// }
+// /* контроллер Nintendo Wii, Microsoft Kinect */
+// @media (hover: hover) and (pointer: coarse) {
+//     /* ... */
+// }
+// /* мышь, тачпад */
+// @media (hover: hover) and (pointer: fine) {
+//     /* ... */
+// }
 @font-face {
     font-family: Manrope;
     src: url(@fonts/manrope.woff2) format("woff2"), url(@fonts/manrope.woff) format("woff");

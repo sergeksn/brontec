@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin"); //плагин соз�
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); //плагин собирает css в один файл для дальнейшего подключаения
 //ПРИМЕЧАНИЕ: будет создавать новый css файл на каждый файл точки входа
 const HtmlWebpackSkipAssetsPlugin = require("html-webpack-skip-assets-plugin").HtmlWebpackSkipAssetsPlugin; //исключит excludeAssets в HtmlWebpackPlugin
-//const Copy_Webpack_Plagin = require("copy-webpack-plugin"); //плагин позволит копировать файлы из одной поки в другуюnpx jsconfig.json /configs
+const Copy_Webpack_Plagin = require("copy-webpack-plugin"); //плагин позволит копировать файлы из одной поки в другуюnpx jsconfig.json /configs
 const Alias = require("alias-jsconfig-webpack-plugin"); //создаст файл jsconfig.json для поддержки алиасов в js файлах дял vscode
 
 const ENTRY_PATH = path.resolve(__dirname, "../src"); //путь к папке с исходниками
@@ -70,6 +70,12 @@ function Get_Pages() {
     return pages;
 }
 
+const JUST_COPY_FILS = {
+    patterns: [
+        { from: `${ENTRY_PATH.replace(/\\/g, "/")}/add-style/*`, to: `${OUTPUT_PATH.replace(/\\/g, "/")}/add-style/[name][ext]` },
+    ],
+};
+
 function Get_Plagins() {
     let plagins = [
         new Alias({
@@ -77,7 +83,7 @@ function Get_Plagins() {
             jsx: true, // default to true,
             indentation: 4, // default to 4, the indentation of jsconfig.json file
         }),
-        //new Copy_Webpack_Plagin(JUST_COPY_FILS),//скопирует файлы в сборку
+        new Copy_Webpack_Plagin(JUST_COPY_FILS), //скопирует файлы в сборку
         ...Get_Pages().map(
             page =>
                 new HtmlWebpackPlugin({
@@ -111,7 +117,6 @@ function Componets_Assets_Chenge_Output_Path(asset_object, type) {
 
     return result;
 }
-
 
 function Get_Rules() {
     let rules = [
@@ -165,7 +170,7 @@ function Get_Rules() {
                                       plugins: [
                                           require("autoprefixer"), //добавляет префиксы на основе браузер листа
                                           require("cssnano"), //максимально минифицирует код
-                                          require('postcss-inset'),//полифил для inset
+                                          require("postcss-inset"), //полифил для inset
                                       ],
                                   },
                               },

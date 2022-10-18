@@ -141,7 +141,7 @@ import { custom_events_list } from "./custom-events.js";
     function toggle_listener_events_func(elem, events, callback, options_event, custom_settings, action) {
         let events_list = events.split(" "); //преобрзуем строковый список в масив
 
-        options_event = Object.assign({}, { passive: true }, options_event); //объединяем параметры пользователя с параметрами по умолчанию
+        options_event = Object.assign({ passive: true }, options_event); //объединяем параметры пользователя с параметрами по умолчанию
 
         events_list.forEach(event => {
             //если событие кастомное

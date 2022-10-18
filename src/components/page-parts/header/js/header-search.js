@@ -1,7 +1,7 @@
 import { Header } from "./header-main";
 import { wait, request_to_server } from "@js-libs/func-kit";
 import { set_cookie, get_cookie, delete_cookie } from "@js-libs/cookie";
-import Header_Toggle_Block from "./header-toggle-block";
+import Header_Toggle_Block from "./header-hidden";
 //import Small_Product_Previv_Block from "./small_product_previv_block.js";
 import { Img_Loader } from "@js-moduls/media";
 import anime from "@js-libs/anime";

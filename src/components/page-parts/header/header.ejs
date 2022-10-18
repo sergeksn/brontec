@@ -16,7 +16,11 @@
     (() => {
       /*скрипт создаёт и обновляет при ресайзе css переменный для высоты и ширины экрна в rem*/
       let head = document.getElementsByTagName("head")[0],
-        style_el = document.createElement("style");
+        style_el = document.createElement("style"),
+        dfs = window.getComputedStyle(document.getElementsByTagName("html")[0]).fontSize.replace("px", "");
+        /*обязательно нужно получить размешь штифта по умолчанию, т.к. в противном случае если просто делить на 16 
+        переменная --wwr будет не корректной и все блоки будут ехать, конечно если пользователь поменяет размер шрифта находясь на сайте, 
+        изменения не вступят в силу до перезагрузки страницы*/
       /*--wwr = --win-width-rem
       --whr = --win-heigth-rem*/
       function set_css_vars() {
@@ -24,8 +28,8 @@
           h = document.documentElement.clientHeight;
         style_el.innerHTML = "";
         style_el.innerHTML = `:root{
-        --wwr: ${w / 16}rem;
-        --whr: ${h / 16}rem;
+        --wwr: ${w / dfs}rem;
+        --whr: ${h / dfs}rem;
       }`;
         /*
           --win-width-px: ${w}px;
@@ -37,14 +41,102 @@
       window.addEventListener("resize", set_css_vars);
     })();
   </script>
+  <script>
+    /*функция загружает нужные стили для текущего разрешения экрана, а после полной загрузки подгружает те что пока что не нужны*/
+    // (() => {
+    //   let liks_list = [{
+    //         media_query: "(min-width: 40em)",
+    //         href: "../add-style/min-640em.css",
+    //         loaded: false
+    //       },
+    //       {
+    //         media_query: "(min-width: 40em) and (max-width:59.9375em)",
+    //         href: "../add-style/min-640em-max-959em.css",
+    //         loaded: false
+    //       },
+    //       {
+    //         media_query: "(min-width: 60em)",
+    //         href: "../add-style/min-960em.css",
+    //         loaded: false
+    //       },
+    //       {
+    //         media_query: "(min-width: 120em)",
+    //         href: "../add-style/min-1920em.css",
+    //         loaded: false
+    //       }
+    //     ],
+    //     head = document.getElementsByTagName("head")[0];
+
+
+    //   /*instens - объект для данной ссылки с её параметрами*/
+    //   function add_style_link(instens, check_media = true) {
+    //     let al = () => {
+    //       let link = document.createElement("link");
+
+    //       link.setAttribute("crossorigin", "");
+    //       link.rel = "stylesheet";
+    //       link.type = "text/css";
+    //       link.href = instens.href;
+    //       link.media = instens.media_query;
+    //       head.append(link);
+    //       instens.loaded = true;
+    //       console.log("load "+instens.href);
+    //     };
+
+    //     if (!check_media || window.matchMedia(instens.media_query).matches) al();/*если не нужно проверять медиа или если удовлетворяет медиаусловию*/
+    //   };
+
+    //   /*check_media - если false то ресурсы будут загружены не смотря на медиазапросы*/
+    //   function add_links_in_head(check_media = true) {
+    //     liks_list.forEach(item => {
+    //       if (item.loaded) return; /*если уже загружена то пропускаем*/
+    //       add_style_link(item, check_media);
+    //     });
+    //   };
+    //   add_links_in_head();
+
+    //   window.addEventListener("resize", add_links_in_head); /*подгружаем нужные стили при ресайзе*/
+
+    //   window.addEventListener("load", () => {
+    //     /*после того как полностью всё загружено можно подгрузить оставшиеся стили на всякий случай и убрать загрзку стилей при ресайзе*/
+    //     window.removeEventListener("resize", add_links_in_head);
+    //     add_links_in_head(false);
+    //   });
+    // })();
+  </script>
 </head>
+
+<script>
+  // setInterval(()=>{
+  //   if(!!document){
+  //     console.log("!!document");
+  //   }
+
+  //   if(document.hidden){
+  //     console.log("document.hidden");
+  //   }
+  // }, 250);
+  // let i = 0;
+  // setInterval(() => {
+  //   console.log(i);
+  //   i++;
+  // }, 100);
+  // document.addEventListener("visibilitychange", () => {
+  //   if (document.visibilityState === 'visible') {
+  //     console.log("Видна")
+  //   } else {
+  //     console.log("Скрыта")
+  //   }
+  // });
+</script>
 
 <body class="custom-scrollbar">
   <header class="custom-scrollbar">
     <%- include('./header-poster')%>
-    <%- include('./header-menu')%>
+    <%- include('./header-visible')%>
+    <%- include('./header-hidden')%>
   </header>
-  <div id="header-backdrop"></div>
+  <div id="header-background"></div>
   <div id="header-overlay"></div>
   <script>
     /*нужно чтоб в момент загрузки страницы меню занимало нужную позицию и не прыгало относитель но контента*/
@@ -52,10 +144,10 @@
     (() => {
       let header = document.getElementsByTagName("header")[0],
         /*элемент header*/
-        header_backdrop = document.getElementById("header-backdrop"),
-        /*элемент #header-backdrop*/
+        header_background = document.getElementById("header-background"),
+        /*элемент #header-background*/
         header_height = window.getComputedStyle(header).height; /*высота хедера числом*/
-      header_backdrop.style.height = header_height; /*задаём высоту подложки хедера*/
+      header_background.style.height = header_height; /*задаём высоту подложки хедера*/
     })()
   </script>
-  <main style="position: relative; height: 1400px;background-color: green; overflow-y: hidden;">
+  <main style="position: relative; height: 1400px; background-color: green; overflow-y: hidden;">

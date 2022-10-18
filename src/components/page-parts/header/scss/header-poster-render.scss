@@ -1,7 +1,8 @@
 .header-poster {
-    z-index: 10;
-    background-color: var(--white);
+    width: 100%;
     position: relative;
+    background-color: var(--white);
+    //z-index: 10;
 
     &__item--mobile {
         @media (min-width: rem(640)) {
@@ -12,8 +13,12 @@
     &__item--tablet {
         display: none;
 
-        @media (min-width: rem(640)) and (max-width: rem(959)) {
+        @media (min-width: rem(640)) {
             display: block;
+        }
+
+        @media (min-width: rem(960)) {
+            display: none;
         }
     }
 

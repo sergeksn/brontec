@@ -2,70 +2,86 @@
 //ВАЖНО: возвращает Promise !!!
 //check_value - функция, результат выполнение которой будет сравниватьтся с data_fo_wait дучше писать на нативном js чтоб быстрее выполнялась
 //data_fo_wait - данные которые мы хотим дождаться от функции check_value
-//track - индентификатор который позволяет понять что отслеживаемые свойства связанны так что если отслеживается изменение одного то отслеживание изменения всех прочтих нужно прервать
-//abort_trigger - функция которя выпоянется на каждом цыкле проверок если она задана и проверяет нужно ли делать проверки дальше или что-то поменялось и нужно прервать эти циклы поверок. Проверки будут преваны если abort_trigger вернёт при выполнении true
+//track - объект отслеживания однинаковых треков
+//track.value - индентификатор который позволяет понять что отслеживаемые свойства связанны так что если отслеживается изменение одного то отслеживание изменения всех прочтих нужно прервать
+//track.status - указывает как в случае данного срабатывания завершать промис
+//abort_trigger - объект прерывания
+//abort_trigger.value - функция которя выпоянется на каждом цыкле проверок если она задана и проверяет нужно ли делать проверки дальше или что-то поменялось и нужно прервать эти циклы поверок. Проверки будут преваны если abort_trigger вернёт при выполнении true
 //ПРИМЕЧАНИЕ: abort_trigger используется именно в качестве функции так как сслыаться на меняющееся свойство объекта мы не можем т.к. в аргументах функции будет просто использован примитив этого значения которые не будет менятся синхронно со свойством объекта
-//max_time_length - максимальное время в секундах которое будет выполняться проверка
-//interval - интервал в миллисекундах через котороый будет производиться проверка
-/*пример использования
-async function() {
-    делаем что-то
-    await bf.wait(() => el.css("height"), "20px"); ждём пока () => el.css("height") не вернёт нам "20px"
-    делаем что-то
-    await bf.wait(() => item.css("top"), "0px", ()=> GDS.test.aborted); ждём пока () => item.css("top") не вернёт нам "0px"
-    делаем что-то, или ()=> GDS.test.aborted вернёт true и тогда функция будет прервана досрочно
-}*/
-const wait_timers = {};
+//abort_trigger.status - указывает как в случае данного срабатывания завершать промис
+const wait_data = {};
 
-function wait(check_value, data_fo_wait, track = null, abort_trigger = null, max_time_length = 10, interval = 10) {
+function wait(check_value, data_fo_wait, track = {}, abort_trigger = {}) {
+    //объединяем параметры по умолчанию с параметрами пользователя
+    track = Object.assign({ status: "reject" }, track);
+    abort_trigger = Object.assign({ status: "reject" }, abort_trigger);
+
     //возвращаем промис с результатами ожидания
     return new Promise((resolve, reject) => {
-        if (typeof check_value !== "function") return reject("check_value MUST BE A FUNCTION"); //если check_value не функция
+        let primission = true, //указывает разрешена ли следующая проверка сравнения на следующей перерисовке кадра
+            promis_id = performance.now(); //используем текущую метку времени для индентификации текущего промиса
 
-        let time_start = new Date().getTime(), //время старата в миллисекундах
-            time_length = max_time_length * 1000, //время на выполнение в миллисекундах
-            stop_time = time_start + time_length; //время на котором выполнение таймера будет прервано
+        if (track.value) wait_data[track.value] = promis_id; //если задан трек отслеживания то записываем
 
-        if (track) clearInterval(this.wait_timers[track]); //если задан track то сначало удаляем циклическую функцию по его id
+        //функция сравнивает значения и выполянет другие проверки, вызывается на каждом кадре перерисовки циклически пока промис не завершится
+        function check() {
+            if (track.value && wait_data[track.value] !== promis_id) {
+                rem_lisener(); //удаляем слушатель для функции проверяющей виден документ или нет
+                return track.status === "resolve" ? resolve("ABORT track") : reject("ABORT track");
+            } //если задан трек то мы провеяем соответствует ли текущий id промиса идентификатору записанному в объекте wait_data для данного трека, если не соответствует, значит был вызван другой wait который создал новый промис, а этот следовательно нужно отлонить или принять в зависимости от переданных параметров
 
-        //создаём циклическую проверку соответствия check_value с data_fo_wait
-        let timer_id = setInterval(() => {
-            if (typeof abort_trigger === "function") {
-                if (abort_trigger()) return reject("ABORT"); //если abort_trigger вернёт true прерываем функцию
-            }
-
-            if (track) this.wait_timers[track] = timer_id; //если задан track записываем id этого цикла
+            if (typeof abort_trigger.value === "function" && !abort_trigger.value()) {
+                rem_lisener(); //удаляем слушатель для функции проверяющей виден документ или нет
+                return abort_trigger.status === "resolve" ? resolve("ABORT") : reject("ABORT");
+            } //если передана функция для прерывания то мы выполянем её и в момент когда она вернёт true завершаем промис отклонением или принятие в зависимости от параметров, по умолчанию отклонением
 
             if (check_value() === data_fo_wait) {
-                if (track) delete this.wait_timers[track]; //если задан track то после завершения отслеживания удаляем из списка его id
-                clearInterval(timer_id);
-                return resolve(); //заверщаем функцию чтоб не было дальнейших проверок
+                rem_lisener(); //удаляем слушатель для функции проверяющей виден документ или нет
+                return resolve(); //успешно заверашем промис когда сравнение вернуло положительный результат
             }
 
-            if (new Date().getTime() >= stop_time) {
-                if (track) delete this.wait_timers[track]; //если задан track то после завершения отслеживания удаляем из списка его id
-                clearInterval(timer_id);
-                return reject("TIMEOUT");
+            if (primission) requestAnimationFrame(check); //если на этом кадре сравнение не верно то запускаем проверку уже на следующем кадре
+        }
+        //функция сравнивает значения и выполянет другие проверки, вызывается на каждом кадре перерисовки циклически пока промис не завершится
+
+        //запускает/останавливает перерисовку кадров на время пока документ не активен
+        function document_visibilitychange_pause_wait() {
+            if (document.visibilityState === "visible") {
+                //страница видна пользователю
+                requestAnimationFrame(check); //запускаем проверку на следующем кадре т.к. мы её остановили
+                primission = true; //разрешаем сравнение на дальнейших кадрах
+            } else {
+                //пользователь свернул браузер или сменил вкладку
+                primission = false; //запрещаем сравнение на дальнейших кадрах
             }
-        }, interval);
-        //создаём циклическую проверку соответствия check_value с data_fo_wait
+        }
+        //запускает/останавливает перерисовку кадров на время пока документ не активен
+
+        //удаляет слушатели на visibilitychange после завершения промиса, т.к. прослушивать эти функции нам больше не нужно
+        function rem_lisener() {
+            document.removeEventListener("visibilitychange", document_visibilitychange_pause_wait);
+        }
+        //удаляет слушатели на visibilitychange после завершения промиса, т.к. прослушивать эти функции нам больше не нужно
+
+        document.addEventListener("visibilitychange", document_visibilitychange_pause_wait); //привязываем слушатель к событию изменения видимости докмента
+
+        requestAnimationFrame(check); //в самом начале запускаем проверку на следующем кадре перерисовки
     });
     //возвращаем промис с результатами ожидания
 }
 //функция сравнивет данные из check_value с data_fo_wait и когда они будут равными завершит функцию
 
-
-
 function request_to_server({ data_to_send, error_dop_html = null }) {
     return new Promise(async (resolve, reject) => {
         let error, //сюда будет записана ошибка если появится
-            response = await fetch('/ajax.php', { //запрос на сервер
-                method: 'POST',
+            response = await fetch("/ajax.php", {
+                //запрос на сервер
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
+                    "Content-Type": "application/json;charset=utf-8",
                 },
-                body: JSON.stringify(data_to_send)
-            }).catch(() => error = `<div class="search_fail">Проблемы с доступом к серверу, проверьте подключение к сети или перезагрузите страницу. Если это не поможет подождите некоторое время вероятнее всего мы уже работаем над устранение проблемы!</div>${error_dop_html}`);
+                body: JSON.stringify(data_to_send),
+            }).catch(() => (error = `<div class="search_fail">Проблемы с доступом к серверу, проверьте подключение к сети или перезагрузите страницу. Если это не поможет подождите некоторое время вероятнее всего мы уже работаем над устранение проблемы!</div>${error_dop_html}`));
 
         if (error) return reject(error); //если во время запроса возникла критическая ошибка например сайт недоступен или у пользователя пропал интернет то мы выводим ошибку
 
