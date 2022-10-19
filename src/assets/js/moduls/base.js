@@ -40,6 +40,7 @@ new (class {
             value: document.getElementsByTagName('html')[0].scrollTop, //отсуп от верха страницы
             dir: 'bottom', //начально направление скрола
             time: 500, //время для анимации прокрутки в мс
+            anim_tf: 'linear',
             min_distans: Math.round(GDS.win_height * 0.7) > 500 ? Math.round(GDS.win_height * 0.7) : 500, //если 75% высоты экрана больше чем 500 то используем их как минимальную дистанцию скрола, иначеи используем 500
         };
 
@@ -94,7 +95,7 @@ new (class {
                 document.querySelector('.header_burger_button_wrap'),
                 document.querySelector('.top_banner_wrap .close_banner_wrap'),
                 document.querySelector('.header_cart .img_cart'),
-                document.querySelector('.scroll_to_top_button'),
+                document.querySelector('.scroll-to-top-button'),
             ],
             lock: function () {
                 //блокирует все интерактывные элемеры на сайте

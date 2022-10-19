@@ -1,72 +1,90 @@
-import anime from "@js-libs/anime.js";
-
-import { Header, Header_Search } from "@header-main-js";
+import anime from 'animejs/lib/anime.es.js';
+import { wait } from '@js-libs/func-kit';
+import { Header, Header_Search } from '@header-main-js';
 
 export default new (class {
     //hide - скрыто
     //show - видно
-    status = "hide";
+    status = 'hide';
+
+    lock = false;
 
     //инициализируем кнопку скрола, вычисляем её текущие размеры и позицию, проверяем нужно ли её показать, вычисляем минимальную высоту показа кнопки, добавляем слушатели события на скрол
     constructor() {
         //записываем все неоходимые переменные для удобства доступа
-        this.button = document.querySelector(".scroll_to_top_button"); //кнопка скрола вверх
-        this.header = document.getElementsByTagName("header");
+        this.button = document.querySelector('.scroll-to-top-button'); //кнопка скрола вверх
+        this.header = document.getElementsByTagName('header')[0];
         //записываем все неоходимые переменные для удобства доступа
 
         this.toggle_show_button(); //проверяем текущуюю позиции кнопки и показываем её если нужно
 
-        [window, this.header].forEach(elem => elem._on("scroll_throttle", this.toggle_show_button.bind(this))); //привязываем отслеживание скрола на окне и на хедере, т.к. как там будет поиск
+        [window, this.header].forEach(elem => elem._on('scroll_throttle', this.toggle_show_button.bind(this))); //привязываем отслеживание скрола на окне и на хедере, т.к. как там будет поиск
 
-        window._on("resize_optimize", this.toggle_show_button.bind(this)); //так же проверяем нужно ли показывать кнопку при ресайзе
+        window._on('resize_optimize', this.toggle_show_button.bind(this)); //так же проверяем нужно ли показывать кнопку при ресайзе
 
-        this.button._on("click tochend", this.scroll_top_action.bind(this)); //скролим вверх при клике
+        this.button._on('click tochend', this.scroll_top_action.bind(this)); //скролим вверх при клике
     }
     //инициализируем кнопку скрола, вычисляем её текущие размеры и позицию, проверяем нужно ли её показать, вычисляем минимальную высоту показа кнопки, добавляем слушатели события на скрол
 
-    toggle_show_button() {
-        GDS.scroll.value > GDS.scroll.min_distans ? this.show() : this.hide();
+    async toggle_show_button() {
+        GDS.scroll.value > GDS.scroll.min_distans ? await this.show() : await this.hide();
     }
 
     //плавно показываем кнопку
-    show() {
-        if (this.status === "show") return;
+    async show() {
+        if (this.status === 'show' || this.status === 'pending to show') return;
 
-        this.status = "show";
+        this.status = 'pending to show';
 
-        clearTimeout(this.button.hide_timer); //удаляем возможную функцию таймаута которая должна скрыть кнопку
+        this.button.style.display = 'flex';
 
-        this.button.style.cssText = "x-index:-1; opacity:1;"; //показываем кнопку
+        let style_list = window.getComputedStyle(this.button);
+
+        await wait(() => style_list.display, 'flex', { value: 'sttb-toggle-vs' }) //нужно добалять т.к. свойство display применяя одновременно с opacity не сработает как нужно, т.к. применятся одновременно, а нам нужно по очереди чтоб было плавное появление через transition
+            .then(async () => {
+                this.button.style.opacity = '1';
+
+                await wait(() => style_list.opacity, '1', { value: 'sttb-toggle-vs' })
+                    .then(() => {
+                        this.status = 'show';
+                    })
+                    .catch(() => {});
+            })
+            .catch(() => {});
     }
     //плавно показываем кнопку
 
     //плавно скрываем кнопку
-    hide() {
-        if (this.status === "hide") return;
+    async hide() {
+        if (this.status === 'hide' || this.status === 'pending to hide') return;
 
-        this.status = "hide";
+        this.status = 'pending to hide';
 
-        this.button.style.opacity = "0"; //скрываем кнопку
+        let style_list = window.getComputedStyle(this.button);
 
-        //сохраняем id этого таймаута в свойтсва dom элеманта кнопки для того чтоб в случае необходимости можно было его удалить и предотвратить мигание кноки при запоздалом выолнении таймаута с сокрытием когда кнопка запрошена к показу
-        this.button.hide_timer = setTimeout(() => {
-            this.button.style.zIndex = "-1"; //если таймаут не был удалён, т.е. кнопка не была запрошена к показу, то прячем кнопку с помощью z-index чтоб на неё нельяз было навестить когда она невидимая
-        }, GDS.scroll.time);
+        this.button.style.opacity = '0';
+
+        await wait(() => style_list.opacity, '0', { value: 'sttb-toggle-vs' })
+            .then(() => {
+                this.status = 'hide';
+                this.button.style.display = '';
+            })
+            .catch(() => {});
     }
     //плавно скрываем кнопку
 
     //проскролит вверх после нажатия на кнопку
     async scroll_top_action() {
         //ПРИМЕЧАНИЕ: если блокировать интерактивные элементы то хедер появится в самом конце что не очень красиво
-        if (GDS.win.interact_elems.status_lock) return; //если кнопка заблокирована не начинам прокрутку
+        if (this.lock) return; //если кнопка заблокирована не начинам прокрутку
 
-        GDS.win.interact_elems.lock(); //блокируем кнопку
+        this.lock = true; //блокируем кнопку
 
         //если открыт блок с результатами поиска
-        if (Header_Search.status === "open") {
+        if (Header_Search.status === 'open') {
             await anime({
-                targets: this.header[0],
-                easing: "linear",
+                targets: this.header,
+                easing: GDS.scroll.anim_tf,
                 duration: GDS.scroll.time,
                 scrollTop: 0,
             }).finished; //дожидаемся завершения прокрутки
@@ -74,17 +92,17 @@ export default new (class {
         //если открыт блок с результатами поиска
         else {
             await anime({
-                targets: document.getElementsByTagName("html")[0],
-                easing: "linear",
+                targets: document.getElementsByTagName('html')[0],
+                easing: GDS.scroll.anim_tf,
                 duration: GDS.scroll.time,
                 scrollTop: 0,
                 begin: function () {
-                    Header.open();
+                    Header.show();
                 },
             }).finished;
         }
 
-        GDS.win.interact_elems.unlock(); //разблокируем кнопку
+        this.lock = false; //разблокируем кнопку
     }
     //проскролит вверх после нажатия на кнопку
 })();
