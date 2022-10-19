@@ -175,13 +175,11 @@ function Get_Rules() {
                                   },
                               },
                           },
-                          "group-css-media-queries-loader",
                           "sass-loader", //переводит код и scss или sass в css
                       ]
                     : [
                           MiniCssExtractPlugin.loader, //вставляет css в свой файл
                           "css-loader", //позволяет ноде обработать файл css
-                          "group-css-media-queries-loader",
                           "sass-loader", //переводит код и scss или sass в css
                       ],
         },

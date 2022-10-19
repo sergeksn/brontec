@@ -7,8 +7,6 @@ new (class {
 
         this.set_base_params(); //станавливаем базовые параметры для работы скриптов
 
-        if (GDS.device.is_touch) this.body.classList.add('touch_devise'); //делаем пометку дял удобства стилизации сенсорный экран или нет
-
         this.get_win_and_divise_size(); //devise высота и ширина экрана устройства и win окна браузера записываем для удобста чтоб не вычислять каждый раз
 
         this.interactive_elements_set_data(); //устанавливает список интерактивных элементов и функции их включени/отключения
@@ -25,7 +23,8 @@ new (class {
     set_base_params() {
         //параметры устройства
         GDS.device = {
-            is_touch: 'ontouchstart' in window || navigator.maxTouchPoints > 0, //определяем сенсорный экран или нет
+            //пока не нужно!
+            //is_touch: 'ontouchstart' in window || navigator.maxTouchPoints > 0, //определяем сенсорный экран или нет
             dpr: window.devicePixelRatio, //записываем плотность пикселей экрана устройства
             orientation: window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape', //узнаём стартовую отриентацию экрана
         };

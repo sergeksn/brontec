@@ -5,6 +5,8 @@ import Header_Search from './header-search';
 
 import { wait } from '@js-libs/func-kit';
 
+
+
 let Header = new (class {
     status = 'show'; //хранит текущее состояние блока хедера, свёрнут он или открыт или в процессе
 
