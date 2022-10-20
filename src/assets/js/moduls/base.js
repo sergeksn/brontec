@@ -9,8 +9,6 @@ new (class {
 
         this.get_win_and_divise_size(); //devise высота и ширина экрана устройства и win окна браузера записываем для удобста чтоб не вычислять каждый раз
 
-        this.interactive_elements_set_data(); //устанавливает список интерактивных элементов и функции их включени/отключения
-
         window._on('resize_optimize', this.get_win_and_divise_size); //devise высота и ширина экрана устройства и win окна браузера , обновляем после каждого ресайза
 
         window._on('orientation_chenge', () => (GDS.device.orientation = window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape')); //записываем отриентацию экрана при каждом её изменении
@@ -32,6 +30,7 @@ new (class {
         //параметры окна браузера
         GDS.win = {
             default_font_size: window.getComputedStyle(document.getElementsByTagName('html')[0]).fontSize.replace('px', ''),
+            flicker_active_elements: true,//определяет будут ли тускнет активные элементы на время отключения
         };
 
         //параметры прокрутки
@@ -46,7 +45,7 @@ new (class {
         //настройки для анимаций
         GDS.anim = {
             time: 500,
-            graph: 'ease-in-out',
+            graph: 'easeInOutQuad',
         };
     }
     //станавливаем базовые параметры для работы скриптов
@@ -81,32 +80,4 @@ new (class {
         GDS.scroll.unlock = (target = this.body) => target.classList.remove('lock-scroll'); //разблокирует прокрутку указанного элемента
     }
     //определяем направление скрола и его значение
-
-    //устанавливает список интерактивных элементов и функции их включени/отключения
-    interactive_elements_set_data() {
-        GDS.win.interact_elems = {
-            status_lock: false, //определяяет заблокированны/разблокированны интерактивые элементы на сайте
-            elements: [
-                //все интерактивные эльменты которые есть на сайте
-                document.querySelector('.search_wrapper .close_search'), //кнопка закртия окна поиска
-                document.querySelector('.header_search_button_wrap'),
-                document.querySelector('.header_search_bold_button_wrap'),
-                document.querySelector('.header_burger_button_wrap'),
-                document.querySelector('.top_banner_wrap .close_banner_wrap'),
-                document.querySelector('.header_cart .img_cart'),
-                document.querySelector('.scroll-to-top-button'),
-            ],
-            lock: function () {
-                //блокирует все интерактывные элемеры на сайте
-                this.elements.forEach(elem => elem.classList.add('disabled')); //помечеам все элементы как отключенные
-                this.status_lock = true; //указываем что все элементы успешно заблокированны
-            },
-            unlock: function () {
-                //разблокирует все интерактывные элемеры на сайте
-                this.elements.forEach(elem => elem.classList.remove('disabled')); //помечеам все элементы как активные
-                this.status_lock = false; //указываем что все элементы успешно разблокированны
-            },
-        };
-    }
-    //устанавливает список интерактивных элементов и функции их включени/отключения
 })();

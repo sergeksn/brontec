@@ -1,0 +1,9 @@
+#header-overlay {
+    position: fixed;
+    display: none;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--standart-anim);
+    background-color: var(--white);
+    z-index: 1;//лучше привязать всё на переменные для удобства
+}

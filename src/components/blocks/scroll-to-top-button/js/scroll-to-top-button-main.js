@@ -66,8 +66,8 @@ export default new (class {
 
         await wait(() => style_list.opacity, '0', { value: 'sttb-toggle-vs' })
             .then(() => {
-                this.status = 'hide';
                 this.button.style.display = '';
+                this.status = 'hide';
             })
             .catch(() => {});
     }

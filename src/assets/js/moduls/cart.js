@@ -15,7 +15,7 @@ GDS.cart = {
         this.top_baner = $(".top_banner_wrap");
         //записываем все неоходимые переменные для удобства доступа
 
-        $(".header_cart .svg_img, #cart_overlay").on({ events: "click", callback: this.toggle_cart_block.bind(this) });
+        $(".header_cart .svg_img, #cart_Background").on({ events: "click", callback: this.toggle_cart_block.bind(this) });
 
         this.set_cart_size(); //задаёт размеры и позицию блока с корзиной
 

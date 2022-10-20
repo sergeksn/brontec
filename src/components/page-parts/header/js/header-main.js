@@ -1,16 +1,11 @@
 import Header_Poster from './header-poster';
-import Header_Menu from './header-visible';
-import Header_Toggle_Block from './header-hidden';
+import Header_Visible from './header-visible';
 import Header_Search from './header-search';
 
 import { wait } from '@js-libs/func-kit';
 
-
-
 let Header = new (class {
     status = 'show'; //хранит текущее состояние блока хедера, свёрнут он или открыт или в процессе
-
-    lock = false; //определяет заблокированны интерактивные элементы в хедере или нет
 
     constructor() {
         let d = document;
@@ -23,22 +18,50 @@ let Header = new (class {
         this.header_hidden = d.querySelector('.header-hidden');
         //записываем все неоходимые переменные для удобства доступа
 
+        this.header_active_elements_set_data(); //задаёт и управляет доступностью активных элементов в хедере
+
         window._on('scroll_throttle', this.toggle_header.bind(this)); //скрываем/показываем хедер при прокрутке
 
         window._on('resize_optimize', () => {
             this.toggle_header.bind(this); //проверяем нужно ли скрыть хедер
-            this.header_background.style.height = `${this.get_header_h({ header_hidden: false })}px`; //пересчитываем высоту фона хедера
+            this.header_background.style.height = `${this.get_header_h({ header_poster: this.has_header_poster, header_visible: true })}px`; //пересчитываем высоту фона хедера
         });
     }
 
+    //устанавливает список активных элементов и функции их включени/отключения
+    header_active_elements_set_data() {
+        let d = document;
+        this.active_elements = {
+            status_lock: false, //определяет заблокированны активные элементы в хедере или нет
+            elements: [
+                //все активные эльменты которые есть в хедере
+                d.querySelector('.header-poster__close>button'),
+                d.querySelector('.header-visible__burger>button'),
+                d.querySelector('.header-visible__cart-button>button'),
+                d.querySelector('.header-visible__search-button>button'),
+            ],
+            lock: function () {
+                //блокирует все интерактывные элемеры в хедере
+                if(GDS.win.flicker_active_elements) this.elements.forEach(elem => elem.classList.add('disabled')); //помечеам все элементы как отключенные
+                this.status_lock = true; //указываем что все элементы успешно заблокированны
+            },
+            unlock: function () {
+                //разблокирует все интерактывные элемеры в хедере
+                if(GDS.win.flicker_active_elements) this.elements.forEach(elem => elem.classList.remove('disabled')); //помечеам все элементы как активные
+                this.status_lock = false; //указываем что все элементы успешно разблокированны
+            },
+        };
+    }
+    //устанавливает список активных элементов и функции их включени/отключения
+
     //функция получае общую высоту постера + видимой части хедера +  скрытой части хедера
-    //всё зависит от того что передано, по умолчанию получает высоту всего хедера
+    //всё зависит от того что передано
     get_header_h(searched_height = {}) {
         searched_height = Object.assign(
             {
-                header_poster: this.has_header_poster,
-                header_visible: true,
-                header_hidden: true,
+                header_poster: false,
+                header_visible: false,
+                header_hidden: false,
             },
             searched_height,
         ); //получаем те данные которые нужно получить объединов объекты по умолчанию с тем что передал скрипт
@@ -85,7 +108,7 @@ let Header = new (class {
 
         this.status = 'pending to hide';
 
-        let y = this.get_header_h({ header_hidden: false }).toFixed(3); //округляем до 3-х знаков т.к. matrix не видит больше
+        let y = this.get_header_h({ header_poster: this.has_header_poster, header_visible: true }).toFixed(3); //округляем до 3-х знаков т.к. matrix не видит больше
 
         this.header.style.transform = `translateY(-${y}px)`;
 
@@ -105,11 +128,11 @@ let Header = new (class {
 
     //функция оправляет сворачиванием и разворачиванием хедера
     async toggle_header() {
-        if (this.lock) return; //если заблокированны интерактивные элементы на сайте мы не чего не делаем с хедером
+        if (this.active_elements.status_lock) return; //если заблокированны интерактивные элементы в хедере мы не чего не делаем с хедером
 
-        GDS.scroll.dir === 'bottom' && GDS.scroll.value > this.get_header_h({ header_hidden: false }) ? await this.hide() : await this.show(); //если скролим вниз и высота скрола больше высоты хедера скрываем хедер, в противном случае показываем хедер
+        GDS.scroll.dir === 'bottom' && GDS.scroll.value > this.get_header_h({ header_poster: this.has_header_poster, header_visible: true }) ? await this.hide() : await this.show(); //если скролим вниз и высота скрола больше высоты хедера скрываем хедер, в противном случае показываем хедер
     }
     //функция оправляет сворачиванием и разворачиванием хедера
 })();
 
-export { Header, Header_Poster, Header_Menu, Header_Toggle_Block, Header_Search };
+export { Header, Header_Poster, Header_Visible, Header_Search };

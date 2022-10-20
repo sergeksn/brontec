@@ -5,6 +5,9 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-end;
+    z-index: 1;
+    position: relative;
+    background-color: var(--white);
     //background-color: pink;
 
     &__logo {
@@ -182,6 +185,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: opacity var(--standart-anim);
 
             @media (min-width: rem(1920)) {
                 height: adaptiv_rem_size(50, 1920);
@@ -248,6 +252,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: opacity var(--standart-anim);
     }
 
     &__body {
@@ -261,7 +266,7 @@
         border-top: rem(2) solid var(--black);
         width: calc(100% - rem(6));
         position: absolute;
-        transition: all var(--standart-anim);
+        transition: transform var(--standart-anim);
     }
 
     &__line-1 {
@@ -281,20 +286,3 @@
     }
 }
 
-[class*='--open-header-hidden'] .burger {
-    &__line-1 {
-        opacity: 0;
-    }
-
-    &__line-2 {
-        transform: rotate(45deg);
-    }
-
-    &__line-3 {
-        transform: rotate(-45deg);
-    }
-
-    &__line-4 {
-        opacity: 0;
-    }
-}

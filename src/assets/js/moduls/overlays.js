@@ -57,7 +57,7 @@ class Overlay_Controller {
 }
 
 //хранит объект подложки для хеднера
-const Header_Overlay = new class {
+const Header_Background = new class {
     //pending to hide - в процессе скрытия
     //hide - скрыто
     //pending to show - в процессе появления
@@ -77,14 +77,14 @@ const Header_Overlay = new class {
 //хранит объект подложки для хеднера
 
 //хранит объект подложки для корзины
-const Cart_Overlay = new class {
+const Cart_Background = new class {
     //pending to hide - в процессе скрытия
     //hide - скрыто
     //pending to show - в процессе появления
     //show - видно
     status = "hide"
 
-    overlay = $("#cart_overlay") //полупрозрачная бела подложка для корзины
+    overlay = $("#cart_Background") //полупрозрачная бела подложка для корзины
 
     constructor() {
         let teplate = new Overlay_Controller; //объект с функция управления для подложек
@@ -104,16 +104,16 @@ const Cart_Overlay = new class {
 //хранит объект подложки для корзины
 
 //хранит объект подложки для картинок открых в полный экран в галереи
-const Galery_Overlay = new class {
+const Galery_Background = new class {
 
 }
 //хранит объект подложки для картинок открых в полный экран в галереи
 
 //хранит объект подложки для окна предпросмотра отдельной детали комплекта
-const Product_Part_Previwe_Overlay = new class {
+const Product_Part_Previwe_Background = new class {
 
 }
 //хранит объект подложки для окна предпросмотра отдельной детали комплекта
 
 
-export { Header_Overlay, Cart_Overlay, Galery_Overlay, Product_Part_Previwe_Overlay };
+export { Header_Background, Cart_Background, Galery_Background, Product_Part_Previwe_Background };

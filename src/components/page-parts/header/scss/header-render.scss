@@ -10,21 +10,10 @@
 /*оболочка хедера*/
 header {
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
     position: fixed;
     background-color: var(--white);
     z-index: 1; //нужно чтоб хдер при прокрутке был выше контента
     transition: transform var(--standart-anim);
-}
-
-#header-overlay {
-    position: fixed;
-    display: none;
-    inset: 0;
-    opacity: 0;
-    background-color: var(--white);
-    //z-index: 9;
 }
 
 /*оболочка хедера*/

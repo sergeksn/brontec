@@ -1,7 +1,7 @@
 import Header from "./header.js";
 import Header_Search_Block from "./header-search.js";
 import Scroll_To_Top from "./scroll-to-top.js";
-import { Header_Overlay } from "./overlays.js";
+import { Header_Background } from "./overlays.js";
 import { wait } from "./../libs/func-kit.js";
 import anime from "./../libs/anime.js";
 
@@ -96,7 +96,7 @@ export default new class {
 
             this.body[0].custom_scroll.hide(), //убираем прокуртку и скролбар в body
 
-            Header_Overlay.show() //показываем подложку и ждём завершения её появления
+            Header_Background.show() //показываем подложку и ждём завершения её появления
         ]);
         //ждём завершение открытия
 
@@ -158,7 +158,7 @@ export default new class {
                 easing: GDS.anim_tf
             }).finished;
 
-        await Promise.all([Header_Overlay.hide(), header_scrollbar_height_lower, up_hidden_header_part]); //плавно скрываем блок меню и подложку, а так же меняем высоту скролбара хедера
+        await Promise.all([Header_Background.hide(), header_scrollbar_height_lower, up_hidden_header_part]); //плавно скрываем блок меню и подложку, а так же меняем высоту скролбара хедера
 
         //меняем стили после полного скрытия блока
         this.hidden_header_part.css({

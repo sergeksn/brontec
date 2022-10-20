@@ -2,7 +2,7 @@
     width: 100%;
     position: relative;
     background-color: var(--white);
-    //z-index: 10;
+    z-index: 1;
 
     &__item--mobile {
         @media (min-width: rem(640)) {
@@ -38,7 +38,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: opacity var(--standart-anim);
 
         @media (min-width: rem(640)) {
             right: adaptiv_rem_size(15, 640, 20, 960);
@@ -62,6 +61,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: opacity var(--standart-anim);
 
             @media (min-width: rem(1920)) {
                 font-size: adaptiv_rem_size(20, 1920);

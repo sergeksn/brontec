@@ -1,4 +1,5 @@
-body {
+body,
+.custom-scrollbar {
   overflow: hidden auto;
 }
 
@@ -12,7 +13,8 @@ body {
 @media (hover: hover) and (pointer: fine) {
     //для браузеров с поддержкой наложения скролбара
     @supports (overflow: overlay) {
-        body {
+        body,
+        .custom-scrollbar {
             overflow: hidden overlay;
         }
     }

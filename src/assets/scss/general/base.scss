@@ -44,26 +44,14 @@ button {
     opacity: 0.3;
 }
 
-.plr-0 {
-    padding-right: 0;
-    padding-left: 0;
-}
-
 /*ширина основных блоков не стандартная так что задаём её отлельно от сетки*/
 .standart-container {
     max-width: rem(1180);
     margin-left: auto;
     margin-right: auto;
-    //padding-left: rem(10);
-    //padding-right: rem(10);
 
-    @media (min-width: em(640)) {
-        //padding-left: rem(15);
-        //padding-right: rem(15);
-    }
-
-    @media (min-width: em(1920)) {
-        max-width: 61.458vw;
+    @media (min-width: rem(1920)) {
+        max-width: adaptiv_rem_size(1180, 1920);
     }
 }
 /*ширина основных блоков не стандартная так что задаём её отлельно от сетки*/

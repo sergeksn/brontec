@@ -39,7 +39,7 @@ export default new (class {
 
         $("#header-overlay").on({
             events: "click tochend",
-            callback: this.click_header_overlay.bind(this),
+            callback: this.click_header_Background.bind(this),
         }); //скрываем окно поиска по клику на полупрозрачную подложку
 
         this.close_search_button.on({
@@ -281,7 +281,7 @@ export default new (class {
     //клик по крестику в окне поиска
 
     //скрываем окно поиска по клику на полупрозрачную подложку
-    async click_header_overlay() {
+    async click_header_Background() {
         if (GDS.global_interactiv_lock) return; //если в данные момент кнопки хедера заблокированны то завершаем функцию
 
         GDS.lock_all_interactive(); //блокируем все интерактивные элементы в хедере

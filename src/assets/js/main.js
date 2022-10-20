@@ -45,9 +45,9 @@ import "@js-moduls/media"; //Запускает загрузку медиа ес
 // import "@js-moduls/small-product-previv-block"; //отвечает за рендер блоков в выдаче поиска товаров
 
 //@dinamic node import fils
-import "@burger-button-main-js";
 import "@images-main-js";
 import "@loader-main-js";
+import "@overlays-main-js";
 import "@scroll-to-top-button-main-js";
 import "@footer-main-js";
 import "@header-main-js";
