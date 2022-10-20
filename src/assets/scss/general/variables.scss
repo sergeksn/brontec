@@ -48,7 +48,7 @@
     --btn-width: #{rem(50)};
     --btn-height: #{rem(50)};
 
-    @media (min-width: em(960)) {
+    @media (min-width: rem(960)) {
         $start_w: 960; //начальное значение ширины
         $final_w: 1919; //конечное значение ширины
 
