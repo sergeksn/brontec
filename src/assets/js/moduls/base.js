@@ -21,8 +21,7 @@ new (class {
     set_base_params() {
         //параметры устройства
         GDS.device = {
-            //пока не нужно!
-            //is_touch: 'ontouchstart' in window || navigator.maxTouchPoints > 0, //определяем сенсорный экран или нет
+            is_touch: 'ontouchstart' in window || navigator.maxTouchPoints > 0, //определяем сенсорный экран или нет
             dpr: window.devicePixelRatio, //записываем плотность пикселей экрана устройства
             orientation: window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape', //узнаём стартовую отриентацию экрана
         };

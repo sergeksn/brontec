@@ -1,25 +1,23 @@
 <div class="header-hidden">
-    <div class="header-hidden__search-input">
-        <input type="text" placeholder="Найти" maxlength="100" >
-        <div class="header-hidden__search-control-icons">
-            <button class="icon-search"></button>
-            <button class="icon-close"></button>
-        </div>
-    </div>
-    <div class="header-hidden__menu">
-        <nav>
-            <ul>
-                <li><a href="#">Главная</a></li>
-                <li><a href="#">Выбрать комплект</a></li>
-                <li><a href="#">Инструкции</a></li>
-                <li><a href="#">Доставка и оплата</a></li>
-                <li><a href="#">О нас</a></li>
-                <li><a href="#">Корзина</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="header-hidden__phone">
-        <div class="icon-phone"></div>
-        <a href="tel:+88000000000">8 800 000-00-00</a>
-    </div>
+  <div class="header-hidden__search header-search">
+    <%- include('./header-search')%>
+  </div>
+  <div class="header-hidden__menu">
+    <nav>
+      <ul>
+        <li><a href="#">Главная</a></li>
+        <li><a href="#">Выбрать комплект</a></li>
+        <li><a href="#">Инструкции</a></li>
+        <li><a href="#">Доставка и оплата</a></li>
+        <li><a href="#">О нас</a></li>
+        <li><a href="#">Корзина</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="header-hidden__phone">
+    <a href="tel:+88000000000">
+      <div class="icon-phone"></div>
+      <span>8 800 000-00-00</span>
+    </a>
+  </div>
 </div>

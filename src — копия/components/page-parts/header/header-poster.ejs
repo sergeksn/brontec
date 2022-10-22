@@ -1,0 +1,34 @@
+<div class="header-poster" id="id_NKkGUF0X9DGuvct">
+  <a href="#">
+    <div class="header-poster__item header-poster__item--mobile">
+      <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@header-img/banner2.jpg", loader:true, ow:320, oh:60, pt:18.75,}})%>
+    </div>
+    <div class="header-poster__item header-poster__item--tablet">
+      <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@header-img/banner.jpg", loader:true, ow:1920, oh:80, pt:4.1667,}})%>
+    </div>
+    <div class="header-poster__item header-poster__item--desktop">
+      <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@header-img/banner.jpg", loader:true, ow:1920, oh:80, pt:4.1667,}})%>
+    </div>
+  </a>
+  <div class="header-poster__close">
+    <button>
+      <div class="icon-close"></div>
+      <div class="icon-close_bold"></div>
+    </button>
+  </div>
+</div>
+<script id="header-poster__script">
+  (() => {
+    let header_poster = document.getElementsByClassName("header-poster")[0],
+      header_poster__script = document.getElementById("header-poster__script"),
+      header_poster_id = header_poster.getAttribute("id"),
+      cookie_header_poster = document.cookie.match(new RegExp("(?:^|; )top_baner_hide_" + header_poster_id + "=([^;]*)")); //пытаемся получить значение из куки
+
+    cookie_header_poster = cookie_header_poster ? cookie_header_poster[1] : false; //если значения нет занчит показываем банер, если есть то скрываем
+
+    if (cookie_header_poster) {
+      parent_top_banner.removeChild(header_poster);
+      parent_top_banner.removeChild(header_poster__script);
+    }
+  })();
+</script>

@@ -1,0 +1,13 @@
+<%- include('./../components/page-parts/header/header.ejs')%>
+<div class="top-page-block" data-header-background-color="var(--blue)">
+  <script>
+    /*указываем цвет подкладки хедера опираясь на data-header-background-color атрибут первого блока*/
+    (() => {
+      let top_page_block = document.querySelector(".top-page-block"),
+        /*первый контент блок на странице сразу после хедера*/
+        header_background = document.getElementById("header-background"); /*элемент #header-background*/
+      header_background.style.backgroundColor = top_page_block.getAttribute("data-header-background-color");
+    })();
+  </script>
+</div>
+<%- include('./../components/page-parts/footer/footer.ejs')%>

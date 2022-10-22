@@ -1,7 +1,7 @@
-@import "./header-poster-render.scss";
-@import "./header-visible-render.scss";
-@import "./header-hidden-render.scss";
-@import "./header-search-render.scss";
+@import './header-poster-render.scss';
+@import './header-visible-render.scss';
+@import './header-hidden-render.scss';
+@import './header-search-render.scss';
 /*
 *
 ВЕРХУШКА САЙТА
@@ -12,7 +12,7 @@ header {
     width: 100%;
     position: fixed;
     background-color: var(--white);
-    z-index: 1; //нужно чтоб хдер при прокрутке был выше контента
+    z-index: map-get($z-index, header); //нужно чтоб хдер при прокрутке был выше контента
     transition: transform var(--standart-anim);
 }
 

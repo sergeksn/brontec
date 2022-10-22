@@ -1,0 +1,31 @@
+<%
+let loader_html = null,
+    original_w = null,
+    original_h = null,
+    style_pt = `style="padding-top:${data.pt}%;"`;
+
+if(data.loader){
+   loader_html = include('./../../blocks/loader/loader.ejs'); 
+} 
+
+if(data.ow){
+    original_w = `data-original-w="${data.ow}"`; 
+} 
+
+if(data.oh){
+    original_h = `data-original-h="${data.oh}"`;
+} %>
+
+<% if(data.type === "img"){ %>
+<div class="picture" data-img-type="img" <%-style_pt%>>
+  <img class="picture__body" data-src="<%-data.url%>" <%-original_w%> <%-original_h%> alt="">
+  <%-loader_html%>
+</div>
+<% } %>
+
+<% if(data.type === "bg"){ %>
+<div class="picture" data-img-type="bg" <%-style_pt%>>
+  <div class="picture__body" data-src="<%-data.url%>" <%-original_w%> <%-original_h%>></div>
+  <%-loader_html%>
+</div>
+<% } %>

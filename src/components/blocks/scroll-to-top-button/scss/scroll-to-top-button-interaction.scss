@@ -5,7 +5,6 @@
     border-radius: 50%;
     background-color: var(--black-disabled);
     transition: background-color var(--standart-anim), opacity var(--standart-anim);
-    z-index: 1;
     justify-content: center;
     align-items: center;
     width: rem(50);
@@ -14,6 +13,7 @@
     left: rem(30);
     font-size: rem(25);
     color: var(--white);
+    z-index: map-get($z-index, scroll-to-top-button);
     cursor: pointer;
 
     @media (hover: hover) {

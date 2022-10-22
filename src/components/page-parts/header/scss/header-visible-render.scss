@@ -5,10 +5,9 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-end;
-    z-index: 1;
     position: relative;
     background-color: var(--white);
-    //background-color: pink;
+    z-index: map-get($z-index, header-visible);
 
     &__logo {
         width: rem(110);

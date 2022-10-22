@@ -1,8 +1,3 @@
-//
-//
-//НЕ ИСПОЛЬЗУЕТСЯ, ПРИМЕНЯЮ ПОДСТРАИЫВЫЕМЫЕ ЗНАЧЕНИЯ В ЗАВИСИМОСТИ ОТ ШИРИНЫ ЭКРАНА
-//
-//
 $breakpoints: 640px, 960px, 1280px; //брейкпоинты
 $colums-count: 12; //количество колонок в сетке
 
@@ -59,7 +54,7 @@ $colums-count: 12; //количество колонок в сетке
 
 //формирует блоки вида .col-640-1 и .offset-640-1
 @each $point in $breakpoints {
-    @media (min-width: em($point)) {
+    @media (min-width: rem($point)) {
         $point: #{str-replace($point, "px")};
 
         @include grid-col($point);

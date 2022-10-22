@@ -1,0 +1,42 @@
+.scroll-to-top-button {
+    position: fixed;
+    display: none;
+    opacity: 0;
+    border-radius: 50%;
+    background-color: var(--black-disabled);
+    transition: background-color var(--standart-anim), opacity var(--standart-anim);
+    justify-content: center;
+    align-items: center;
+    width: rem(50);
+    height: rem(50);
+    bottom: rem(40);
+    left: rem(30);
+    font-size: rem(25);
+    color: var(--white);
+    z-index: map-get($z-index, scroll-to-top-button);
+    cursor: pointer;
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: var(--blue-transparent);
+        }
+    }
+
+    @media (min-width: rem(640)) {
+        bottom: adaptiv_rem_size(40, 640, 110, 960);
+    }
+
+    @media (min-width: rem(960)) {
+        left: auto;
+        bottom: adaptiv_rem_size(110, 960, 120, 1920);
+        right: adaptiv_rem_size(30, 960, 50, 1920);
+    }
+
+    @media (min-width: rem(1920)) {
+        width: adaptiv_rem_size(50, 1920);
+        height: adaptiv_rem_size(50, 1920);
+        bottom: adaptiv_rem_size(120, 1920);
+        right: adaptiv_rem_size(50, 1920);
+        font-size: adaptiv_rem_size(25, 1920);
+    }
+}

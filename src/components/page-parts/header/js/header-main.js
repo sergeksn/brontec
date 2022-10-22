@@ -1,5 +1,6 @@
 import Header_Poster from './header-poster';
 import Header_Visible from './header-visible';
+import Header_Hidden from './header-hidden';
 import Header_Search from './header-search';
 
 import { wait } from '@js-libs/func-kit';
@@ -20,12 +21,16 @@ let Header = new (class {
 
         this.header_active_elements_set_data(); //задаёт и управляет доступностью активных элементов в хедере
 
-        window._on('scroll_throttle', this.toggle_header.bind(this)); //скрываем/показываем хедер при прокрутке
+        //window._on('load', () => {
+            //setTimeout(() => {
+                window._on('scroll_throttle', this.toggle_header.bind(this)); //скрываем/показываем хедер при прокрутке
+            //}, 100);
 
-        window._on('resize_optimize', () => {
-            this.toggle_header.bind(this); //проверяем нужно ли скрыть хедер
-            this.header_background.style.height = `${this.get_header_h({ header_poster: this.has_header_poster, header_visible: true })}px`; //пересчитываем высоту фона хедера
-        });
+            window._on('resize_optimize', () => {
+                this.toggle_header.bind(this); //проверяем нужно ли скрыть хедер
+                this.header_background.style.height = `${this.get_header_h({ header_poster: this.has_header_poster, header_visible: true })}px`; //пересчитываем высоту фона хедера
+            });
+        //});
     }
 
     //устанавливает список активных элементов и функции их включени/отключения
@@ -42,12 +47,12 @@ let Header = new (class {
             ],
             lock: function () {
                 //блокирует все интерактывные элемеры в хедере
-                if(GDS.win.flicker_active_elements) this.elements.forEach(elem => elem.classList.add('disabled')); //помечеам все элементы как отключенные
+                if (GDS.win.flicker_active_elements) this.elements.forEach(elem => elem.classList.add('disabled')); //помечеам все элементы как отключенные
                 this.status_lock = true; //указываем что все элементы успешно заблокированны
             },
             unlock: function () {
                 //разблокирует все интерактывные элемеры в хедере
-                if(GDS.win.flicker_active_elements) this.elements.forEach(elem => elem.classList.remove('disabled')); //помечеам все элементы как активные
+                if (GDS.win.flicker_active_elements) this.elements.forEach(elem => elem.classList.remove('disabled')); //помечеам все элементы как активные
                 this.status_lock = false; //указываем что все элементы успешно разблокированны
             },
         };
@@ -135,4 +140,4 @@ let Header = new (class {
     //функция оправляет сворачиванием и разворачиванием хедера
 })();
 
-export { Header, Header_Poster, Header_Visible, Header_Search };
+export { Header, Header_Poster, Header_Visible, Header_Hidden, Header_Search };
