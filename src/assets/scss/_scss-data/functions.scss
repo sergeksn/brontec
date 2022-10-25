@@ -1,8 +1,8 @@
-@use "sass:math";
+@use 'sass:math';
 
 //функция заменяет в строке $string искомую строку $search на $replace
-@function str-replace($string, $search, $replace: "") {
-    $string: $string + ""; //превращаем в строку
+@function str-replace($string, $search, $replace: '') {
+    $string: $string + ''; //превращаем в строку
     $index: str-index($string, $search);
     @if $index {
         @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
@@ -37,23 +37,52 @@
     @return math.div(stripUnit($pxValue), 16);
 }
 
-//данная функция будет плавно увиличивать свой результат по мере увеличения текущей ширины экрана от $min_value до $max_value
+//данная функция будет плавно увиличивать свой результат по мере увеличения текущей ширины экрана от $min-value до $max-value
 //ВАЖНО: результат будет в rem
-//$min_value - начально значение, т.е. которе будет увеличиваться по мере увеличиения ширины экрана
-//$min_win_width - ширина экрана на которой начинается отсчёт с $min_value и увидичивается, т.е. ширина экрана на котрой выходное значение будет равно $min_value
-//$max_value - максимальное значение, т.е. значение выше которого нельзя подниматься, если оно будет не задано то будет использованно значение пропорциональне $min_value для текущей ширины экрана
-//$wax_win_width - итоговая ширина на котрой заканчивается увеличение $min_value и оно становиться равным $max_value
+//$min-value - начально значение, т.е. которе будет увеличиваться по мере увеличиения ширины экрана
+//$min-win-width - ширина экрана на которой начинается отсчёт с $min-value и увидичивается, т.е. ширина экрана на котрой выходное значение будет равно $min-value
+//$max-value - максимальное значение, т.е. значение выше которого нельзя подниматься, если оно будет не задано то будет использованно значение пропорциональне $min-value для текущей ширины экрана
+//$wax-win-width - итоговая ширина на котрой заканчивается увеличение $min-value и оно становиться равным $max-value
 //--wwr - это ширина окна браузера в данный момент в rem
-@function adaptiv_rem_size($min_value, $min_win_width, $max_value: false, $wax_win_width: false) {
-    @if $wax_win_width == false {
-        $wax_win_width: 99999;
+@function adaptiv_rem_size($min-value, $min-win-width, $max-value: false, $wax-win-width: false) {
+    @if $wax-win-width == false {
+        $wax-win-width: 99999;
     }
 
-    @if $max_value == false {
-        $max_value: math.div($wax-win-width * $min-value, $min-win-width);
+    @if $max-value == false {
+        $max-value: math.div($wax-win-width * $min-value, $min-win-width);
     }
 
-    $residual: (rem($wax_win_width, false) - rem($min_win_width, false));
+    $residual: (rem($wax-win-width, false) - rem($min-win-width, false));
 
-    @return calc(rem($min_value) + rem(($max_value - $min_value), false) * ((var(--wwr) - rem($min_win_width)) / $residual));
+    @return calc(rem($min-value) + rem(($max-value - $min-value), false) * ((var(--wwr) - rem($min-win-width)) / $residual));
+}
+
+//данная функция будет плавно увиличивать свой результат по мере увеличения текущей ширины экрана от $min-value до $max-value
+//ВАЖНО: результат будет в %
+//$min-value - начально значение, т.е. которе будет увеличиваться по мере увеличиения ширины экрана
+//$min-win-width - ширина экрана на которой начинается отсчёт с $min-value и увидичивается, т.е. ширина экрана на котрой выходное значение будет равно $min-value
+//$max-value - максимальное значение, т.е. значение выше которого нельзя подниматься, если оно будет не задано то будет использованно значение пропорциональне $min-value для текущей ширины экрана
+//$wax-win-width - итоговая ширина на котрой заканчивается увеличение $min-value и оно становиться равным $max-value
+//--wwrn - это ширина окна браузера в данный момент в rem но без преписки rem
+//ВАЖНО: $min-value и $max-value должны быть в процентах, т.е. с препиской %, пример 100%
+@function adaptiv_percent_size($min-value, $min-win-width, $max-value: false, $wax-win-width: false) {
+    @if $wax-win-width == false {
+        $wax-win-width: 99999;
+    }
+
+    @if $max-value == false {
+        $max-value: math.div($wax-win-width * $min-value, $min-win-width);
+    }
+
+    $residual: (rem($wax-win-width, false) - rem($min-win-width, false));
+
+    @return calc($min-value + ($max-value - $min-value) * ((var(--wwrn) - rem($min-win-width, false)) / $residual));
+}
+
+//переводит пиксельные значения в процент от ширину указаного размера экрана
+//$value - число в пикселях процентное заначение которого нужно найти
+//$win_width - ширина экрана от которой ищем процент
+@function to_percent($value, $win_width) {
+    @return #{calc($value/(math.div($win_width, 100)))}+ '%';
 }

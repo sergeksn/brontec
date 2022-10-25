@@ -1,4 +1,4 @@
-"use strict"; //используем современный режим
+'use strict'; //используем современный режим
 //ВАЖНО: нужно использовать имеено touchend, т.к. touchstart вызывает ошибки если элементы разположенны близко друг к другу
 //ПРИМЕЧАНИЕ: не играет особой роли как обращаться к элементу и его свойствам при большом количестве операций, при ожидании изменение какого-то параметра элемента например, что через мою ksn библеотеку что через нативный js
 //ПРИМЕЧАНИЕ: полезные команды:
@@ -20,23 +20,17 @@
 //ПРИМЕЧАНИЕ: если нам нужно записать какие-то данные которые касаются определённого DOM элемента то нам не обязательно создавать новый объект в коде а потом искать на него ссылку, мы можем просто записать нужные нам данные в свойства данного DOM лемента и уже оращаться к ним, т.к. DOM элементы это обычные объекты js и мы можем записывать в них свои данные
 
 //ВАЖНО: скорость выполнения функции зависит от её фактического размера, особенно если в ней объявляются очень большие объекты, так что чтоб увеличисть производительность нужно выносить всё большое за пределы функции
-import "@js-libs/dom-helper.js"; //самописный аналог jquery с очень урезазнным функционалом, чтоб облегчить рутинную работу
+import '@js-libs/dom-helper.js'; //самописный аналог jquery с очень урезазнным функционалом, чтоб облегчить рутинную работу
 
-import "@js-libs/dom-add-func.js";
+import '@js-libs/dom-add-func.js';
 
-import "@js-moduls/base"; //тут будут записаны основные функции для взаимодействи я с общими элементами сайта и установленны основные слушатели и те действия которые нужно выполнять на любой странице сайта в самом начале
+import '@js-moduls/base'; //тут будут записаны основные функции для взаимодействи я с общими элементами сайта и установленны основные слушатели и те действия которые нужно выполнять на любой странице сайта в самом начале
 
-
-import "@js-moduls/media"; //Запускает загрузку медиа если они видны в данный момент
-
-
+import '@js-moduls/media'; //Запускает загрузку медиа если они видны в данный момент
 
 // import "@js-moduls/overlays"; //ВСЕ ПОДЛОЖКИ
 // import "@js-moduls/header-toggle-block"; //СКРЫТЫЙ БЛОК В ХЕДЕРЕ
 // import "@js-moduls/header-search"; //ОКНО ПОИСКА
-
-
-
 
 //import '@js-moduls/cart';
 //import '@js-moduls/top-poster';
@@ -45,14 +39,14 @@ import "@js-moduls/media"; //Запускает загрузку медиа ес
 // import "@js-moduls/small-product-previv-block"; //отвечает за рендер блоков в выдаче поиска товаров
 
 //@dinamic node import fils
-import "@images-main-js";
-import "@loader-main-js";
-import "@overlays-main-js";
-import "@scroll-to-top-button-main-js";
-import "@footer-main-js";
-import "@header-main-js";
+import '@images-main-js';
+import '@loader-main-js';
+import '@overlays-main-js';
+import '@product-small-info-block-main-js';
+import '@scroll-to-top-button-main-js';
+import '@footer-main-js';
+import '@header-main-js';
 //@dinamic node import fils
-
 
 // console.log(document.getElementsByClassName("standart-container")._siblings("div"));
 
@@ -71,6 +65,6 @@ import "@header-main-js";
 // console.log(document.getElementById("header-overlay")._siblings("div"));
 
 $(document).on({
-    events: "DOMContentLoaded",
+    events: 'DOMContentLoaded',
     callback: function () {},
 });

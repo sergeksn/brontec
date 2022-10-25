@@ -73,6 +73,7 @@ function Get_Pages() {
 const JUST_COPY_FILS = {
     patterns: [
         { from: `${ENTRY_PATH.replace(/\\/g, "/")}/add-style/*`, to: `${OUTPUT_PATH.replace(/\\/g, "/")}/add-style/[name][ext]` },
+        //{ from: `${ENTRY_PATH.replace(/\\/g, "/")}/assets/img/media-test/*`, to: `${OUTPUT_PATH.replace(/\\/g, "/")}/assets/img/media-test/[name][ext]` },
     ],
 };
 

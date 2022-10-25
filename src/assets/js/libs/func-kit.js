@@ -13,8 +13,8 @@ const wait_data = {};
 
 function wait(check_value, data_fo_wait, track = {}, abort_trigger = {}) {
     //объединяем параметры по умолчанию с параметрами пользователя
-    track = Object.assign({ status: "reject" }, track);
-    abort_trigger = Object.assign({ status: "reject" }, abort_trigger);
+    track = Object.assign({ status: 'reject' }, track);
+    abort_trigger = Object.assign({ status: 'reject' }, abort_trigger);
 
     //возвращаем промис с результатами ожидания
     return new Promise((resolve, reject) => {
@@ -27,12 +27,12 @@ function wait(check_value, data_fo_wait, track = {}, abort_trigger = {}) {
         function check() {
             if (track.value && wait_data[track.value] !== promis_id) {
                 rem_lisener(); //удаляем слушатель для функции проверяющей виден документ или нет
-                return track.status === "resolve" ? resolve("ABORT track") : reject("ABORT track");
+                return track.status === 'resolve' ? resolve('ABORT track') : reject('ABORT track');
             } //если задан трек то мы провеяем соответствует ли текущий id промиса идентификатору записанному в объекте wait_data для данного трека, если не соответствует, значит был вызван другой wait который создал новый промис, а этот следовательно нужно отлонить или принять в зависимости от переданных параметров
 
-            if (typeof abort_trigger.value === "function" && !abort_trigger.value()) {
+            if (typeof abort_trigger.value === 'function' && !abort_trigger.value()) {
                 rem_lisener(); //удаляем слушатель для функции проверяющей виден документ или нет
-                return abort_trigger.status === "resolve" ? resolve("ABORT") : reject("ABORT");
+                return abort_trigger.status === 'resolve' ? resolve('ABORT') : reject('ABORT');
             } //если передана функция для прерывания то мы выполянем её и в момент когда она вернёт true завершаем промис отклонением или принятие в зависимости от параметров, по умолчанию отклонением
 
             if (check_value() === data_fo_wait) {
@@ -46,7 +46,7 @@ function wait(check_value, data_fo_wait, track = {}, abort_trigger = {}) {
 
         //запускает/останавливает перерисовку кадров на время пока документ не активен
         function document_visibilitychange_pause_wait() {
-            if (document.visibilityState === "visible") {
+            if (document.visibilityState === 'visible') {
                 //страница видна пользователю
                 requestAnimationFrame(check); //запускаем проверку на следующем кадре т.к. мы её остановили
                 primission = true; //разрешаем сравнение на дальнейших кадрах
@@ -59,11 +59,11 @@ function wait(check_value, data_fo_wait, track = {}, abort_trigger = {}) {
 
         //удаляет слушатели на visibilitychange после завершения промиса, т.к. прослушивать эти функции нам больше не нужно
         function rem_lisener() {
-            document.removeEventListener("visibilitychange", document_visibilitychange_pause_wait);
+            document.removeEventListener('visibilitychange', document_visibilitychange_pause_wait);
         }
         //удаляет слушатели на visibilitychange после завершения промиса, т.к. прослушивать эти функции нам больше не нужно
 
-        document.addEventListener("visibilitychange", document_visibilitychange_pause_wait); //привязываем слушатель к событию изменения видимости докмента
+        document.addEventListener('visibilitychange', document_visibilitychange_pause_wait); //привязываем слушатель к событию изменения видимости докмента
 
         requestAnimationFrame(check); //в самом начале запускаем проверку на следующем кадре перерисовки
     });
@@ -71,21 +71,23 @@ function wait(check_value, data_fo_wait, track = {}, abort_trigger = {}) {
 }
 //функция сравнивет данные из check_value с data_fo_wait и когда они будут равными завершит функцию
 
-function request_to_server({ data_to_send, error_dop_html = null }) {
+function request_to_server(data_to_send) {
     return new Promise(async (resolve, reject) => {
         let error, //сюда будет записана ошибка если появится
-            response = await fetch("/ajax.php", {
+            response = await fetch('http://verstkaksn.com/ajax.php', {
                 //запрос на сервер
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json;charset=utf-8",
+                    'Content-Type': 'application/json;charset=utf-8',
                 },
                 body: JSON.stringify(data_to_send),
-            }).catch(() => (error = `<div class="search_fail">Проблемы с доступом к серверу, проверьте подключение к сети или перезагрузите страницу. Если это не поможет подождите некоторое время вероятнее всего мы уже работаем над устранение проблемы!</div>${error_dop_html}`));
+            }).catch(() => (error = `<div class="search_fail">Проблемы с доступом к серверу, проверьте подключение к сети или перезагрузите страницу. Если это не поможет подождите некоторое время вероятнее всего мы уже работаем над устранение проблемы!</div>`));
 
         if (error) return reject(error); //если во время запроса возникла критическая ошибка например сайт недоступен или у пользователя пропал интернет то мы выводим ошибку
 
-        if (!response.ok) return reject(`<div class="search_fail">На стороне сервера возникла ошибка ${response.status}, мы уже работаем над её исправлением. Приносим извинения за неудобства!</div>${error_dop_html}`);
+        console.log(response)
+
+        if (!response.ok) return reject(`<div class="search_fail">На стороне сервера возникла ошибка ${response.status}, мы уже работаем над её исправлением. Приносим извинения за неудобства!</div>`);
 
         let result = await response.json(); //ответ в формате json
 

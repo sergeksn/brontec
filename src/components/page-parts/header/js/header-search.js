@@ -1,7 +1,12 @@
 import { Header, Header_Hidden } from '@header-main-js';
 import { wait, request_to_server } from '@js-libs/func-kit';
 import { set_cookie, get_cookie, delete_cookie } from '@js-libs/cookie';
-//import Small_Product_Previv_Block from "./small_product_previv_block.js";
+
+
+import Small_Product_Previv_Block from "@js-moduls/small-product-previv-block";
+
+
+
 import { Img_Loader } from '@js-moduls/media';
 import anime from '@js-libs/anime';
 
@@ -39,10 +44,7 @@ export default new (class {
         //     callback: this.click_close_search_button.bind(this),
         // }); //клик по крестику в окне поиска
 
-        // this.search_input.on({
-        //     events: 'input',
-        //     callback: this.chenge_in_search_input.bind(this),
-        // }); //начинаем поиск после ввода символов
+        this.search_input._on('input', this.chenge_in_search_input.bind(this)); //начинаем поиск после ввода символов
 
         // $(window).on({
         //     events: 'resize_optimize',
@@ -50,69 +52,66 @@ export default new (class {
         // }); //выполяем нужные действия при ресайзе
     }
     //иницализируем все функции и слушатели для работы поиска
-    
+
     //открываем окно для отображения результатов поиска
     async open_results_block() {
-        if (this.status !== 'close') return false; //если окно с результатами поиска не до конца закрыто то завершаем промис неудачей
-
         this.status = 'pending to open'; //статус открытия окна
 
-        this.header[0].custom_scroll.hide(); //скрываем скролбар в хедере перед открытием блока
-
-        let search_results_block_height = GDS.win_height - Header.get_header_always_visible_h() - this.search_wrapper.height(); //получаем минимальную высоту которую должен занимать блок с результатми поиска
+        let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
         search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //задаём минимальную высота для блока с выводом результатов и лоадера в 100 пикселей
 
         //если размер экрана менее 640px то сначало дожидаемся сокрытия пунктов мобильного меню
         if (GDS.win_width < 640) {
             await anime({
-                targets: [this.header_menu_mobile[0], this.header_phone_mobile[0]],
+                targets: [this.header_hidden_menu, this.header_hidden_phone],
                 opacity: 0,
-                duration: GDS.anim_time,
-                easing: GDS.anim_tf,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
             }).finished;
         }
         //если размер экрана менее 640px то сначало дожидаемся сокрытия пунктов мобильного меню
 
         let lower_header = anime({
                 //опускаем хедер до низа окна бразуера
-                targets: this.header[0],
-                height: GDS.win_height,
-                duration: GDS.anim_time,
-                easing: GDS.anim_tf,
+                targets: this.header,
+                height: GDS.win.height,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
             }).finished,
             lower_search_results_block = anime({
                 //опускаем блок с результатами поиска да низа окна браузера
-                targets: this.search_results[0],
+                targets: this.results_wrap,
                 height: search_results_block_height,
-                duration: GDS.anim_time,
-                easing: GDS.anim_tf,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
             }).finished;
 
         await Promise.all([lower_header, lower_search_results_block]);
 
-        this.header_menu_mobile.add(this.header_phone_mobile).css('display', 'none'); //скрываем меню и телефон
+        [this.header_hidden_menu, this.header_hidden_phone].forEach(el => {
+            //скрываем меню и телефон
+            el.getElementsByClassName.display = 'none';
+        });
 
-        this.search_results.css('min-height', search_results_block_height + 'px'); //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
+        this.results_wrap.style.minHeight = search_results_block_height + 'px'; //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
 
-        this.search_loader.css('display', 'block'); //отображаем лоадер в документе
+        this.results_loader.style.display = 'block'; //отображаем лоадер в документ
 
         //Примечание: можно добавить await чтоб лоадер точно был замечен пользователем
         anime({
             //показываем лоадер после откытия блока с результатами поиска
-            targets: this.search_loader[0],
+            targets: this.results_loader,
             opacity: 1,
-            duration: GDS.anim_time,
-            easing: GDS.anim_tf,
+            duration: GDS.anim.time,
+            easing: GDS.anim.graph,
         }).finished;
 
-        this.search_results.css('height', ''); //убираем высоту у блока с результатми вывода чтоб не ыбло полосы теней на результатах
+        this.results_wrap.style.height = ''; //убираем высоту у блока с результатми вывода чтоб не ыбло полосы теней на результатах
 
-        this.header[0].custom_scroll.show(); //показываем скролбар в хедере если нужно
+        this.header.style.overflow = '';//возвращем прокрутку в хедер
 
         this.status = 'open'; //статус открытия окна
-
-        return true;
     }
     //открываем окно для отображения результатов поиска
 
@@ -240,13 +239,13 @@ export default new (class {
     chenge_in_search_input() {
         clearTimeout(this.input_timerid); //удаляем таймер
 
-        this.search_input[0].value.length > 0 ? this.search_input.addClass('nachat_vvod') : this.search_input.removeClass('nachat_vvod'); //если введён хотяб один символ в поле поиска меняем стили инпута
+        this.search_input.value.length > 0 ? this.search_input.classList.add('started-inputed') : this.search_input.classList.remove('started-inputed'); //если введён хотяб один символ в поле поиска меняем стили инпута
 
         //создаём таймер задержки ввода
         this.input_timerid = setTimeout(async () => {
-            let search_text = this.search_input[0].value; //поисковой запрос
+            let search_text = this.search_input.value; //поисковой запрос
 
-            GDS.lock_all_interactive(); //блокируем все интерактивные элементы в хедере
+            //GDS.lock_all_interactive(); //блокируем все интерактивные элементы в хедере
 
             this.cached_result = null; //так же чистим прежние результаты поиска из кеша объекта поиска
 
@@ -294,7 +293,7 @@ export default new (class {
             }
             //если количество символов удалили до нуля то сворачиваем блок с результатами поиска
 
-            GDS.unlock_all_interactive(); //разблокируем все интерактивные элементы в хедере
+            //GDS.unlock_all_interactive(); //разблокируем все интерактивные элементы в хедере
         }, 500);
         //создаём таймер задержки ввода
     }
@@ -302,7 +301,7 @@ export default new (class {
 
     //удаляем данные запроса пользователя в инпуте и куках
     clean_input() {
-        this.search_input.removeClass('nachat_vvod'); //убираем класс уведомляющий о том что поле заполнено текстом поиска
+        this.search_input.removeClass('started-inputed'); //убираем класс уведомляющий о том что поле заполнено текстом поиска
 
         this.search_input[0].value = ''; //удаляем содержимое инпута для поиска
 
@@ -314,59 +313,59 @@ export default new (class {
 
     //раскрываем окно с результатами поиска и отображает результаты поиска в блоке для результатов
     async render_results(search_text) {
-        if (this.status !== 'open' || this.search_input[0].value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+        if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
 
         //если мы уже ищем не первый раз то блок с результатами поиска нужно очистить перед выводом новых результатов
-        if (this.results_wrapper[0].innerHTML !== '') {
+        if (this.results_data.innerHTML !== '') {
             await anime({
                 //дожидаемся пока результаты поиска станут прозрачными
-                targets: this.results_wrapper[0],
+                targets: this.results_data,
                 opacity: 0,
-                duration: GDS.anim_time,
-                easing: GDS.anim_tf,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
             }).finished;
 
-            if (this.status !== 'open' || this.search_input[0].value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+            if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
 
-            this.results_wrapper[0].innerHTML = ''; //удаляем всё содержимое блока с результатами поиска
+            this.results_data.innerHTML = ''; //удаляем всё содержимое блока с результатами поиска
 
             anime({
                 //показываем лоадер
-                targets: this.search_loader[0],
+                targets: this.results_loader,
                 opacity: 0,
-                duration: GDS.anim_time,
-                easing: GDS.anim_tf,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
             });
         }
         //если мы уже ищем не первый раз то блок с результатами поиска нужно очистить перед выводом новых результатов
 
         //вставляет переданные код html в блок с результатами поиска и плавно показывает его
         let show_results = async result_html => {
-            if (this.status !== 'open' || this.search_input[0].value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+            if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
 
             await anime({
                 //дожидаемся скрытия лоадера
-                targets: this.search_loader[0],
+                targets: this.results_loader,
                 opacity: 0,
-                duration: GDS.anim_time,
-                easing: GDS.anim_tf,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
             }).finished;
 
-            if (this.status !== 'open' || this.search_input[0].value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+            if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
 
-            this.results_wrapper[0].innerHTML = result_html; //записываем результаты в блок с результатами поиска
+            this.results_data.innerHTML = result_html; //записываем результаты в блок с результатами поиска
 
-            this.search_results.css('height', ''); //убираем высоту у блока с результатами поиска чтоб она автоматически установилась после заполнения результатами
+            //this.search_results.css('height', ''); //убираем высоту у блока с результатами поиска чтоб она автоматически установилась после заполнения результатами
 
             await anime({
                 //плавно показываем блок с результатами
-                targets: this.results_wrapper[0],
+                targets: this.results_data,
                 opacity: 1,
-                duration: GDS.anim_time,
-                easing: GDS.anim_tf,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
             }).finished;
 
-            if (this.status !== 'open' || this.search_input[0].value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+            if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
 
             Img_Loader.update_img_set_and_init(); //после того как мы вставили результамы поиска в DOM мы должны обновить набор картинок в модуле Img_Loader и так же сразу его запустить чтоб проверить видны ли картинки в данный момент и настроить высоты блоков
         };
@@ -377,15 +376,13 @@ export default new (class {
 
         let result_html = await this.load_results(search_text); //ищем search_text - текст введённый в поле поиска в базе, после того как получили ответ выводим его на экран
 
-        if (this.status !== 'open' || this.search_input[0].value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+        if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
 
         await show_results(result_html); //вставляет переданные код html в блок с результатами поиска и плавно показывает его
 
-        if (this.status !== 'open' || this.search_input[0].value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+        if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
 
         this.cached_result = result_html; //сохранеям результаты поиска в кеш объекта поиска
-
-        this.header[0].custom_scroll.show(); //показываем скролбар в хедере сели нужна прокрутка
     }
     //раскрываем окно с результатами поиска и отображает результаты поиска в блоке для результатов
 
@@ -399,10 +396,7 @@ export default new (class {
                 action: 'search',
                 search_text: search_text,
             },
-            result = await request_to_server({
-                data_to_send: data,
-                error_dop_html: dop_html,
-            }).catch(error_data => (error = error_data));
+            result = await request_to_server(data).catch(error_data => (error = error_data));
 
         if (error) return error; //если во время запроса возникла критическая ошибка например сайт недоступен или у пользователя пропал интернет то мы выводим ошибку
 

@@ -1,15 +1,33 @@
 .header-search {
+    max-width: rem(980);
+
     @media (min-width: rem(640)) {
         margin: auto;
-        width: 75%;
-        padding: rem(30) 0;
+        width: to_percent(480, 640);
+    }
+
+    @media (min-width: rem(1920)) {
+        max-width: adaptiv_rem_size(980, 1920);
     }
 
     &__input {
         position: relative;
         display: flex;
+        align-items: center;
         justify-content: space-between;
         font: var(--h2);
+        padding: adaptiv_rem_size(30, 320, 25, 640) 0;
+
+        @media (min-width: rem(640)) {
+            padding-top: adaptiv_rem_size(25, 640, 80, 1920);
+            padding-bottom: adaptiv_rem_size(25, 640, 60, 1920);
+        }
+
+        @media (min-width: rem(1920)) {
+            padding-top: adaptiv_rem_size(80, 1920);
+            padding-bottom: adaptiv_rem_size(60, 1920);
+            max-width: adaptiv_rem_size(980, 1920);
+        }
 
         input {
             width: 100%;
@@ -24,6 +42,11 @@
                 width: 89.583%;
             }
 
+            @media (min-width: rem(1920)) {
+                padding-bottom: adaptiv_rem_size(10, 1920);
+                border-bottom: adaptiv_rem_size(1, 1920) solid var(--gray);
+            }
+
             @media not (pointer: none) {
                 outline: none;
             }
@@ -31,15 +54,15 @@
     }
 
     &__input input.started-inputed {
-        border-bottom: rem(1) solid var(--black);
+        border-bottom-color: var(--black);
     }
 
     &__input input.started-inputed + &__input-control-icons {
-        .icon-search {
+        .icon--search {
             display: none;
         }
-        .icon-close {
-            display: block;
+        .icon--close {
+            display: flex;
         }
     }
 
@@ -47,9 +70,6 @@
         width: rem(50);
         height: rem(50);
         font-size: rem(20);
-        display: flex;
-        align-items: center;
-        justify-content: center;
         position: absolute;
         right: -#{rem(10)};
         top: 50%;
@@ -62,7 +82,21 @@
             transform: none;
         }
 
-        .icon-search {
+        @media (min-width: rem(1920)) {
+            width: adaptiv_rem_size(50, 1920);
+            height: adaptiv_rem_size(50, 1920);
+            font-size: adaptiv_rem_size(20, 1920);
+        }
+
+        button {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon--search {
             color: var(--gray);
 
             @media (min-width: rem(640)) {
@@ -70,24 +104,34 @@
             }
         }
 
-        .icon-close {
+        .icon--close {
             display: none;
             color: revert;
 
             @media (min-width: rem(640)) {
-                display: block;
+                display: flex;
             }
         }
     }
 
     &__results-wrap {
-        display: none;
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
     }
 
     &__loader {
+        width: 100%;
+        height: 100%;
+        display: none;
+        opacity: 0;
+        transition: opacity var(--standart-anim);
+        position: absolute;
+        inset: 0;
     }
 
     &__results-data {
+        width: 100%;
     }
 
     &__results-any-links {

@@ -195,6 +195,42 @@
             "@overlays-img/*": [
                 "@components\\blocks\\overlays\\img/*"
             ],
+            "@product-small-info-block": [
+                "@components\\blocks\\product-small-info-block"
+            ],
+            "@product-small-info-block/*": [
+                "@components\\blocks\\product-small-info-block/*"
+            ],
+            "@product-small-info-block-main-js": [
+                "@components\\blocks\\product-small-info-block\\js\\product-small-info-block-main.js"
+            ],
+            "@product-small-info-block-main-js/*": [
+                "@components\\blocks\\product-small-info-block\\js\\product-small-info-block-main.js/*"
+            ],
+            "@product-small-info-block-render-scss": [
+                "@components\\blocks\\product-small-info-block\\scss\\product-small-info-block-render.scss"
+            ],
+            "@product-small-info-block-render-scss/*": [
+                "@components\\blocks\\product-small-info-block\\scss\\product-small-info-block-render.scss/*"
+            ],
+            "@product-small-info-block-interaction-scss": [
+                "@components\\blocks\\product-small-info-block\\scss\\product-small-info-block-interaction.scss"
+            ],
+            "@product-small-info-block-interaction-scss/*": [
+                "@components\\blocks\\product-small-info-block\\scss\\product-small-info-block-interaction.scss/*"
+            ],
+            "@product-small-info-block-fonts": [
+                "@components\\blocks\\product-small-info-block\\fonts"
+            ],
+            "@product-small-info-block-fonts/*": [
+                "@components\\blocks\\product-small-info-block\\fonts/*"
+            ],
+            "@product-small-info-block-img": [
+                "@components\\blocks\\product-small-info-block\\img"
+            ],
+            "@product-small-info-block-img/*": [
+                "@components\\blocks\\product-small-info-block\\img/*"
+            ],
             "@scroll-to-top-button": [
                 "@components\\blocks\\scroll-to-top-button"
             ],

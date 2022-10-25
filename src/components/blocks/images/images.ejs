@@ -17,15 +17,15 @@ if(data.oh){
 } %>
 
 <% if(data.type === "img"){ %>
-<div class="picture" data-img-type="img" <%-style_pt%>>
-  <img class="picture__body" data-src="<%-data.url%>" <%-original_w%> <%-original_h%> alt="">
+<div class="image" <%-style_pt%>>
+  <img data-img-type="img" data-src="<%-data.url%>" <%-original_w%> <%-original_h%> alt="">
   <%-loader_html%>
 </div>
 <% } %>
 
 <% if(data.type === "bg"){ %>
-<div class="picture" data-img-type="bg" <%-style_pt%>>
-  <div class="picture__body" data-src="<%-data.url%>" <%-original_w%> <%-original_h%>></div>
+<div class="image" <%-style_pt%>>
+  <div data-img-type="bg" data-src="<%-data.url%>" <%-original_w%> <%-original_h%>></div>
   <%-loader_html%>
 </div>
 <% } %>

@@ -8,7 +8,7 @@
   font-display: block;
 }
 
-[class*="icon-"] {
+[class*="icon--"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icon-font' !important;
   speak: never;
@@ -22,59 +22,55 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-cart {
+.icon--cart-bold {
   &:before {
-    content: $icon-cart; 
+    content: $icon--cart-bold; 
   }
 }
-.icon-cart_bold {
+.icon--cart {
   &:before {
-    content: $icon-cart_bold; 
+    content: $icon--cart; 
   }
 }
-.icon-close {
+.icon--close {
   &:before {
-    content: $icon-close; 
+    content: $icon--close; 
   }
 }
-.icon-close_bold {
+.icon--close-bold {
   &:before {
-    content: $icon-close_bold; 
+    content: $icon--close-bold; 
   }
 }
-.icon-error_load {
+.icon--phone {
   &:before {
-    content: $icon-error_load; 
+    content: $icon--phone; 
   }
 }
-.icon-phone {
+.icon--ruble-currency {
   &:before {
-    content: $icon-phone; 
+    content: $icon--ruble-currency; 
   }
 }
-.icon-ruble_currency {
+.icon--search {
   &:before {
-    content: $icon-ruble_currency; 
+    content: $icon--search; 
   }
 }
-.icon-search {
+.icon--search-bold {
   &:before {
-    content: $icon-search; 
+    content: $icon--search-bold; 
   }
 }
-.icon-search_bold {
+.icon--arrow-scroll-to-top {
   &:before {
-    content: $icon-search_bold; 
+    content: $icon--arrow-scroll-to-top; 
   }
 }
-.icon-arrow_middle {
+.icon--arrow-middle {
   &:before {
-    content: $icon-arrow_middle; 
+    content: $icon--arrow-middle; 
   }
 }
-.icon-arrow_scroll_to_top {
-  &:before {
-    content: $icon-arrow_scroll_to_top; 
-  }
-}
+
 

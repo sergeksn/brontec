@@ -17,9 +17,9 @@
       let head = document.getElementsByTagName("head")[0],
         style_el = document.createElement("style"),
         dfs = window.getComputedStyle(document.getElementsByTagName("html")[0]).fontSize.replace("px", "");
-        /*обязательно нужно получить размешь штифта по умолчанию, т.к. в противном случае если просто делить на 16 
-        переменная --wwr будет не корректной и все блоки будут ехать, конечно если пользователь поменяет размер шрифта находясь на сайте, 
-        изменения не вступят в силу до перезагрузки страницы*/
+      /*обязательно нужно получить размешь штифта по умолчанию, т.к. в противном случае если просто делить на 16 
+      переменная --wwr будет не корректной и все блоки будут ехать, конечно если пользователь поменяет размер шрифта находясь на сайте, 
+      изменения не вступят в силу до перезагрузки страницы*/
       /*--wwr = --win-width-rem
       --whr = --win-heigth-rem*/
       function set_css_vars() {
@@ -28,6 +28,7 @@
         style_el.innerHTML = "";
         style_el.innerHTML = `:root{
         --wwr: ${w / dfs}rem;
+        --wwrn: ${w / dfs};
         --whr: ${h / dfs}rem;
       }`;
         /*
@@ -149,4 +150,7 @@
       header_background.style.height = header_height; /*задаём высоту подложки хедера*/
     })()
   </script>
-  <main style="position: relative; height: 1400px; background-color: green; overflow-y: hidden;">
+  <main style="position: relative; height: 1400px; background-color: white; overflow-y: hidden;">
+    <div style="max-width:780px; margin:auto;">
+      <%- include('./../../blocks/product-small-info-block/product-small-info-block.ejs') %>
+    </div>

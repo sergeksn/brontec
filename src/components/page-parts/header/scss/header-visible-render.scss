@@ -9,6 +9,14 @@
     background-color: var(--white);
     z-index: map-get($z-index, header-visible);
 
+    @media (min-width: rem(960)) {
+        min-height: adaptiv_rem_size(60, 960, 80, 1920);
+    }
+
+    @media (min-width: rem(1920)) {
+        min-height: adaptiv_rem_size(80, 1920);
+    }
+
     &__logo {
         width: rem(110);
         min-height: rem(50);
@@ -64,7 +72,7 @@
             }
         }
 
-        .icon-search {
+        .icon--search {
             @media (min-width: rem(640)) {
                 display: none;
             }
@@ -74,7 +82,7 @@
             }
         }
 
-        .icon-search_bold {
+        .icon--search-bold {
             @media (min-width: rem(640)) {
                 display: block;
             }
@@ -192,7 +200,7 @@
             }
         }
 
-        .icon-cart {
+        .icon--cart {
             display: none;
 
             @media (min-width: rem(960)) {
@@ -200,7 +208,7 @@
             }
         }
 
-        .icon-cart_bold {
+        .icon--cart-bold {
             @media (min-width: rem(960)) {
                 display: none;
             }
@@ -284,4 +292,3 @@
         bottom: rem(4);
     }
 }
-

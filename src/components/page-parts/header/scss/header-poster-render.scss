@@ -70,13 +70,13 @@
             }
         }
 
-        .icon-close {
+        .icon--close {
             @media (min-width: rem(960)) {
                 display: none;
             }
         }
 
-        .icon-close_bold {
+        .icon--close-bold {
             display: none;
 
             @media (min-width: rem(960)) {
