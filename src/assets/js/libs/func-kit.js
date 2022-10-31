@@ -85,8 +85,6 @@ function request_to_server(data_to_send) {
 
         if (error) return reject(error); //если во время запроса возникла критическая ошибка например сайт недоступен или у пользователя пропал интернет то мы выводим ошибку
 
-        console.log(response)
-
         if (!response.ok) return reject(`<div class="search_fail">На стороне сервера возникла ошибка ${response.status}, мы уже работаем над её исправлением. Приносим извинения за неудобства!</div>`);
 
         let result = await response.json(); //ответ в формате json

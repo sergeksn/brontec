@@ -1,4 +1,7 @@
-<div class="product-info product-info--header-search">
+<% 
+let block_type = type === "header-search" ? "product-info--header-search" : null;
+%>
+<div class="product-info <%-block_type%>">
   <div class="product-info__description">
     <div class="product-info__title">Комплект <span class="product-info__searched-text">NIS</span>san элементов салона для Nissan Murano</div>
     <div class="product-info__small-description">краткое описание продукта в несколько слов</div>
@@ -12,8 +15,7 @@
     <div class="product-info__gradient-fon"></div>
     <div class="image" style="padding-top:66.667%;">
       <img data-img-type="img" data-src="~@product-small-info-block-img/search.jpg" data-original-w="2145" data-original-h="1430">
-      <img data-img-type="kit" data-src="~@product-small-info-block-img/kit.svg" data-kit-id="dvernie-ruchki fary kapot krylya krysha">
-     
+      <div data-img-type="kit" data-src="~@product-small-info-block-img/kit.svg" data-kit-all-id="dvernie-ruchki fary kapot krylya krysha perednie-stoyki" data-kit-nead-id="dvernie-ruchki fary kapot krylya krysha perednie-stoyki"></div>
       <div class="loader">
         <div class="loader__circle"></div>
       </div>

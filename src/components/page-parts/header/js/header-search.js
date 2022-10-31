@@ -2,13 +2,11 @@ import { Header, Header_Hidden } from '@header-main-js';
 import { wait, request_to_server } from '@js-libs/func-kit';
 import { set_cookie, get_cookie, delete_cookie } from '@js-libs/cookie';
 
-
-import Small_Product_Previv_Block from "@js-moduls/small-product-previv-block";
-
-
+import Product_Small_Info_Block from '@product-small-info-block-main-js';
 
 import { Img_Loader } from '@js-moduls/media';
 import anime from '@js-libs/anime';
+import { set } from 'animejs';
 
 export default new (class {
     //pending to close - в процессе закрытия окна
@@ -16,6 +14,17 @@ export default new (class {
     //pending to open - в процессе открытия окна
     //open - окно открыто
     status = 'close';
+
+    search_type = 'all'; //тип поиска, поределяет то что ищем, возможные значения:
+    //all - ищем всё и целые комплекты и их составные детали
+    //komplekts - только полные комплекты
+    //parts - только части комплекта
+
+    where_add_instructon = 'all'; //указываем где добавляем инструкции, возможные варианты:
+    //all - для всех и для частей и для целых комплектов
+    //komplekts - только для комплектов
+    //parts - только для частей комплекта
+    //never - не добавлять инстукции ни к одному продукту
 
     cached_result = null; //сохранеям в данный объект результаты последнего поиска чтоб можно было их быстро использовать для повторного открытия окна поиска если не было очищено поле ввода
 
@@ -31,6 +40,7 @@ export default new (class {
         this.header_hidden_menu = d.querySelector('.header-hidden__menu');
         this.header_hidden_phone = d.querySelector('.header-hidden__phone');
         this.header_search = d.querySelector('.header-search');
+        this.search_input_wrap = d.querySelector('.header-search__input');
         this.search_input = d.querySelector('.header-search input');
         this.close_button = d.querySelector('.header-search__close-button');
         this.results_wrap = d.querySelector('.header-search__results-wrap');
@@ -46,10 +56,7 @@ export default new (class {
 
         this.search_input._on('input', this.chenge_in_search_input.bind(this)); //начинаем поиск после ввода символов
 
-        // $(window).on({
-        //     events: 'resize_optimize',
-        //     callback: this.size_recalculate.bind(this),
-        // }); //выполяем нужные действия при ресайзе
+        window._on('resize_optimize', this.size_recalculate.bind(this)); //выполяем перерисвку при ресайзе
     }
     //иницализируем все функции и слушатели для работы поиска
 
@@ -59,10 +66,10 @@ export default new (class {
 
         let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
-        search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //задаём минимальную высота для блока с выводом результатов и лоадера в 100 пикселей
+        search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //минимальная высота анимации раскрытия блока поиска
 
-        //если размер экрана менее 640px то сначало дожидаемся сокрытия пунктов мобильного меню
-        if (GDS.win_width < 640) {
+        //если размер экрана менее 640px или 40rem то сначало дожидаемся сокрытия пунктов мобильного меню
+        if (GDS.win.width_rem < 40) {
             await anime({
                 targets: [this.header_hidden_menu, this.header_hidden_phone],
                 opacity: 0,
@@ -89,14 +96,11 @@ export default new (class {
 
         await Promise.all([lower_header, lower_search_results_block]);
 
-        [this.header_hidden_menu, this.header_hidden_phone].forEach(el => {
-            //скрываем меню и телефон
-            el.getElementsByClassName.display = 'none';
-        });
+        [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
 
         this.results_wrap.style.minHeight = search_results_block_height + 'px'; //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
 
-        this.results_loader.style.display = 'block'; //отображаем лоадер в документ
+        this.results_loader.style.display = 'block'; //отображаем лоадер в документе
 
         //Примечание: можно добавить await чтоб лоадер точно был замечен пользователем
         anime({
@@ -107,9 +111,9 @@ export default new (class {
             easing: GDS.anim.graph,
         }).finished;
 
-        this.results_wrap.style.height = ''; //убираем высоту у блока с результатми вывода чтоб не ыбло полосы теней на результатах
+        this.results_wrap.style.height = ''; //убираем высоту у блока с результатми вывода чтоб не было полосы теней на результатах
 
-        this.header.style.overflow = '';//возвращем прокрутку в хедер
+        this.header.style.overflow = ''; //возвращем прокрутку в хедер
 
         this.status = 'open'; //статус открытия окна
     }
@@ -118,15 +122,13 @@ export default new (class {
     //закрываем окно для отображения результатов поиска
     //full_close - указывает на то что закрывается весь скрытый блко и в этом случае после скрытия блок с результатами поиска не отображаем меню а сразу скрываем оставшийся инпут
     async close_results_block(full_close = false) {
-        if (this.status !== 'open') return false; //если окно с результатами поиска не польностью открыто то завершаем промис неудачей
+        if (this.status !== 'open') return; //если окно с результатами поиска не польностью открыто то завершаем функцию
 
         this.status = 'pending to close'; //статус открытия окна
 
-        this.header[0].custom_scroll.hide(); //скрываем скролбар в хедере перед закрытием блока
+        this.header.style.height = '';//убираем высоту у хедера чтоб его можно было свернуть
 
-        this.header.css('height', ''); //убираем высоту у хедера чтоб его можно было свернуть
-
-        if (!full_close) this.header_menu_mobile.add(this.header_phone_mobile).css('display', ''); //возвращаем в документ блоки
+        if (!full_close) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = ''));; //возвращаем в документ блоки
 
         let search_results_block_height = GDS.win_height - this.search_results[0].getBoundingClientRect().top; //получаем растояние от верха экрана до верха блока для отображение результатов поиска
 
@@ -148,6 +150,8 @@ export default new (class {
 
         //если есть какие-то отображённые результаты поиска
         else {
+            Img_Loader.dellete_from_observe(this.results_data.querySelectorAll('[data-img-type]')); //удаляем из отслеживания старые картинкинки
+
             this.search_loader.css('opacity', '0'); //скрываем лоадер
 
             await anime({
@@ -197,11 +201,7 @@ export default new (class {
 
         Header_Hidden.size_recalculate(); //пересчитываем новые размеры меню добавляем высоту хедеру и прокрутку если нужно
 
-        this.header[0].custom_scroll.show(); //показываем скролбар в хедере если нужно
-
         Img_Loader.update_img_set_and_init(); //после того как мы закрыли блок с результатами поиска и вернулись к обычной странице мы должны обновить набор картинок чтоб не проверять те которые уже не нужны (картинке из результатов поиска)
-
-        return true;
     }
     //закрываем окно для отображения результатов поиска
 
@@ -317,6 +317,8 @@ export default new (class {
 
         //если мы уже ищем не первый раз то блок с результатами поиска нужно очистить перед выводом новых результатов
         if (this.results_data.innerHTML !== '') {
+            Img_Loader.dellete_from_observe(this.results_data.querySelectorAll('[data-img-type]')); //удаляем из отслеживания старые картинкинки
+
             await anime({
                 //дожидаемся пока результаты поиска станут прозрачными
                 targets: this.results_data,
@@ -355,8 +357,6 @@ export default new (class {
 
             this.results_data.innerHTML = result_html; //записываем результаты в блок с результатами поиска
 
-            //this.search_results.css('height', ''); //убираем высоту у блока с результатами поиска чтоб она автоматически установилась после заполнения результатами
-
             await anime({
                 //плавно показываем блок с результатами
                 targets: this.results_data,
@@ -367,7 +367,9 @@ export default new (class {
 
             if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
 
-            Img_Loader.update_img_set_and_init(); //после того как мы вставили результамы поиска в DOM мы должны обновить набор картинок в модуле Img_Loader и так же сразу его запустить чтоб проверить видны ли картинки в данный момент и настроить высоты блоков
+            this.results_any_links.style.display = 'flex'; //показываем блок со ссылками
+
+            Img_Loader.add_in_observe(this.results_data.querySelectorAll('[data-img-type]')); //добавляем отслеживание видимости картинок в окне поиска
         };
         //вставляет переданные код html в блок с результатами поиска и плавно показывает его
 
@@ -390,31 +392,30 @@ export default new (class {
     async load_results(search_text) {
         let error, //сюда будет записана ошибка если появится
             output_html = '', //сюда будем записывать HTML для отображения на странице
-            dop_html = '<div class="search_results_links"><a href="#"><div>Не нашли Ваш авто?</div></a><a href="#"><div>Консультация</div></a></div>', // дополнительные html блоки с сылками
             data = {
                 //данные для отправки на сервер
                 action: 'search',
                 search_text: search_text,
+                search_type: this.search_type,
+                where_add_instructon: this.where_add_instructon,
             },
             result = await request_to_server(data).catch(error_data => (error = error_data));
 
         if (error) return error; //если во время запроса возникла критическая ошибка например сайт недоступен или у пользователя пропал интернет то мы выводим ошибку
 
-        if (result.nothing_found) return '<div class="search_fail">По Вашему запросу <span>"' + search_text + '"</span> ничего не найдено =(</div>' + dop_html; //если вернулась nothing_found, значит ничего не найдено по текущему запросу
+        if (result.nothing_found) return '<div class="header-search__fail">По Вашему запросу <span>"' + search_text + '"</span> ничего не найдено =(</div>'; //если вернулась nothing_found, значит ничего не найдено по текущему запросу
 
         //перебираем все данные из ответа и создаём на их основе HTML контент
         for (let i = 0; i < result.length; i++) {
             result[i]['search_text'] = search_text; //дополянем объект данными о введённом тексте
 
-            let render = new Small_Product_Previv_Block(result[i]); //создаём экземпляр с данными для рендера
+            let render = new Product_Small_Info_Block(result[i]); //создаём экземпляр с данными для рендера
 
-            output_html += '<div class="result_item">' + render.render_product_block() + '</div>'; //дописываем html код блока предварительного просмотри товара
+            output_html += render.render_product_block(); //дописываем html код блока предварительного просмотри товара
 
-            output_html += '<div class="result_item">' + render.render_instruction_block() + '</div>'; //дописываем html код блока инструкций для этго товара
+            output_html += render.render_instruction_block(); //дописываем html код блока инструкций для этго товара
         }
         //перебираем все данные из ответа и создаём на их основе HTML контент
-
-        output_html += dop_html; //дописываем дополнительные html блоки
 
         return output_html;
     }
@@ -422,22 +423,25 @@ export default new (class {
 
     //функция пересчитывает размеры в окне с результатами поиска про ресайзе
     size_recalculate() {
-        if (this.status === 'close' || this.status === 'pending to close') return; //если окно поиска закрыто или  в процессе закрытия то завершаем функцию
+        if (this.status === 'close' || this.status === 'pending to close') return; //если окно поиска закрыто или в процессе закрытия то завершаем функцию
 
         //функция для обновления параметров блока
         let update_size_params = () => {
-            this.header.css('height', GDS.win_height + 'px');
+            this.header.style.height = GDS.win.height + 'px';
 
-            this.header_menu_mobile.add(this.header_phone_mobile).css('display', ''); //убираем стили у меню и телефона
-            this.header_menu_mobile.add(this.header_phone_mobile).css('opacity', '');
+            [this.header_hidden_menu, this.header_hidden_phone].forEach(el => {
+                //убираем стили у меню и телефона
+                el.style.display = '';
+                el.style.opacity = '';
+            });
 
-            if (GDS.win_width < 640) this.header_menu_mobile.add(this.header_phone_mobile).css('display', 'none'); //для мальньких экранов скрываем меню и телефон
+            if (GDS.win.width_rem < 40) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
 
-            let search_results_block_height = GDS.win_height - GDS.header.get_header_always_visible_h() - this.search_wrapper.height(); //получаем минимальную высоту которую должен занимать блок с результатми поиска
+            let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: true, header_visible: true }) - window.getComputedStyle(this.search_input_wrap).height.replace("px", ""); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
             search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //задаём минимальню высота для блока с выводом результатов и лоадера в 100 пикселей
 
-            this.search_results.css('min-height', search_results_block_height + 'px'); //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
+            this.results_wrap.style.minHeight = search_results_block_height + 'px'; //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
         };
         //функция для обновления параметров блока
 

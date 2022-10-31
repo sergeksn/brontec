@@ -32,6 +32,15 @@ new (class {
             flicker_active_elements: true, //определяет будут ли тускнет активные элементы на время отключения
         };
 
+        //параметры медиаресуерсов
+        GDS.media = {
+            img: {
+                loader_delay_time: 250, //время которое даётся на загрузку картинки без лоадера, чтоб быстро её показать если она например в кеше или интернет пользователя имеет хорошую скорость
+                miniatur_sizes: [0, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1600, 1800, 2000, 2500, 3000, 4000, 5000, 6000, 7000, 8000],//это все возможные значения ширины у миниатюр
+                //ПРИМЕЧАНИЕ: 0 нужен чтоб корректно сравнивать миниатюры
+            },
+        };
+
         //параметры прокрутки
         GDS.scroll = {
             value: document.getElementsByTagName('html')[0].scrollTop, //отсуп от верха страницы
@@ -56,6 +65,8 @@ new (class {
         GDS.device.width = window.screen.width;
         GDS.win.height = document.documentElement.clientHeight;
         GDS.win.width = document.documentElement.clientWidth;
+        GDS.win.height_rem = document.documentElement.clientHeight/GDS.win.default_font_size;
+        GDS.win.width_rem = document.documentElement.clientWidth/GDS.win.default_font_size;
     }
     //devise высота и ширина экрана устройства и win окна браузера записываем для удобста чтоб не вычислять каждый раз, а так же обновлять при ресайзах
 

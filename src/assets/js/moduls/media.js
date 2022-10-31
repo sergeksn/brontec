@@ -5,12 +5,12 @@ const Img_Loader = new (class {
     //инициализатор загрузки картинок
     constructor() {
         let options_observer = {
-            //rootMargin: "-10%", //показываем только когда элемент пересёк уже определённый процент размера окна браузера, в нашем случае высоты
+            threshold: 0.1, //показываем только когда элемент виден минимум на n процентов от своего размера
         };
 
         this.img_visible_observer = new IntersectionObserver(this.img_upload_manager.bind(this), options_observer); //создаём наблюдатель за видимостью элементов на экране
 
-        document.querySelectorAll('[data-img-type]').forEach(el => this.img_visible_observer.observe(el)); //добаляем все нужные элементы на отслеживание видимости
+        this.add_in_observe(document.querySelectorAll('[data-img-type]')); //добаляем все нужные элементы на отслеживание видимости
 
         //проверяем видимость картинок при смене ориентации
         //ПРИМЕЧАНИЕ: IntersectionObserver срабатывает при смене ориентации если в инструментах разработчика явно установить мобильную марку, так что на всякий случай сделаем кастомную проверку при смене ориентации в дополнее к имеющейся
@@ -27,6 +27,18 @@ const Img_Loader = new (class {
         }); //проверяем видимость картинок при смене ориентации
     }
     //инициализатор загрузки картинок
+
+    //добаляем все нужные элементы на отслеживание видимости
+    add_in_observe(elems) {
+        elems.forEach(el => this.img_visible_observer.observe(el));
+    }
+    //добаляем все нужные элементы на отслеживание видимости
+
+    //удаляем элементы из отслеживания видимости
+    dellete_from_observe(elems) {
+        elems.forEach(el => this.img_visible_observer.unobserve(el));
+    }
+    //удаляем элементы из отслеживания видимости
 
     //определяет какой загрузчик нужен для данного блока картинки
     img_upload_manager(entries) {
@@ -67,43 +79,39 @@ const Img_Loader = new (class {
     }
     //определяет какой загрузчик нужен для данного блока картинки
 
-    //22 штуки, это все возможные значения ширины у миниатюр
-    //ПРИМЕЧАНИЕ: 0 нужен чтоб корректно сравнивать миниатюры
-    miniatur_sizes = ['0', '300', '400', '500', '600', '700', '800', '900', '1000', '1100', '1200', '1300', '1400', '1600', '1800', '2000', '2500', '3000', '4000', '5000', '6000', '7000', '8000'];
-    //22 штуки, это все возможные значения ширины у миниатюр
-
     //получаем адрес миниатюры картинки с учётом ширины картинки на сайте
     //img - картинка или блок фоном которого является картинка
     get_img_size_url(img) {
         let data_src = img.getAttribute('data-src'), //путь к оригиналу картинки
             ext = data_src.match(/\.{1}([a-zA-Z]+)$/)[0], //расширение картинки в вормате .jpg С ТОЧКОЙ !!!
             url_bez_ext = data_src.replace(ext, ''), //адрес картинки без расширения файла и точки перед ним
-            original_w = Number(img.getAttribute('data-original-w')), //ширина оригинальной картинки в px
-            original_h = Number(img.getAttribute('data-original-h')), //высота оригинальной картинки в px
-            width = Number(window.getComputedStyle(img).width.replace('px', '')), //целочисленно значение ширины отведённое под картинку
-            height = Number(window.getComputedStyle(img).height.replace('px', '')), //целочисленно значение высоты отведённое под картинку
+            original_w = +img.getAttribute('data-original-w'), //ширина оригинальной картинки в px
+            original_h = +img.getAttribute('data-original-h'), //высота оригинальной картинки в px
+            width = +window.getComputedStyle(img).width.replace('px', ''), //целочисленно значение ширины отведённое под картинку
+            height = +window.getComputedStyle(img).height.replace('px', ''), //целочисленно значение высоты отведённое под картинку
             dpr_width = width * GDS.device.dpr, //требуемая ширина картинки для качественного отображения, с учётом плотности пиксилей
             dpr_height = height * GDS.device.dpr, //требуемая высота картинки для качественного отображения, с учётом плотности пиксилей
             //ПРИМЕЧАНИЕ: может быть такая ситуация что высота картинки которая нужна больше то высоты которая будет определена на основе ширины блока картинки, это может возникнуть если мы используем картинку с таким позиционированием что она занимает определённую высоту, а ширина которая не поместилась просто остаётся за пределами экран или блока, т.е. в этом случае нам нужно отталкивать уже от высоты блока картинки чтоб получить подходящую по качеству миниатюру, а не от ширины как мы делаем при стандартном подходе
             need_dpr_width = Math.round(height) > Math.round((original_h * width) / original_w) ? (original_w * dpr_height) / original_h : dpr_width, //если высота блока картинки больше высоты которая будет у самой картинки, при условии что ширина картинки берётся как у ширины блока, то это значит что основой вычислений будет именно высота блока, т.к. нужно загрузить качественную картинку (простым примером может служить слоайдер на главной екб, там высота блока картинки приоритетнее, т.к. нужно загрузить изображение наилучего качества опираясь на высоту, а лишняя ширина будет за пределаи блока или экрана)
             //(original_w * dpr_height) / original_h это необходимая ширина картинки с учётом dpr чтоб качественно выглядеть при такой высоте и плотности пикселей
-            miniatura_width; //сюда будет записана требуемая ширина миниатюры из списка заданных
+            miniatura_width, //сюда будет записана требуемая ширина миниатюры из списка заданных
+            miniatur_sizes = GDS.media.img.miniatur_sizes; // это все возможные значения ширины у миниатюр
 
         //проверяем условия для полчени нужного размера картинки
         switch (true) {
-            case need_dpr_width <= this.miniatur_sizes[1]: //в случае если требуемая ширина картинки меньше наименьшего доступного размера миниатюры, например нужна картинка шириной в 230px с учётом dpr, в этом члучае мы отдаём картинку миниатюры с наименьшим размером в 300px
-                miniatura_width = this.miniatur_sizes[1]; //запрашиваем наименьшую миниатюру
+            case need_dpr_width <= miniatur_sizes[1]: //в случае если требуемая ширина картинки меньше наименьшего доступного размера миниатюры, например нужна картинка шириной в 230px с учётом dpr, в этом члучае мы отдаём картинку миниатюры с наименьшим размером в 300px
+                miniatura_width = miniatur_sizes[1]; //запрашиваем наименьшую миниатюру
                 break;
-            case need_dpr_width > this.miniatur_sizes[this.miniatur_sizes.length - 1]: //если требуемая ширина картинки больше самой большой миниатюры из списка доступных
+            case need_dpr_width > miniatur_sizes[miniatur_sizes.length - 1]: //если требуемая ширина картинки больше самой большой миниатюры из списка доступных
                 miniatura_width = 'original'; //запрашиваем оригинал картинки
                 break;
             default:
                 //перебираем массив с доступными ширинами миниатюр miniatur_sizes, чтоб определить какая миниатюра будет оптимальная для данной картинки
-                for (let i = 0; i < this.miniatur_sizes.length - 1; i++) {
+                for (let i = 0; i < miniatur_sizes.length - 1; i++) {
                     //ПРИМЕЧАНИЕ: need_dpr_width * 0.97 это 3% погрешности, т.е. мы подбираем зарегистрированные большие ширины миниатюры для картинки на 3% уже той что у нас есть, это сделано чтоб избежать того что когда наш need_dpr_width = 2519, к примеру, мы подставляем миниатюру из miniatur_sizes в 3000, а с погрешностью мы подставим 2500, для пользователя качество не заметна, а вот размер загружаемого файла уменьшиться
                     //когда нашли размер миниатюры удовлетворяющий нашему условиию
-                    if (need_dpr_width > this.miniatur_sizes[i] && need_dpr_width * 0.97 <= this.miniatur_sizes[i + 1]) {
-                        miniatura_width = Number(this.miniatur_sizes[i + 1]); //ширина оптимальной миниатюры
+                    if (need_dpr_width > miniatur_sizes[i] && need_dpr_width * 0.97 <= miniatur_sizes[i + 1]) {
+                        miniatura_width = miniatur_sizes[i + 1]; //ширина оптимальной миниатюры
                         break; //прерываем цикл когда нашли подходящую ширину миниатюры
                     }
                 }
@@ -117,8 +125,7 @@ const Img_Loader = new (class {
 
         //если размер для противоположной ориентации уже был задан
         //мы должны сравнить больше или меньше текущий предлагаемый размер картинки чтоб в случае если нужно более лучшее качество загрузить его, а если нужно меньше то оставить текущую картинку
-
-        if (current_size === 'original' || Number(current_size) >= miniatura_width) return 'no need to update'; //если размер текущей картинку меньше её оригинал, или текущий размер миниатюры такой же как и тот что мы хотим сейчас установить то завершаем функцию
+        if (current_size === 'original' || +current_size >= miniatura_width) return 'no need to update'; //если размер текущей картинку меньше её оригинал, или текущий размер миниатюры такой же как и тот что мы хотим сейчас установить то завершаем функцию
 
         img.setAttribute('data-current-size', miniatura_width); //записываем для данной картинки её текущий размер
 
@@ -159,6 +166,17 @@ const Img_Loader = new (class {
                 search_classes = [`${current_orientation}-started-loaded`, `${current_orientation}-uploaded`, `${current_orientation}-no-nead-loaded`, 'started-loaded', 'uploaded']; //список классов которые сигнализируют о том что дальнейшие операции нужно прервать так какртинка уже загружена или впроцессе загрузки, в случае НЕ SVG загружена для текущей ориентации
 
             if ([...img.classList].some(className => search_classes.includes(className))) return reject('no nead'); //проверяем если среди классов img классы из search_classes, если есть хоть один из них то прерываем функцию и сообщаем что для данной ориентации картинка уже загружена или в процесе загрузки или не должна загружаться
+
+            let loader = img.parentNode.querySelector('.loader'); //лоадер
+
+            //если есть лоадер и картинка ещё не была загружена ни в одной из ориентаций
+            if (loader && ![...img.classList].some(className => [`portrait-uploaded`, `landscape-uploaded`, 'uploaded'].includes(className))) {
+                setTimeout(() => {
+                    //делаем проверку через ималый интервал времени, если картинка всё ещё не загружена после старта её загрузки, то скорее всего картинка берётся не из кеша и пользователю нужно показать лоадер, если картинка загрузилась очень быстро то лоадер показывать не зачем
+                    if (![...img.classList].some(className => [`portrait-uploaded`, `landscape-uploaded`, 'uploaded'].includes(className))) loader.style.display = 'flex'; //показываем лоадер мгновенно
+                }, GDS.media.img.loader_delay_time);
+            }
+            //если есть лоадер и картинка ещё не была загружена ни в одной из ориентаций
 
             let is_svg = img.getAttribute('data-src').match(/\.{1}([a-zA-Z]+)$/)[1] === 'svg', //указывает svg картинка или нет
                 size, //запишем сюда размер миниатюры для текущей ориентации
@@ -216,11 +234,23 @@ const Img_Loader = new (class {
     //функция начинает загрузку картинки img и верёнет промис о результатах загрузки
 
     //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
-    error_img_load(img) {
-        let div = document.createElement('div');
-        div.classList.add('media-load-error');
-        img.parentNode.append(div);
-        setTimeout(() => (div.style.opacity = '1'), 100); //показываем с небольшой задержкой чтоб блок успел отрендерится
+    async error_img_load(e, img) {
+        let loader = img.parentNode.querySelector('.loader');
+
+        if (e === 'error loading') {
+            if (loader) {
+                //если есть лоадер то ждём пока он не скроется
+                loader.style.opacity = '0';
+                let sl = window.getComputedStyle(loader);
+                await wait(() => sl.opacity, '0');
+                loader.remove();
+            }
+
+            let div = document.createElement('div');
+            div.classList.add('media-load-error');
+            img.parentNode.append(div);
+            setTimeout(() => (div.style.opacity = '1'), 100); //показываем с небольшой задержкой чтоб блок успел отрендерится
+        }
     }
     //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
 
@@ -228,12 +258,12 @@ const Img_Loader = new (class {
     //img -  в данном случае это блок div с data-img-type="bg" или теш img с data-img-type="img"
     //type - тип блока картинки img или bg
     async common_img_render(img, type) {
-        let loader = img.parentNode.querySelector('.loader');
-
         await this.common_img_loader(img)
             .then(async data => {
                 //ПРИМЕЧАНИЕ: != тут сравнивает только занчение без типов т.к. может быть строка original вместо цифрового значения
                 if (!data.is_svg && img.getAttribute('data-current-size') != data.size) return; //на случай если вдруг картинка с меньшем разрешением будет весить больше той что больше по разрешению и как следствияе после быстрой смены ориентации загрузится позже чем картинка с лучшим разрешением. Именно в этом случае мы и делаем эту проверку чтоб не вставить картинку с более худшим разрешением
+
+                let loader = img.parentNode.querySelector('.loader');
 
                 if (loader) {
                     //если есть лоадер то ждём пока он не скроется
@@ -247,81 +277,48 @@ const Img_Loader = new (class {
 
                 img.style.opacity = '1';
             })
-            .catch(async e => {
-                if (e === 'error loading') {
-                    if (loader) {
-                        //если есть лоадер то ждём пока он не скроется
-                        loader.style.opacity = '0';
-                        let sl = window.getComputedStyle(loader);
-                        await wait(() => sl.opacity, '0');
-                        loader.remove();
-                    }
-
-                    //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
-                    this.error_img_load(img);
-                }
-            });
+            .catch(async e => this.error_img_load(e, img)); //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
     }
     //функция для загрузки картинок из блоков где всего одна картинка, вставленная через css background-image
 
+    //встваяет svg картинки из svg набора в документ
     async svg_kit_render(img) {
-        let loader = img.parentNode.querySelector('.loader');
-
         await this.common_img_loader(img)
             .then(async data => {
-                let fragment = document.createDocumentFragment();
+                let svg_wrap = document.createElement('div'),
+                    nead_id = img.getAttribute('data-kit-nead-id').split(/\s+/); //нужные к выводу части комплекта
 
-                img.getAttribute('data-kit-id')
-                    .split(' ')
+                svg_wrap.classList.add('svg-kit-wrap');
+
+                img.getAttribute('data-kit-all-id')
+                    .split(/\s+/) //в качестве разделителя берём пробел, который может повторятся от 1 до сколько угодно раз, на случай если мы случайно поставили 2-3 пробеда вместо одного
                     .forEach(id => {
                         let svgNS = 'http://www.w3.org/2000/svg',
                             svg = document.createElementNS(svgNS, 'svg'),
                             use = document.createElementNS(svgNS, 'use');
 
                         svg.append(use);
+                        svg.setAttribute('data-id', id);
+
+                        nead_id.forEach(data_id => {
+                            if (data_id === id) svg.style.fill = 'rgba(0, 73, 255, .5)';//выделяем нужные svg блоки
+                        });
+
                         use.setAttribute('href', data.url + '#' + id);
-                        fragment.append(svg);
+                        svg_wrap.append(svg);
                     });
 
-                img.parentNode.appendChild(fragment);
+                img.parentNode.appendChild(svg_wrap); //вставляем набор нужных svg картинок
 
-                let main_img = img.parentNode.querySelector('[data-img-type]'),
-                    search_classes = [`portrait-uploaded`, `landscape-uploaded`, 'uploaded'],
-                    svgsl = window.getComputedStyle(img.parentNode.querySelector('svg:not([data-img-type])'));
+                await wait(() => window.getComputedStyle(svg_wrap).display === 'block', true); //ждём пока все динамичсески вставленные svg добавятся в документ т.к. есть микроскопическая задержка
 
-                await wait(() => svgsl.display, 'block');
+                if (img.parentNode.querySelector('.loader')) await wait(() => img.parentNode.querySelector('.loader'), null); //если есть лоадер дожидаемся пока он не скроется
 
-                //учесть то что лоадер удаляется и лучше следить за этим моментом
-
-                if ([...main_img.classList].some(className => search_classes.includes(className))) {
-                    console.log(1)
-                    if (loader) {
-                        //если есть лоадер то ждём пока он не скроется
-                        let sl = window.getComputedStyle(loader);
-                        await wait(() => sl.opacity, '0');
-                    }
-
-                    img.parentNode.classList.add('kit-done');
-                } else {
-                    console.log(2)
-                    await wait(() => [...main_img.classList].some(className => search_classes.includes(className)), true);
-                    
-                    if (loader) {
-                        //если есть лоадер то ждём пока он не скроется
-                        let sl = window.getComputedStyle(loader);
-                        await wait(() => sl.opacity, '0');
-                    }
-
-                    img.parentNode.classList.add('kit-done');
-                }
+                if (!img.parentNode.querySelector('.media-load-error')) svg_wrap.style.opacity = '1'; //если в блоке не ошибок то отображаем набор
             })
-            .catch(async e => {
-                if (e === 'error loading') {
-                    //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
-                    this.error_img_load(img);
-                }
-            });
+            .catch(async e => this.error_img_load(e, img)); //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
     }
+    //встваяет svg картинки из svg набора в документ
 })();
 
 export { Img_Loader };

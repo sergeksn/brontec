@@ -15,6 +15,11 @@ import '@scss/main.scss';
 
 
 
+
+import '@product-small-info-block-img/search.jpg';
+import '@product-small-info-block-img/instruction.jpg';
+import '@product-small-info-block-img/kit.svg';
+
 import '@img/media-test/obrabotka_salona_3-1.jpg';
 import '@img/media-test/obrabotka_salona_3-1-300x171.jpg';
 import '@img/media-test/obrabotka_salona_3-1-400x229.jpg';
@@ -38,4 +43,5 @@ import '@img/media-test/obrabotka_salona_3-1-5000x2857.jpg';
 import '@img/media-test/obrabotka_salona_3-1-6000x3429.jpg';
 import '@img/media-test/obrabotka_salona_3-1-7000x4000.jpg';
 import '@img/media-test/obrabotka_salona_3-1-8000x4571.jpg';
+
 

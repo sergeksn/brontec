@@ -22,14 +22,14 @@ let Header = new (class {
         this.header_active_elements_set_data(); //задаёт и управляет доступностью активных элементов в хедере
 
         //window._on('load', () => {
-            //setTimeout(() => {
-                window._on('scroll_throttle', this.toggle_header.bind(this)); //скрываем/показываем хедер при прокрутке
-            //}, 100);
+        //setTimeout(() => {
+        window._on('scroll_throttle', this.toggle_header.bind(this)); //скрываем/показываем хедер при прокрутке
+        //}, 100);
 
-            window._on('resize_optimize', () => {
-                this.toggle_header.bind(this); //проверяем нужно ли скрыть хедер
-                this.header_background.style.height = `${this.get_header_h({ header_poster: this.has_header_poster, header_visible: true })}px`; //пересчитываем высоту фона хедера
-            });
+        window._on('resize_optimize', () => {
+            this.toggle_header.bind(this); //проверяем нужно ли скрыть хедер
+            this.header_background.style.height = `${this.get_header_h({ header_poster: this.has_header_poster, header_visible: true })}px`; //пересчитываем высоту фона хедера
+        });
         //});
     }
 
@@ -77,7 +77,7 @@ let Header = new (class {
             if (searched_height[el]) {
                 let el_h = window.getComputedStyle(this[el]).height;
                 if (el_h === 'auto') continue;
-                result += Number(el_h.replace('px', ''));
+                result += +el_h.replace('px', '');
             }
         }
 
