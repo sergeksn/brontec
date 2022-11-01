@@ -24,7 +24,7 @@ const swipe_event = {
 
             //функция удаляет прослушивание всех событий для обнаружения свайпа
             $(el).off({
-                events: "click " + settings.start_events + " " + settings.move_events + " " + settings.finall_events + " " + settings.leave_events,
+                events: 'click ' + settings.start_events + ' ' + settings.move_events + ' ' + settings.finall_events + ' ' + settings.leave_events,
                 callback: swipe_event.remove_default,
             }); //включаем события по умолчанию
             $(el).off({
@@ -68,7 +68,7 @@ const swipe_event = {
             terget_el: null, //элемент который является целевым в данные момент времени, т.е. в начале это элемент по кторому кликнули потом элементы по которым движется курсор, вконце элемент над которым отпустили мышку, не особо работает для сенсорых экранов там почему-то всего элемент который мы нажали вначале
             start_terget_el: null, //элемент на котором начат свайп, т.е. нажали мышь или палец
             finall_target_el: null, //элемент на котором окончен свайп, т.е. отпустили кнопку мыши или палец, не особо работает для сенсорых экранов там почему-то всего элемент который мы нажали вначале
-            direction: "", //направление свайпа
+            direction: '', //направление свайпа
             start_direction: null, //начальное направление свайпа, для того чтоб понять куда изначально элемент начали смещать
             some_touches: false, //если true то будет регистрировать свайп даже при нескольких точках касания на сансорном экране (вне целевого элемента!!!), и как следствие сможет обрабатывать несколько разных свайпов или других сенсорных событий для разных элементов одновременно
             touch_identifier: null, //ВАЖНО: это для избежаения ошибки иногда индентификаторы путаются местами и получается глюки, не знаю почему так происходит, но сверяем идентификаторы мы именно чтоб избежать багов
@@ -99,24 +99,24 @@ const swipe_event = {
 
         if (!settings.touch_swipe && !settings.mouse_swipe) return; //если не указан ни один тип устройства для мониторинга свайпа завершаем инициализацию прослушивания свайпа
 
-        settings.start_events = ""; //тут будут храниться события которые будут вызываться для начала слушания свайпа mousedown touchstart
-        settings.move_events = ""; //тут будут храниться события которые будут вызываться во время движения указателя mousemove touchmove
-        settings.finall_events = ""; //тут будут храниться события которые будут вызываться во время окончания жеста mouseup touchend
-        settings.leave_events = ""; //тут будут храниться события которые будут вызываться в момент когда указатель покидает элемент или всевозможные ошибки mouseleave touchcancel
+        settings.start_events = ''; //тут будут храниться события которые будут вызываться для начала слушания свайпа mousedown touchstart
+        settings.move_events = ''; //тут будут храниться события которые будут вызываться во время движения указателя mousemove touchmove
+        settings.finall_events = ''; //тут будут храниться события которые будут вызываться во время окончания жеста mouseup touchend
+        settings.leave_events = ''; //тут будут храниться события которые будут вызываться в момент когда указатель покидает элемент или всевозможные ошибки mouseleave touchcancel
 
         //формируем нужные имена событий
         if (settings.touch_swipe) {
-            settings.start_events += settings.start_events.length > 0 ? " touchstart" : "touchstart";
-            settings.move_events += settings.move_events.length > 0 ? " touchmove" : "touchmove";
-            settings.finall_events += settings.finall_events.length > 0 ? " touchend" : "touchend";
-            settings.leave_events += settings.leave_events.length > 0 ? " touchcancel" : "touchcancel";
+            settings.start_events += settings.start_events.length > 0 ? ' touchstart' : 'touchstart';
+            settings.move_events += settings.move_events.length > 0 ? ' touchmove' : 'touchmove';
+            settings.finall_events += settings.finall_events.length > 0 ? ' touchend' : 'touchend';
+            settings.leave_events += settings.leave_events.length > 0 ? ' touchcancel' : 'touchcancel';
         }
 
         if (settings.mouse_swipe) {
-            settings.start_events += settings.start_events.length > 0 ? " mousedown" : "mousedown";
-            settings.move_events += settings.move_events.length > 0 ? " mousemove" : "mousemove";
-            settings.finall_events += settings.finall_events.length > 0 ? " mouseup" : "mouseup";
-            settings.leave_events += settings.leave_events.length > 0 ? " mouseleave" : "mouseleave";
+            settings.start_events += settings.start_events.length > 0 ? ' mousedown' : 'mousedown';
+            settings.move_events += settings.move_events.length > 0 ? ' mousemove' : 'mousemove';
+            settings.finall_events += settings.finall_events.length > 0 ? ' mouseup' : 'mouseup';
+            settings.leave_events += settings.leave_events.length > 0 ? ' mouseleave' : 'mouseleave';
         }
         //формируем нужные имена событий
 
@@ -142,7 +142,7 @@ const swipe_event = {
         //отключаем события по умолчанию если задано в настройках
         if (settings.remove_default_events) {
             $(el).on({
-                events: "click " + settings.start_events + " " + settings.move_events + " " + settings.finall_events + " " + settings.leave_events,
+                events: 'click ' + settings.start_events + ' ' + settings.move_events + ' ' + settings.finall_events + ' ' + settings.leave_events,
                 callback: swipe_event.remove_default,
                 options_event: { passive: false },
             });
@@ -150,7 +150,7 @@ const swipe_event = {
         //отключаем события по умолчанию если задано в настройках
 
         $(el).on({ events: settings.start_events, callback: swipe_event.start }); //начинаем слушать событие нажатия мыши и/или касания
-        $(window).on({ events: "resize_optimize", callback: swipe_event.resize_recalculete }); //он добавляется и его НЕ нужно удалять
+        $(window).on({ events: 'resize_optimize', callback: swipe_event.resize_recalculete }); //он добавляется и его НЕ нужно удалять
     },
     //срабатывает в момент подключения слушателя swipe к элементу
 
@@ -185,11 +185,11 @@ const swipe_event = {
         targetTouches: список всех точек соприкосновения с текущим элементом DOM.
         changedTouches: список всех точек соприкосновения, участвующих в текущем событии. Например, в случае события touchend это будет точка, в которой пользователь убрал палец с экрана.*/
 
-        if (typeof e.touches !== "undefined" && e.targetTouches.length > 1) return false; //если экран сенсорный экран и на данном элементе уже есть касание то мы игнорируем все остальные касание по данному элементу
+        if (typeof e.touches !== 'undefined' && e.targetTouches.length > 1) return false; //если экран сенсорный экран и на данном элементе уже есть касание то мы игнорируем все остальные касание по данному элементу
 
         let event = swipe_event.events_props(e); //получаем объект с событиями для текущего типа устройства
 
-        if (typeof event.which !== "undefined" && !settings.permission_mouse_buttons[event.which]) return false; // игнорирование нажатие неразрешённых кнопок мыши
+        if (typeof event.which !== 'undefined' && !settings.permission_mouse_buttons[event.which]) return false; // игнорирование нажатие неразрешённых кнопок мыши
 
         return event;
     },
@@ -202,11 +202,11 @@ const swipe_event = {
 
         settings.start_time = Math.round(performance.now()); //время начало свайпа
 
-        if (typeof e.touches !== "undefined" && !settings.some_touches && e.touches.length > 1) return; //для сенсорных экранов и если запрещено более чем одно сенсорное соприкосновение с экраном и на экране сейчас более одного касания
+        if (typeof e.touches !== 'undefined' && !settings.some_touches && e.touches.length > 1) return; //для сенсорных экранов и если запрещено более чем одно сенсорное соприкосновение с экраном и на экране сейчас более одного касания
 
         let event = swipe_event.check_touch_and_mouses_buttons(e, settings); //вернёт объект события или false если указатель не прошёл проверку
 
-        if (typeof event.identifier !== "undefined") settings.touch_identifier = event.identifier; //ВАЖНО: это для избежаения ошибки иногда индентификаторы путаются местами и получается глюки, не знаю почему так происходит, но сверяем идентификаторы мы именно чтоб избежать багов
+        if (typeof event.identifier !== 'undefined') settings.touch_identifier = event.identifier; //ВАЖНО: это для избежаения ошибки иногда индентификаторы путаются местами и получается глюки, не знаю почему так происходит, но сверяем идентификаторы мы именно чтоб избежать багов
 
         if (!event) return; //если указатель не прошёл проврку, больше одного касания или не разрешённая кнопка миши
 
@@ -235,7 +235,7 @@ const swipe_event = {
         let settings = swipe_event.get_settings(this), //настройки свайпа текущего элемента
             event = swipe_event.check_touch_and_mouses_buttons(e, settings); //вернёт объект события или false если не указатель не прошёл проверку
 
-        if (typeof event.identifier !== "undefined" && settings.touch_identifier !== event.identifier) return; //ВАЖНО: это для избежаения ошибки иногда индентификаторы путаются местами и получается глюки, не знаю почему так происходит, но сверяем идентификаторы мы именно чтоб избежать багов
+        if (typeof event.identifier !== 'undefined' && settings.touch_identifier !== event.identifier) return; //ВАЖНО: это для избежаения ошибки иногда индентификаторы путаются местами и получается глюки, не знаю почему так происходит, но сверяем идентификаторы мы именно чтоб избежать багов
         if (!event) {
             swipe_event.end(false, settings);
             return; //если указатель не прошёл проврку, больше одного касания или не разрешённая кнопка миши
@@ -261,15 +261,15 @@ const swipe_event = {
             if (Math.abs(x_dist - y_dist) > 3) {
                 if (x_dist > y_dist) {
                     if (settings.x > settings.start_x) {
-                        settings.start_direction = "right";
+                        settings.start_direction = 'right';
                     } else {
-                        settings.start_direction = "left";
+                        settings.start_direction = 'left';
                     }
                 } else if (x_dist < y_dist) {
                     if (settings.y > settings.start_y) {
-                        settings.start_direction = "bottom";
+                        settings.start_direction = 'bottom';
                     } else {
-                        settings.start_direction = "top";
+                        settings.start_direction = 'top';
                     }
                 }
             }
@@ -334,7 +334,7 @@ const swipe_event = {
 
     //возвращает объект со списком свойств текущего события для текущего устройства
     events_props: function (e) {
-        if (typeof e.touches !== "undefined") {
+        if (typeof e.touches !== 'undefined') {
             let event = null;
             //перебираем события данного типа (touchemove например) которые происходят в данный момент
             for (let i = 0; i < e.changedTouches.length; i++) {
@@ -384,7 +384,7 @@ const swipe_event = {
 
         //проверяем не превышено ли время разрешённое на свайп
         if (settings.total_time < settings.min_time || settings.total_time > settings.max_time) {
-            console.log("NO swipe timeout");
+            console.log('NO swipe timeout');
             return false;
         }
         //проверяем не превышено ли время разрешённое на свайп
@@ -394,12 +394,12 @@ const swipe_event = {
             //если дистанция свайпа больше минимально счиаемой дистанции и меньше максимальной дистации
             if (settings.x_dist >= settings.min_px_dist_x && settings.x_dist <= settings.max_px_dist_x) {
                 if (settings.x > settings.start_x) {
-                    settings.direction = "right";
-                    console.log("RIGHT swipe");
+                    settings.direction = 'right';
+                    console.log('RIGHT swipe');
                     return settings.permission_directions.right ? true : false;
                 } else {
-                    settings.direction = "left";
-                    console.log("LEFT swipe");
+                    settings.direction = 'left';
+                    console.log('LEFT swipe');
                     return settings.permission_directions.left ? true : false;
                 }
             }
@@ -407,7 +407,7 @@ const swipe_event = {
 
             //пройдена слишком маленькая дистация
             else {
-                console.log("NO swipe distance x");
+                console.log('NO swipe distance x');
                 return false;
             }
             //пройдена слишком маленькая дистация
@@ -419,12 +419,12 @@ const swipe_event = {
             //если дистанция свайпа больше минимально счиаемой дистанции и меньше максимальной дистации
             if (settings.y_dist >= settings.min_px_dist_y && settings.y_dist <= settings.max_px_dist_y) {
                 if (settings.y > settings.start_y) {
-                    settings.direction = "bottom";
-                    console.log("BOTTOM swipe");
+                    settings.direction = 'bottom';
+                    console.log('BOTTOM swipe');
                     return settings.permission_directions.bottom ? true : false;
                 } else {
-                    settings.direction = "top";
-                    console.log("TOP swipe");
+                    settings.direction = 'top';
+                    console.log('TOP swipe');
                     return settings.permission_directions.top ? true : false;
                 }
             }
@@ -432,7 +432,7 @@ const swipe_event = {
 
             //пройдена слишком маленькая дистация
             else {
-                console.log("NO swipe distance y");
+                console.log('NO swipe distance y');
                 return false;
             }
             //пройдена слишком маленькая дистация
@@ -457,7 +457,7 @@ const swipe_event = {
             //данные которые будут переданы в событие
 
             //создаём кастомное событие
-            swipeEvent = new CustomEvent("swipe", {
+            swipeEvent = new CustomEvent('swipe', {
                 bubbles: true,
                 cancelable: true,
                 detail: data,
@@ -473,9 +473,9 @@ const swipe_event = {
 //добавляем кастомный слушатель на элемент Optimaze_And_Throttle
 class Add_Custom_Event_Optimaze_And_Throttle {
     constructor(custom_event_name, element, el_callback, custom_settings) {
-        let base_event = custom_event_name.replace(/_.*/, "");
+        let base_event = custom_event_name.replace(/_.*/, '');
 
-        if (base_event === "resize" && element !== window) return; //если кастомные событие свзяно с resize, а элемент на который мы вещаем этот обработчик не window то прерываем добавление слушателя
+        if (base_event === 'resize' && element !== window) return; //если кастомные событие свзяно с resize, а элемент на который мы вещаем этот обработчик не window то прерываем добавление слушателя
 
         if (!element.hasOwnProperty(custom_event_name)) {
             element[custom_event_name] = []; //если у данного элемента ещё не было слушателей данного типа создаём масив для того чтоб записывать в него все слушатели данного типа с их данными
@@ -493,7 +493,7 @@ class Add_Custom_Event_Optimaze_And_Throttle {
 
         //данные калбек функции для базового слушате слушателя этого кастомного события события
         let event_listener_data = {
-            handleEvent: custom_event_name.includes("_optimize") ? this.func_optimize : this.func_throttle, //передаём ссылку на калбек функцию
+            handleEvent: custom_event_name.includes('_optimize') ? this.func_optimize : this.func_throttle, //передаём ссылку на калбек функцию
             instance: this, //задём новое свойство instance с содержимым this этого экземпляра класса, это свойство instance будет доступно в this из handleEvent функции слушателя
             custom_settings: custom_settings, //передаём кастомные настройки
             callback: el_callback, //функция которая была привязанна к element для слушателя события custom_event_name
@@ -511,12 +511,14 @@ class Add_Custom_Event_Optimaze_And_Throttle {
     //
     //
     func_throttle() {
+        if (!GDS.win.first_scroll_finish && this.instance.custom_event.type === 'scroll_throttle') return;//разрешаем вызов данного события для скрола только после того как произошёл первый скрол от браузера к месту последней прокрутки после загрузки страницы
+
         if (!this.instance.permission_to_execute) return; //если в данный момент не разрешено выполнение данной функции, т.е. кадр анимации в браузере ещё не выполнился
 
         this.instance.permission_to_execute = false; //запрещаем выполнять данную функцию при следующих вызовах пока не завершится кадр анимации в браузере
 
         let interval = this.custom_settings && this.custom_settings.interval ? this.custom_settings.interval : 100; //по умолчанию интервал 100 мс
-       
+
         //выполянем функцию после заданной паузы
         this.instance.timeout_id = setTimeout(() => {
             // устанавливаем время ожидания
@@ -529,6 +531,8 @@ class Add_Custom_Event_Optimaze_And_Throttle {
 
     //калбек функция для неоптимизированного события event, scroll например
     func_optimize() {
+        if (!GDS.win.first_scroll_finish && this.instance.custom_event.type === 'scroll_optimize') return;//разрешаем вызов данного события для скрола только после того как произошёл первый скрол от браузера к месту последней прокрутки после загрузки страницы
+
         if (!this.instance.permission_to_execute) return; //если в данный момент не разрешено выполнение данной функции, т.е. кадр анимации в браузере ещё не выполнился
 
         this.instance.permission_to_execute = false; //запрещаем выполнять данную функцию при следующих вызовах пока не завершится кадр анимации в браузере
@@ -549,7 +553,7 @@ class Remove_Custom_Event_Optimaze_And_Throttle {
     constructor(custom_event_name, element, el_callback) {
         let event_listener_data,
             timeout_id,
-            base_event = custom_event_name.replace(/_.*/, ""),
+            base_event = custom_event_name.replace(/_.*/, ''),
             arr = element[custom_event_name]; //массив со всеми объектами слушателей данного кастомного события
 
         //перебираем все слушатели этого кастомного события привязанные к элементу
@@ -576,12 +580,12 @@ class Remove_Custom_Event_Optimaze_And_Throttle {
 //добавляем кастомные события измения ориентации
 //ПРИМЕЧАНИЕ: этот слушатель актуален только для window, он работает как для пк так и для мобильных!
 (() => {
-    let mql = window.matchMedia("(orientation: portrait)"), //хранит медиа запрос, от сюда мы можем узнать соостветствует состояние страницы медиазапросу или нет
+    let mql = window.matchMedia('(orientation: portrait)'), //хранит медиа запрос, от сюда мы можем узнать соостветствует состояние страницы медиазапросу или нет
         orientation_events_list = {
             //хранит объекты кастомных событий ориентации чтоб брать их от сюда и не содавать каждый раз по новой при каждом событии смены ориентации
-            orientation_chenge: new CustomEvent("orientation_chenge"),
-            orientation_portrait: new CustomEvent("orientation_portrait"),
-            orientation_landscape: new CustomEvent("orientation_landscape"),
+            orientation_chenge: new CustomEvent('orientation_chenge'),
+            orientation_portrait: new CustomEvent('orientation_portrait'),
+            orientation_landscape: new CustomEvent('orientation_landscape'),
         };
 
     //добавляет кастомные события
@@ -591,46 +595,46 @@ class Remove_Custom_Event_Optimaze_And_Throttle {
         e.matches ? window.dispatchEvent(orientation_events_list.orientation_portrait) : window.dispatchEvent(orientation_events_list.orientation_landscape); //в зависимости от соответствия условиям медиа запроса orientation: portrait срабатывает то или иное событие ориентации
     }
 
-    typeof window.matchMedia("").addListener === "function" ? mql.addListener(add_custom_orientation_events) : mql.addEventListener("change", add_custom_orientation_events); //проблема в том что addListener сейчас доступен во всех соременных браузерах, но помечен как устаревший и нужно использовать addEventListener с change, но change для matchMedia не поддерживается в версиях ios до 13, а ним их нужно поддерживать, по этому проверяем есть ли в браузере функиця addListener то используем её, если же она удалени в новых браузерах используем современное свойство addEventListener с change
+    typeof window.matchMedia('').addListener === 'function' ? mql.addListener(add_custom_orientation_events) : mql.addEventListener('change', add_custom_orientation_events); //проблема в том что addListener сейчас доступен во всех соременных браузерах, но помечен как устаревший и нужно использовать addEventListener с change, но change для matchMedia не поддерживается в версиях ios до 13, а ним их нужно поддерживать, по этому проверяем есть ли в браузере функиця addListener то используем её, если же она удалени в новых браузерах используем современное свойство addEventListener с change
 })();
 //добавляем кастомные события измения ориентации
 
 //тут храняться кастомные собития и функции которые нужно вызывать при добавлени или удалении каждого события
 const custom_events_list = {
     swipe: {
-        event: new CustomEvent("swipe"),
+        event: new CustomEvent('swipe'),
         initiator: swipe_event.init,
     },
     resize_optimize: {
-        event: new CustomEvent("resize_optimize"),
+        event: new CustomEvent('resize_optimize'),
         initiator: custom_events_optimaze_and_throttle_init,
     },
     scroll_optimize: {
-        event: new CustomEvent("scroll_optimize"),
+        event: new CustomEvent('scroll_optimize'),
         initiator: custom_events_optimaze_and_throttle_init,
     },
     touchmove_optimize: {
-        event: new CustomEvent("touchmove_optimize"),
+        event: new CustomEvent('touchmove_optimize'),
         initiator: custom_events_optimaze_and_throttle_init,
     },
     mousemove_optimize: {
-        event: new CustomEvent("mousemove_optimize"),
+        event: new CustomEvent('mousemove_optimize'),
         initiator: custom_events_optimaze_and_throttle_init,
     },
     resize_throttle: {
-        event: new CustomEvent("resize_throttle"),
+        event: new CustomEvent('resize_throttle'),
         initiator: custom_events_optimaze_and_throttle_init,
     },
     scroll_throttle: {
-        event: new CustomEvent("scroll_throttle"),
+        event: new CustomEvent('scroll_throttle'),
         initiator: custom_events_optimaze_and_throttle_init,
     },
     touchmove_throttle: {
-        event: new CustomEvent("touchmove_throttle"),
+        event: new CustomEvent('touchmove_throttle'),
         initiator: custom_events_optimaze_and_throttle_init,
     },
     mousemove_throttle: {
-        event: new CustomEvent("mousemove_throttle"),
+        event: new CustomEvent('mousemove_throttle'),
         initiator: custom_events_optimaze_and_throttle_init,
     },
 };

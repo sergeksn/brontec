@@ -116,9 +116,10 @@
 
     &__results-wrap {
         display: flex;
-        flex-wrap: wrap;
         position: relative;
         width: 100%;
+        flex-direction: column;
+        justify-content: space-between;
 
         @media (min-width: rem(640)) {
             width: 89.583%;
@@ -152,11 +153,13 @@
     }
 
     &__results-any-links {
+        width: 100%;
         display: none;
         flex-wrap: wrap;
         align-items: center;
         color: var(--blue);
         position: relative;
+        opacity: 0;
         margin: rem(30) 0 adaptiv_rem_size(80, 320, 40, 640) 0;
 
         @media (min-width: rem(640)) {

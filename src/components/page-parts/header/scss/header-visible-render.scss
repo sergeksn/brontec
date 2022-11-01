@@ -49,12 +49,12 @@
 
         @media (min-width: rem(640)) {
             display: block;
-            font-size: rem(20);
+            font-size: rem(15);
             margin-right: rem(15);
         }
 
         @media (min-width: rem(1920)) {
-            font-size: adaptiv_rem_size(20, 1920);
+            font-size: adaptiv_rem_size(15, 1920);
         }
 
         button {
@@ -188,15 +188,23 @@
             min-width: rem(50);
             height: rem(50);
             padding-left: rem(10);
-            font-size: rem(30);
+            font-size: rem(20);
             display: flex;
             align-items: center;
             justify-content: center;
             transition: opacity var(--standart-anim);
 
+            @media (min-width: rem(640)) {
+                font-size: rem(15);
+            }
+
+            @media (min-width: rem(960)) {
+                font-size: rem(22);
+            }
+
             @media (min-width: rem(1920)) {
                 height: adaptiv_rem_size(50, 1920);
-                font-size: adaptiv_rem_size(30, 1920);
+                font-size: adaptiv_rem_size(22, 1920);
             }
         }
 

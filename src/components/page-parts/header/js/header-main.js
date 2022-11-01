@@ -21,16 +21,12 @@ let Header = new (class {
 
         this.header_active_elements_set_data(); //задаёт и управляет доступностью активных элементов в хедере
 
-        //window._on('load', () => {
-        //setTimeout(() => {
         window._on('scroll_throttle', this.toggle_header.bind(this)); //скрываем/показываем хедер при прокрутке
-        //}, 100);
 
         window._on('resize_optimize', () => {
             this.toggle_header.bind(this); //проверяем нужно ли скрыть хедер
             this.header_background.style.height = `${this.get_header_h({ header_poster: this.has_header_poster, header_visible: true })}px`; //пересчитываем высоту фона хедера
         });
-        //});
     }
 
     //устанавливает список активных элементов и функции их включени/отключения
@@ -44,6 +40,7 @@ let Header = new (class {
                 d.querySelector('.header-visible__burger>button'),
                 d.querySelector('.header-visible__cart-button>button'),
                 d.querySelector('.header-visible__search-button>button'),
+                d.querySelector('.header-search__close-button'),
             ],
             lock: function () {
                 //блокирует все интерактывные элемеры в хедере

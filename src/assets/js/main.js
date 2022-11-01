@@ -20,7 +20,6 @@
 //ПРИМЕЧАНИЕ: если нам нужно записать какие-то данные которые касаются определённого DOM элемента то нам не обязательно создавать новый объект в коде а потом искать на него ссылку, мы можем просто записать нужные нам данные в свойства данного DOM лемента и уже оращаться к ним, т.к. DOM элементы это обычные объекты js и мы можем записывать в них свои данные
 
 //ВАЖНО: скорость выполнения функции зависит от её фактического размера, особенно если в ней объявляются очень большие объекты, так что чтоб увеличисть производительность нужно выносить всё большое за пределы функции
-import '@js-libs/dom-helper.js'; //самописный аналог jquery с очень урезазнным функционалом, чтоб облегчить рутинную работу
 
 import '@js-libs/dom-add-func.js';
 
@@ -47,24 +46,3 @@ import '@scroll-to-top-button-main-js';
 import '@footer-main-js';
 import '@header-main-js';
 //@dinamic node import fils
-
-// console.log(document.getElementsByClassName("standart-container")._siblings("div"));
-
-// console.log(document.querySelectorAll(".standart-container")._siblings("div"));
-
-// console.log(document.querySelectorAll("main")._childs("div.standart-container"))
-
-// console.log(document.getElementsByTagName("main")._childs("div.standart-container"))
-
-// console.log(document.querySelectorAll("body")._find(".standart-container, div.test_item:not(.opa)"))
-
-// console.log(document.querySelectorAll(".standart-container")._parent("footer, .hidden_header_part"));
-
-// console.log(document.querySelectorAll("div.img_wrapper")._parents("a, .header_logo, div.footer_item, main"));
-
-// console.log(document.getElementById("header-overlay")._siblings("div"));
-
-$(document).on({
-    events: 'DOMContentLoaded',
-    callback: function () {},
-});

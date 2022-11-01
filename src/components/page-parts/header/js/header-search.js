@@ -49,10 +49,7 @@ export default new (class {
         this.results_any_links = d.querySelector('.header-search__results-any-links');
         //записываем все неоходимые переменные для удобства доступа
 
-        // this.close_search_button.on({
-        //     events: 'click tochend',
-        //     callback: this.click_close_search_button.bind(this),
-        // }); //клик по крестику в окне поиска
+        this.close_button._on('click tochend', this.click_close_search_button.bind(this)); //клик по крестику в окне поиска
 
         this.search_input._on('input', this.chenge_in_search_input.bind(this)); //начинаем поиск после ввода символов
 
@@ -64,7 +61,7 @@ export default new (class {
     async open_results_block() {
         this.status = 'pending to open'; //статус открытия окна
 
-        let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }); //получаем минимальную высоту которую должен занимать блок с результатми поиска
+        let search_results_block_height = GDS.win.height - this.results_wrap.getBoundingClientRect().top; //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
         search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //минимальная высота анимации раскрытия блока поиска
 
@@ -120,30 +117,40 @@ export default new (class {
     //открываем окно для отображения результатов поиска
 
     //закрываем окно для отображения результатов поиска
-    //full_close - указывает на то что закрывается весь скрытый блко и в этом случае после скрытия блок с результатами поиска не отображаем меню а сразу скрываем оставшийся инпут
-    async close_results_block(full_close = false) {
+    //fust_close - указывает на то что закрывается весь скрытый блок и в этом случае после скрытия блок с результатами поиска не отображаем меню а сразу скрываем оставшийся инпут
+    async close_results_block(fust_close = false) {
         if (this.status !== 'open') return; //если окно с результатами поиска не польностью открыто то завершаем функцию
 
         this.status = 'pending to close'; //статус открытия окна
 
-        this.header.style.height = '';//убираем высоту у хедера чтоб его можно было свернуть
+        this.header.style.height = ''; //убираем высоту у хедера чтоб его можно было свернуть
 
-        if (!full_close) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = ''));; //возвращаем в документ блоки
+        if (!fust_close) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = '')); //возвращаем в документ блоки
 
-        let search_results_block_height = GDS.win_height - this.search_results[0].getBoundingClientRect().top; //получаем растояние от верха экрана до верха блока для отображение результатов поиска
+        let search_results_block_height = GDS.win.height - this.results_wrap.getBoundingClientRect().top; //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
         search_results_block_height = search_results_block_height > 0 ? search_results_block_height : 0; //получаем растояние от верха экрана до верха блока для отображение результатов поиска и получаем высоту которую дожен будет занять блок чтоб покрыть всю высоту экрана
 
-        this.search_results.css('height', search_results_block_height + 'px'); //задаём высоту блоку с результатами поиска
+        this.results_wrap.style.height = search_results_block_height + 'px'; //задаём высоту блоку с результатами поиска
+
+        //скрываем блок со ссылками
+        anime({
+            targets: this.results_any_links,
+            opacity: 0,
+            duration: GDS.anim.time,
+            easing: GDS.anim.graph,
+            complete: () => (this.results_any_links.style.display = ''),
+        });
+        //скрываем блок со ссылками
 
         //если результаты поиска пусты и ещё не заполнены ни чем
-        if (this.results_wrapper[0].innerHTML === '') {
+        if (this.results_data.innerHTML === '') {
             //плавно скрываем лоадер
             await anime({
-                targets: this.search_loader[0],
+                targets: this.results_loader,
                 opacity: 0,
-                duration: GDS.anim_time,
-                easing: GDS.anim_tf,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
             }).finished;
         }
         //если результаты поиска пусты и ещё не заполнены ни чем
@@ -152,45 +159,45 @@ export default new (class {
         else {
             Img_Loader.dellete_from_observe(this.results_data.querySelectorAll('[data-img-type]')); //удаляем из отслеживания старые картинкинки
 
-            this.search_loader.css('opacity', '0'); //скрываем лоадер
-
             await anime({
                 //дожидаемся пока станет прозрачным блок с результатами поиска
-                targets: this.results_wrapper[0],
+                targets: this.results_data,
                 opacity: 0,
-                duration: GDS.anim_time,
-                easing: GDS.anim_tf,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
             }).finished;
 
-            this.results_wrapper[0].innerHTML = ''; //очищаем содержимое блока с результатами поиска
+            this.results_data.innerHTML = ''; //очищаем содержимое блока с результатами поиска
         }
         //если есть какие-то отображённые результаты поиска
 
-        this.search_loader.css('display', ''); //скрываем лоадер в документе
+        this.results_loader.style.display = ''; //скрываем лоадер в документе
 
-        this.search_results.css('min-height', ''); //чистим вспомогательные стили
+        this.results_wrap.style.minHeight = ''; //чистим вспомогательные стили
+
+        this.header.style.overflow = 'visible'; //нужно добавить чтоб была видна полоса тени в момент сворачивания скрытого блока
 
         await anime({
             //уменьшаем высоту блок с результатами поиска для его скрытия
-            targets: this.search_results[0],
+            targets: this.results_wrap,
             height: 0,
-            duration: GDS.anim_time,
-            easing: GDS.anim_tf,
+            duration: GDS.anim.time,
+            easing: GDS.anim.graph,
         }).finished;
 
         //дожидаемся отображения меню и телефона на маленьких экранах
-        if (GDS.win_width < 640 && !full_close) {
+        if (GDS.win.width_rem < 40 && !fust_close) {
             let show_menu_mobile = anime({
-                    targets: this.header_menu_mobile[0],
+                    targets: this.header_hidden_menu,
                     opacity: 1,
-                    duration: GDS.anim_time,
-                    easing: GDS.anim_tf,
+                    duration: GDS.anim.time,
+                    easing: GDS.anim.graph,
                 }).finished,
                 show_phone_mobile = anime({
-                    targets: this.header_phone_mobile[0],
+                    targets: this.header_hidden_phone,
                     opacity: 1,
-                    duration: GDS.anim_time,
-                    easing: GDS.anim_tf,
+                    duration: GDS.anim.time,
+                    easing: GDS.anim.graph,
                 }).finished;
 
             await Promise.all([show_menu_mobile, show_phone_mobile]);
@@ -198,40 +205,39 @@ export default new (class {
         //дожидаемся отображения меню и телефона на маленьких экранах
 
         this.status = 'close'; //статус открытия окна
+        //ПРИМЕЧАНИЕ: должно быть раньше size_recalculate чтоб всё работало корректно
 
         Header_Hidden.size_recalculate(); //пересчитываем новые размеры меню добавляем высоту хедеру и прокрутку если нужно
-
-        Img_Loader.update_img_set_and_init(); //после того как мы закрыли блок с результатами поиска и вернулись к обычной странице мы должны обновить набор картинок чтоб не проверять те которые уже не нужны (картинке из результатов поиска)
     }
     //закрываем окно для отображения результатов поиска
 
     //клик по крестику в окне поиска
     async click_close_search_button() {
-        if (GDS.global_interactiv_lock) return; //если в данный момент кнопка заблокирована просто прерываем функцию
+        if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
 
-        GDS.lock_all_interactive(); //блокируем все интерактивные элементы в хедере
+        Header.active_elements.lock(); //блокируем активные элементы в хедере
 
-        let tried = await this.close_results_block(); //пытаемся закрыть окно для результатов поиска
+        if (this.status === 'open') {
+            //если окно срезультатами поиска открыто, то после его закрытиея чистим инпут с поисковым запросом
+            await this.close_results_block();
+            this.clean_input();
+        } else {
+            this.search_input.value !== '' ? this.clean_input() : await Header_Hidden.close(); //если же окно с результатами поиска было закрыто, то значит оно уже было закрыто, тогда если в поле инпута был какой то текст просто чистим его, значит мы просто нажали на крестик в тот момент когда запрос на сервер ещё не отправился, если поле ввода пусто то значит можно закрывать окно поиска
+        }
 
-        if (tried) this.clean_input(); //если окно срезультатами поиска удалось закрыть, т.е. оно было открыто, то после его закрытиея чистим инпут с поисковым запросом
-
-        if (!tried) this.search_input[0].value !== '' ? this.clean_input() : await Header_Hidden.close_block(); //если же нам не удалозь закрыть окно поиска, то значит оно уже было закрыто, тогда если в поле инпута был какой то текст просто чистим его, значит мы просто нажали на крестик в тот момент когда запрос на сервер ещё не отправился, если поле ввода пусто то значит можно закрывать окно поиска
-
-        GDS.unlock_all_interactive(); //разблокируем все интерактивные элементы в хедере
+        Header.active_elements.unlock(); //разблокируем активные элементы в хедере
     }
     //клик по крестику в окне поиска
 
     //скрываем окно поиска по клику на полупрозрачную подложку
-    async click_header_Background() {
-        if (GDS.global_interactiv_lock) return; //если в данные момент кнопки хедера заблокированны то завершаем функцию
+    async click_header_overlay() {
+        if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
 
-        GDS.lock_all_interactive(); //блокируем все интерактивные элементы в хедере
+        Header.active_elements.lock(); //блокируем активные элементы в хедере
 
-        this.clean_input(); //чистим данные поля ввода
+        await Header_Hidden.close(); //закрываем окно поиска
 
-        await Header_Hidden.close_block(); //закрываем окно поиска
-
-        GDS.unlock_all_interactive(); //разблокируем все интерактивные элементы в хедере
+        Header.active_elements.unlock(); //разблокируем активные элементы в хедере
     }
     //скрываем окно поиска по клику на полупрозрачную подложку
 
@@ -245,17 +251,19 @@ export default new (class {
         this.input_timerid = setTimeout(async () => {
             let search_text = this.search_input.value; //поисковой запрос
 
-            //GDS.lock_all_interactive(); //блокируем все интерактивные элементы в хедере
-
             this.cached_result = null; //так же чистим прежние результаты поиска из кеша объекта поиска
 
             set_cookie('search_data', search_text.slice(0, 100), { expires: 'Tue, 19 Jan 2099 03:14:07 GMT' }); //записываем в куки то что ввёл пользователь
+
+            if (Header_Hidden.status !== 'open') return; //если вдруг мы закрыли скрытый блок во время начала поиска, то мы просто записываем в куки поисковой запрос и прерываем дальнейшие дествия
 
             //если ввели 2 и блоее символов начинаем поиск
             if (search_text.length > 1) {
                 //если закрыт блок с результатами поиска
                 if (this.status === 'close') {
+                    Header.active_elements.lock(); //блокируем активные элементы в хедере
                     await this.open_results_block(); //пытеамся открыть блок для результатов поиска
+                    Header.active_elements.unlock(); //разблокируем активные элементы в хедере
 
                     this.render_results(search_text); //выводим результаты поиска
                 }
@@ -271,7 +279,9 @@ export default new (class {
                 else if (this.status === 'pending to close') {
                     await wait(() => this.status, 'close'); //дожидаемся полного закрытия блока
 
+                    Header.active_elements.lock(); //блокируем активные элементы в хедере
                     await this.open_results_block(); //после того как блок полностью закрылся снова открываем его
+                    Header.active_elements.unlock(); //разблокируем активные элементы в хедере
 
                     this.render_results(search_text); //выводим результаты поиска
                 }
@@ -289,11 +299,11 @@ export default new (class {
 
             //если количество символов удалили до нуля то сворачиваем блок с результатами поиска
             if (search_text.length === 0) {
+                Header.active_elements.lock(); //блокируем активные элементы в хедере
                 await this.close_results_block(); //удаляем результаты поиска и закрываем его окно
+                Header.active_elements.unlock(); //разблокируем активные элементы в хедере
             }
             //если количество символов удалили до нуля то сворачиваем блок с результатами поиска
-
-            //GDS.unlock_all_interactive(); //разблокируем все интерактивные элементы в хедере
         }, 500);
         //создаём таймер задержки ввода
     }
@@ -301,9 +311,9 @@ export default new (class {
 
     //удаляем данные запроса пользователя в инпуте и куках
     clean_input() {
-        this.search_input.removeClass('started-inputed'); //убираем класс уведомляющий о том что поле заполнено текстом поиска
+        this.search_input.value = ''; //удаляем содержимое инпута для поиска
 
-        this.search_input[0].value = ''; //удаляем содержимое инпута для поиска
+        this.search_input.classList.remove('started-inputed'); //убираем класс уведомляющий о том что поле заполнено текстом поиска
 
         delete_cookie('search_data'); //чистим куки от текста поиска
 
@@ -318,6 +328,16 @@ export default new (class {
         //если мы уже ищем не первый раз то блок с результатами поиска нужно очистить перед выводом новых результатов
         if (this.results_data.innerHTML !== '') {
             Img_Loader.dellete_from_observe(this.results_data.querySelectorAll('[data-img-type]')); //удаляем из отслеживания старые картинкинки
+
+            //скрываем блок со ссылками
+            anime({
+                targets: this.results_any_links,
+                opacity: 0,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
+                complete: () => (this.results_any_links.style.display = ''),
+            });
+            //скрываем блок со ссылками
 
             await anime({
                 //дожидаемся пока результаты поиска станут прозрачными
@@ -334,7 +354,7 @@ export default new (class {
             anime({
                 //показываем лоадер
                 targets: this.results_loader,
-                opacity: 0,
+                opacity: 1,
                 duration: GDS.anim.time,
                 easing: GDS.anim.graph,
             });
@@ -367,7 +387,17 @@ export default new (class {
 
             if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
 
-            this.results_any_links.style.display = 'flex'; //показываем блок со ссылками
+            //показываем блок со ссылками
+            this.results_any_links.style.opacity = '';
+            this.results_any_links.style.display = 'flex';
+            anime({
+                //плавно показываем блок с результатами
+                targets: this.results_any_links,
+                opacity: 1,
+                duration: GDS.anim.time,
+                easing: GDS.anim.graph,
+            });
+            //показываем блок со ссылками
 
             Img_Loader.add_in_observe(this.results_data.querySelectorAll('[data-img-type]')); //добавляем отслеживание видимости картинок в окне поиска
         };
@@ -437,7 +467,7 @@ export default new (class {
 
             if (GDS.win.width_rem < 40) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
 
-            let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: true, header_visible: true }) - window.getComputedStyle(this.search_input_wrap).height.replace("px", ""); //получаем минимальную высоту которую должен занимать блок с результатми поиска
+            let search_results_block_height = GDS.win.height - this.results_wrap.getBoundingClientRect().top; //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
             search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //задаём минимальню высота для блока с выводом результатов и лоадера в 100 пикселей
 

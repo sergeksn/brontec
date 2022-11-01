@@ -56,7 +56,7 @@ export default new (class {
             }
         };
 
-        if (Header_Search.status === 'pending to close') return wait(() => this.status, 'close').then(() => update_size()); //если блок с результатами поиска в процессе закрытия дожидаемся закрытия блока с результатами поиска и перестичитываем парметры хедера
+        if (Header_Search.status === 'pending to close') return wait(() => Header_Search.status, 'close').then(() => update_size()); //если блок с результатами поиска в процессе закрытия дожидаемся закрытия блока с результатами поиска и перестичитываем парметры хедера
 
         if (this.status === 'open') return update_size(); //если скрытый блок открыт обновляем значения размеров и прокрутки хедера
 
@@ -98,7 +98,7 @@ export default new (class {
             }
             //если в куки есть поисковой запрос и он блоше чем один символ, начинаем вывод результатов поиска и ждём его окончания
         } else if (this.status === 'open') {
-            if (Header_Search.status === 'open') await Header_Search.close_results_block(); //если блок с результатами поиска открыт дожидаемся его закрытия
+            if (Header_Search.status === 'open') await Header_Search.close_results_block(true); //если блок с результатами поиска открыт дожидаемся его закрытия
 
             await this.close(); //дожидаемся сворачивания скрытого блока
 
@@ -164,6 +164,8 @@ export default new (class {
         this.header_hidden.style.position = ''; //меняем позиционирование чтоб скрыть блок
 
         this.header_hidden.style.transform = `translateY(${window.getComputedStyle(this.header_hidden).height})`; //расчитываем и устанавливаем стартовое значение смещение по оси Y для скрытого блока
+
+        //debugger;
 
         let anim_close_header_hidden = anime({
             targets: this.header_hidden,

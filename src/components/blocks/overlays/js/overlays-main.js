@@ -1,4 +1,4 @@
-import { Header_Hidden } from '@header-main-js';
+import { Header_Search } from '@header-main-js';
 import { wait } from '@js-libs/func-kit';
 
 class Overlay_Controller {
@@ -65,7 +65,7 @@ const Header_Overlay = new (class {
         this.show = teplate.show.bind(this);
         this.hide = teplate.hide.bind(this);
 
-        this.overlay._on("click touchend", Header_Hidden.toggle_header_hidden_block.bind(Header_Hidden));//скрываем скрытый блок хедера при кдике на фоновую подложку
+        this.overlay._on("click touchend", Header_Search.click_header_overlay.bind(Header_Search));//скрываем скрытый блок хедера при кдике на фоновую подложку
     }
 })();
 //хранит объект подложки для хеднера
