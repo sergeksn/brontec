@@ -27,6 +27,8 @@ module.exports = {
     },
     entry: {
         main: `${ENTRY_PATH}/entrys/server/index.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
+        abortcontroller_polyfill: `${ENTRY_PATH}/entrys/main/polyfills/abortcontroller.js`,
+        intersection_observer_polyfill: `${ENTRY_PATH}/entrys/main/polyfills/intersection-observer.js`,
     },
     plugins: Get_Plagins(),
     module: {

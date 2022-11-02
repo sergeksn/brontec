@@ -81,6 +81,8 @@ function request_to_server(data_to_send) {
                     'Content-Type': 'application/json;charset=utf-8',
                 },
                 body: JSON.stringify(data_to_send),
+            }).then((resp)=>{
+                console.log(resp);
             }).catch(() => (error = `<div class="search_fail">Проблемы с доступом к серверу, проверьте подключение к сети или перезагрузите страницу. Если это не поможет подождите некоторое время вероятнее всего мы уже работаем над устранение проблемы!</div>`));
 
         if (error) return reject(error); //если во время запроса возникла критическая ошибка например сайт недоступен или у пользователя пропал интернет то мы выводим ошибку

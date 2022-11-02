@@ -19,7 +19,6 @@
         "css-loader": "^6.7.1",
         "cssnano": "^5.1.13",
         "ejs": "^3.1.8",
-        "esbuild-loader": "^2.20.0",
         "html-loader": "^4.2.0",
         "html-webpack-plugin": "^5.5.0",
         "html-webpack-skip-assets-plugin": "^1.0.3",
@@ -35,6 +34,7 @@
         "webpack-dev-server": "^4.11.1"
     },
     "dependencies": {
+        "abortcontroller-polyfill": "^1.7.5",
         "animejs": "^3.2.1",
         "intersection-observer": "^0.12.2",
         "swiper": "^8.4.4"

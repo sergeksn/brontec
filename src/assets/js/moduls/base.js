@@ -35,6 +35,11 @@ new (class {
             first_scroll_finish: false, //сообщает о том что первый скрол завершён, это скрол браузера по умолчанию к месту последней прокрутки
         };
 
+        //содержит сведенья поддерживаются текущим браузерм те или иные технологии
+        GDS.supports_technology = {
+            AbortController:  (typeof window.Request === 'function' && window.Request.prototype.hasOwnProperty('signal')) || window.AbortController,//поддержка AbortController
+        };
+
         //параметры медиаресуерсов
         GDS.media = {
             img: {

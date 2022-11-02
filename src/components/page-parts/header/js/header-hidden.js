@@ -3,7 +3,7 @@ import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
 import { Header_Overlay } from '@overlays-main-js';
 import { wait } from '@js-libs/func-kit';
 import { get_cookie } from '@js-libs/cookie';
-import anime from '@js-libs/anime';
+import anime from 'animejs';
 
 export default new (class {
     //pending to close - в процессе закрытия меню

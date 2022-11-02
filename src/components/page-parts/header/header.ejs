@@ -132,7 +132,7 @@
 
 <body class="custom-scrollbar">
   <header class="custom-scrollbar">
-    <%- include('./header-poster')%>
+    <!-- <%- include('./header-poster')%> -->
     <%- include('./header-visible')%>
     <%- include('./header-hidden')%>
   </header>
@@ -151,7 +151,11 @@
     })()
   </script>
   <main style="position: relative; height: 1400px; background-color: white; overflow-y: hidden;">
-    <div style="height:200px"></div>
+    <div style="height:500px"></div>
+    <div style="width: 50%; margin:auto;">
+      <%- include('./../../blocks/images/images.ejs', {data:{type: "img", url:"~@img/media-test/obrabotka_salona_3-1.jpg", loader:true, ow:67200, oh:38400, pt:57.1429,}})%>
+    </div>
+    <!-- <div style="height:200px"></div>
     <div style="max-width:780px; margin:auto;">
       <%- include('./../../blocks/product-small-info-block/product-small-info-block.ejs', {type: "header-search"}) %>
-    </div>
+    </div> -->

@@ -94,7 +94,7 @@ function Get_Plagins() {
                     inject: 'body',
                     scriptLoading: 'blocking',
                     minify: false,
-                    excludeAssets: [/critical\.?.*\.js/],
+                    excludeAssets: [/critical\.?.*\.js/, /polyfills/],
                 }),
         ),
         new HtmlWebpackSkipAssetsPlugin(), //исключит excludeAssets в HtmlWebpackPlugin
@@ -143,11 +143,6 @@ function Get_Rules() {
                                     attribute: 'data-src',
                                     type: 'src',
                                 },
-                                {
-                                    tag: 'object',
-                                    attribute: 'data-src',
-                                    type: 'src',
-                                },
                             ],
                         },
                     },
@@ -155,13 +150,13 @@ function Get_Rules() {
                 'template-ejs-loader',
             ],
         },
-        {
-            test: /\.js$/,
-            loader: 'esbuild-loader', //этот лоадер вроде очень быстрый, ну посмотрим =)
-            options: {
-                target: 'es6', //поддерживаем синтаксис es6
-            },
-        },
+        // {//короче это не нужно т.к. мне просто нужно собрать код в один файл, в том синтаксисе в котором он написан
+        //     test: /\.js$/,
+        //     loader: 'esbuild-loader', //этот лоадер вроде очень быстрый, ну посмотрим =)
+        //     options: {
+        //         target: 'es6', //поддерживаем синтаксис es6
+        //     },
+        // },
         {
             test: /\.(c|sa|sc)ss$/i,
             use:

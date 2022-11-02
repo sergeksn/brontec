@@ -1,7 +1,7 @@
 import { wait } from '@js-libs/func-kit';
 import 'intersection-observer'; //полифил IntersectionObserver и IntersectionObserverEntry
 
-const Img_Loader = new (class {
+export default new (class {
     //инициализатор загрузки картинок
     constructor() {
         let options_observer = {
@@ -12,10 +12,8 @@ const Img_Loader = new (class {
 
         this.add_in_observe(document.querySelectorAll('[data-img-type]')); //добаляем все нужные элементы на отслеживание видимости
 
-        //проверяем видимость картинок при смене ориентации
-        //ПРИМЕЧАНИЕ: IntersectionObserver срабатывает при смене ориентации если в инструментах разработчика явно установить мобильную марку, так что на всякий случай сделаем кастомную проверку при смене ориентации в дополнее к имеющейся
-        //проблема в том что при смене ориентации само по себе событие в IntersectionObserver не срабатывает даже если после смены ориентации стали видны картинки которые ранее были скрыты, так что мы делам так, мы занем что в момент инициализации объекта IntersectionObserver он сразу же проверяет какие из переданных блоков видны, тем самым мы инициализирыем временный IntersectionObserver, а после того как он пробежится по всем элемента удаляем его
-        window._on('orientation_chenge', async () => {
+        //если после смены ориентации устройства картинка так же осталась видна, то IntersectionObserver не вызовется, т.к. он вызывается только при первой иницыализации и при изменении видимости блока, т.е. если после смены ориентации картинка так же и осталась видна то её преобразования не будут выполнены под новые размеры экрана, т.е. не будет если нужно загружена более качественная картинка или помечено что лучшая картинка уже есть
+        window._on('orientation_chenge', () => {
             let temporary = new IntersectionObserver(entries => {
                 this.img_upload_manager.bind(this)(entries); //выполянем проверку на видимые изображения
                 temporary.disconnect(); // после того как пробежались по все картинкам для отслеживания отключаем временный IntersectionObserver
@@ -24,7 +22,7 @@ const Img_Loader = new (class {
             let current_orientation = GDS.device.orientation;
 
             document.querySelectorAll(`[data-img-type]:not(.${current_orientation}-started-loaded):not(.${current_orientation}-uploaded):not(.${current_orientation}-no-nead-loaded):not(.started-loaded):not(.uploaded)`).forEach(el => temporary.observe(el)); //добавляем все элементы на отслеживания видимости во временный IntersectionObserver, ВАЖНО добавляем именно те элементы которые ещё не загружены и не начали загрузку для текущей ориентации, а так же исключая те которые не нужно загружать для текущей ориентации, например в случае если уже загружена картинка более лучего качества в другой ориентации
-        }); //проверяем видимость картинок при смене ориентации
+        });
     }
     //инициализатор загрузки картинок
 
@@ -42,6 +40,7 @@ const Img_Loader = new (class {
 
     //определяет какой загрузчик нужен для данного блока картинки
     img_upload_manager(entries) {
+        console.log(123);
         //перебираем массив с объектами отслеживаемых элементов
         //ПРИМЕЧАНИЕ: при первой инициализации в этом массиве будут все элементы которые мы добавили к данному наблюдателю, а далее только те видимость которых будет изменяться
         entries.forEach(entrie => {
@@ -139,7 +138,7 @@ const Img_Loader = new (class {
 
         return {
             url: img.getAttribute('data-src'), //для тестов пока нет миниатюр
-            //url: url_bez_ext + '-' + miniatura_width + 'x' + data_miniatura_height + ext, //возвращаем расчитаный url для миниатюры wp-content/uploads/2021/03/1-2-2000x702.jpg к примеру
+            url: url_bez_ext + '-' + miniatura_width + 'x' + data_miniatura_height + ext, //возвращаем расчитаный url для миниатюры wp-content/uploads/2021/03/1-2-2000x702.jpg к примеру
             size: miniatura_width,
         };
     }
@@ -301,7 +300,7 @@ const Img_Loader = new (class {
                         svg.setAttribute('data-id', id);
 
                         nead_id.forEach(data_id => {
-                            if (data_id === id) svg.style.fill = 'rgba(0, 73, 255, .5)';//выделяем нужные svg блоки
+                            if (data_id === id) svg.style.fill = 'rgba(0, 73, 255, .5)'; //выделяем нужные svg блоки
                         });
 
                         use.setAttribute('href', data.url + '#' + id);
@@ -320,5 +319,3 @@ const Img_Loader = new (class {
     }
     //встваяет svg картинки из svg набора в документ
 })();
-
-export { Img_Loader };

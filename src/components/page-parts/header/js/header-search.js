@@ -4,9 +4,8 @@ import { set_cookie, get_cookie, delete_cookie } from '@js-libs/cookie';
 
 import Product_Small_Info_Block from '@product-small-info-block-main-js';
 
-import { Img_Loader } from '@js-moduls/media';
-import anime from '@js-libs/anime';
-import { set } from 'animejs';
+import { Img_Loader } from '@images-main-js';
+import anime from 'animejs';
 
 export default new (class {
     //pending to close - в процессе закрытия окна
@@ -363,8 +362,6 @@ export default new (class {
 
         //вставляет переданные код html в блок с результатами поиска и плавно показывает его
         let show_results = async result_html => {
-            if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
-
             await anime({
                 //дожидаемся скрытия лоадера
                 targets: this.results_loader,

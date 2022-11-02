@@ -1,0 +1,1 @@
+import 'intersection-observer'; //полифил IntersectionObserver и IntersectionObserverEntry

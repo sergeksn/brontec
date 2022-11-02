@@ -1,4 +1,4 @@
-process.env.ksn_mode = "prod";
+process.env.ksn_mode = 'prod';
 
 const {
     ENTRY_PATH, //
@@ -7,20 +7,11 @@ const {
     Get_Plagins,
     Get_Rules,
     Get_Alias_list,
-} = require("../scripts/webpack-data"); //получаем данный для данной сборки, такие как список расширений, набор плагинов и правил загрузки ресурсов
-
-// const JUST_COPY_FILS = {
-//   patterns: [
-//     {
-//       from: `${ENTRY_PATH}/123.txt`,
-//       to: `${OUTPUT_PATH}/123.txt`,
-//     },
-//   ],
-// }; //файлы которые нужно простос каопировать в сиходную папку
+} = require('../scripts/webpack-data'); //получаем данный для данной сборки, такие как список расширений, набор плагинов и правил загрузки ресурсов
 
 module.exports = {
-    mode: "production",
-    target: "browserslist",
+    mode: 'production',
+    target: 'browserslist',
     resolve: {
         alias: Get_Alias_list(),
         extensions: Get_Extensions(),
@@ -28,11 +19,20 @@ module.exports = {
     entry: {
         critical: `${ENTRY_PATH}/entrys/main/critical.js`,
         main: `${ENTRY_PATH}/entrys/main/index.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
+        abortcontroller_polyfill: `${ENTRY_PATH}/entrys/main/polyfills/abortcontroller.js`,
+        intersection_observer_polyfill: `${ENTRY_PATH}/entrys/main/polyfills/intersection-observer.js`,
     },
     output: {
         path: OUTPUT_PATH, //путь по которому будут выгружаться итоговые файлы
-        filename: "./assets/js/[name].[contenthash].js", //имя итоговых файлов js
-        clean: true, //сообщает что нужно очистить выходную попку перед тем как записать обновлённые или новые файлы
+        filename: data_obj => {
+            //помещаем файлы по попкам
+            let to_bace_path = ['main', 'critical'],
+                to_pollyfill_path = ['abortcontroller_polyfill', 'intersection_observer_polyfill'];
+
+            if (to_bace_path.includes(data_obj.runtime)) return './assets/js/[name].[contenthash].js';
+            if (to_pollyfill_path.includes(data_obj.runtime)) return './assets/js/polyfills/[name].[contenthash].js';
+        },
+        clean: true, //сообщает что нужно очистить выходную папку перед тем как записать обновлённые или новые файлы
     },
     plugins: Get_Plagins(),
     module: {

@@ -1,4 +1,5 @@
 'use strict'; //используем современный режим
+//ПРИМЕЧАНИЕ: удаление картинки из DOM не переывает её загрузку
 //ВАЖНО: нужно использовать имеено touchend, т.к. touchstart вызывает ошибки если элементы разположенны близко друг к другу
 //ПРИМЕЧАНИЕ: не играет особой роли как обращаться к элементу и его свойствам при большом количестве операций, при ожидании изменение какого-то параметра элемента например, что через мою ksn библеотеку что через нативный js
 //ПРИМЕЧАНИЕ: полезные команды:
@@ -25,8 +26,6 @@ import '@js-libs/dom-add-func.js';
 
 import '@js-moduls/base'; //тут будут записаны основные функции для взаимодействи я с общими элементами сайта и установленны основные слушатели и те действия которые нужно выполнять на любой странице сайта в самом начале
 
-import '@js-moduls/media'; //Запускает загрузку медиа если они видны в данный момент
-
 // import "@js-moduls/overlays"; //ВСЕ ПОДЛОЖКИ
 // import "@js-moduls/header-toggle-block"; //СКРЫТЫЙ БЛОК В ХЕДЕРЕ
 // import "@js-moduls/header-search"; //ОКНО ПОИСКА
@@ -46,3 +45,20 @@ import '@scroll-to-top-button-main-js';
 import '@footer-main-js';
 import '@header-main-js';
 //@dinamic node import fils
+
+// function test() {
+//     return new Promise(function (resolve, reject) {
+//         // эта функция выполнится автоматически, при вызове new Promise
+//         // через 1 секунду сигнализировать, что задача выполнена с результатом "done"
+//         console.log(performance.now());
+//         setTimeout(() => resolve('done'), 1000);
+//     });
+// }
+
+
+// setTimeout(() => {
+//     console.log(performance.now());
+//     test().then(()=>{
+//         console.log(performance.now());
+//     });
+// }, 2000);
