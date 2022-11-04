@@ -20,6 +20,9 @@ import '@product-small-info-block-img/search.jpg';
 import '@product-small-info-block-img/instruction.jpg';
 import '@product-small-info-block-img/kit.svg';
 
+
+import '@img/media-test/test.svg';
+
 import '@img/media-test/obrabotka_salona_3-1.jpg';
 import '@img/media-test/obrabotka_salona_3-1-300x171.jpg';
 import '@img/media-test/obrabotka_salona_3-1-400x229.jpg';

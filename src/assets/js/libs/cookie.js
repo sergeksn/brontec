@@ -43,9 +43,9 @@ function set_cookie(name, value, options = {
     document.cookie = updatedCookie; //записываем данные в куки
 }
 // Пример использования:
-//setCookie('user', 'John', { secure: true, 'max-age': 3600 });
+//set_cookie('Is-cached-page', 'yes', { expires: "Tue, 19 Jan 2038 03:14:07 GMT" });
 //создаёт новый куки
-
+//delete_cookie('Is-cached-page');
 // возвращает куки с указанным name или undefined, если ничего не найдено
 //name - имя куки значение которого нужно получить
 function get_cookie(name) {

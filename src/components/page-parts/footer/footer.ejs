@@ -146,6 +146,22 @@
     </div>
 </footer> -->
 <%- include('./../../blocks/scroll-to-top-button/scroll-to-top-button.ejs')%>
+
+<script>
+  (async () => {
+    if (GDS.polyfills.IntersectionObserver.nead_include) await wait(() => GDS.polyfills.IntersectionObserver.upload, true); /*если нужно ждём загрузки полифила IntersectionObserver*/
+    if (GDS.polyfills.AbortController.nead_include) await wait(() => GDS.polyfills.AbortController.upload, true); /*если нужно ждём загрузки полифила AbortController*/
+
+    /*после загрузки всех необходимых полифилов можно загружать основыне скрипты для сайта*/
+    let d = document,
+        body = d.body,
+        s = d.createElement("script");
+
+        s.src = "http://localhost:3579/main.js";
+
+        body.append(s);
+  })();
+</script>
 </body>
 
 </html>

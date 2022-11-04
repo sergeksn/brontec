@@ -17,10 +17,13 @@
       let head = document.getElementsByTagName("head")[0],
         style_el = document.createElement("style"),
         dfs = window.getComputedStyle(document.getElementsByTagName("html")[0]).fontSize.replace("px", "");
+
+      style_el.id = "head-styles"; //добавляем id чтоб можно было потом обращаться к жтому блоку стилей для того чтоб дополнять его стилями
       /*обязательно нужно получить размешь штифта по умолчанию, т.к. в противном случае если просто делить на 16 
       переменная --wwr будет не корректной и все блоки будут ехать, конечно если пользователь поменяет размер шрифта находясь на сайте, 
       изменения не вступят в силу до перезагрузки страницы*/
       /*--wwr = --win-width-rem
+      --wwrn= --win-width-bez-rem
       --whr = --win-heigth-rem*/
       function set_css_vars() {
         let w = document.documentElement.clientWidth,
@@ -31,10 +34,6 @@
         --wwrn: ${w / dfs};
         --whr: ${h / dfs}rem;
       }`;
-        /*
-          --win-width-px: ${w}px;
-          --win-heigth-px: ${h}px;
-        */
         head.append(style_el);
       }
       set_css_vars();
@@ -47,22 +46,22 @@
     //   let liks_list = [{
     //         media_query: "(min-width: 40em)",
     //         href: "../add-style/min-640em.css",
-    //         loaded: false
-    //       },
-    //       {
-    //         media_query: "(min-width: 40em) and (max-width:59.9375em)",
-    //         href: "../add-style/min-640em-max-959em.css",
-    //         loaded: false
+    //         added_on_page: false
     //       },
     //       {
     //         media_query: "(min-width: 60em)",
     //         href: "../add-style/min-960em.css",
-    //         loaded: false
+    //         added_on_page: false
+    //       },
+    //       {
+    //         media_query: "(min-width: 80em)",
+    //         href: "../add-style/min-1280em.css",
+    //         added_on_page: false
     //       },
     //       {
     //         media_query: "(min-width: 120em)",
     //         href: "../add-style/min-1920em.css",
-    //         loaded: false
+    //         added_on_page: false
     //       }
     //     ],
     //     head = document.getElementsByTagName("head")[0];
@@ -79,17 +78,17 @@
     //       link.href = instens.href;
     //       link.media = instens.media_query;
     //       head.append(link);
-    //       instens.loaded = true;
-    //       console.log("load "+instens.href);
+    //       instens.added_on_page = true;
+    //       console.log("load " + instens.href);
     //     };
 
-    //     if (!check_media || window.matchMedia(instens.media_query).matches) al();/*если не нужно проверять медиа или если удовлетворяет медиаусловию*/
+    //     if (!check_media || window.matchMedia(instens.media_query).matches) al(); /*если не нужно проверять медиа или если удовлетворяет медиаусловию*/
     //   };
 
     //   /*check_media - если false то ресурсы будут загружены не смотря на медиазапросы*/
     //   function add_links_in_head(check_media = true) {
     //     liks_list.forEach(item => {
-    //       if (item.loaded) return; /*если уже загружена то пропускаем*/
+    //       if (item.added_on_page) return; /*если уже добавлен на страницу то пропускаем*/
     //       add_style_link(item, check_media);
     //     });
     //   };
@@ -104,31 +103,59 @@
     //   });
     // })();
   </script>
+  <script>
+    (() => {
+      /*скрипт подключаем при необходимости полифилы и сообщает о их загрузке*/
+      /*данные о полифилах и их процессе загрузки*/
+      GDS.polyfills = {
+        IntersectionObserver: {
+          upload: false,
+          /*загружен или ещё нет*/
+          script_name: "IntersectionObserver",
+          /*имя файла скрипта полифила*/
+          nead_include: !'IntersectionObserver' in window ||
+            !'IntersectionObserverEntry' in window ||
+            !'intersectionRatio' in window.IntersectionObserverEntry.prototype ||
+            !'isIntersecting' in window.IntersectionObserverEntry.prototype,
+          /*если условие true то полифил будет загружен*/
+        },
+        AbortController: {
+          upload: false,
+          script_name: "AbortController",
+          nead_include: (typeof window.Request === 'function' && !window.Request.prototype.hasOwnProperty('signal')) || !window.AbortController,
+        }
+      };
+
+      let d = document,
+        wrap = d.createDocumentFragment(),
+        head = d.getElementsByTagName("head")[0];
+
+      for (let item in GDS.polyfills) {
+        let data = GDS.polyfills[item];
+        if (!data.nead_include) continue; //если полифил не нужен
+
+        let s = d.createElement("script");
+        s.onload = () => data.upload = true;
+        s.src = `http://localhost:3579/${item}.js`;
+
+        wrap.append(s);
+      }
+      head.append(wrap);
+    })();
+  </script>
+  <script>
+    /*скрипт определяет страница из кеша или с сервера и делает соответственные манипуляции*/
+    (() => {
+      let is_cached_page = document.cookie.match(/(?:^|; )Is-cached-page=([^;]*)/)[1] === "yes" ? true : false;
+      /*на сервер устанавливается куки для каждого запроса страницы, если ответ 200, т.е. страница грузится с сервера то куки установится в значение "no" если сервер ответит кодом 304 т.е. изменений страницы не проихошло то он так же задаст куки стратус "yes" что скажет нам что страница взята из локального кеща пользователя 
+      ПРИМЕЧАНИЕ: если страница взята из локального кеша пользователя то мы точно уверены что те картинки которые статичны, т.е. не грузятся динамически чрез ajax с сервера, уже раннее грузились для пользователя и сейчас скорее всего быстро загрузятся и не нужно ставить лоадер, если ли же страница пользователем ещё не кешировалась то скорее всего картинки на ней ещй не были загружены пользователем и нужно сразу показать лоадер*/
+      
+      GDS.is_cached_page = is_cached_page; /*записываем кешированная версия страницы или скачанная с сервера*/
+
+      if (!is_cached_page) document.getElementById("head-styles").innerHTML += "\n.image>.loader {display:none}"; /*если траница из кеша скрываем лоадеры у картинок, если вдруг картинка будет грузится дольше чем минимально допустимое время GDS.media.img.loader_delay_time то лоадер снова покажем*/
+    })();
+  </script>
 </head>
-
-<script>
-  // setInterval(()=>{
-  //   if(!!document){
-  //     console.log("!!document");
-  //   }
-
-  //   if(document.hidden){
-  //     console.log("document.hidden");
-  //   }
-  // }, 250);
-  // let i = 0;
-  // setInterval(() => {
-  //   console.log(i);
-  //   i++;
-  // }, 100);
-  // document.addEventListener("visibilitychange", () => {
-  //   if (document.visibilityState === 'visible') {
-  //     console.log("Видна")
-  //   } else {
-  //     console.log("Скрыта")
-  //   }
-  // });
-</script>
 
 <body class="custom-scrollbar">
   <header class="custom-scrollbar">
@@ -150,12 +177,25 @@
       header_background.style.height = header_height; /*задаём высоту подложки хедера*/
     })()
   </script>
-  <main style="position: relative; height: 1400px; background-color: white; overflow-y: hidden;">
+  <main style="position: relative;  background-color: white; overflow-y: hidden;">
     <div style="height:500px"></div>
-    <div style="width: 50%; margin:auto;">
-      <%- include('./../../blocks/images/images.ejs', {data:{type: "img", url:"~@img/media-test/obrabotka_salona_3-1.jpg", loader:true, ow:67200, oh:38400, pt:57.1429,}})%>
-    </div>
-    <!-- <div style="height:200px"></div>
+    <style>
+      .test_block {
+        width: 50%;
+        /* width: 500px; */
+        margin: auto;
+      }
+
+      @media (max-width:1000px) {
+        .test_block {
+          /* width: 800px; */
+        }
+      }
+    </style>
+    <!-- <div class="test_block">
+      <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@img/media-test/obrabotka_salona_3-1.jpg", loader:true, ow:6720, oh:3840, pt:57.1429,}})%>
+    </div> -->
+    <div style="height:200px"></div>
     <div style="max-width:780px; margin:auto;">
       <%- include('./../../blocks/product-small-info-block/product-small-info-block.ejs', {type: "header-search"}) %>
-    </div> -->
+    </div>

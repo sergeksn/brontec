@@ -20,15 +20,15 @@ module.exports = {
     entry: {
         critical: `${ENTRY_PATH}/entrys/main/critical.js`,
         main: `${ENTRY_PATH}/entrys/main/index.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
-        abortcontroller_polyfill: `${ENTRY_PATH}/entrys/main/polyfills/abortcontroller.js`,
-        intersection_observer_polyfill: `${ENTRY_PATH}/entrys/main/polyfills/intersection-observer.js`,
+        AbortController: `${ENTRY_PATH}/entrys/polyfills/AbortController.js`,
+        IntersectionObserver: `${ENTRY_PATH}/entrys/polyfills/IntersectionObserver.js`,
     },
     output: {
         path: OUTPUT_PATH, //путь по которому будут выгружаться итоговые файлы
         filename: data_obj => {
             //помещаем файлы по попкам
             let to_bace_path = ['main', 'critical'],
-                to_pollyfill_path = ['abortcontroller_polyfill', 'intersection_observer_polyfill'];
+                to_pollyfill_path = ['AbortController', 'IntersectionObserver'];
 
             if (to_bace_path.includes(data_obj.runtime)) return './assets/js/[name].js';
             if (to_pollyfill_path.includes(data_obj.runtime)) return './assets/js/polyfills/[name].js';

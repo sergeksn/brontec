@@ -1,5 +1,7 @@
 import { wait } from '@js-libs/func-kit';
+import { set } from 'animejs';
 
+//ПРИМЕЧАНИЕ: тестил скрипт как мог, вроде всё работает корректно
 export default new (class {
     //инициализатор загрузки картинок
     constructor() {
@@ -9,28 +11,24 @@ export default new (class {
 
         this.img_visible_observer = new IntersectionObserver(this.img_upload_manager.bind(this), options_observer); //создаём наблюдатель за видимостью элементов на экране
 
-        this.add_in_observe(document.querySelectorAll('[data-img-type]')); //добаляем все нужные элементы на отслеживание видимости
+        let timer_resize, //будет хранить таймер отложенной функции для ресайза
+            update_observer_images = () => this.add_in_observe(document.querySelectorAll('[data-img-type]:not(.original-size)')); //данная функция добавит в отслеживание элементы которые ещё не
 
-        let premision = true;
+        update_observer_images(); //добаляем все нужные элементы на отслеживание видимости
 
-        //пре ресайзе с тротлингом выводим более качественные картинки
-        //ПРИМЕЧАНИЕ: не использую resize_throttle т.к. если где-то будет задан более меньший интервал то это событие будет выполняться чащем чем мы тут установим
-        window.addEventListener('resize', () => {
-            if (!premision) return;
-
-            premision = false;
-
-            setTimeout(() => {
-                let temporary = new IntersectionObserver(entries => {
-                    this.img_upload_manager.bind(this)(entries); //выполянем проверку на видимые изображения
-                    temporary.disconnect(); // после того как пробежались по все картинкам для отслеживания отключаем временный IntersectionObserver
-                }, options_observer); //создаём временный наблюдатель за видимостью элементов на экране
-
-                document.querySelectorAll(`[data-img-type]:not([data-current-size="original"])`).forEach(el => temporary.observe(el)); //добавляем все элементы на отслеживания видимости во временный IntersectionObserver, ВАЖНО добавляем именно те элементы которые ещё не загружены и не начали загрузку для текущей ориентации, а так же исключая те которые не нужно загружать для текущей ориентации, например в случае если уже загружена картинка более лучего качества в другой ориентации
-
-                premision = true;
-            }, 500);
+        //при изменении размеров окна браузера запускаем проверку подходящих размеров для видимых картинок
+        window._on('resize_optimize', () => {
+            clearTimeout(timer_resize); //удаляем прежний таймаут чтоб отсчёт времени пошёл заново
+            timer_resize = setTimeout(() => update_observer_images(), GDS.media.img.resize_delay_load); //если пробыли в данном разрешении достаточно долго запоскаем проверку актуальности размеров картинок
         });
+        //при изменении размеров окна браузера запускаем проверку подходящих размеров для видимых картинок
+
+        //при смене ориентации устройства запускаем проверку подходящих размеров для видимых картинок
+        window._on('orientation_chenge', () => {
+            setTimeout(() => clearTimeout(timer_resize), GDS.media.img.resize_delay_load / 2); //чтоб не было двух вызовов функции проверке при ресайзе и смене ориентации, мы спустя половину времени отведённого на фиксациию ресайза для проверки, удаляем его таймаут чтоб предотвратить лишний вызов
+            update_observer_images(); //а сами сразу вызываем проверку актуальности размеров картинок с дальнейшим их отслеживанием в этом размере окна браузера
+        });
+        //при смене ориентации устройства запускаем проверку подходящих размеров для видимых картинок
     }
     //инициализатор загрузки картинок
 
@@ -41,8 +39,12 @@ export default new (class {
     //добаляем все нужные элементы на отслеживание видимости
 
     //удаляем элементы из отслеживания видимости
-    dellete_from_observe(elems) {
-        elems.forEach(el => this.img_visible_observer.unobserve(el));
+    //stop_all_load - сообщает о том что нужно так же прервать загрузку всех ещё не загруженых версий этой картинки которые планируются сохранится в кеш
+    dellete_from_observe(elems, stop_all_load = true) {
+        elems.forEach(el => {
+            this.img_visible_observer.unobserve(el);
+            if (stop_all_load && el.load_data) el.load_data.forEach(miniatura_data => miniatura_data.abort_controller.abort()); //прервать загрузку всех ещё не загруженых версий этой картинки которые планируются сохранится в кеш
+        });
     }
     //удаляем элементы из отслеживания видимости
 
@@ -53,7 +55,7 @@ export default new (class {
         entries.forEach(entrie => {
             //из всех элементов берём только те которые пересекаются с экраном
             if (entrie.isIntersecting) {
-                //загружаем картинки только если её блок был на экране минимум 100 мс
+                //загружаем картинки только если её блок был на экране минимум GDS.media.img.min_vsible_time
                 entrie.target.start_intersecting_timeout_id = setTimeout(() => {
                     switch (
                         entrie.target.getAttribute('data-img-type') //для каждого типа блока картинки вызываем свой обработчик для загрузки
@@ -68,7 +70,9 @@ export default new (class {
                             this.svg_kit_render(entrie.target);
                             break;
                     }
-                }, 100); //записываем id данного таймаута в свойства элемента entrie.target чтоб потом можно было его отключить если элемент слишком быстро пропал с экрана
+
+                    delete entrie.target.start_intersecting_timeout_id; //удаляем свойство за ненадобностью
+                }, GDS.media.img.min_vsible_time); //записываем id данного таймаута в свойства элемента entrie.target чтоб потом можно было его отключить если элемент слишком быстро пропал с экрана
             }
             //из всех элементов берём только те которые пересекаются с экраном
 
@@ -94,106 +98,92 @@ export default new (class {
             original_w = +img.getAttribute('data-original-w'), //ширина оригинальной картинки в px
             original_h = +img.getAttribute('data-original-h'), //высота оригинальной картинки в px
             width = +window.getComputedStyle(img).width.replace('px', ''), //целочисленно значение ширины отведённое под картинку
-            height = +window.getComputedStyle(img).height.replace('px', ''), //целочисленно значение высоты отведённое под картинку
-            dpr_width = width * GDS.device.dpr, //требуемая ширина картинки для качественного отображения, с учётом плотности пиксилей
-            dpr_height = height * GDS.device.dpr, //требуемая высота картинки для качественного отображения, с учётом плотности пиксилей
-            //ПРИМЕЧАНИЕ: может быть такая ситуация что высота картинки которая нужна больше то высоты которая будет определена на основе ширины блока картинки, это может возникнуть если мы используем картинку с таким позиционированием что она занимает определённую высоту, а ширина которая не поместилась просто остаётся за пределами экран или блока, т.е. в этом случае нам нужно отталкивать уже от высоты блока картинки чтоб получить подходящую по качеству миниатюру, а не от ширины как мы делаем при стандартном подходе
-            need_dpr_width = Math.round(height) > Math.round((original_h * width) / original_w) ? (original_w * dpr_height) / original_h : dpr_width, //если высота блока картинки больше высоты которая будет у самой картинки, при условии что ширина картинки берётся как у ширины блока, то это значит что основой вычислений будет именно высота блока, т.к. нужно загрузить качественную картинку (простым примером может служить слоайдер на главной екб, там высота блока картинки приоритетнее, т.к. нужно загрузить изображение наилучего качества опираясь на высоту, а лишняя ширина будет за пределаи блока или экрана)
-            //(original_w * dpr_height) / original_h это необходимая ширина картинки с учётом dpr чтоб качественно выглядеть при такой высоте и плотности пикселей
-            miniatura_width, //сюда будет записана требуемая ширина миниатюры из списка заданных
-            miniatur_sizes = GDS.media.img.miniatur_sizes; // это все возможные значения ширины у миниатюр
+            need_dpr_width = width * GDS.device.dpr, //требуемая ширина картинки для качественного отображения, с учётом плотности пиксилей
+            miniatura_width; //сюда будет записана требуемая ширина миниатюры из списка заданных
 
-        //проверяем условия для полчени нужного размера картинки
-        switch (true) {
-            case need_dpr_width <= miniatur_sizes[1]: //в случае если требуемая ширина картинки меньше наименьшего доступного размера миниатюры, например нужна картинка шириной в 230px с учётом dpr, в этом члучае мы отдаём картинку миниатюры с наименьшим размером в 300px
-                miniatura_width = miniatur_sizes[1]; //запрашиваем наименьшую миниатюру
-                break;
-            case need_dpr_width > miniatur_sizes[miniatur_sizes.length - 1]: //если требуемая ширина картинки больше самой большой миниатюры из списка доступных
-                miniatura_width = 'original'; //запрашиваем оригинал картинки
-                break;
-            default:
-                //перебираем массив с доступными ширинами миниатюр miniatur_sizes, чтоб определить какая миниатюра будет оптимальная для данной картинки
-                for (let i = 0; i < miniatur_sizes.length - 1; i++) {
-                    //ПРИМЕЧАНИЕ: need_dpr_width * 0.97 это 3% погрешности, т.е. мы подбираем зарегистрированные большие ширины миниатюры для картинки на 3% уже той что у нас есть, это сделано чтоб избежать того что когда наш need_dpr_width = 2519, к примеру, мы подставляем миниатюру из miniatur_sizes в 3000, а с погрешностью мы подставим 2500, для пользователя качество не заметна, а вот размер загружаемого файла уменьшиться
-                    //когда нашли размер миниатюры удовлетворяющий нашему условиию
-                    if (need_dpr_width > miniatur_sizes[i] && need_dpr_width * 0.97 <= miniatur_sizes[i + 1]) {
-                        miniatura_width = miniatur_sizes[i + 1]; //ширина оптимальной миниатюры
-                        break; //прерываем цикл когда нашли подходящую ширину миниатюры
-                    }
-                }
-            //перебираем массив с доступными ширинами миниатюр miniatur_sizes, чтоб определить какая миниатюра будет оптимальная для данной картинки
+        this.img_visible_observer.unobserve(img); //удаляем данную картинку из отслеживания что постоянно не выполянть функцию при сроле когда картинка будет мелькать на экране
+
+        miniatura_width = GDS.media.img.miniatur_sizes.find((_, index, sizes_list) => need_dpr_width > sizes_list[index - 1] && need_dpr_width * 0.97 <= sizes_list[index] && sizes_list[index] < original_w); //получит подходящую миниатюру, если вернёт undefined значит нужно вернуть оригинал
+
+        if (+img.getAttribute('data-current-size') >= miniatura_width) return 'no need to update'; //если текущей требуемый размер  миниатюры есть и он меньше её уже загруженой версии или равен ей, сообщаем что не нужно обновлять миниатюру
+
+        //нужно вернуть оригинал картинки
+        if (!miniatura_width) {
+            img.classList.add('original-size'); //помечаем что это оригинал картинки
+            img.removeAttribute('data-current-size'); //удаляем атрибут за ненадобностью
+            return img.getAttribute('data-src'); //возвращаем оригинал картинки
         }
-        //проверяем условия для полчени нужного размера картинки
+        //нужно вернуть оригинал картинки
 
-        //ВАЖНО: удалять картинку из отслеживания если для текущего размера экрана устройства она не может быть больше ,т.е. сделать привязку к device.width, так же не забыть изменить условие в верху при смене ориентации чтоб добавлялись только нужные картинки на отслеживание, думаю лучшим тригером будет калсс по типу max-uploaded вместо отрибута [data-current-size="original"]
-
-        if (miniatura_width >= original_w || miniatura_width === 'original') {
-            //если ширина запрашиваемой миниатюры больше или равна ширине оригинальной картинки сообщаем о том что требуется оригинал
-            img.setAttribute('data-current-size', 'original'); //помечаем что текущая картинка оригинал
-            return {
-                url: img.getAttribute('data-src'),
-                size: 'original',
-            };
-        }
-
-        let current_size = img.getAttribute('data-current-size'); //атрибут инфурмирующий о том какой наилучший размер (ширина) картинки был ранее загружен
-
-        if (+current_size >= miniatura_width) return 'no need to update'; //если размер текущей картинку меньше её оригинал, или текущий размер миниатюры такой же как и тот что мы хотим сейчас установить то завершаем функцию
-
-        img.setAttribute('data-current-size', miniatura_width); //если запрошенная миниатюра больше текущей то записываем для данной картинки её текущий размер
+        img.setAttribute('data-current-size', miniatura_width); //записываем для данной картинки её текущий размер
 
         let data_miniatura_height = Math.round((original_h * miniatura_width) / original_w); //используя пропорцию получаем высоту запрашиваемой миниатюры
 
-        return {
-            //url: img.getAttribute('data-src'), //для тестов пока нет миниатюр
-            url: url_bez_ext + '-' + miniatura_width + 'x' + data_miniatura_height + ext, //возвращаем расчитаный url для миниатюры wp-content/uploads/2021/03/1-2-2000x702.jpg к примеру
-            size: miniatura_width,
-        };
+        //return img.getAttribute('data-src'); //для тестов пока нет миниатюр
+
+        return url_bez_ext + '-' + miniatura_width + 'x' + data_miniatura_height + ext; //возвращаем расчитаный url для миниатюры wp-content/uploads/2021/03/1-2-2000x702.jpg к примеру
     }
     //получаем адрес миниатюры картинки с учётом ширины картинки на сайте
 
     //получает на вход url картинки, после чего он создаёт новый объект изображения и мониторит его загрузку или ошибку загрузки в случае если картинка не найдена
-    download_img_tracker(target_img, url) {
-        return new Promise((resolve, reject) => {
-            //если не поддерживается технология прерывания запросов, просто испльзуем технологиию через загрузку как изображение без возможности прервать
-            if (!GDS.supports_technology.AbortController) {
-                let img = new Image();
+    async download_img_tracker(target_img, url) {
+        return new Promise(async (resolve, reject) => {
+            if (!target_img.load_data) target_img.load_data = []; //если у картинки ещё нет свойства с данными её загрузки, создаём его
 
-                img.onload = () => resolve();
+            //перебираем все миниатюры данной картинки которые грузятся в данный момент
+            target_img.load_data.forEach(item => {
+                if (GDS.media.img.min_anyway_load_byte_size && item.download_byte_size >= GDS.media.img.min_anyway_load_byte_size) return; //сначало проверяем установлено ли минимальное количество скачаных байт для загрузки картинки в кеш если есть то смотрим если количество уже загруженых байт больше или равно минимальному байтовому значению для сохранения в кеш, тогда мы не проверяем процент скачки и картинка продолжит загрузку
+                if (item.download_percent < GDS.media.img.min_anyway_load_percent) item.abort_controller.abort(); //если процент загрузки миниатюры ниже установленого в настройках GDS.media.img.min_anyway_load_percent минимума то её загрузку мы прерываем
+            });
 
-                img.onerror = () => reject();
+            //объект с данными для загрузки текущей миниатюры
+            let current_img_data = {
+                abort_controller: new AbortController(), //контролер для прерывания запроса на загрузку картинки по данному url
+                url: url, //адрес данной картинки
+                download_percent: 0, //нужно задать для download_percent и download_byte_size по 0 чтоб корректно работали сравнения т.к. если новая картинка начнёт грузится раньше чем мы получим первый байт от текущей эти значения будут undefined и это слоамает условие и картинка загрузится в кеш
+                download_byte_size: 0,
+            };
 
-                img.src = url;
-                return;
-            }
-            //если не поддерживается технология прерывания запросов, просто испльзуем технологиию через загрузку как изображение без возможности прервать
+            target_img.load_data.push(current_img_data); //записываем объект в общий массив данных о текущих загрузкам миниатюр данной картинки
 
-            let controller = new AbortController();
-            setTimeout(() => controller.abort(), 7000);
-
-            fetch(url, {
-                //запрос на сервер
-                method: 'GET',
-                signal: controller.signal,
+            //отправляем запрос на получение текущей требуемой миниатюры картинки картинки
+            await fetch(url, {
+                signal: current_img_data.abort_controller.signal, //ставим отслеживание для прерывания запроса
             })
-                .then(resp => {
-                    resp.blob()
-                        .then(data => {
-                            console.log(data);
-                        })
-                        .catch(error => {
-                            if (error.name == 'AbortError') {
-                                // обработать ошибку от вызова abort()
-                                console.log('Прервано blob!');
-                            }
-                        });
+                .then(async response => {
+                    if (!response.ok) return reject('server-error ' + response.status); //если ответ не в предаелах 200-299 то завершаем с ошибкой сервера
+
+                    let reader = response.body.getReader(), //начинаем считывать поток данных запроса
+                        contentLength = +response.headers.get('Content-Length'), //размер картинки в байтах
+                        receivedLength = 0; //загруженное количисетво байт, егомы будем увеличивать по мере загрузки
+
+                    //будет выполняется до завершения загрузки картинки или прерывания её загрузки
+                    while (true) {
+                        let { done, value } = await reader.read(); //это промис с текущем состояние чтения потока
+                        //done - сигнализирет о том что поток закрылся
+                        //value - количество загруженных байт
+                        if (done) break; //как только поток закрылся прерываем наш бесконечный цыкл
+                        receivedLength += value.length; //обновляем количество загруженых байт
+
+                        current_img_data.download_percent = (receivedLength / contentLength) * 100; //записываем в свойства данных о загрузке картинки текущий процент её загрузки
+                        current_img_data.download_byte_size = receivedLength; //количество загруженых байт картинки
+                        //console.log(`Получено ${current_img_data.download_percent}%`);
+                    }
+                    //будет выполняется до завершения загрузки картинки или прерывания её загрузки
+
+                    return resolve(); //сигнализируем об успешном выполнении запроса
                 })
                 .catch(error => {
-                    if (error.name == 'AbortError') {
-                        // обработать ошибку от вызова abort()
-                        console.log('Прервано!');
-                    }
+                    if (error.name == 'AbortError') return reject('AbortError'); //возвращаем с пометкой что запрос прерван
+
+                    return reject('network error'); //завершаем с пометкой ошибки сети
                 });
+            //отправляем запрос на получение текущей требуемой миниатюры картинки картинки
+
+            //после того как картинка загружена или её загрузка не удалась, нам тут не важно, удаляем её данные загрузки из общего массива
+            target_img.load_data.forEach((item, index, arr) => {
+                if (item.url === url) arr.splice(index, 1); //удаляем из массива объект в котором url соответсвет ожидаемому url данной асинхронной функции
+            });
         });
     }
     //получает на вход url картинки, после чего он создаёт новый объект изображения и мониторит его загрузку или ошибку загрузки в случае если картинка не найдена
@@ -201,78 +191,142 @@ export default new (class {
     //функция начинает загрузку картинки img и верёнет промис о результатах загрузки
     common_img_loader(img) {
         return new Promise((resolve, reject) => {
-            let loader = img.parentNode.querySelector('.loader'); //лоадер
-
-            //если есть лоадер и ещё не была загружена ни одна из миниатюр картинки
-            if (loader && !img.classList.contains('uploaded')) {
+            //если есть лоадер и ещё не была загружена ни одна из миниатюр картинки, а так же лоадер НЕ виден в документе
+            if (img.parentNode.querySelector('.loader') && !img.classList.contains('uploaded') && window.getComputedStyle(img.parentNode.querySelector('.loader')).display === 'none') {
                 setTimeout(() => {
                     //делаем проверку через малый интервал времени, если картинка всё ещё не загружена после старта её загрузки, то скорее всего картинка берётся не из кеша и пользователю нужно показать лоадер, если картинка загрузилась очень быстро то лоадер показывать не зачем
-                    if (!img.classList.contains('uploaded')) loader.style.display = 'flex'; //показываем лоадер мгновенно
+
+                    let loader = img.parentNode.querySelector('.loader'); //лоадер
+
+                    //img.parentNode.querySelector('.loader') используем именно это т.к. просто loader в случае удаления узла за время пока ждали, сохранит ссылку на старый элемент, а нам нужно проверить сейчас есть лоадер у данной картинки или нет
+                    //!loader.classList.contains("pending-to-remove") - занчит что лоадер НЕ в прсессе удаления
+                    if (!img.classList.contains('uploaded') && loader && !loader.classList.contains('pending-to-remove')) {
+                        let ls = window.getComputedStyle(loader); //живая колекция стилей лоадера
+
+                        loader.style.opacity = '0'; //делаем лоадер прозрачным
+                        loader.style.display = 'flex'; //отображаем лоадер в документе
+
+                        //ждём чтоб loader стал flex
+                        wait(
+                            () => ls.display,
+                            'flex',
+                            {},
+                            {
+                                value: () => loader.classList.contains('pending-to-remove'), //если во время того как мы проверяли loader.style.display на равенство flex, мы вдруг обнаружили что лоадер в процесе удаления мы прерываем ожидание и выбрасываем исключение
+                            },
+                        )
+                            .then(() => (loader.style.opacity = '1')) //плавно показываем лоадер
+                            .catch(() => {}); //пустое исключение если вдруг лоадер начал удаляться во время выполнения данного кода
+                    }
                 }, GDS.media.img.loader_delay_time);
             }
-            //если есть лоадер и ещё не была загружена ни одна из миниатюр картинки
+            //если есть лоадер и ещё не была загружена ни одна из миниатюр картинки, а так же лоадер НЕ виден в документе
 
             let is_svg = img.getAttribute('data-src').match(/\.{1}([a-zA-Z]+)$/)[1] === 'svg', //указывает svg картинка или нет
-                size, //запишем сюда размер миниатюры
-                url; //сюда будет записан сгенерированный адрес на миниатюру картинки или на саму картинку в случае с svg
+                url = is_svg ? img.getAttribute('data-src') : this.get_img_size_url(img); //сюда будет записан сгенерированный адрес на миниатюру картинки или на саму картинку в случае с svg
 
-            if (is_svg) {
-                url = img.getAttribute('data-src');
-            } else {
-                let result = this.get_img_size_url(img); //результат определения подходящей миниатюры
-
-                if (result === 'no need to update') return reject('no need to update'); //если при попытки получить новые размеры миниатюры под эту ширину экрана мы получить в ответ no need to update, то это значит что сейчас используется уже такая же или более лучшая миниатюра чем нужно для текущего размера экрана, так что мы завершаем функцию и сообщаем что уже загружена более лучшая картинка или такая же
-
-                size = result.size;
-                url = result.url;
-            }
+            if (url === 'no need to update') return reject('no need to update'); //если при попытки получить новые размеры миниатюры под эту ширину экрана мы получить в ответ no need to update, то это значит что сейчас используется уже такая же или более лучшая миниатюра чем нужно для текущего размера экрана, так что мы завершаем функцию и сообщаем что уже загружена более лучшая картинка или такая же
 
             //ждйм завершения загрузки картинки по url
             this.download_img_tracker(img, url)
                 .then(() => {
                     if (is_svg) {
-                        img.classList.add('uploaded'); //помечам что картинка загружена
-                        img.setAttribute('data-current-size', 'original'); //добавляем чтоб эта картинка больше не отслеживалась при ресайзах
+                        img.classList.add('uploaded', 'original-size'); //помечам что картинка загружена и что это максимальный её размер для данного устройства
                         this.img_visible_observer.unobserve(img); //т.к. svg картинка одна для всех размеров экрана мы можем убрать её из отслеживания
                     } else {
                         img.classList.add('uploaded'); //если ещё нет пометки о том что картинка загружена помечаем что как минимум одна миниатюра картинки загружена
-
-                        if (size === 'original') {
-                            this.img_visible_observer.unobserve(img); //удаляем данный блок картинки из отслеживания т.к. загружен её оригинал
-                            img.setAttribute('data-current-size', 'original'); //добавляем чтоб эта картинка больше не отслеживалась при ресайзах
-                        }
                     }
 
-                    resolve(url); //успешно загружена для текущей ориентации
+                    //если уже есть какой-то url в src картинки
+                    if (img.getAttribute('src')) {
+                        //в src оригинал картинки
+                        if (img.getAttribute('src') === img.getAttribute('data-src')) {
+                            return reject('uploaded only on cache'); //сохраняем в кеш без отображения
+                        }
+                        //в src оригинал картинки
+
+                        //в src миниатюра картинки
+                        else {
+                            //если загруженная картинка это ОРИГИНАЛ
+                            if (url === img.getAttribute('data-src')) {
+                                return resolve(url); //успешно загружена
+                            }
+                            //если загруженная картинка это ОРИГИНАЛ
+
+                            //если загруженая картинка БОЛЬШЕ той что уже есть в src
+                            else if (+url.match(/[^\.]+(?:-([0-9]+)x[0-9]+.)/)[1] > +img.getAttribute('src').match(/[^\.]+(?:-([0-9]+)x[0-9]+.)/)[1]) {
+                                return resolve(url); //успешно загружена
+                            }
+                            //если загруженая картинка БОЛЬШЕ той что уже есть в src
+
+                            //если загруженая картинка МЕНЬШЕ той что уже есть в src
+                            else {
+                                return reject('uploaded only on cache'); //сохраняем в кеш без отображения
+                                //это значит что загрузилась картинка меньшего разрешения после того как уже отображена более качественная картинка, это могло произойти если картинка большего размера имеет гораздо меньший вес чем маленькая картинка, чтоб не вставлять более мелкую картинку вместо более качественной просто обрабратываем как исключение
+                            }
+                            //если загруженая картинка МЕНЬШЕ той что уже есть в src
+                        }
+                        //в src миниатюра картинки
+                    }
+                    //если уже есть какой-то url в src картинки
+
+                    //если в src ещё ничего нет
+                    else {
+                        return resolve(url); //успешно загружена
+                    }
+                    //если в src ещё ничего нет
                 })
-                .catch(() => {
-                    //ТУТ Я ПЛАНИРУЮ ВТАВЛЯТЬ SVG ИЗ ИКОНОЧНОГО ШРИФТА КОТОРАЯ СООБЩИТ ОБ ОШИБКЕ
-                    console.log(`не удалось загрузить url ${url}`);
-                    reject('error loading'); //ошибка загрузки
+                .catch(error => {
+                    return reject({ error: error, url: url, img: img }); //отклоняем промис передав ошибку с доп данными о текущей загружаемой миниатюре
                 });
             //ждйм завершения загрузки картинки по url
         });
     }
     //функция начинает загрузку картинки img и верёнет промис о результатах загрузки
 
-    //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
-    async error_img_load(e, img) {
-        let loader = img.parentNode.querySelector('.loader');
+    //скрываем и удаляем лоадер если он есть
+    async hide_and_remove_loader(img) {
+        let loader = img.parentNode.querySelector('.loader'); //лоадер данной картинки
 
-        if (e === 'error loading') {
-            if (loader) {
-                //если есть лоадер то ждём пока он не скроется
+        //если есть лоадер и он НЕ в процессе удаления
+        if (loader && !loader.classList.contains('pending-to-remove')) {
+            let sl = window.getComputedStyle(loader); //живая колекция стилей лоадера
+
+            loader.classList.add('pending-to-remove'); //указываем что лоадер готовится к удалению
+
+            //если лоадер виден в документе
+            if (sl.display !== 'none') {
                 loader.style.opacity = '0';
-                let sl = window.getComputedStyle(loader);
-                await wait(() => sl.opacity, '0');
-                loader.remove();
+                await wait(() => sl.opacity, '0'); //ждём пока он не скроется
             }
+            //если лоадер виден в документе
+
+            loader.remove(); //удаляем лоадер из документа
+        }
+        //если есть лоадер и он НЕ в процессе удаления
+    }
+    //скрываем и удаляем лоадер если он есть
+
+    //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
+    async error_img_load(data) {
+        if (data === 'no need to update') return; //возникает в случае когда уже загружена более качестваенная миниатюра картинки или её оригинал в этом случае ни каких ошибок выводить не нужно
+
+        if (data === 'uploaded only on cache') return; //это значит что загрузилась картинка меньшего разрешения после того как уже отображена более качественная картинка, это могло произойти если картинка большего размера имеет гораздо меньший вес чем маленькая картинка, чтоб не вставлять более мелкую картинку вместо более качественной просто обрабратываем как исключение
+
+        if (data.error === 'AbortError') return; //в случае прерывания загрузки ничего не делаем т.к. загрузка прервана чтоб загрузить картинку более лучшего качества
+
+        //в случае ошибки загрузки или ошибки сети вставляем блок с ошибкой который покажент картинку ошибки загрузки
+        if (data.error.includes('server-error') || data.error === 'network error') {
+            console.error(`Не удалось загрузить картинку по адресу ${data.url}\n Ошибка: ${data.error}`); //выводим ошибку в консоль
+
+            await this.hide_and_remove_loader(data.img); //скрываем и удаляем лоадер если он есть
 
             let div = document.createElement('div');
             div.classList.add('media-load-error');
-            img.parentNode.append(div);
+            data.img.parentNode.append(div);
             setTimeout(() => (div.style.opacity = '1'), 100); //показываем с небольшой задержкой чтоб блок успел отрендерится
         }
+        //в случае ошибки загрузки или ошибки сети вставляем блок с ошибкой который покажент картинку ошибки загрузки
     }
     //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
 
@@ -282,28 +336,20 @@ export default new (class {
     async common_img_render(img, type) {
         await this.common_img_loader(img)
             .then(async url => {
-                let loader = img.parentNode.querySelector('.loader');
+                await this.hide_and_remove_loader(img); //скрываем и удаляем лоадер если он есть
 
-                if (loader) {
-                    //если есть лоадер то ждём пока он не скроется
-                    loader.style.opacity = '0';
-                    let sl = window.getComputedStyle(loader);
-                    await wait(() => sl.opacity, '0');
-                    loader.remove();
-                }
+                type === 'bg' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url); //вставляем картинку
 
-                type === 'bg' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url);
-
-                img.style.opacity = '1';
+                img.style.opacity = '1'; //показываем картинку
             })
-            .catch(async e => this.error_img_load(e, img)); //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
+            .catch(async data => this.error_img_load(data)); //в случае сбоя загрузки картинки по той или иной причине, обрабатываем каждый случай
     }
     //функция для загрузки картинок из блоков где всего одна картинка, вставленная через css background-image
 
     //встваяет svg картинки из svg набора в документ
     async svg_kit_render(img) {
         await this.common_img_loader(img)
-            .then(async data => {
+            .then(async url => {
                 let svg_wrap = document.createElement('div'),
                     nead_id = img.getAttribute('data-kit-nead-id').split(/\s+/); //нужные к выводу части комплекта
 
@@ -323,7 +369,7 @@ export default new (class {
                             if (data_id === id) svg.style.fill = 'rgba(0, 73, 255, .5)'; //выделяем нужные svg блоки
                         });
 
-                        use.setAttribute('href', data.url + '#' + id);
+                        use.setAttribute('href', url + '#' + id);
                         svg_wrap.append(svg);
                     });
 
@@ -333,9 +379,9 @@ export default new (class {
 
                 if (img.parentNode.querySelector('.loader')) await wait(() => img.parentNode.querySelector('.loader'), null); //если есть лоадер дожидаемся пока он не скроется
 
-                if (!img.parentNode.querySelector('.media-load-error')) svg_wrap.style.opacity = '1'; //если в блоке не ошибок то отображаем набор
+                svg_wrap.style.opacity = '1'; //отображаем набор
             })
-            .catch(async e => this.error_img_load(e, img)); //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
+            .catch(async data => this.error_img_load(data)); //в случае сбоя загрузки картинки по той или иной причине, обрабатываем каждый случай
     }
     //встваяет svg картинки из svg набора в документ
 })();

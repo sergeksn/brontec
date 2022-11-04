@@ -118,7 +118,7 @@ let Header = new (class {
 
         //для X match(/\((?:([^\s]+\s?){5}(?:.+))\)/) для Y match(/\((?:(?:[^\s]+\s?){5}(.+))\)/)
         //дожидаемся кона анимации
-        await wait(() => header_styles.transform.match(/\((?:(?:[^\s]+\s?){5}(.+))\)/)[1], `-${y}`, {
+        await wait(() => Number(header_styles.transform.match(/\((?:(?:[^\s]+\s?){5}(.+))\)/)[1]).toFixed(3), `-${y}`, {
             value: 'header-transform-y',
         })
             .then(() => {

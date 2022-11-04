@@ -92,9 +92,9 @@ function Get_Plagins() {
                     template: `${ENTRY_PATH}/pages/${page}.ejs`,
                     filename: `./pages/${page}.html`,
                     inject: 'body',
-                    scriptLoading: 'blocking',
+                    //scriptLoading: 'blocking',
                     minify: false,
-                    excludeAssets: [/critical\.?.*\.js/, /polyfills/],
+                    excludeAssets: [/critical\.?.*\.js/, /main\.?.*\.js/, /polyfills/],
                 }),
         ),
         new HtmlWebpackSkipAssetsPlugin(), //исключит excludeAssets в HtmlWebpackPlugin

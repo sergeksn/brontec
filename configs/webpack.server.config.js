@@ -2,6 +2,7 @@ process.env.ksn_mode = "server";
 
 const {
     ENTRY_PATH, //
+    OUTPUT_PATH,
     Get_Extensions,
     Get_Plagins,
     Get_Rules,
@@ -27,8 +28,9 @@ module.exports = {
     },
     entry: {
         main: `${ENTRY_PATH}/entrys/server/index.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
-        abortcontroller_polyfill: `${ENTRY_PATH}/entrys/main/polyfills/abortcontroller.js`,
-        intersection_observer_polyfill: `${ENTRY_PATH}/entrys/main/polyfills/intersection-observer.js`,
+        //AbortController: `${ENTRY_PATH}/entrys/polyfills/AbortController.js`,
+        //IntersectionObserver: `${ENTRY_PATH}/entrys/polyfills/IntersectionObserver.js`,
+        //полифилы придётся коментировать т.к. они блокируют горячую перезагрузку добавлять тольок для тестов
     },
     plugins: Get_Plagins(),
     module: {
