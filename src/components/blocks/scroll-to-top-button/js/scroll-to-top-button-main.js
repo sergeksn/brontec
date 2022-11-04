@@ -23,6 +23,14 @@ export default new (class {
         window._on('resize_optimize', this.toggle_show_button.bind(this)); //так же проверяем нужно ли показывать кнопку при ресайзе
 
         this.button._on('click tochend', this.scroll_top_action.bind(this)); //скролим вверх при клике
+
+        //после того как переход transition с прозрачность в кнопке скрола вверх завершится
+        this.button.addEventListener('transitionend', e => {
+            if (e.propertyName !== 'opacity') return; //если произошёл любой другой переход кроме прозрачности прерываем функцию
+            this.status = this.status === 'pending to show' ? 'show' : 'hide'; //устанавливаем статус видимости кнопки
+            if (this.status === 'hide') this.button.style.display = ''; //если кнопка была скрыта то скрываем её в документе, чтоб на неё прозрачную нельзя было навестись и она не мешала
+        });
+        //после того как переход transition с прозрачность в кнопке скрола вверх завершится
     }
     //инициализируем кнопку скрола, вычисляем её текущие размеры и позицию, проверяем нужно ли её показать, вычисляем минимальную высоту показа кнопки, добавляем слушатели события на скрол
 
@@ -38,19 +46,11 @@ export default new (class {
 
         this.button.style.display = 'flex';
 
-        let style_list = window.getComputedStyle(this.button);
+        let sl = window.getComputedStyle(this.button);
 
-        await wait(() => style_list.display, 'flex', { value: 'sttb-toggle-vs' }) //нужно добалять т.к. свойство display применяя одновременно с opacity не сработает как нужно, т.к. применятся одновременно, а нам нужно по очереди чтоб было плавное появление через transition
-            .then(async () => {
-                this.button.style.opacity = '1';
+        await wait(() => sl.display, 'flex', { func: () => this.status !== 'pending to show' }).catch(() => {}); //функция будет прервана если вдруг за время ожидания кнопка скрола вверх начала скрываться т.е. её статус видимости уже не  'pending to show'
 
-                await wait(() => style_list.opacity, '1', { value: 'sttb-toggle-vs' })
-                    .then(() => {
-                        this.status = 'show';
-                    })
-                    .catch(() => {});
-            })
-            .catch(() => {});
+        this.button.style.opacity = '1';
     }
     //плавно показываем кнопку
 
@@ -60,16 +60,7 @@ export default new (class {
 
         this.status = 'pending to hide';
 
-        let style_list = window.getComputedStyle(this.button);
-
         this.button.style.opacity = '0';
-
-        await wait(() => style_list.opacity, '0', { value: 'sttb-toggle-vs' })
-            .then(() => {
-                this.button.style.display = '';
-                this.status = 'hide';
-            })
-            .catch(() => {});
     }
     //плавно скрываем кнопку
 

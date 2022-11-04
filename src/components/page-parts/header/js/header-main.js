@@ -3,8 +3,6 @@ import Header_Visible from './header-visible';
 import Header_Hidden from './header-hidden';
 import Header_Search from './header-search';
 
-import { wait } from '@js-libs/func-kit';
-
 let Header = new (class {
     status = 'show'; //хранит текущее состояние блока хедера, свёрнут он или открыт или в процессе
 
@@ -27,6 +25,8 @@ let Header = new (class {
             this.toggle_header.bind(this); //проверяем нужно ли скрыть хедер
             this.header_background.style.height = `${this.get_header_h({ header_poster: this.has_header_poster, header_visible: true })}px`; //пересчитываем высоту фона хедера
         });
+
+        this.header.addEventListener('transitionend', () => (this.status = this.status === 'pending to show' ? 'show' : 'hide')); //после того как переход transition в хедере завершится ставим соответствующий текущий статус его видимости
     }
 
     //устанавливает список активных элементов и функции их включени/отключения
@@ -44,12 +44,18 @@ let Header = new (class {
             ],
             lock: function () {
                 //блокирует все интерактывные элемеры в хедере
-                if (GDS.win.flicker_active_elements) this.elements.forEach(elem => elem.classList.add('disabled')); //помечеам все элементы как отключенные
+                if (GDS.win.flicker_active_elements)
+                    this.elements.forEach(elem => {
+                        if (elem) elem.classList.add('disabled'); //обязательно проверяем существует ли данный элемент, т.к. может оказаться что той же кнопки зарытия банера нет, т.к. самого банера нет
+                    }); //помечеам все элементы как отключенные
                 this.status_lock = true; //указываем что все элементы успешно заблокированны
             },
             unlock: function () {
                 //разблокирует все интерактывные элемеры в хедере
-                if (GDS.win.flicker_active_elements) this.elements.forEach(elem => elem.classList.remove('disabled')); //помечеам все элементы как активные
+                if (GDS.win.flicker_active_elements)
+                    this.elements.forEach(elem => {
+                        if (elem) elem.classList.remove('disabled'); //обязательно проверяем существует ли данный элемент, т.к. может оказаться что той же кнопки зарытия банера нет, т.к. самого банера нет
+                    }); //помечеам все элементы как активные
                 this.status_lock = false; //указываем что все элементы успешно разблокированны
             },
         };
@@ -89,18 +95,6 @@ let Header = new (class {
         this.status = 'pending to show';
 
         this.header.style.transform = `translateY(0)`;
-
-        let header_styles = window.getComputedStyle(this.header); //живой список стилей
-
-        //для X match(/\((?:([^\s]+\s?){5}(?:.+))\)/) для Y match(/\((?:(?:[^\s]+\s?){5}(.+))\)/)
-        //дожидаемся кона анимации
-        await wait(() => header_styles.transform.match(/\((?:(?:[^\s]+\s?){5}(.+))\)/)[1], `0`, {
-            value: 'header-transform-y', //связываем функции ожидания треками чтоб если одна из них запустится раньше чем другая то та которя неу спела закончится будет прервана и вернёт отклонённый промис
-        })
-            .then(() => {
-                this.status = 'show';
-            })
-            .catch(() => {});
     }
     //отпускает вниз и показывает блок хедера
 
@@ -110,21 +104,9 @@ let Header = new (class {
 
         this.status = 'pending to hide';
 
-        let y = this.get_header_h({ header_poster: this.has_header_poster, header_visible: true }).toFixed(3); //округляем до 3-х знаков т.к. matrix не видит больше
+        let y = this.get_header_h({ header_poster: this.has_header_poster, header_visible: true });
 
         this.header.style.transform = `translateY(-${y}px)`;
-
-        let header_styles = window.getComputedStyle(this.header); //живой список стилей
-
-        //для X match(/\((?:([^\s]+\s?){5}(?:.+))\)/) для Y match(/\((?:(?:[^\s]+\s?){5}(.+))\)/)
-        //дожидаемся кона анимации
-        await wait(() => Number(header_styles.transform.match(/\((?:(?:[^\s]+\s?){5}(.+))\)/)[1]).toFixed(3), `-${y}`, {
-            value: 'header-transform-y',
-        })
-            .then(() => {
-                this.status = 'hide';
-            })
-            .catch(() => {});
     }
     //поднимает вверх и скрывает блок хедера
 

@@ -10,6 +10,10 @@
 //bf.setCookie("top_baner_hide", true);
 //bf.deleteCookie("top_baner_hide");
 
+//ПРИМЕЧАНИЕ: для получения значения свойств transform из getComputedStyle
+//el.transform.match(/\((?:([^\s]+\s?){5}(?:.+))\)/) для X
+//el.transform.match(/\((?:(?:[^\s]+\s?){5}(.+))\)/) для Y
+
 //ПРИМЕЧАНИЕ: если нужно следить за определёнными элементами и не хочется кадый раз проверять наличиие их на странице то можно использовать HTMLCollection
 //HTMLCollection -> getElementsByTagName, getElementsByClassName
 //NodeList -> querySelectorAll
@@ -53,7 +57,6 @@ import '@header-main-js';
 //         setTimeout(() => resolve('done'), 1000);
 //     });
 // }
-
 
 // setTimeout(() => {
 //     console.log(performance.now());

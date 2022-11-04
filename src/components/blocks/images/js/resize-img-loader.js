@@ -207,14 +207,9 @@ export default new (class {
                         loader.style.display = 'flex'; //отображаем лоадер в документе
 
                         //ждём чтоб loader стал flex
-                        wait(
-                            () => ls.display,
-                            'flex',
-                            {},
-                            {
-                                value: () => loader.classList.contains('pending-to-remove'), //если во время того как мы проверяли loader.style.display на равенство flex, мы вдруг обнаружили что лоадер в процесе удаления мы прерываем ожидание и выбрасываем исключение
-                            },
-                        )
+                        wait(() => ls.display, 'flex', {
+                            func: () => loader.classList.contains('pending-to-remove'), //если во время того как мы проверяли loader.style.display на равенство flex, мы вдруг обнаружили что лоадер в процесе удаления мы прерываем ожидание и выбрасываем исключение
+                        })
                             .then(() => (loader.style.opacity = '1')) //плавно показываем лоадер
                             .catch(() => {}); //пустое исключение если вдруг лоадер начал удаляться во время выполнения данного кода
                     }
