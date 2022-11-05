@@ -48,9 +48,9 @@ export default new (class {
 
         let sl = window.getComputedStyle(this.button);
 
-        await wait(() => sl.display, 'flex', { func: () => this.status !== 'pending to show' }).catch(() => {}); //функция будет прервана если вдруг за время ожидания кнопка скрола вверх начала скрываться т.е. её статус видимости уже не  'pending to show'
-
-        this.button.style.opacity = '1';
+        await wait(() => sl.display, 'flex', { func: () => this.status !== 'pending to show' })
+            .then(() => (this.button.style.opacity = '1')) //если всё хорошо меняем прозрачность кнопки
+            .catch(() => {}); //функция будет прервана если вдруг за время ожидания кнопка скрола вверх начала скрываться т.е. её статус видимости уже не  'pending to show'
     }
     //плавно показываем кнопку
 

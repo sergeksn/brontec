@@ -1,5 +1,5 @@
 import { wait } from '@js-libs/func-kit';
-import { set } from 'animejs';
+import Loader from '@loader-main-js';
 
 //ПРИМЕЧАНИЕ: тестил скрипт как мог, вроде всё работает корректно
 export default new (class {
@@ -57,19 +57,25 @@ export default new (class {
             if (entrie.isIntersecting) {
                 //загружаем картинки только если её блок был на экране минимум GDS.media.img.min_vsible_time
                 entrie.target.start_intersecting_timeout_id = setTimeout(() => {
-                    switch (
-                        entrie.target.getAttribute('data-img-type') //для каждого типа блока картинки вызываем свой обработчик для загрузки
-                    ) {
-                        case 'img': //для обычных блоков img с одной картинкой вставленной через тег img
-                            this.common_img_render(entrie.target, 'img'); //инициализируем загрузку и отображение картинки
-                            break;
-                        case 'bg': //для обычных блоков div с одной картинкой вставленной через css background-image
-                            this.common_img_render(entrie.target, 'bg'); //инициализируем загрузку и отображение картинки
-                            break;
-                        case 'kit':
-                            this.svg_kit_render(entrie.target);
-                            break;
+                    //если ещё нет данного свойства у родителя картинки значит мы увидели её впервые и готовмся к её загрузке и отображению
+                    if (!entrie.target.parentNode.ksn_data) {
+                        //ПРИМЕЧАНИЕ: т.к. этот пункт выполянется один раз при обнаружении нам не важно сколько картинок в этом блоке родителя, т.к. у них всё равно один лоадер, объект которого будет как раз и сохранён сюда
+                        //ПРИМЕЧАНИЕ: оболочка ksn_data добавляется для дальнейшей возможности удобно масштабировать сохраняемые данные в одном свойстве
+                        entrie.target.parentNode.ksn_data = {
+                            //создаём свойство для хранения и управленяи праметрами картинки такими как  лоадер и т.д.
+                            loader: new Loader(entrie.target.parentNode.querySelector('.loader')), //сохраняем объект лоадера для этой картинки
+                        };
                     }
+                    //если ещё нет данного свойсчтва у радителя картинки значит мы увидели её впервые и готовмся к её загрузке и отображению
+
+                    let dit = entrie.target.getAttribute('data-img-type'); //тип данной картинки, может быть тоько один так что можно вызывать проверки только через if без else if
+
+                    //'img' - для обычных блоков img с одной картинкой вставленной через тег img
+                    //'bg' - для обычных блоков div с одной картинкой вставленной через css background-image
+                    if (dit === 'img' || dit === 'bg') this.common_img_render(entrie.target, dit); //инициализируем загрузку и отображение картинки
+
+                    //'kit' - svg картинка предстваляющая из себя набор svg блоков к которым можно получить доступ по id
+                    if (dit === 'kit') this.svg_kit_render(entrie.target); //инициализируем загрузку и отображение картинки
 
                     delete entrie.target.start_intersecting_timeout_id; //удаляем свойство за ненадобностью
                 }, GDS.media.img.min_vsible_time); //записываем id данного таймаута в свойства элемента entrie.target чтоб потом можно было его отключить если элемент слишком быстро пропал с экрана
@@ -191,31 +197,10 @@ export default new (class {
     //функция начинает загрузку картинки img и верёнет промис о результатах загрузки
     common_img_loader(img) {
         return new Promise((resolve, reject) => {
-            //если есть лоадер и ещё не была загружена ни одна из миниатюр картинки, а так же лоадер НЕ виден в документе
-            if (img.parentNode.querySelector('.loader') && !img.classList.contains('uploaded') && window.getComputedStyle(img.parentNode.querySelector('.loader')).display === 'none') {
-                setTimeout(() => {
-                    //делаем проверку через малый интервал времени, если картинка всё ещё не загружена после старта её загрузки, то скорее всего картинка берётся не из кеша и пользователю нужно показать лоадер, если картинка загрузилась очень быстро то лоадер показывать не зачем
-
-                    let loader = img.parentNode.querySelector('.loader'); //лоадер
-
-                    //img.parentNode.querySelector('.loader') используем именно это т.к. просто loader в случае удаления узла за время пока ждали, сохранит ссылку на старый элемент, а нам нужно проверить сейчас есть лоадер у данной картинки или нет
-                    //!loader.classList.contains("pending-to-remove") - занчит что лоадер НЕ в прсессе удаления
-                    if (!img.classList.contains('uploaded') && loader && !loader.classList.contains('pending-to-remove')) {
-                        let ls = window.getComputedStyle(loader); //живая колекция стилей лоадера
-
-                        loader.style.opacity = '0'; //делаем лоадер прозрачным
-                        loader.style.display = 'flex'; //отображаем лоадер в документе
-
-                        //ждём чтоб loader стал flex
-                        wait(() => ls.display, 'flex', {
-                            func: () => loader.classList.contains('pending-to-remove'), //если во время того как мы проверяли loader.style.display на равенство flex, мы вдруг обнаружили что лоадер в процесе удаления мы прерываем ожидание и выбрасываем исключение
-                        })
-                            .then(() => (loader.style.opacity = '1')) //плавно показываем лоадер
-                            .catch(() => {}); //пустое исключение если вдруг лоадер начал удаляться во время выполнения данного кода
-                    }
-                }, GDS.media.img.loader_delay_time);
-            }
-            //если есть лоадер и ещё не была загружена ни одна из миниатюр картинки, а так же лоадер НЕ виден в документе
+            //делаем проверку через малый интервал времени, если блок всё ещё не загружен после старта его загрузки, то скорее всего содержимое блока берётся не из кеша и пользователю нужно показать лоадер, если содержимое блока загрузилось очень быстро то лоадер показывать не зачем
+            setTimeout(() => {
+                if (!img.classList.contains('uploaded')) img.parentNode.ksn_data.loader.show().catch(e => {}); //если содержимое блока всё ещё не загружено то показываем лоадер
+            }, GDS.media.img.loader_delay_time);
 
             let is_svg = img.getAttribute('data-src').match(/\.{1}([a-zA-Z]+)$/)[1] === 'svg', //указывает svg картинка или нет
                 url = is_svg ? img.getAttribute('data-src') : this.get_img_size_url(img); //сюда будет записан сгенерированный адрес на миниатюру картинки или на саму картинку в случае с svg
@@ -279,29 +264,6 @@ export default new (class {
     }
     //функция начинает загрузку картинки img и верёнет промис о результатах загрузки
 
-    //скрываем и удаляем лоадер если он есть
-    async hide_and_remove_loader(img) {
-        let loader = img.parentNode.querySelector('.loader'); //лоадер данной картинки
-
-        //если есть лоадер и он НЕ в процессе удаления
-        if (loader && !loader.classList.contains('pending-to-remove')) {
-            let sl = window.getComputedStyle(loader); //живая колекция стилей лоадера
-
-            loader.classList.add('pending-to-remove'); //указываем что лоадер готовится к удалению
-
-            //если лоадер виден в документе
-            if (sl.display !== 'none') {
-                loader.style.opacity = '0';
-                await wait(() => sl.opacity, '0'); //ждём пока он не скроется
-            }
-            //если лоадер виден в документе
-
-            loader.remove(); //удаляем лоадер из документа
-        }
-        //если есть лоадер и он НЕ в процессе удаления
-    }
-    //скрываем и удаляем лоадер если он есть
-
     //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
     async error_img_load(data) {
         if (data === 'no need to update') return; //возникает в случае когда уже загружена более качестваенная миниатюра картинки или её оригинал в этом случае ни каких ошибок выводить не нужно
@@ -310,18 +272,22 @@ export default new (class {
 
         if (data.error === 'AbortError') return; //в случае прерывания загрузки ничего не делаем т.к. загрузка прервана чтоб загрузить картинку более лучшего качества
 
-        //в случае ошибки загрузки или ошибки сети вставляем блок с ошибкой который покажент картинку ошибки загрузки
-        if (data.error.includes('server-error') || data.error === 'network error') {
+        //если это объект с данными ошибки то в случае ошибки загрузки или ошибки сети вставляем блок с ошибкой который покажент картинку ошибки загрузки
+        if (data.error && (data.error.includes('server-error') || data.error === 'network error')) {
             console.error(`Не удалось загрузить картинку по адресу ${data.url}\n Ошибка: ${data.error}`); //выводим ошибку в консоль
 
-            await this.hide_and_remove_loader(data.img); //скрываем и удаляем лоадер если он есть
+            await img.parentNode.ksn_data.loader.hide_and_remove().catch(e => {}); //скрываем и удаляем лоадер если он есть
 
             let div = document.createElement('div');
             div.classList.add('media-load-error');
             data.img.parentNode.append(div);
             setTimeout(() => (div.style.opacity = '1'), 100); //показываем с небольшой задержкой чтоб блок успел отрендерится
+
+            return; //переываем дальнейшие выполнение
         }
-        //в случае ошибки загрузки или ошибки сети вставляем блок с ошибкой который покажент картинку ошибки загрузки
+        //если это объект с данными ошибки то в случае ошибки загрузки или ошибки сети вставляем блок с ошибкой который покажент картинку ошибки загрузки
+
+        console.error(data); //если ошибка неизвестна выводим её в консоль
     }
     //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
 
@@ -331,7 +297,7 @@ export default new (class {
     async common_img_render(img, type) {
         await this.common_img_loader(img)
             .then(async url => {
-                await this.hide_and_remove_loader(img); //скрываем и удаляем лоадер если он есть
+                await img.parentNode.ksn_data.loader.hide_and_remove().catch(e => {}); //скрываем и удаляем лоадер если он есть
 
                 type === 'bg' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url); //вставляем картинку
 
@@ -370,9 +336,11 @@ export default new (class {
 
                 img.parentNode.appendChild(svg_wrap); //вставляем набор нужных svg картинок
 
-                await wait(() => window.getComputedStyle(svg_wrap).display === 'block', true); //ждём пока все динамичсески вставленные svg добавятся в документ т.к. есть микроскопическая задержка
+                let sl = window.getComputedStyle(svg_wrap);
 
-                if (img.parentNode.querySelector('.loader')) await wait(() => img.parentNode.querySelector('.loader'), null); //если есть лоадер дожидаемся пока он не скроется
+                await wait(() => sl.display === 'block', true); //ждём пока все динамичсески вставленные svg добавятся в документ т.к. есть микроскопическая задержка
+
+                await wait(() => img.parentNode.querySelector('.loader'), null); //если есть лоадер дожидаемся пока он не скроется
 
                 svg_wrap.style.opacity = '1'; //отображаем набор
             })
