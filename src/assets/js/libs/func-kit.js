@@ -18,7 +18,19 @@ function wait(check_value, data_fo_wait, abort_trigger = {}) {
                 rem_lisener(); //удаляем слушатель для функции проверяющей виден документ или нет
                 let message = abort_trigger.message || 'ABORT'; //если есть сообщени для данного преывания передаём его , если его нет то отправляем сообщение по умолчанию
 
-                return abort_trigger.resolved ? resolve(message) : reject(message); //если явно не задан статус прерывания то устанавливание по умолчанию
+                return abort_trigger.resolved
+                    ? resolve(message)
+                    : reject({
+                          //передаём максимально полный объект исключения чтоб можно было получить всё необходимое
+                          ksn_message: message,
+                          initiator_data: {
+                              func_name: 'wait',
+                              check_value: check_value,
+                              data_fo_wait: data_fo_wait,
+                              abort_trigger,
+                              abort_trigger,
+                          },
+                      }); //если явно не задан статус прерывания то устанавливание по умолчанию
             } //если передана функция для прерывания то мы выполянем её и в момент когда она вернёт true завершаем промис отклонением или принятие в зависимости от параметров, по умолчанию отклонением
             //console.log(check_value());
             if (check_value() === data_fo_wait) {
