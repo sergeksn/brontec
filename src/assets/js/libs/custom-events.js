@@ -511,8 +511,6 @@ class Add_Custom_Event_Optimaze_And_Throttle {
     //
     //
     func_throttle() {
-        if (!GDS.win.first_scroll_finish && this.instance.custom_event.type === 'scroll_throttle') return;//разрешаем вызов данного события для скрола только после того как произошёл первый скрол от браузера к месту последней прокрутки после загрузки страницы
-
         if (!this.instance.permission_to_execute) return; //если в данный момент не разрешено выполнение данной функции, т.е. кадр анимации в браузере ещё не выполнился
 
         this.instance.permission_to_execute = false; //запрещаем выполнять данную функцию при следующих вызовах пока не завершится кадр анимации в браузере
@@ -531,8 +529,6 @@ class Add_Custom_Event_Optimaze_And_Throttle {
 
     //калбек функция для неоптимизированного события event, scroll например
     func_optimize() {
-        if (!GDS.win.first_scroll_finish && this.instance.custom_event.type === 'scroll_optimize') return;//разрешаем вызов данного события для скрола только после того как произошёл первый скрол от браузера к месту последней прокрутки после загрузки страницы
-
         if (!this.instance.permission_to_execute) return; //если в данный момент не разрешено выполнение данной функции, т.е. кадр анимации в браузере ещё не выполнился
 
         this.instance.permission_to_execute = false; //запрещаем выполнять данную функцию при следующих вызовах пока не завершится кадр анимации в браузере

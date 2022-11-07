@@ -1,89 +1,100 @@
-import { Header_Search } from '@header-main-js';
+import { Header, Header_Hidden } from '@header-main-js';
 import { wait } from '@js-libs/func-kit';
 
 class Overlay_Controller {
     //показывыаем подложку
     async show() {
-        if (this.status === 'show' || this.status === 'pending to show') return; //если видна или в процессе показа то не нужно снова начинать показывать
+        if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
 
-        this.status = 'pending to show';
+        if (this.status === 'show') return; //если подложка уже видна сразу завершаем
 
-        this.overlay.style.display = 'block';
+        //данное ожидание будет прервано только если подложка начнёт скрываться
+        if (this.status === 'pending to show') return await wait(() => this.status, 'show', { func: () => this.status === 'pending to hide' || this.status === 'hide', message: 'ждали пока ' + this.track + ' станет SHOW но начал скрываться' }); //ждём пока подложка не станет полностью видимой и только потом завершаем
 
-        let style_list = window.getComputedStyle(this.overlay);
+        this.status = 'pending to show'; //помечаем что подложка начала показ
 
-        await wait(() => style_list.display, 'block', { value: this.track }) //нужно добалять т.к. свойство display применяя одновременно с opacity не сработает как нужно, т.к. применятся одновременно, а нам нужно по очереди чтоб было плавное появление через transition
-            .then(async () => {
-                this.overlay.style.opacity = '0.9';
+        this.overlay.style.display = 'block'; //возвращаем подложку в документ
 
-                await wait(() => style_list.opacity, '0.9', { value: this.track })
-                    .then(() => {
-                        this.status = 'show';
-                    })
-                    .catch(() => {});
-            })
-            .catch(() => {});
+        let sl = window.getComputedStyle(this.overlay); //живая колекция стилей подложки
+
+        await wait(() => sl.display, 'block', { func: () => this.status !== 'pending to show', message: 'ждали пока ' + this.track + ' станет BLOCK но начал скрываться' }); //ждём пока подложка не станет block
+
+        this.overlay.style.opacity = '0.9'; //делаем подложку видимой
+
+        await wait(() => sl.opacity, '0.9', { func: () => this.status !== 'pending to show', message: 'ждали пока ' + this.track + ' станет OPACITY 0.9 но  начал скрываться' }); //ждём пока подложка не станет видимой на 0.9
+
+        this.status = 'show'; //помечаем что подложка видна
     }
     //показывыаем подложку
 
     //скрываем подложку
     async hide() {
-        if (this.status === 'hide' || this.status === 'pending to hide') return; //если скрыта или в процессе скрытия то не нужно пытаться скрывать снова
+        if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
 
-        this.status = 'pending to hide';
+        if (this.status === 'hide') return; //если подложка уже скрыта сразу завершаем
 
-        let style_list = window.getComputedStyle(this.overlay);
+        //данное ожидание будет прервано только если подложка начнёт появляться
+        if (this.status === 'pending to hide') return await wait(() => this.status, 'hide', { func: () => this.status === 'pending to show' || this.status === 'show', message: 'ждали пока ' + this.track + ' станет HIDE но начал появляться' }); //ждём пока кнопка не станет полностью скрытой и только потом завершаем
 
-        this.overlay.style.opacity = '0';
+        this.status = 'pending to hide'; //помечаем что подложка начала скрываться
 
-        await wait(() => style_list.opacity, '0', { value: { value: this.track } })
-            .then(() => {
-                this.overlay.style.display = '';
-                this.status = 'hide';
-            })
-            .catch(() => {});
+        this.overlay.style.opacity = '0'; //делаем подложку прозрачной
+
+        let sl = window.getComputedStyle(this.overlay); //живая колекция стилей подложки
+
+        await wait(() => sl.opacity, '0', { func: () => this.status !== 'pending to hide', message: 'ждали пока ' + this.track + ' станет OPACITY 0 но  начал появляться' }); //ждём пока подложка не станет полностью прозрачной
+
+        this.overlay.style.display = ''; //после того как подложка полностью стала прозрачной убираем её из документа чтоб на неё прозрачную нельзя было кликнуть, т.е. чтоб она не перекрывала контент
+
+        this.status = 'hide'; //помечаем что подложка скрыта
     }
     //скрываем подложку
 }
 
 //хранит объект подложки для хеднера
 const Header_Overlay = new (class {
-    //pending to hide - в процессе скрытия
-    //hide - скрыто
-    //pending to show - в процессе появления
-    //show - видно
-    status = 'hide';
-
-    track = 'header-overlay'; //нужно для track в событиях show/hide
-
-    overlay = document.getElementById('header-overlay'); //полупрозрачная бела подложка для хедера
-
     constructor() {
         let teplate = new Overlay_Controller(); //объект с функция управления для подложек
+
+        this.status = 'hide';
+        this.lock = false; //польностью блокирует любые действия с подложкой
+        this.track = 'header-overlay'; //нужно для того чтоб помечать ошибки в фушкциях show/hide
+        this.overlay = document.getElementById('header-overlay'); //полупрозрачная бела подложка для хедера
 
         //записываем в методы этого класса нужные методы классаконтролера
         this.show = teplate.show.bind(this);
         this.hide = teplate.hide.bind(this);
 
-        this.overlay._on("click touchend", Header_Search.click_header_overlay.bind(Header_Search));//скрываем скрытый блок хедера при кдике на фоновую подложку
+        this.overlay._on('click touchend', () => {
+            if (this.lock) return; //прерываем если заблокированная любая активность
+
+            this.click_header_overlay();//скрываем скрытый блок по клику на полупрозрачную подложку
+        }); //скрываем скрытый блок хедера при кдике на фоновую подложку
     }
+
+    //скрываем окно поиска по клику на полупрозрачную подложку
+    async click_header_overlay() {
+        if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
+
+        Header.active_elements.lock(); //блокируем активные элементы в хедере
+
+        await Header_Hidden.close(); //закрываем окно поиска
+
+        Header.active_elements.unlock(); //разблокируем активные элементы в хедере
+    }
+    //скрываем окно поиска по клику на полупрозрачную подложку
 })();
 //хранит объект подложки для хеднера
 
 //хранит объект подложки для корзины
 const Cart_Overlay = new (class {
-    //pending to hide - в процессе скрытия
-    //hide - скрыто
-    //pending to show - в процессе появления
-    //show - видно
-    status = 'hide';
-
-    track = 'cart-overlay'; //нужно для track в событиях show/hide
-
-    overlay = document.getElementById('cart-overlay'); //полупрозрачная бела подложка для корзины
-
     constructor() {
         let teplate = new Overlay_Controller(); //объект с функция управления для подложек
+
+        this.status = 'hide';
+        this.lock = false; //польностью блокирует любые действия с подложкой
+        this.track = 'cart-overlay'; //нужно для того чтоб помечать ошибки в фушкциях show/hide
+        this.overlay = document.getElementById('cart-overlay'); //полупрозрачная бела подложка для корзины
 
         //записываем в методы этого класса нужные методы классаконтролера
         this.show = teplate.show.bind(this);

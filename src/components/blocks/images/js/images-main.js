@@ -7,7 +7,7 @@ const Img_Loader = new (class {
     //инициализатор загрузки картинок
     constructor() {
         let options_observer = {
-            threshold: 0.1, //показываем только когда элемент виден минимум на n процентов от своего размера
+            threshold: GDS.media.img.percent_img_show_to_load / 100, //показываем только когда элемент виден минимум на n процентов от своего размера
         };
 
         this.img_visible_observer = new IntersectionObserver(this.img_upload_manager.bind(this), options_observer); //создаём наблюдатель за видимостью элементов на экране
@@ -44,7 +44,7 @@ const Img_Loader = new (class {
     dellete_from_observe(elems, stop_all_load = true) {
         elems.forEach(el => {
             this.img_visible_observer.unobserve(el);
-            if (stop_all_load && el.load_data) el.load_data.forEach(miniatura_data => miniatura_data.abort_controller.abort()); //прервать загрузку всех ещё не загруженых версий этой картинки которые планируются сохранится в кеш
+            if (stop_all_load && el.current_uploads) el.current_uploads.forEach(miniatura_data => miniatura_data.abort_controller.abort()); //прервать загрузку всех ещё не загруженых версий этой картинки которые планируются сохранится в кеш
         });
     }
     //удаляем элементы из отслеживания видимости
@@ -59,15 +59,8 @@ const Img_Loader = new (class {
                 //загружаем картинки только если её блок был на экране минимум GDS.media.img.min_vsible_time
                 entrie.target.start_intersecting_timeout_id = setTimeout(() => {
                     //если ещё нет данного свойства у родителя картинки значит мы увидели её впервые и готовмся к её загрузке и отображению
-                    if (!entrie.target.parentNode.ksn_data) {
-                        //ПРИМЕЧАНИЕ: т.к. этот пункт выполянется один раз при обнаружении нам не важно сколько картинок в этом блоке родителя, т.к. у них всё равно один лоадер, объект которого будет как раз и сохранён сюда
-                        //ПРИМЕЧАНИЕ: оболочка ksn_data добавляется для дальнейшей возможности удобно масштабировать сохраняемые данные в одном свойстве
-                        entrie.target.parentNode.ksn_data = {
-                            //создаём свойство для хранения и управленяи праметрами картинки такими как  лоадер и т.д.
-                            loader: new Loader(entrie.target.parentNode.querySelector('.loader')), //сохраняем объект лоадера для этой картинки
-                        };
-                    }
-                    //если ещё нет данного свойсчтва у радителя картинки значит мы увидели её впервые и готовмся к её загрузке и отображению
+                    //ПРИМЕЧАНИЕ: т.к. этот пункт выполянется один раз при обнаружении нам не важно сколько картинок в этом блоке родителя, т.к. у них всё равно один лоадер, объект которого будет как раз и сохранён сюда
+                    if (!entrie.target.parentNode.ksn_loader) entrie.target.parentNode.ksn_loader = new Loader(entrie.target.parentNode.querySelector('.loader')); //сохраняем объект лоадера для этой картинки
 
                     let dit = entrie.target.getAttribute('data-img-type'); //тип данной картинки, может быть тоько один так что можно вызывать проверки только через if без else if
 
@@ -133,7 +126,8 @@ const Img_Loader = new (class {
 
         let data_miniatura_height = Math.round((original_h * miniatura_width) / original_w); //используя пропорцию получаем высоту запрашиваемой миниатюры
 
-        //return img.getAttribute('data-src'); //для тестов пока нет миниатюр
+        return img.getAttribute('data-src'); //для тестов пока нет миниатюр
+        //ПРИМЕЧАНИЕ: в режиме разработки original-size не будет добавляться т.к. мы принудительно выдаём не миниатюру а оригинал
 
         return url_bez_ext + '-' + miniatura_width + 'x' + data_miniatura_height + ext; //возвращаем расчитаный url для миниатюры wp-content/uploads/2021/03/1-2-2000x702.jpg к примеру
     }
@@ -141,10 +135,10 @@ const Img_Loader = new (class {
 
     //получает на вход url картинки, после чего он создаёт новый объект изображения и мониторит его загрузку или ошибку загрузки в случае если картинка не найдена
     async download_img_tracker(img, url) {
-        if (!img.load_data) img.load_data = []; //если у картинки ещё нет свойства с данными её загрузки, создаём его
+        if (!img.current_uploads) img.current_uploads = []; //если у картинки ещё нет свойства с данными её загрузки, создаём его
 
         //перебираем все миниатюры данной картинки которые грузятся в данный момент
-        img.load_data.forEach(item => {
+        img.current_uploads.forEach(item => {
             if (GDS.media.img.min_anyway_load_byte_size && item.download_byte_size >= GDS.media.img.min_anyway_load_byte_size) return; //сначало проверяем установлено ли минимальное количество скачаных байт для загрузки картинки в кеш если есть то смотрим если количество уже загруженых байт больше или равно минимальному байтовому значению для сохранения в кеш, тогда мы не проверяем процент скачки и картинка продолжит загрузку
             if (item.download_percent < GDS.media.img.min_anyway_load_percent) item.abort_controller.abort(); //если процент загрузки миниатюры ниже установленого в настройках GDS.media.img.min_anyway_load_percent минимума то её загрузку мы прерываем
         });
@@ -157,7 +151,7 @@ const Img_Loader = new (class {
             download_byte_size: 0,
         };
 
-        img.load_data.push(current_img_data); //записываем объект в общий массив данных о текущих загрузкам миниатюр данной картинки
+        img.current_uploads.push(current_img_data); //записываем объект в общий массив данных о текущих загрузкам миниатюр данной картинки
 
         //отправляем запрос на получение текущей требуемой миниатюры картинки картинки
         await fetch(url, {
@@ -190,7 +184,7 @@ const Img_Loader = new (class {
             //отправляем запрос на получение текущей требуемой миниатюры картинки картинки
             .finally(() => {
                 //после того как картинка загружена или её загрузка не удалась, нам тут не важно, удаляем её данные загрузки из общего массива
-                img.load_data.forEach((item, index, arr) => {
+                img.current_uploads.forEach((item, index, arr) => {
                     if (item.url === url) arr.splice(index, 1); //удаляем из массива объект в котором url соответсвет ожидаемому url данной асинхронной функции
                 });
             });
@@ -202,9 +196,9 @@ const Img_Loader = new (class {
         //делаем проверку через малый интервал времени, если блок всё ещё не загружен после старта его загрузки, то скорее всего содержимое блока берётся не из кеша и пользователю нужно показать лоадер, если содержимое блока загрузилось очень быстро то лоадер показывать не зачем
         setTimeout(() => {
             if (!img.classList.contains('uploaded'))
-                img.parentNode.ksn_data.loader.show().catch(e => {
+                img.parentNode.ksn_loader.show().catch(e => {
                     //ПРИМЕЧАНИЕ: в данном случае наши исключения нас не интересуют т.к. они не смогут помещать коду в этом модуле, они нужны если код используется извне для управления состояниями элементов
-                    if (typeof e.ksn_message === 'undefined') return console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
+                    if (typeof e.ksn_message === 'undefined') console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
                 }); //если содержимое блока всё ещё не загружено то показываем лоадер
         }, GDS.media.img.loader_delay_time);
 
@@ -233,9 +227,9 @@ const Img_Loader = new (class {
     error_img_load(data) {
         let show_img_error_load_block = async () => {
             //функция скрывает лоадер и показывает картинку ошибки загрузки
-            await data.img.parentNode.ksn_data.loader.hide_and_remove().catch(e => {
+            await data.img.parentNode.ksn_loader.hide_and_remove().catch(e => {
                 //ПРИМЕЧАНИЕ: в данном случае наши исключения нас не интересуют т.к. они не смогут помещать коду в этом модуле, они нужны если код используется извне для управления состояниями элементов
-                if (typeof e.ksn_message === 'undefined') return console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
+                if (typeof e.ksn_message === 'undefined') console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
             }); //скрываем и удаляем лоадер если он есть
 
             let div = document.createElement('div');
@@ -263,7 +257,7 @@ const Img_Loader = new (class {
                 return;
             }
 
-            return console.error(data.error); //выводим все оставшиеся не наши ошибки, которые произошли внутри fetch, в консоль
+            console.error(data.error); //выводим все оставшиеся не наши ошибки, которые произошли внутри fetch, в консоль
         }
         //исключение внутри fetch запроса
 
@@ -277,9 +271,9 @@ const Img_Loader = new (class {
     async common_img_render(img, type) {
         await this.common_img_loader(img)
             .then(async url => {
-                await img.parentNode.ksn_data.loader.hide_and_remove().catch(async e => {
+                await img.parentNode.ksn_loader.hide_and_remove().catch(async e => {
                     //ПРИМЕЧАНИЕ: в данном случае наши исключения нас не интересуют т.к. они не смогут помещать коду в этом модуле, они нужны если код используется извне для управления состояниями элементов
-                    if (typeof e.ksn_message === 'undefined') return console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
+                    if (typeof e.ksn_message === 'undefined') console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
                 }); //скрываем и удаляем лоадер если он есть
 
                 type === 'bg' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url); //вставляем картинку

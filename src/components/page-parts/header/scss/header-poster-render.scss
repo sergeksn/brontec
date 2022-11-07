@@ -2,7 +2,7 @@
     width: 100%;
     position: relative;
     background-color: var(--white);
-    z-index: map-get($z-index, header-poster);
+    z-index: 2;
 
     &__item--mobile {
         @media (min-width: rem(640)) {

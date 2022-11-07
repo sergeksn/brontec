@@ -6,17 +6,6 @@ import { get_cookie } from '@js-libs/cookie';
 import anime from 'animejs';
 
 export default new (class {
-    //pending to close - в процессе закрытия меню
-    //close - меню закрыто
-    //pending to open - в процессе открытия меню
-    //open - меню открыто
-    status = 'close'; //статус открытия меню
-
-    //определяет какую часть экрана занимает блок после открытия
-    //part - после открытия занимает часть экрана, т.е. высота меню + высота открытого блока меньше высоты окна раузера
-    //full - после открытия занимает всё окно браузера, т.е. высота меню + высота открытого блока больше или равноа высоте окна раузера
-    size;
-
     //инициализируем все скрипты для работы открывающиегося блока в хедере
     constructor() {
         let d = document;
@@ -29,11 +18,22 @@ export default new (class {
         this.burger = d.querySelector('.header-visible__burger'); //кнопка бургер меню
         //записываем все неоходимые переменные для удобства доступа
 
+        //pending to close - в процессе закрытия меню
+        //close - меню закрыто
+        //pending to open - в процессе открытия меню
+        //open - меню открыто
+        this.status = 'close'; //статус открытия меню
+
+        //определяет какую часть экрана занимает блок после открытия
+        //part - после открытия занимает часть экрана, т.е. высота меню + высота открытого блока меньше высоты окна раузера
+        //full - после открытия занимает всё окно браузера, т.е. высота меню + высота открытого блока больше или равноа высоте окна раузера
+        this.size;
+
         [this.header_visible_search_button, this.burger].forEach(el => {
-            el._on('click touchend', this.toggle_header_hidden_block.bind(this)); //открываем/закрываем скрытый блок при клике на бургер кнопку и кнопку поиска в видимой части хедеера
+            el._on('click touchend', () => this.toggle_header_hidden_block()); //открываем/закрываем скрытый блок при клике на бургер кнопку и кнопку поиска в видимой части хедеера
         });
 
-        window._on('resize_optimize', this.size_recalculate.bind(this)); //выполяем нужные действия при ресайзе
+        window._on('resize_optimize', () => this.size_recalculate()); //выполяем нужные действия при ресайзе
     }
     //инициализируем все скрипты для работы открывающиегося блока в хедере
 
@@ -71,10 +71,11 @@ export default new (class {
 
         Header.active_elements.lock(); //блокируем активные элементы в хедере
 
-        if (Header.status !== 'open') await Header.show(); //если мы кликнули в момент когда хедер не открыт, вероятнее всего он в процессе закрытия или открытия, то мы дожидаемся пока хедер не откроется
+        await Header.show(); //пытаем показать хедер, т.к. клик мог произойти в момент когда хедер в движении после скрола, в этом случае мы дождёмся пока хедер полностью не покажется, сели же он уже ыбл полностью виден этот пункт завершится мгновенно
 
         //if (GDS.cart.status === "open") await GDS.cart.close_cart(); //если открыта корзина то перед открытием или закрытием блока дожидаемся скрытия корзины
 
+        //если скрытый блок хедера закрыт
         if (this.status === 'close') {
             let search_data = get_cookie('search_data'), //получаем последнее что пользователь вводил для поиска
                 search_data_cookie_status = search_data !== undefined && search_data.length > 1 ? true : false; //проверяем соответствует ли запись в куки условию
@@ -97,16 +98,20 @@ export default new (class {
                 Header_Search.render_results(search_data); //не ждём т.к. нам нужно чтоб пользователь мог закрыть окно до того как загрузятся результаты
             }
             //если в куки есть поисковой запрос и он блоше чем один символ, начинаем вывод результатов поиска и ждём его окончания
-        } else if (this.status === 'open') {
-            if (Header_Search.status === 'open') await Header_Search.close_results_block(true); //если блок с результатами поиска открыт дожидаемся его закрытия
+        } //если скрытый блок хедера закрыт
+
+        //если скрытый блок хедера открыт
+        else {
+            if (Header_Search.status === 'open') await Header_Search.close_results_block(true); //если блок с результатами поиска открыт дожидаемся его закрытия, не показываем меню, а скрываем один инпут
 
             await this.close(); //дожидаемся сворачивания скрытого блока
 
-            [Header_Search.header_hidden_menu, Header_Search.header_hidden_phone].forEach(el=>{
+            [Header_Search.header_hidden_menu, Header_Search.header_hidden_phone].forEach(el => {
                 el.style.display = '';
                 el.style.opacity = '';
-            });//убераем стили после полного скрытия скрытого блока чтоб при новом открытия они не мешали правильной визуализации
+            }); //убераем стили после полного скрытия скрытого блока чтоб при новом открытия они не мешали правильной визуализации
         }
+        //если скрытый блок хедера открыт
 
         Header.active_elements.unlock(); //разблокируем активные элементы в хедере
     }
@@ -135,7 +140,7 @@ export default new (class {
         await Promise.all([
             anim_open_header_hidden, //опускаем весь скрытый блок
 
-            Scroll_To_Top_Button.hide(), //плавно скрываем кнопку скрола вверх
+            Scroll_To_Top_Button.hide(), //дожидаемся скрытия кнопки скрола вверх
 
             Header_Overlay.show(), //показываем подложку и ждём завершения её появления
         ]);

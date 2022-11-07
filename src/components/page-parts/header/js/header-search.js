@@ -1,6 +1,6 @@
 import { Header, Header_Hidden } from '@header-main-js';
 import { wait, request_to_server } from '@js-libs/func-kit';
-import { set_cookie, get_cookie, delete_cookie } from '@js-libs/cookie';
+import { set_cookie, delete_cookie } from '@js-libs/cookie';
 
 import Product_Small_Info_Block from '@product-small-info-block-main-js';
 
@@ -8,27 +8,6 @@ import { Img_Loader } from '@images-main-js';
 import anime from 'animejs';
 
 export default new (class {
-    //pending to close - в процессе закрытия окна
-    //close - окно закрыто
-    //pending to open - в процессе открытия окна
-    //open - окно открыто
-    status = 'close';
-
-    search_type = 'all'; //тип поиска, поределяет то что ищем, возможные значения:
-    //all - ищем всё и целые комплекты и их составные детали
-    //komplekts - только полные комплекты
-    //parts - только части комплекта
-
-    where_add_instructon = 'all'; //указываем где добавляем инструкции, возможные варианты:
-    //all - для всех и для частей и для целых комплектов
-    //komplekts - только для комплектов
-    //parts - только для частей комплекта
-    //never - не добавлять инстукции ни к одному продукту
-
-    cached_result = null; //сохранеям в данный объект результаты последнего поиска чтоб можно было их быстро использовать для повторного открытия окна поиска если не было очищено поле ввода
-
-    input_timerid = null; //id таймера для задержки ввода
-
     //иницализируем все функции и слушатели для работы поиска
     constructor() {
         let d = document;
@@ -48,11 +27,32 @@ export default new (class {
         this.results_any_links = d.querySelector('.header-search__results-any-links');
         //записываем все неоходимые переменные для удобства доступа
 
-        this.close_button._on('click tochend', this.click_close_search_button.bind(this)); //клик по крестику в окне поиска
+        //pending to close - в процессе закрытия окна
+        //close - окно закрыто
+        //pending to open - в процессе открытия окна
+        //open - окно открыто
+        this.status = 'close';
 
-        this.search_input._on('input', this.chenge_in_search_input.bind(this)); //начинаем поиск после ввода символов
+        this.search_type = 'all'; //тип поиска, поределяет то что ищем, возможные значения:
+        //all - ищем всё и целые комплекты и их составные детали
+        //komplekts - только полные комплекты
+        //parts - только части комплекта
 
-        window._on('resize_optimize', this.size_recalculate.bind(this)); //выполяем перерисвку при ресайзе
+        this.where_add_instructon = 'all'; //указываем где добавляем инструкции, возможные варианты:
+        //all - для всех и для частей и для целых комплектов
+        //komplekts - только для комплектов
+        //parts - только для частей комплекта
+        //never - не добавлять инстукции ни к одному продукту
+
+        this.cached_result = null; //сохранеям в данный объект результаты последнего поиска чтоб можно было их быстро использовать для повторного открытия окна поиска если не было очищено поле ввода
+
+        this.input_timerid = null; //id таймера для задержки ввода
+
+        this.close_button._on('click tochend', () => this.click_close_search_button()); //клик по крестику в окне поиска
+
+        this.search_input._on('input', () => this.chenge_in_search_input()); //начинаем поиск после ввода символов
+
+        window._on('resize_optimize', () => this.size_recalculate()); //выполяем перерисвку при ресайзе
     }
     //иницализируем все функции и слушатели для работы поиска
 
@@ -227,18 +227,6 @@ export default new (class {
         Header.active_elements.unlock(); //разблокируем активные элементы в хедере
     }
     //клик по крестику в окне поиска
-
-    //скрываем окно поиска по клику на полупрозрачную подложку
-    async click_header_overlay() {
-        if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
-
-        Header.active_elements.lock(); //блокируем активные элементы в хедере
-
-        await Header_Hidden.close(); //закрываем окно поиска
-
-        Header.active_elements.unlock(); //разблокируем активные элементы в хедере
-    }
-    //скрываем окно поиска по клику на полупрозрачную подложку
 
     //начинаем поиск после ввода символов
     chenge_in_search_input() {

@@ -7,7 +7,7 @@
     justify-content: flex-end;
     position: relative;
     background-color: var(--white);
-    z-index: map-get($z-index, header-visible);
+    z-index: 2;
 
     @media (min-width: rem(960)) {
         min-height: adaptiv_rem_size(60, 960, 80, 1920);

@@ -69,6 +69,20 @@ function wait(check_value, data_fo_wait, abort_trigger = {}) {
 }
 //функция сравнивет данные из check_value с data_fo_wait и когда они будут равными завершит функцию
 
+//функция получет значение translate свойства transform элемента
+//style_list - это живая колекция стилей window.getComputedStyle
+function get_translate(style_list) {
+    let matrix = new WebKitCSSMatrix(style_list.transform); //создаём объект матицы для получения из него значений
+
+    return {
+        //возвращаем объект со значениями translate
+        x: matrix.m41,
+        y: matrix.m42,
+        z: matrix.m43,
+    };
+}
+//функция получет значение translate свойства transform элемента
+
 function request_to_server(data_to_send) {
     return new Promise(async (resolve, reject) => {
         let error, //сюда будет записана ошибка если появится
@@ -95,4 +109,4 @@ function request_to_server(data_to_send) {
     });
 }
 
-export { wait, request_to_server };
+export { wait, get_translate, request_to_server };
