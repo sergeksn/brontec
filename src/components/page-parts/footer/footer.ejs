@@ -147,19 +147,54 @@
 </footer> -->
 <%- include('./../../blocks/scroll-to-top-button/scroll-to-top-button.ejs')%>
 
+
 <script>
+    /*подключаем при необходимости полифилы, а после их загрузки подключаем основной скрипт*/
   (async () => {
-    if (GDS.polyfills.IntersectionObserver.nead_include) await wait(() => GDS.polyfills.IntersectionObserver.upload, true); /*если нужно ждём загрузки полифила IntersectionObserver*/
-    if (GDS.polyfills.AbortController.nead_include) await wait(() => GDS.polyfills.AbortController.upload, true); /*если нужно ждём загрузки полифила AbortController*/
+    let d = document,
+      w = window;
+    /*данные о полифилах и их процессе загрузки*/
+    GDS.polyfills = [{
+        name: "IntersectionObserver",
+        /*имя файла скрипта полифила*/
+        nead_include: !('IntersectionObserver' in w) ||
+          !('IntersectionObserverEntry' in w) ||
+          !('intersectionRatio' in w.IntersectionObserverEntry.prototype) ||
+          !('isIntersecting' in w.IntersectionObserverEntry.prototype),
+        /*если условие true то полифил будет загружен*/
+      },
+      {
+        name: "AbortController",
+        nead_include: (typeof w.Request === 'function' && !w.Request.prototype.hasOwnProperty('signal')) || !w.AbortController,
+      }
+    ];
+
+    let load_promise_list = [],
+      /*будет сохранять примис загрузки для каждого нужного скрипта полифила и как только все промисы выполняться, т.е. все скрипты полифилов будут загружены мы начнём грузить основной скрипт*/
+      wrap = d.createDocumentFragment(),
+      body = d.body;
+
+    GDS.polyfills.forEach(item => {
+      if (!item.nead_include) return; /*если полифил не нужен*/
+
+      let s = d.createElement("script");
+
+      load_promise_list.push(new Promise(resolve => s.onload = () => resolve()));
+
+      s.src = `http://localhost:3579/${item.name}.js`;
+
+      wrap.append(s);
+    });
+
+    body.append(wrap);
+
+    await Promise.all(load_promise_list); /*ждём загрузки всех полифилов*/
 
     /*после загрузки всех необходимых полифилов можно загружать основыне скрипты для сайта*/
-    let d = document,
-        body = d.body,
-        s = d.createElement("script");
+    let main_s = d.createElement("script");
+    main_s.src = "http://localhost:3579/main.js";
 
-        s.src = "http://localhost:3579/main.js";
-
-        body.append(s);
+    body.append(main_s);
   })();
 </script>
 </body>

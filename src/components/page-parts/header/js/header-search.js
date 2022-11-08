@@ -1,6 +1,5 @@
 import { Header, Header_Hidden } from '@header-main-js';
-import { wait, request_to_server } from '@js-libs/func-kit';
-import { set_cookie, delete_cookie } from '@js-libs/cookie';
+import { wait, request_to_server, available_localStorage } from '@js-libs/func-kit';
 
 import Product_Small_Info_Block from '@product-small-info-block-main-js';
 
@@ -44,10 +43,6 @@ export default new (class {
         //parts - только для частей комплекта
         //never - не добавлять инстукции ни к одному продукту
 
-        this.cached_result = null; //сохранеям в данный объект результаты последнего поиска чтоб можно было их быстро использовать для повторного открытия окна поиска если не было очищено поле ввода
-
-        this.input_timerid = null; //id таймера для задержки ввода
-
         this.close_button._on('click tochend', () => this.click_close_search_button()); //клик по крестику в окне поиска
 
         this.search_input._on('input', () => this.chenge_in_search_input()); //начинаем поиск после ввода символов
@@ -60,7 +55,7 @@ export default new (class {
     async open_results_block() {
         this.status = 'pending to open'; //статус открытия окна
 
-        let search_results_block_height = GDS.win.height - this.results_wrap.getBoundingClientRect().top; //получаем минимальную высоту которую должен занимать блок с результатми поиска
+        let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
         search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //минимальная высота анимации раскрытия блока поиска
 
@@ -126,7 +121,7 @@ export default new (class {
 
         if (!fust_close) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = '')); //возвращаем в документ блоки
 
-        let search_results_block_height = GDS.win.height - this.results_wrap.getBoundingClientRect().top; //получаем минимальную высоту которую должен занимать блок с результатми поиска
+        let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
         search_results_block_height = search_results_block_height > 0 ? search_results_block_height : 0; //получаем растояние от верха экрана до верха блока для отображение результатов поиска и получаем высоту которую дожен будет занять блок чтоб покрыть всю высоту экрана
 
@@ -236,13 +231,15 @@ export default new (class {
 
         //создаём таймер задержки ввода
         this.input_timerid = setTimeout(async () => {
+            if (this.abort_controller) this.abort_controller.abort(); //прерываем предидущий поисковой запрос если он есть
+
             let search_text = this.search_input.value; //поисковой запрос
 
-            this.cached_result = null; //так же чистим прежние результаты поиска из кеша объекта поиска
+            localStorage.removeItem('search-result'); //так же чистим прежние результаты поиска из кеша объекта поиска
 
-            set_cookie('search_data', search_text.slice(0, 100), { expires: 'Tue, 19 Jan 2099 03:14:07 GMT' }); //записываем в куки то что ввёл пользователь
+            if (available_localStorage()) localStorage.setItem('search-text', search_text.slice(0, 100)); //если локальное хранилище доступно сохраняем в него поисковой запрос пользователя для того чтоб запомнить его на следующих страницах, сохраняем не более 100 символов
 
-            if (Header_Hidden.status !== 'open') return; //если вдруг мы закрыли скрытый блок во время начала поиска, то мы просто записываем в куки поисковой запрос и прерываем дальнейшие дествия
+            if (Header_Hidden.status !== 'open') return; //если вдруг мы закрыли скрытый блок во время начала поиска, то мы просто записываем в хранилище поисковой запрос и прерываем дальнейшие дествия
 
             //если ввели 2 и блоее символов начинаем поиск
             if (search_text.length > 1) {
@@ -296,45 +293,86 @@ export default new (class {
     }
     //начинаем поиск после ввода символов
 
-    //удаляем данные запроса пользователя в инпуте и куках
+    //удаляем данные запроса пользователя в инпуте и хранилище
     clean_input() {
         this.search_input.value = ''; //удаляем содержимое инпута для поиска
 
         this.search_input.classList.remove('started-inputed'); //убираем класс уведомляющий о том что поле заполнено текстом поиска
 
-        delete_cookie('search_data'); //чистим куки от текста поиска
+        localStorage.removeItem('search-text'); //чистим локальное хранилище от текста поиска
 
-        this.cached_result = null; //так же чистим прежние результаты поиска из кеша объекта поиска
+        localStorage.removeItem('search-result'); //так же чистим прежние результаты поиска из локального хранилища
     }
-    //удаляем данные запроса пользователя в инпуте и куках
+    //удаляем данные запроса пользователя в инпуте и хранилище
 
     //раскрываем окно с результатами поиска и отображает результаты поиска в блоке для результатов
     async render_results(search_text) {
-        if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+        let check_abort_render = () => this.status !== 'open' || this.search_input.value !== search_text, //функции проверяет нужно ли прервать дальнейший рендер результатов поиска, например если окно начали закрывать или уже закрыли или если в поле вода поиска уже введён другой текст отичный от того результаты поиска которого мы рендерим, нужно проверять после каждой асинхронной операции черех await
+            //вставляет переданные код html в блок с результатами поиска и плавно показывает его
+            show_results = async result_html => {
+                await anime({
+                    //дожидаемся скрытия лоадера
+                    targets: this.results_loader,
+                    opacity: 0,
+                    duration: GDS.anim.time,
+                    easing: GDS.anim.graph,
+                }).finished;
+
+                if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
+
+                this.results_data.innerHTML = result_html; //записываем результаты в блок с результатами поиска
+
+                await anime({
+                    //плавно показываем блок с результатами
+                    targets: this.results_data,
+                    opacity: 1,
+                    duration: GDS.anim.time,
+                    easing: GDS.anim.graph,
+                }).finished;
+
+                if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
+
+                //показываем блок со ссылками
+                this.results_any_links.style.opacity = '';
+                this.results_any_links.style.display = 'flex';
+                anime({
+                    //плавно показываем блок с результатами
+                    targets: this.results_any_links,
+                    opacity: 1,
+                    duration: GDS.anim.time,
+                    easing: GDS.anim.graph,
+                });
+                //показываем блок со ссылками
+
+                Img_Loader.add_in_observe(this.results_data.querySelectorAll('[data-img-type]')); //добавляем отслеживание видимости картинок в окне поиска
+            };
+        //вставляет переданные код html в блок с результатами поиска и плавно показывает его
+
+        if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
 
         //если мы уже ищем не первый раз то блок с результатами поиска нужно очистить перед выводом новых результатов
         if (this.results_data.innerHTML !== '') {
             Img_Loader.dellete_from_observe(this.results_data.querySelectorAll('[data-img-type]')); //удаляем из отслеживания старые картинкинки
 
             //скрываем блок со ссылками
-            anime({
-                targets: this.results_any_links,
-                opacity: 0,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
-                complete: () => (this.results_any_links.style.display = ''),
-            });
-            //скрываем блок со ссылками
+            let hide_any_links = anime({
+                    targets: this.results_any_links,
+                    opacity: 0,
+                    duration: GDS.anim.time,
+                    easing: GDS.anim.graph,
+                    complete: () => (this.results_any_links.style.display = ''),
+                }).finished,
+                hide_results_data = anime({
+                    //дожидаемся пока результаты поиска станут прозрачными
+                    targets: this.results_data,
+                    opacity: 0,
+                    duration: GDS.anim.time,
+                    easing: GDS.anim.graph,
+                }).finished;
 
-            await anime({
-                //дожидаемся пока результаты поиска станут прозрачными
-                targets: this.results_data,
-                opacity: 0,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
-            }).finished;
+            await Promise.all([hide_any_links, hide_results_data]); //дожидаемся пока скроются дополнительные ссылки снизу а так же результаты поиска
 
-            if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+            if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
 
             this.results_data.innerHTML = ''; //удаляем всё содержимое блока с результатами поиска
 
@@ -348,93 +386,83 @@ export default new (class {
         }
         //если мы уже ищем не первый раз то блок с результатами поиска нужно очистить перед выводом новых результатов
 
-        //вставляет переданные код html в блок с результатами поиска и плавно показывает его
-        let show_results = async result_html => {
-            await anime({
-                //дожидаемся скрытия лоадера
-                targets: this.results_loader,
-                opacity: 0,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
-            }).finished;
+        let saved_results = localStorage.getItem('search-result'); //пытаемся получить результаты предидущего поиска, если они есть то можно взять их, т.к. это значит что поисковой запрос не менялся,  апользователь вероятнее всего обновил страницу или переоткрыл блок поиска без изменений искомого текта
 
-            if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+        if (saved_results) return await show_results(saved_results); //вставляет переданные код html в блок с результатами поиска и плавно показывает его, а так же прерываем дальнейшие выполнение функции
 
-            this.results_data.innerHTML = result_html; //записываем результаты в блок с результатами поиска
+        //ищем search_text - текст введённый в поле поиска в базе, после того как получили ответ выводим его на экран
+        await this.load_results(search_text)
+            .then(async data => {
+                //только если поиск НЕ был прерван
+                let html_code = data.error || data; //определяем HTML код для вставки
 
-            await anime({
-                //плавно показываем блок с результатами
-                targets: this.results_data,
-                opacity: 1,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
-            }).finished;
+                if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
 
-            if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
+                await show_results(html_code); //вставляет переданные код html в блок с результатами поиска и плавно показывает его
 
-            //показываем блок со ссылками
-            this.results_any_links.style.opacity = '';
-            this.results_any_links.style.display = 'flex';
-            anime({
-                //плавно показываем блок с результатами
-                targets: this.results_any_links,
-                opacity: 1,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
-            });
-            //показываем блок со ссылками
+                if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
 
-            Img_Loader.add_in_observe(this.results_data.querySelectorAll('[data-img-type]')); //добавляем отслеживание видимости картинок в окне поиска
-        };
-        //вставляет переданные код html в блок с результатами поиска и плавно показывает его
-
-        //если в данном объекте есть запись с прежнеми результатами поиска значит окно было просто свёрнуто и мы не должны делать запрос на сервер, а просто выведем данные из кеша объекта
-        if (this.cached_result) return await show_results(this.cached_result); //вставляет переданные код html в блок с результатами поиска и плавно показывает его, а так же прерываем дальнейшие выполнение функции
-
-        let result_html = await this.load_results(search_text); //ищем search_text - текст введённый в поле поиска в базе, после того как получили ответ выводим его на экран
-
-        if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
-
-        await show_results(result_html); //вставляет переданные код html в блок с результатами поиска и плавно показывает его
-
-        if (this.status !== 'open' || this.search_input.value !== search_text) return; //если мы в процессе рендера ответа поиска обнаружили что окно с результатами поиска не имеет статус открытого то прерываем дальнейшие операции, возможно мы закрыли окно в процессе рендера ответа поиска. Или если за время поиска пользователь успел поменять содержимое инпута, то мы ничего не выводим и начнётся новый поиск
-
-        this.cached_result = result_html; //сохранеям результаты поиска в кеш объекта поиска
+                if (!data.error && available_localStorage()) localStorage.setItem('search-result', html_code); //если это не ошибка и если локальное хранилище доступно сохраняем в него результат поиска, для быстрого рендера при повторном открытии окна, если оно было просто закрыто
+                //ПРИМЕЧАНИЕ: сохранять в хранилище ошибки не тоит т.к. ошибки быстро пофиксятся, а то чего раньше не было в каталоге может добавится и нужна постоянно актуальная информация, так её мы не запоминаем что постоянно проверять заново
+            })
+            .catch(e => {}); //этот блок catch может сработать только из-за прерывания поиска AbortError или при ошибке в коде или исключении внутри then
+        //ищем search_text - текст введённый в поле поиска в базе, после того как получили ответ выводим его на экран
     }
     //раскрываем окно с результатами поиска и отображает результаты поиска в блоке для результатов
 
-    //начинает асинхранную задачу по поиску и возвращает результат
-    async load_results(search_text) {
-        let error, //сюда будет записана ошибка если появится
-            output_html = '', //сюда будем записывать HTML для отображения на странице
-            data = {
-                //данные для отправки на сервер
-                action: 'search',
-                search_text: search_text,
-                search_type: this.search_type,
-                where_add_instructon: this.where_add_instructon,
-            },
-            result = await request_to_server(data).catch(error_data => (error = error_data));
+    //начинает асинхранную задачу по поиску и возвращает промис содержащий в себе HTML для вставки
+    load_results(search_text) {
+        return new Promise(async (resolve, reject) => {
+            this.abort_controller = new AbortController(); //сохраняем новый прерыватель запроса на поиск
 
-        if (error) return error; //если во время запроса возникла критическая ошибка например сайт недоступен или у пользователя пропал интернет то мы выводим ошибку
+            let request_data = {
+                //запрос на сервер
+                method: 'POST',
+                signal: this.abort_controller.signal, //ставим отслеживание для прерывания запроса
+                headers: { 'Content-Type': 'application/json;charset=utf-8' },
+                body: JSON.stringify({
+                    //данные для отправки на сервер преобразованный в строку
+                    action: 'search',
+                    search_text: search_text,
+                    search_type: this.search_type,
+                    where_add_instructon: this.where_add_instructon,
+                }),
+            };
 
-        if (result.nothing_found) return '<div class="header-search__fail">По Вашему запросу <span>"' + search_text + '"</span> ничего не найдено =(</div>'; //если вернулась nothing_found, значит ничего не найдено по текущему запросу
+            // отправляем запрос на сервер для поиска и получаем ответ
+            await request_to_server(request_data)
+                //если не было ошибок и исключений
+                .then(response => {
+                    let output_html = ''; //сюда будем записывать HTML для отображения на странице
 
-        //перебираем все данные из ответа и создаём на их основе HTML контент
-        for (let i = 0; i < result.length; i++) {
-            result[i]['search_text'] = search_text; //дополянем объект данными о введённом тексте
+                    if (response.nothing_found) return resolve({ error: `<div class="header-search__fail">По Вашему запросу <span>"${search_text}"</span> ничего не найдено =(</div>` }); //если вернулась nothing_found завершаем функцию, значит ничего не найдено по текущему запросу
 
-            let render = new Product_Small_Info_Block(result[i]); //создаём экземпляр с данными для рендера
+                    //перебираем все данные из ответа и создаём на их основе HTML контент
+                    response.forEach(item => {
+                        item.search_text = search_text; //дополянем объект данными о введённом тексте
 
-            output_html += render.render_product_block(); //дописываем html код блока предварительного просмотри товара
+                        let render = new Product_Small_Info_Block(item); //создаём экземпляр с данными для рендера
 
-            output_html += render.render_instruction_block(); //дописываем html код блока инструкций для этго товара
-        }
-        //перебираем все данные из ответа и создаём на их основе HTML контент
+                        output_html += render.render_product_block(); //дописываем html код блока предварительного просмотри товара
 
-        return output_html;
+                        output_html += render.render_instruction_block(); //дописываем html код блока инструкций для этго товара
+                    });
+                    //перебираем все данные из ответа и создаём на их основе HTML контент
+
+                    return resolve(output_html); //завершаем промис передав в него итоговый HTML
+                })
+                .catch(e => {
+                    if (typeof e.ksn_message === 'undefined') return console.error(e); //если ошибка не наша выводим её в консоль
+
+                    if (e.ksn_message === 'AbortError') return reject(); //если поиск был прерван то отклоняем промис
+
+                    if (e.ksn_message === 'Failed to fetch') return resolve({ error: `<div class="header-search__fail">Не удалось подключиться к ресурсу ${GDS.ajax_url}</div>` }); //выводим сообщение
+
+                    if (e.ksn_message === 'server-error') return resolve({ erroe: `<div class="header-search__fail">На стороне сервера возникла ошибка, код ошибки ${e.status}\n Приносим извинения за доставленые неудобства, мы уже исправляем проблему!\n Будьте всегда на позитиве =)</div>` }); //выводим сообщение
+                });
+        });
     }
-    //начинает асинхранную задачу по поиску и возвращает результат
+    //начинает асинхранную задачу по поиску и возвращает промис содержащий в себе HTML для вставки
 
     //функция пересчитывает размеры в окне с результатами поиска про ресайзе
     size_recalculate() {
@@ -452,7 +480,7 @@ export default new (class {
 
             if (GDS.win.width_rem < 40) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
 
-            let search_results_block_height = GDS.win.height - this.results_wrap.getBoundingClientRect().top; //получаем минимальную высоту которую должен занимать блок с результатми поиска
+            let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
             search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //задаём минимальню высота для блока с выводом результатов и лоадера в 100 пикселей
 
@@ -460,9 +488,9 @@ export default new (class {
         };
         //функция для обновления параметров блока
 
-        if (this.status === 'open') update_size_params(); //если окно с результатами открыто обновляем данные блока
+        if (this.status === 'open') return update_size_params(); //если окно с результатами открыто обновляем данные блока
 
-        if (this.status === 'pending to open') wait(() => this.status, 'open').then(() => update_size_params()); //если откно с результатами поиска в прецессе открытия то сначало дажидаемся его открытия, а потом пересчитываем все параметры
+        if (this.status === 'pending to open') return wait(() => this.status, 'open').then(() => update_size_params()); //если откно с результатами поиска в прецессе открытия то сначало дажидаемся его открытия, а потом пересчитываем все параметры
     }
     //функция пересчитывает размеры в окне с результатами поиска про ресайзе
 })();

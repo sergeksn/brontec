@@ -83,30 +83,57 @@ function get_translate(style_list) {
 }
 //функция получет значение translate свойства transform элемента
 
-function request_to_server(data_to_send) {
-    return new Promise(async (resolve, reject) => {
-        let error, //сюда будет записана ошибка если появится
-            response = await fetch('http://verstkaksn.com/ajax.php', {
-                //запрос на сервер
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                },
-                body: JSON.stringify(data_to_send),
+function warning_pop_up(message, lock_document = false) {
+    let d = document,
+        wrap = d.createElement('div');
+
+    wrap.classList.add('warning-message');
+    wrap.innerHTML = message;
+
+    d.body.append(wrap);
+}
+warning_pop_up();
+//проверяем доступность локального хранилища
+function available_localStorage() {
+    try {
+        let storage = window.localStorage,
+            x = '_';
+        storage.setItem(x, x); //для теста пытаемся записать в хранилище
+        storage.removeItem(x);
+        return true;
+    } catch (e) {
+        if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' || e.name === 'QUOTA_EXCEEDED_ERR' || e.name === 'W3CException_DOM_QUOTA_EXCEEDED_ERR') {
+            console.error({ ksn_message: 'Не достаточно места в локальном хранилище, пожалуйста очистите место для файлов браузера!\nЕсли не помоголо то возможно Вы используете приватный режим (режим инкогнитоб режим частного просмотра), перейдите в обычный режим для использования сайтом!\nВАЖНО: для работы сайта требуется доступ к локальному хранилища браузера, для работы корзины покупок!', error: e, name: e.name });
+        } else {
+            console.error(e);
+        }
+        return false;
+    }
+}
+//проверяем доступность локального хранилища
+
+//позволяет отправлять запросы на сервер и обрабатывать ответ и ошибки
+//request_data - все данные для запроса включая мотод, заголовки, тели запроса и другое
+//url - адрес для запроса
+async function request_to_server(request_data, url = GDS.ajax_url) {
+    return new Promise((resolve, reject) => {
+        fetch(url, request_data)
+            .then(response => {
+                if (!response.ok) reject({ ksn_message: 'server-error', status: response.status }); //ошибка на строне сервера коды серии 4хх и 5хх
+
+                return response.json(); //преобразуем поток в формат json
             })
-                .then(resp => {
-                    console.log(resp);
-                })
-                .catch(() => (error = `<div class="search_fail">Проблемы с доступом к серверу, проверьте подключение к сети или перезагрузите страницу. Если это не поможет подождите некоторое время вероятнее всего мы уже работаем над устранение проблемы!</div>`));
+            .then(output_data => resolve(output_data)) //возвращаем ответ в формате json
+            .catch(e => {
+                if (e.name === 'AbortError') return reject({ ksn_message: 'AbortError' }); //'AbortError' - в случае прерывания запроса с помощью signal
 
-        if (error) return reject(error); //если во время запроса возникла критическая ошибка например сайт недоступен или у пользователя пропал интернет то мы выводим ошибку
+                if (e.message === 'Failed to fetch') return reject({ ksn_message: 'Failed to fetch' }); //не удалось подключиться к GDS.ajax_url ресурсу
 
-        if (!response.ok) return reject(`<div class="search_fail">На стороне сервера возникла ошибка ${response.status}, мы уже работаем над её исправлением. Приносим извинения за неудобства!</div>`);
-
-        let result = await response.json(); //ответ в формате json
-
-        return resolve(result);
+                if (typeof e.ksn_message === 'undefined') return console.error(e); //если ошибка не наша и не вышеперечисленная выводим её в консоль
+                //ПРИМЕЧАНИЕ: return reject() тут можно не втсавлять т.к. ошибка выведенная в консоль уже сообщает что скрипт сломан и на продакшене её быть не должно
+            });
     });
 }
+//позволяет отправлять запросы на сервер и обрабатывать ответ и ошибки
 
-export { wait, get_translate, request_to_server };
+export { wait, get_translate, request_to_server, available_localStorage };

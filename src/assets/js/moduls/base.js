@@ -19,6 +19,8 @@ new (class {
 
     //станавливаем базовые параметры для работы скриптов
     set_base_params() {
+        GDS.ajax_url = 'http://verstkaksn.com/ajax.php'; //путь для ajax запросов
+
         //параметры устройства
         GDS.device = {
             is_touch: 'ontouchstart' in window || navigator.maxTouchPoints > 0, //определяем сенсорный экран или нет

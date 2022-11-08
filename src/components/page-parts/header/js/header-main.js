@@ -42,15 +42,12 @@ let Header = new (class {
                 d.querySelector('.header-visible__search-button>button'),
                 d.querySelector('.header-search__close-button'),
             ],
-            //blocks_lock_status: [this.lock, Header_Poster.lock, Header_Hidden.lock, Header_Search.lock],
             lock: function () {
                 //блокирует все интерактывные элемеры в хедере
                 if (GDS.win.flicker_active_elements)
                     this.elements.forEach(elem => {
                         if (elem) elem.classList.add('disabled'); //обязательно проверяем существует ли данный элемент, т.к. может оказаться что той же кнопки зарытия банера нет, т.к. самого банера нет
                     }); //помечеам все элементы как отключенные
-
-                //this.blocks_lock_status.forEach(item => (item = true));
 
                 this.status_lock = true; //указываем что все элементы успешно заблокированны
             },
@@ -60,8 +57,6 @@ let Header = new (class {
                     this.elements.forEach(elem => {
                         if (elem) elem.classList.remove('disabled'); //обязательно проверяем существует ли данный элемент, т.к. может оказаться что той же кнопки зарытия банера нет, т.к. самого банера нет
                     }); //помечеам все элементы как активные
-
-                //this.blocks_lock_status.forEach(item => (item = false));
 
                 this.status_lock = false; //указываем что все элементы успешно разблокированны
             },

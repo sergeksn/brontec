@@ -40,13 +40,14 @@ import '@js-moduls/base'; //тут будут записаны основные 
 // import "@js-moduls/small-product-previv-block"; //отвечает за рендер блоков в выдаче поиска товаров
 
 //@dinamic node import fils
-import '@images-main-js';
-import '@loader-main-js';
-import '@overlays-main-js';
-import '@product-small-info-block-main-js';
-import '@scroll-to-top-button-main-js';
-import '@footer-main-js';
-import '@header-main-js';
+import "@images-main-js";
+import "@loader-main-js";
+import "@overlays-main-js";
+import "@pop-up-warning-main-js";
+import "@product-small-info-block-main-js";
+import "@scroll-to-top-button-main-js";
+import "@footer-main-js";
+import "@header-main-js";
 //@dinamic node import fils
 
 // function test() {
