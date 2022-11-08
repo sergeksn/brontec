@@ -41,3 +41,45 @@
     </button>
   </div>
 </div>
+<script>
+  /*при переполнении переносим меню ниже*/
+  (() => {
+    let w = window,
+      d = document,
+      html = d.documentElement,
+      menu = d.querySelector(".header-visible__menu"),
+      parent = menu.parentNode;
+
+
+    transfer_menu = () => {
+      let result_width = 0,
+        rem_width = html.clientWidth / w.getComputedStyle(html).fontSize.replace('px', '');
+
+      /*только если больше 960px*/
+      if (rem_width >= 60) {
+        /*получаем полную ширину всех необходимых дочерних элементов header-visible*/
+        parent.childNodes.forEach(el => {
+          if (el.nodeType === 3 || el.nodeType === 8 || el === parent.querySelector(".header-visible__burger") || el === menu) return; /*прерываем если это обычный текст, комментарий, бургер или само меню*/
+
+          let sl = w.getComputedStyle(el),
+            width = +sl.width.replace("px", ""),
+            ml = +sl.marginLeft.replace("px", ""),
+            mr = el === parent.querySelector(".header-visible__logo") ? 0 : +sl.marginRight.replace("px", "");
+          result_width += width + ml + mr;
+        });
+
+        let max_menu_width = +w.getComputedStyle(parent).width.replace("px", "") - result_width,
+          menu_sl = w.getComputedStyle(menu),
+          menu_width = +menu_sl.width.replace("px", "") + +menu_sl.marginLeft.replace("px", "");
+
+        menu.style.order = menu_width >= max_menu_width ? "1" : "0";
+        menu.style.margin = menu_width >= max_menu_width ? "0 auto" : "";
+      } else {
+        menu.style.order = "1"; /*убираем стиль после брейкпоинта*/
+      }
+    };
+    transfer_menu();
+
+    w.addEventListener("resize", transfer_menu); /*так же проверяем нужно ли переносить при каждом ресайзе*/
+  })();
+</script>

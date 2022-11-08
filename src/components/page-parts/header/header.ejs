@@ -19,7 +19,7 @@
         head = d.getElementsByTagName("head")[0],
         common_style = d.createElement("style"),
         dynamic_vars = d.createElement("style"),
-        dfs = w.getComputedStyle(d.getElementsByTagName("html")[0]).fontSize.replace("px", "");
+        dfs = w.getComputedStyle(d.documentElement).fontSize.replace("px", "");
       /*обязательно нужно получить размешь штифта по умолчанию, т.к. в противном случае если просто делить на 16 
             переменная --wwr будет не корректной и все блоки будут ехать, конечно если пользователь поменяет размер шрифта находясь на сайте, 
             изменения не вступят в силу до перезагрузки страницы*/
