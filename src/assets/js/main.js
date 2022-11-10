@@ -43,7 +43,7 @@ import '@js-moduls/base'; //тут будут записаны основные 
 import "@images-main-js";
 import "@loader-main-js";
 import "@overlays-main-js";
-import "@pop-up-warning-main-js";
+import "@pop-up-messages-main-js";
 import "@product-small-info-block-main-js";
 import "@scroll-to-top-button-main-js";
 import "@footer-main-js";

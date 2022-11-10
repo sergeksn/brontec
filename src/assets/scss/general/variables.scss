@@ -48,7 +48,7 @@
     --btn-width: #{rem(50)};
     --btn-height: #{rem(50)};
 
-    @media (min-width:  rem(960)) {
+    @media (min-width: rem(960)) {
         $start_w: 960; //начальное значение ширины
         $final_w: 1919; //конечное значение ширины
 
@@ -84,5 +84,7 @@
         --medium: #{adaptiv_rem_size(80, $start_w)};
         --little: #{adaptiv_rem_size(40, $start_w)};
         /*отступы между блоками*/
+
+        --b-radius: #{adaptiv_rem_size(10, $start_w)};
     }
 }

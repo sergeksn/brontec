@@ -83,16 +83,6 @@ function get_translate(style_list) {
 }
 //функция получет значение translate свойства transform элемента
 
-function warning_pop_up(message, lock_document = false) {
-    let d = document,
-        wrap = d.createElement('div');
-
-    wrap.classList.add('warning-message');
-    wrap.innerHTML = message;
-
-    d.body.append(wrap);
-}
-warning_pop_up();
 //проверяем доступность локального хранилища
 function available_localStorage() {
     try {

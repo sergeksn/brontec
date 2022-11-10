@@ -19,9 +19,11 @@ class Overlay_Controller {
 
         await wait(() => sl.display, 'block', { func: () => this.status !== 'pending to show', message: 'ждали пока ' + this.track + ' станет BLOCK но начал скрываться' }); //ждём пока подложка не станет block
 
-        this.overlay.style.opacity = '0.9'; //делаем подложку видимой
+        let opacity = this.max_opacity || '0.9';
 
-        await wait(() => sl.opacity, '0.9', { func: () => this.status !== 'pending to show', message: 'ждали пока ' + this.track + ' станет OPACITY 0.9 но  начал скрываться' }); //ждём пока подложка не станет видимой на 0.9
+        this.overlay.style.opacity = opacity; //делаем подложку видимой
+
+        await wait(() => sl.opacity, opacity, { func: () => this.status !== 'pending to show', message: 'ждали пока ' + this.track + ' станет OPACITY 0.9 но  начал скрываться' }); //ждём пока подложка не станет видимой на 0.9
 
         this.status = 'show'; //помечаем что подложка видна
     }
@@ -51,7 +53,7 @@ class Overlay_Controller {
     //скрываем подложку
 }
 
-//хранит объект подложки для хеднера
+//хранит объект подложки для хедера
 const Header_Overlay = new (class {
     constructor() {
         let teplate = new Overlay_Controller(); //объект с функция управления для подложек
@@ -68,7 +70,7 @@ const Header_Overlay = new (class {
         this.overlay._on('click touchend', () => {
             if (this.lock) return; //прерываем если заблокированная любая активность
 
-            this.click_header_overlay();//скрываем скрытый блок по клику на полупрозрачную подложку
+            this.click_header_overlay(); //скрываем скрытый блок по клику на полупрозрачную подложку
         }); //скрываем скрытый блок хедера при кдике на фоновую подложку
     }
 
@@ -84,7 +86,30 @@ const Header_Overlay = new (class {
     }
     //скрываем окно поиска по клику на полупрозрачную подложку
 })();
-//хранит объект подложки для хеднера
+//хранит объект подложки для хедера
+
+//хранит объект подложки для всплывающих окон с сообщениями
+const Pop_Up_Message_Overlay = new (class {
+    constructor() {
+        let teplate = new Overlay_Controller(); //объект с функция управления для подложек
+
+        this.status = 'hide';
+        this.lock = false; //польностью блокирует любые действия с подложкой
+        this.track = 'pop-up-message-overlay'; //нужно для того чтоб помечать ошибки в фушкциях show/hide
+        this.overlay = document.getElementById('pop-up-message-overlay'); //полупрозрачная бела подложка для всплывающего окна с сообщением
+
+        //записываем в методы этого класса нужные методы классаконтролера
+        this.show = teplate.show.bind(this);
+        this.hide = teplate.hide.bind(this);
+
+        this.overlay._on('click touchend', () => {
+            if (this.lock) return; //прерываем если заблокированная любая активность
+
+            this.click_header_overlay(); //скрываем скрытый блок по клику на полупрозрачную подложку
+        }); //скрываем скрытый блок хедера при кдике на фоновую подложку
+    }
+})();
+//хранит объект подложки для всплывающих окон с сообщениями
 
 //хранит объект подложки для корзины
 const Cart_Overlay = new (class {
@@ -118,4 +143,4 @@ const Galery_Overlay = new (class {})();
 const Product_Part_Previwe_Overlay = new (class {})();
 //хранит объект подложки для окна предпросмотра отдельной детали комплекта
 
-export { Header_Overlay, Cart_Overlay, Galery_Overlay, Product_Part_Previwe_Overlay };
+export { Header_Overlay, Pop_Up_Message_Overlay, Cart_Overlay, Galery_Overlay, Product_Part_Previwe_Overlay };

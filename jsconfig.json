@@ -195,41 +195,41 @@
             "@overlays-img/*": [
                 "@components\\blocks\\overlays\\img/*"
             ],
-            "@pop-up-warning": [
-                "@components\\blocks\\pop-up-warning"
+            "@pop-up-messages": [
+                "@components\\blocks\\pop-up-messages"
             ],
-            "@pop-up-warning/*": [
-                "@components\\blocks\\pop-up-warning/*"
+            "@pop-up-messages/*": [
+                "@components\\blocks\\pop-up-messages/*"
             ],
-            "@pop-up-warning-main-js": [
-                "@components\\blocks\\pop-up-warning\\js\\pop-up-warning-main.js"
+            "@pop-up-messages-main-js": [
+                "@components\\blocks\\pop-up-messages\\js\\pop-up-messages-main.js"
             ],
-            "@pop-up-warning-main-js/*": [
-                "@components\\blocks\\pop-up-warning\\js\\pop-up-warning-main.js/*"
+            "@pop-up-messages-main-js/*": [
+                "@components\\blocks\\pop-up-messages\\js\\pop-up-messages-main.js/*"
             ],
-            "@pop-up-warning-render-scss": [
-                "@components\\blocks\\pop-up-warning\\scss\\pop-up-warning-render.scss"
+            "@pop-up-messages-render-scss": [
+                "@components\\blocks\\pop-up-messages\\scss\\pop-up-messages-render.scss"
             ],
-            "@pop-up-warning-render-scss/*": [
-                "@components\\blocks\\pop-up-warning\\scss\\pop-up-warning-render.scss/*"
+            "@pop-up-messages-render-scss/*": [
+                "@components\\blocks\\pop-up-messages\\scss\\pop-up-messages-render.scss/*"
             ],
-            "@pop-up-warning-interaction-scss": [
-                "@components\\blocks\\pop-up-warning\\scss\\pop-up-warning-interaction.scss"
+            "@pop-up-messages-interaction-scss": [
+                "@components\\blocks\\pop-up-messages\\scss\\pop-up-messages-interaction.scss"
             ],
-            "@pop-up-warning-interaction-scss/*": [
-                "@components\\blocks\\pop-up-warning\\scss\\pop-up-warning-interaction.scss/*"
+            "@pop-up-messages-interaction-scss/*": [
+                "@components\\blocks\\pop-up-messages\\scss\\pop-up-messages-interaction.scss/*"
             ],
-            "@pop-up-warning-fonts": [
-                "@components\\blocks\\pop-up-warning\\fonts"
+            "@pop-up-messages-fonts": [
+                "@components\\blocks\\pop-up-messages\\fonts"
             ],
-            "@pop-up-warning-fonts/*": [
-                "@components\\blocks\\pop-up-warning\\fonts/*"
+            "@pop-up-messages-fonts/*": [
+                "@components\\blocks\\pop-up-messages\\fonts/*"
             ],
-            "@pop-up-warning-img": [
-                "@components\\blocks\\pop-up-warning\\img"
+            "@pop-up-messages-img": [
+                "@components\\blocks\\pop-up-messages\\img"
             ],
-            "@pop-up-warning-img/*": [
-                "@components\\blocks\\pop-up-warning\\img/*"
+            "@pop-up-messages-img/*": [
+                "@components\\blocks\\pop-up-messages\\img/*"
             ],
             "@product-small-info-block": [
                 "@components\\blocks\\product-small-info-block"
