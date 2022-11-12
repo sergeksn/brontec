@@ -1,54 +1,21 @@
 import { Header, Header_Hidden } from '@header-main-js';
-import { wait } from '@js-libs/func-kit';
+import { show, hide } from '@js-libs/func-kit';
 
 class Overlay_Controller {
     //показывыаем подложку
-    async show() {
-        if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
-
-        if (this.status === 'show') return; //если подложка уже видна сразу завершаем
-
-        //данное ожидание будет прервано только если подложка начнёт скрываться
-        if (this.status === 'pending to show') return await wait(() => this.status, 'show', { func: () => this.status === 'pending to hide' || this.status === 'hide', message: 'ждали пока ' + this.track + ' станет SHOW но начал скрываться' }); //ждём пока подложка не станет полностью видимой и только потом завершаем
-
-        this.status = 'pending to show'; //помечаем что подложка начала показ
-
-        this.overlay.style.display = 'block'; //возвращаем подложку в документ
-
-        let sl = window.getComputedStyle(this.overlay); //живая колекция стилей подложки
-
-        await wait(() => sl.display, 'block', { func: () => this.status !== 'pending to show', message: 'ждали пока ' + this.track + ' станет BLOCK но начал скрываться' }); //ждём пока подложка не станет block
-
-        let opacity = this.max_opacity || '0.9';
-
-        this.overlay.style.opacity = opacity; //делаем подложку видимой
-
-        await wait(() => sl.opacity, opacity, { func: () => this.status !== 'pending to show', message: 'ждали пока ' + this.track + ' станет OPACITY 0.9 но  начал скрываться' }); //ждём пока подложка не станет видимой на 0.9
-
-        this.status = 'show'; //помечаем что подложка видна
+    show() {
+        return show.call(this, {
+            el: this.overlay,
+            value: this.max_opacity || '0.9',
+        });
     }
     //показывыаем подложку
 
     //скрываем подложку
-    async hide() {
-        if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
-
-        if (this.status === 'hide') return; //если подложка уже скрыта сразу завершаем
-
-        //данное ожидание будет прервано только если подложка начнёт появляться
-        if (this.status === 'pending to hide') return await wait(() => this.status, 'hide', { func: () => this.status === 'pending to show' || this.status === 'show', message: 'ждали пока ' + this.track + ' станет HIDE но начал появляться' }); //ждём пока кнопка не станет полностью скрытой и только потом завершаем
-
-        this.status = 'pending to hide'; //помечаем что подложка начала скрываться
-
-        this.overlay.style.opacity = '0'; //делаем подложку прозрачной
-
-        let sl = window.getComputedStyle(this.overlay); //живая колекция стилей подложки
-
-        await wait(() => sl.opacity, '0', { func: () => this.status !== 'pending to hide', message: 'ждали пока ' + this.track + ' станет OPACITY 0 но  начал появляться' }); //ждём пока подложка не станет полностью прозрачной
-
-        this.overlay.style.display = ''; //после того как подложка полностью стала прозрачной убираем её из документа чтоб на неё прозрачную нельзя было кликнуть, т.е. чтоб она не перекрывала контент
-
-        this.status = 'hide'; //помечаем что подложка скрыта
+    hide() {
+        return hide.call(this, {
+            el: this.overlay,
+        });
     }
     //скрываем подложку
 }
@@ -89,7 +56,7 @@ const Header_Overlay = new (class {
 //хранит объект подложки для хедера
 
 //хранит объект подложки для всплывающих окон с сообщениями
-const Pop_Up_Message_Overlay = new (class {
+const Pop_Up_Message_Overlay = class {
     constructor() {
         let teplate = new Overlay_Controller(); //объект с функция управления для подложек
 
@@ -108,7 +75,7 @@ const Pop_Up_Message_Overlay = new (class {
             this.click_header_overlay(); //скрываем скрытый блок по клику на полупрозрачную подложку
         }); //скрываем скрытый блок хедера при кдике на фоновую подложку
     }
-})();
+};
 //хранит объект подложки для всплывающих окон с сообщениями
 
 //хранит объект подложки для корзины

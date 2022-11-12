@@ -13,7 +13,6 @@ header {
     position: fixed;
     background-color: var(--white);
     z-index: map-get($z-index, header); //нужно чтоб хдер при прокрутке был выше контента
-    transition: transform var(--standart-anim);
 }
 
 /*оболочка хедера*/

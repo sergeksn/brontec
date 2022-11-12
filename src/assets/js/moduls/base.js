@@ -62,6 +62,7 @@ new (class {
         //настройки для анимаций
         GDS.anim = {
             time: 500,
+            //css_tf: 'ease-in-out', //для анимации через transition
             graph: 'easeInOutQuad',
         };
     }

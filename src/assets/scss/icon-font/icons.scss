@@ -8,7 +8,8 @@
     font-display: block;
 }
 
-[class*='icon--'] {
+[class^='icon--'],
+[class*=' icon--'] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'icon-font' !important;
     speak: never;
@@ -22,28 +23,6 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon--success {
-    &:before {
-        content: $icon--success;
-        color: #69d243;
-    }
-}
-.icon--error {
-    &:before {
-        content: $icon--error;
-        color: #ff5050;
-    }
-}
-.icon--cart-bold {
-    &:before {
-        content: $icon--cart-bold;
-    }
-}
-.icon--cart {
-    &:before {
-        content: $icon--cart;
-    }
-}
 .icon--close {
     &:before {
         content: $icon--close;
@@ -52,6 +31,16 @@
 .icon--close-bold {
     &:before {
         content: $icon--close-bold;
+    }
+}
+.icon--cart {
+    &:before {
+        content: $icon--cart;
+    }
+}
+.icon--cart-bold {
+    &:before {
+        content: $icon--cart-bold;
     }
 }
 .icon--phone {
@@ -74,13 +63,28 @@
         content: $icon--search-bold;
     }
 }
+.icon--arrow-middle {
+    &:before {
+        content: $icon--arrow-middle;
+    }
+}
 .icon--arrow-scroll-to-top {
     &:before {
         content: $icon--arrow-scroll-to-top;
     }
 }
-.icon--arrow-middle {
+.icon--success {
     &:before {
-        content: $icon--arrow-middle;
+        content: $icon--success;
+    }
+}
+.icon--warning {
+    &:before {
+        content: $icon--warning;
+    }
+}
+.icon--error {
+    &:before {
+        content: $icon--error;
     }
 }

@@ -14,6 +14,8 @@
 //el.transform.match(/\((?:([^\s]+\s?){5}(?:.+))\)/) для X
 //el.transform.match(/\((?:(?:[^\s]+\s?){5}(.+))\)/) для Y
 
+//ПРИМЕЧАНИЕ: bind не выполняет функцию сразу как apply и call, а возвращает копию функции которую можно вызвать позже со своим this и параметрами
+
 //ПРИМЕЧАНИЕ: если нужно следить за определёнными элементами и не хочется кадый раз проверять наличиие их на странице то можно использовать HTMLCollection
 //HTMLCollection -> getElementsByTagName, getElementsByClassName
 //NodeList -> querySelectorAll

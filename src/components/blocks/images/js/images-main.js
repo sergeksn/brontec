@@ -317,7 +317,9 @@ const Img_Loader = new (class {
 
                 await wait(() => sl.display === 'block', true); //ждём пока все динамичсески вставленные svg добавятся в документ т.к. есть микроскопическая задержка
 
-                await wait(() => img.parentNode.querySelector('.loader'), null); //если есть лоадер дожидаемся пока он не скроется
+                await wait(() => typeof img.parentNode.ksn_loader.pending_to_hide_promise, 'object'); //ждём пока не создасться промис скрытия лоадера
+
+                await img.parentNode.ksn_loader.pending_to_hide_promise; //ждём скрытия лоадера
 
                 svg_wrap.style.opacity = '1'; //отображаем набор
             })

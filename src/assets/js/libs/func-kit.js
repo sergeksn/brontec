@@ -1,3 +1,5 @@
+import anime from 'animejs';
+
 //функция сравнивет данные из check_value с data_fo_wait и когда они будут равными завершит функцию
 //ВАЖНО: возвращает Promise !!!
 //check_value - функция, результат выполнение которой будет сравниватьтся с data_fo_wait дучше писать на нативном js чтоб быстрее выполнялась
@@ -126,4 +128,82 @@ async function request_to_server(request_data, url = GDS.ajax_url) {
 }
 //позволяет отправлять запросы на сервер и обрабатывать ответ и ошибки
 
-export { wait, get_translate, request_to_server, available_localStorage };
+//данная функция показывает блок увеличивая значение его css свойства
+//params.display - какое свойство дисплея должно быть у видимого элемента
+//params.el - сам элемент изменения свойств которого мы быдем отслеживать
+//params.property - css свойство для анимации
+//params.value - значение до которого должно измениться css свойство
+//params.duration - пример 500мс
+//params.tf - пример ease
+async function show(params) {
+    if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
+
+    if (this.status === 'show') return; //если блок уже виден
+
+    if (this.status === 'pending to show') return this.pending_to_show_promise; //если попытались показать блок когда он в процеес показа возвращаем промис с процессом его показа
+
+    this.status = 'pending to show'; //помечаем что блок в процессе появления
+
+    //ПРИМЕЧАНИЕ: если params.display === null то значение останется тем что есть у данного блока по умолчанию
+    if (params.display !== null) params.el.style.display = params.display || 'block'; //задаём дисплей значение перед показом
+
+    let property = params.property || 'opacity'; //определяем свойство для анимации, по умолчанию opacity
+
+    //анимируем показ блока
+    this.pending_to_show_promise = anime({
+        targets: params.el,
+        [property]: params.value || 1,
+        duration: params.duration || GDS.anim.time,
+        easing: params.tf || GDS.anim.graph,
+        update: anim => this.status !== 'pending to show' && anim.remove(), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to show', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
+    }).finished;
+
+    //дожидаемся показа блока
+    await this.pending_to_show_promise.then(() => {
+        if (this.status !== 'pending to show') throw { ksn_message: 'block in process hiding' }; //если анимация завершилась но статус блока не в процессе показа это значит что блок начал процесс скрытия в момент показа, и нам нужно выдать исключение в этом случае
+
+        this.status = 'show'; //помечаем что блок виден
+    });
+}
+//данная функция показывает блок увеличивая значение его css свойства
+
+//данная функция скрывает блок уменьшая значение его css свойства
+//params.el - сам элемент изменения свойств которого мы быдем отслеживать
+//params.display - какое свойство дисплея должно быть у скрытого элемента
+//params.property - css свойство для анимации
+//params.value - значение до которого должно измениться css свойство
+//params.duration - пример 500мс
+//params.tf - пример ease
+async function hide(params) {
+    if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
+
+    if (this.status === 'hide') return; //если блок уже скрыт
+
+    if (this.status === 'pending to hide') return this.pending_to_hide_promise; //если попытались скрыть блок когда он в процеес скрытия возвращаем промис с процессом его скрытия
+
+    this.status = 'pending to hide'; //помечаем что блок начал скрываться
+
+    let property = params.property || 'opacity'; //определяем свойство для анимации, по умолчанию opacity
+
+    //анимаруем скрытие
+    this.pending_to_hide_promise = anime({
+        targets: params.el,
+        [property]: params.value || 0,
+        duration: params.duration || GDS.anim.time,
+        easing: params.tf || GDS.anim.graph,
+        update: anim => this.status !== 'pending to hide' && anim.remove(), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to hide', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
+    }).finished;
+
+    //дожидаемся скрытия блока
+    await this.pending_to_hide_promise.then(() => {
+        if (this.status !== 'pending to hide') throw { ksn_message: 'block in process showed' }; //если анимация завершилась но статус блока не в процессе сокрытия это значит что блок начал процесс появления в момент скрытия, и нам нужно выдать исключение в этом случае
+
+        //ПРИМЕЧАНИЕ: если params.display === null то значение останется тем что есть у данного блока по умолчанию
+        if (params.display !== null) params.el.style.display = params.display || 'none'; //после того как блок пролностью скроется мы ставим ему новый дисплай, по умолчанию none
+
+        this.status = 'hide'; //помечаем что блок скрыт
+    });
+}
+//данная функция скрывает блок уменьшая значение его css свойства
+
+export { wait, get_translate, request_to_server, show, hide, available_localStorage };

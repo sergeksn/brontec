@@ -1,5 +1,5 @@
 import anime from 'animejs';
-import { wait } from '@js-libs/func-kit';
+import { show, hide } from '@js-libs/func-kit';
 import { Header, Header_Search } from '@header-main-js';
 
 export default new (class {
@@ -28,14 +28,13 @@ export default new (class {
     //показываем или скрываем кнопку в зависимости от текущейго занчения прокрутки страницы, т.е. как далеко вниз мы прокрутили
     async toggle_show_button() {
         if (this.lock) return; //прерываем если заблокированная любая активность
-        
+
         try {
             if (GDS.scroll.value > GDS.scroll.min_distans) {
                 if (this.status !== 'pending to show' && this.status !== 'show') await this.show();
             } else {
                 if (this.status !== 'pending to hide' && this.status !== 'hide') await this.hide();
             }
-            
         } catch (e) {
             if (typeof e.ksn_message === 'undefined') console.error(e);
         }
@@ -43,50 +42,19 @@ export default new (class {
     //показываем или скрываем кнопку в зависимости от текущейго занчения прокрутки страницы, т.е. как далеко вниз мы прокрутили
 
     //плавно показываем кнопку
-    async show() {
-        if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
-
-        if (this.status === 'show') return; //если кнопка уже видна сразу завершаем
-
-        //данное ожидание будет прервано только если кнопка начнёт скрываться
-        if (this.status === 'pending to show') return await wait(() => this.status, 'show', { func: () => this.status === 'pending to hide' || this.status === 'hide', message: 'ждали пока Scroll_To_Top_Button станет SHOW но начал скрываться' }); //ждём пока кнопка не станет полностью видимой и только потом завершаем
-
-        this.status = 'pending to show'; //помечаем что кнопка начала показ
-
-        this.button.style.display = 'flex'; //возвращаем кнопку в документ
-
-        let sl = window.getComputedStyle(this.button); //живая колекция стилей кнопки
-
-        await wait(() => sl.display, 'flex', { func: () => this.status !== 'pending to show', message: 'ждали пока Scroll_To_Top_Button станет FLEX но начал скрываться' }); //ждём пока кнопка не станет flex
-
-        this.button.style.opacity = '1'; //делаем кнопку видимой
-
-        await wait(() => sl.opacity, '1', { func: () => this.status !== 'pending to show', message: 'ждали пока Scroll_To_Top_Button станет OPACITY 1 но  начал скрываться' }); //ждём пока кнопка не станет полностью видимой
-
-        this.status = 'show'; //помечаем что кнопка видна
+    show() {
+        return show.call(this, {
+            el: this.button,
+            display: 'flex',
+        });
     }
     //плавно показываем кнопку
 
     //плавно скрываем кнопку
-    async hide() {
-        if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
-        
-        if (this.status === 'hide') return; //если кнопка уже скрыта сразу завершаем
-
-        //данное ожидание будет прервано только если кнопка начнёт появляться
-        if (this.status === 'pending to hide') return await wait(() => this.status, 'hide', { func: () => this.status === 'pending to show' || this.status === 'show', message: 'ждали пока Scroll_To_Top_Button станет HIDE но начал появляться' }); //ждём пока кнопка не станет полностью скрытой и только потом завершаем
-
-        this.status = 'pending to hide'; //помечаем что кнопка начала скрываться
-
-        this.button.style.opacity = '0'; //делаем кнопку прозрачной
-
-        let sl = window.getComputedStyle(this.button); //живая колекция стилей кнопки
-
-        await wait(() => sl.opacity, '0', { func: () => this.status !== 'pending to hide', message: 'ждали пока Scroll_To_Top_Button станет OPACITY 0 но  начал появляться' }); //ждём пока кнопка не станет полностью прозрачной
-
-        this.button.style.display = ''; //после того как кнопка полностью стала прозрачной убираем её из документа чтоб на неё прозрачную нельзя было кликнуть, т.е. чтоб она не перекрывала контент
-
-        this.status = 'hide'; //помечаем что кнопка скрыта
+    hide() {
+        return hide.call(this, {
+            el: this.button,
+        });
     }
     //плавно скрываем кнопку
 

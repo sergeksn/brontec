@@ -9,6 +9,9 @@
     border: rem(1) solid var(--gray);
     border-radius: var(--b-radius);
     padding: rem(60) adaptiv_rem_size(25, 320, 100, 1920);
+    overflow-y: auto;
+    max-height: 70vh;
+    scrollbar-gutter: stable;
 
     @media (min-width: rem(1920)) {
         padding: adaptiv_rem_size(60, 1920) adaptiv_rem_size(100, 1920);
@@ -39,30 +42,34 @@
 
     &__title {
         font: var(--h3);
+
+        [class^='icon--'] {
+            padding-right: rem(10);
+            @media (min-width: rem(1920)) {
+                padding-right: adaptiv_rem_size(10, 1920);
+            }
+        }
     }
 
     &__text {
-    }
-
-    .icon--success,
-    .icon--error {
-        padding-right: rem(10);
-        display: none;
-        @media (min-width: rem(1920)) {
-            padding-right: adaptiv_rem_size(10, 1920);
-        }
     }
 }
 
 .pop-up-message--success {
     .icon--success {
-        display: inline;
+        color: var(--success);
     }
 }
 
 .pop-up-message--error {
     .icon--error {
-        display: inline;
+        color: var(--error);
+    }
+}
+
+.pop-up-message--warning {
+    .icon--warning {
+        color: var(--error); //посатвит цвет от error так как цвет --warning вообще не видно
     }
 }
 

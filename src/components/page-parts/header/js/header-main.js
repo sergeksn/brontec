@@ -1,4 +1,4 @@
-import { wait, get_translate } from '@js-libs/func-kit';
+import { get_translate, show, hide } from '@js-libs/func-kit';
 
 import Header_Poster from './header-poster';
 import Header_Hidden from './header-hidden';
@@ -6,14 +6,14 @@ import Header_Search from './header-search';
 
 import Pop_Up_Message from '@pop-up-messages-main-js';
 
-console.log(
-    new Pop_Up_Message({
-        title: "Заголовок сообщения нескольок слов",
-        message: 'Текст сообщения',
-        type: 'warning',
-        lock_document: false,
-    }),
-);
+// console.log(
+//     new Pop_Up_Message({
+//         title: "Заголовок сообщения нескольок слов",
+//         message: 'Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения',
+//         type: 'warning',
+//         lock_document: false,
+//     }),
+// );
 
 let Header = new (class {
     constructor() {
@@ -103,45 +103,24 @@ let Header = new (class {
     //функция получае общую высоту постера + видимой части хедера +  скрытой части хедера
 
     //отпускает вниз и показывает блок хедера
-    async show() {
-        if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
-
-        if (this.status === 'show') return; //если хедер уже видн сразу завершаем
-
-        //данное ожидание будет прервано только если хедер начнёт скрываться
-        if (this.status === 'pending to show') return await wait(() => this.status, 'show', { func: () => this.status === 'pending to hide' || this.status === 'hide', message: 'ждали пока HEADER станет SHOW, но HEADER начал скрываться' }); //ждём пока хедер полностью не покажется и только потом завершаем
-
-        this.status = 'pending to show'; //помечаем что начал показываться
-
-        let sl = window.getComputedStyle(this.header); //живая колекция стилей хедера
-
-        this.header.style.transform = 'translateY(0)'; //начинаем показывать хедер опуская его
-
-        await wait(() => get_translate(sl).y, 0, { func: () => this.status !== 'pending to show', message: 'ждали когда HEADER появится опустившись вниз, но HEADER начал скрываться поднимаясь вверх' }); //дожидаемся полного показа хедера, когда он полностью опустится
-
-        this.status = 'show'; //помечаем что полность виден
+    show() {
+        return show.call(this, {
+            el: this.header,
+            property: 'translateY',
+            value: 0,
+            display: null,
+        });
     }
     //отпускает вниз и показывает блок хедера
 
     //поднимает вверх и скрывает блок хедера
-    async hide() {
-        if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
-
-        if (this.status === 'hide') return; //если хедер уже скрыт сразу завершаем
-
-        //данное ожидание будет прервано только если хедер начнёт появляться
-        if (this.status === 'pending to hide') return await wait(() => this.status, 'hide', { func: () => this.status === 'pending to show' || this.status === 'show', message: 'ждали пока HEADER станет HIDE, но HEADER начал появляться' }); //ждём пока хедер полностью скроется и только потом завершаем
-
-        this.status = 'pending to hide'; //помечаем что начал скрываться
-
-        let y = this.get_header_h({ header_poster: this.has_header_poster, header_visible: true }).toFixed(3), //ВАЖНО: откруглять до 3-х знаков после запятой так как матрикс не выводит более 3-х знаков после запятой, а нам нужно сравнивать эти числа
-            sl = window.getComputedStyle(this.header); //живая колекция стилей хедера
-
-        this.header.style.transform = `translateY(-${y}px)`; //начинаем поднимать хедер вверх
-
-        await wait(() => get_translate(sl).y, -y, { func: () => this.status !== 'pending to hide', message: 'ждали когда HEADER скроется вверх, но HEADER начал показываться опускаясь вниз' }); //дожидаемся полного скрытия хедера вверх
-
-        this.status = 'hide'; //помечаем что скрыт
+    hide() {
+        return hide.call(this, {
+            el: this.header,
+            property: 'translateY',
+            value: -this.get_header_h({ header_poster: this.has_header_poster, header_visible: true }),
+            display: null,
+        });
     }
     //поднимает вверх и скрывает блок хедера
 
