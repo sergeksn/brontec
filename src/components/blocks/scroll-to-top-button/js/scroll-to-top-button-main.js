@@ -21,7 +21,7 @@ export default new (class {
 
         window._on('resize_throttle', this.toggle_show_button.bind(this)); //так же проверяем нужно ли показывать кнопку при ресайзе
 
-        this.button._on('click tochend', () => this.scroll_top_action()); //скролим вверх при клике
+        this.button._on('click', () => this.scroll_top_action()); //скролим вверх при клике
     }
     //инициализируем кнопку скрола, вычисляем её текущие размеры и позицию, проверяем нужно ли её показать, вычисляем минимальную высоту показа кнопки, добавляем слушатели события на скрол
 

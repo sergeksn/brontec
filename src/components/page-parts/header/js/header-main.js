@@ -1,19 +1,9 @@
-import { get_translate, show, hide } from '@js-libs/func-kit';
+import { show, hide } from '@js-libs/func-kit';
 
 import Header_Poster from './header-poster';
 import Header_Hidden from './header-hidden';
 import Header_Search from './header-search';
-
-import Pop_Up_Message from '@pop-up-messages-main-js';
-
-// console.log(
-//     new Pop_Up_Message({
-//         title: "Заголовок сообщения нескольок слов",
-//         message: 'Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения',
-//         type: 'warning',
-//         lock_document: false,
-//     }),
-// );
+import Header_Overlay from './header-overlay';
 
 let Header = new (class {
     constructor() {
@@ -144,4 +134,4 @@ let Header = new (class {
     //функция оправляет сворачиванием и разворачиванием хедера
 })();
 
-export { Header, Header_Poster, Header_Hidden, Header_Search };
+export { Header, Header_Poster, Header_Hidden, Header_Search, Header_Overlay };

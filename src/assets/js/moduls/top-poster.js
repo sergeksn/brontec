@@ -12,7 +12,7 @@ GDS.header.top_baner = {
         //записываем все неоходимые переменные для удобства доступа
 
         this.close_baner_button.on({
-            events: "click touchend",
+            events: "click",
             callback: this.click_close_baner_button.bind(this)
         }); //скрываем банер при клике на крестик
 

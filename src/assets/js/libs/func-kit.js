@@ -1,4 +1,5 @@
 import anime from 'animejs';
+import Pop_Up_Message from '@pop-up-messages-main-js';
 
 //функция сравнивет данные из check_value с data_fo_wait и когда они будут равными завершит функцию
 //ВАЖНО: возвращает Promise !!!
@@ -85,24 +86,31 @@ function get_translate(style_list) {
 }
 //функция получет значение translate свойства transform элемента
 
-//проверяем доступность локального хранилища
-function available_localStorage() {
+//проверяем доступность локального хранилища и записываем данные
+function set_localStorage(key, value) {
     try {
-        let storage = window.localStorage,
-            x = '_';
-        storage.setItem(x, x); //для теста пытаемся записать в хранилище
-        storage.removeItem(x);
+        window.localStorage.setItem(key, value); //пытаемся записать в хранилище
         return true;
     } catch (e) {
         if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' || e.name === 'QUOTA_EXCEEDED_ERR' || e.name === 'W3CException_DOM_QUOTA_EXCEEDED_ERR') {
-            console.error({ ksn_message: 'Не достаточно места в локальном хранилище, пожалуйста очистите место для файлов браузера!\nЕсли не помоголо то возможно Вы используете приватный режим (режим инкогнитоб режим частного просмотра), перейдите в обычный режим для использования сайтом!\nВАЖНО: для работы сайта требуется доступ к локальному хранилища браузера, для работы корзины покупок!', error: e, name: e.name });
+            new Pop_Up_Message({
+                title: 'Не достаточно свободного места в локальном хранилище!',
+                message: 'Не достаточно места в локальном хранилище, пожалуйста очистите место для файлов браузера!\nЕсли не помоголо то возможно Вы используете приватный режим (режим инкогнито, режим частного просмотра), перейдите в обычный режим для использования сайтом!<br><br><span class="red">ВАЖНО</span>: для работы сайта требуется доступ к локальному хранилищу браузера!',
+                type: 'fatal-error',
+            });
+            console.error({ ksn_message: 'Не доступно локальное хранилище', error: e, name: e.name });
         } else {
+            new Pop_Up_Message({
+                title: 'Не доступно локальное хранилище!',
+                message: 'При попытке записи в локальное хранилище произошла ошибка!<br><br><span class="red">ВАЖНО</span>: для работы сайта требуется доступ к локальному хранилищу браузера!',
+                type: 'fatal-error',
+            });
             console.error(e);
         }
         return false;
     }
 }
-//проверяем доступность локального хранилища
+//проверяем доступность локального хранилища и записываем данные
 
 //позволяет отправлять запросы на сервер и обрабатывать ответ и ошибки
 //request_data - все данные для запроса включая мотод, заголовки, тели запроса и другое
@@ -152,7 +160,7 @@ async function show(params) {
     //анимируем показ блока
     this.pending_to_show_promise = anime({
         targets: params.el,
-        [property]: params.value || 1,
+        [property]: params.value !== undefined ? params.value : 1,
         duration: params.duration || GDS.anim.time,
         easing: params.tf || GDS.anim.graph,
         update: anim => this.status !== 'pending to show' && anim.remove(), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to show', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
@@ -188,7 +196,7 @@ async function hide(params) {
     //анимаруем скрытие
     this.pending_to_hide_promise = anime({
         targets: params.el,
-        [property]: params.value || 0,
+        [property]: params.value !== undefined ? params.value : 0,
         duration: params.duration || GDS.anim.time,
         easing: params.tf || GDS.anim.graph,
         update: anim => this.status !== 'pending to hide' && anim.remove(), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to hide', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
@@ -206,4 +214,4 @@ async function hide(params) {
 }
 //данная функция скрывает блок уменьшая значение его css свойства
 
-export { wait, get_translate, request_to_server, show, hide, available_localStorage };
+export { wait, get_translate, request_to_server, show, hide, set_localStorage };

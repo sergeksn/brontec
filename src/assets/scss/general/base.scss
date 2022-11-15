@@ -34,14 +34,30 @@ body {
     background-color: var(--white);
     font: var(--default);
     min-width: rem(320);
+    overflow: hidden auto;
 }
 
-button {
-    cursor: pointer;
+@media (any-hover: hover) and (any-pointer: fine) {
+    //для браузеров с поддержкой наложения скролбара
+    @supports (overflow: overlay) {
+        body {
+            overflow: hidden overlay;
+        }
+    }
+}
+
+.lock-scroll {
+    overflow: hidden !important;
 }
 
 .disabled {
     opacity: 0.3;
+}
+.red {
+    color: red;
+}
+button {
+    cursor: pointer;
 }
 
 /*ширина основных блоков не стандартная так что задаём её отлельно от сетки*/

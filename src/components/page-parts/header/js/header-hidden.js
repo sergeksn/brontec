@@ -1,8 +1,6 @@
-import { Header, Header_Search } from '@header-main-js';
+import { Header, Header_Search, Header_Overlay } from '@header-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
-import { Header_Overlay } from '@overlays-main-js';
 import { wait } from '@js-libs/func-kit';
-import { get_cookie } from '@js-libs/cookie';
 import anime from 'animejs';
 
 export default new (class {
@@ -30,7 +28,7 @@ export default new (class {
         this.size;
 
         [this.header_visible_search_button, this.burger].forEach(el => {
-            el._on('click touchend', () => this.toggle_header_hidden_block()); //открываем/закрываем скрытый блок при клике на бургер кнопку и кнопку поиска в видимой части хедеера
+            el._on('click', () => this.toggle_header_hidden_block()); //открываем/закрываем скрытый блок при клике на бургер кнопку и кнопку поиска в видимой части хедеера
         });
 
         window._on('resize_optimize', () => this.size_recalculate()); //выполяем нужные действия при ресайзе
@@ -63,6 +61,7 @@ export default new (class {
         if (this.status === 'pending to open') return wait(() => this.status, 'open').then(() => update_size()); //если скрытый блок в процессе открытия дожидаемся открытия блока и перестичитываем парметры хедера
     }
     //функция будет выполянять нужные действия в зависимости от размеров экрана
+    
 
     //открываем/закрываем скрытый блок при клике на бургер кнопку и кнопку поиска в видимой части хедеера
     //ПРИМЕЧАНИЕ: так же если в куки есть поисковой запрос откроет блок с результатами поиска

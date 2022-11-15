@@ -1,5 +1,5 @@
 import { Header, Header_Hidden } from '@header-main-js';
-import { wait, request_to_server, available_localStorage } from '@js-libs/func-kit';
+import { wait, request_to_server, set_localStorage } from '@js-libs/func-kit';
 
 import Product_Small_Info_Block from '@product-small-info-block-main-js';
 
@@ -43,7 +43,7 @@ export default new (class {
         //parts - только для частей комплекта
         //never - не добавлять инстукции ни к одному продукту
 
-        this.close_button._on('click tochend', () => this.click_close_search_button()); //клик по крестику в окне поиска
+        this.close_button._on('click', () => this.click_close_search_button()); //клик по крестику в окне поиска
 
         this.search_input._on('input', () => this.chenge_in_search_input()); //начинаем поиск после ввода символов
 
@@ -55,7 +55,7 @@ export default new (class {
     async open_results_block() {
         this.status = 'pending to open'; //статус открытия окна
 
-        let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }); //получаем минимальную высоту которую должен занимать блок с результатми поиска
+        let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }) - window.getComputedStyle(this.search_input_wrap).height.replace('px', ''); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
         search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //минимальная высота анимации раскрытия блока поиска
 
@@ -121,7 +121,7 @@ export default new (class {
 
         if (!fust_close) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = '')); //возвращаем в документ блоки
 
-        let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }); //получаем минимальную высоту которую должен занимать блок с результатми поиска
+        let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }) - window.getComputedStyle(this.search_input_wrap).height.replace('px', ''); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
         search_results_block_height = search_results_block_height > 0 ? search_results_block_height : 0; //получаем растояние от верха экрана до верха блока для отображение результатов поиска и получаем высоту которую дожен будет занять блок чтоб покрыть всю высоту экрана
 
@@ -237,7 +237,7 @@ export default new (class {
 
             localStorage.removeItem('search-result'); //так же чистим прежние результаты поиска из кеша объекта поиска
 
-            if (available_localStorage()) localStorage.setItem('search-text', search_text.slice(0, 100)); //если локальное хранилище доступно сохраняем в него поисковой запрос пользователя для того чтоб запомнить его на следующих страницах, сохраняем не более 100 символов
+            if (!set_localStorage('search-text', search_text.slice(0, 100))) return; //если локальное хранилище доступно сохраняем в него поисковой запрос пользователя для того чтоб запомнить его на следующих страницах, сохраняем не более 100 символов
 
             if (Header_Hidden.status !== 'open') return; //если вдруг мы закрыли скрытый блок во время начала поиска, то мы просто записываем в хранилище поисковой запрос и прерываем дальнейшие дествия
 
@@ -402,7 +402,7 @@ export default new (class {
 
                 if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
 
-                if (!data.error && available_localStorage()) localStorage.setItem('search-result', html_code); //если это не ошибка и если локальное хранилище доступно сохраняем в него результат поиска, для быстрого рендера при повторном открытии окна, если оно было просто закрыто
+                if (!data.error && !set_localStorage('search-result', html_code)) return; //если это не ошибка и если локальное хранилище доступно сохраняем в него результат поиска, для быстрого рендера при повторном открытии окна, если оно было просто закрыто
                 //ПРИМЕЧАНИЕ: сохранять в хранилище ошибки не тоит т.к. ошибки быстро пофиксятся, а то чего раньше не было в каталоге может добавится и нужна постоянно актуальная информация, так её мы не запоминаем что постоянно проверять заново
             })
             .catch(e => {}); //этот блок catch может сработать только из-за прерывания поиска AbortError или при ошибке в коде или исключении внутри then
@@ -480,7 +480,7 @@ export default new (class {
 
             if (GDS.win.width_rem < 40) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
 
-            let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }); //получаем минимальную высоту которую должен занимать блок с результатми поиска
+            let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }) - window.getComputedStyle(this.search_input_wrap).height.replace('px', ''); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
             search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //задаём минимальню высота для блока с выводом результатов и лоадера в 100 пикселей
 
