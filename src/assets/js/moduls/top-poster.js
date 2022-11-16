@@ -108,7 +108,7 @@ GDS.header.top_baner = {
                         let el = $(this.el),
                             a = el.find("a"),
                             href = a.attr("href");
-                        document.location.href = href
+                        d.location.href = href
                     }
                 }
                 //только при малом смещении или при отсутствии смещения вовсе делаем переход по ссылке из банера

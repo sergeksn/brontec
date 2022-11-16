@@ -73,7 +73,7 @@ function wait(check_value, data_fo_wait, abort_trigger = {}) {
 //функция сравнивет данные из check_value с data_fo_wait и когда они будут равными завершит функцию
 
 //функция получет значение translate свойства transform элемента
-//style_list - это живая колекция стилей window.getComputedStyle
+//style_list - это живая колекция стилей w.getComputedStyle
 function get_translate(style_list) {
     let matrix = new WebKitCSSMatrix(style_list.transform); //создаём объект матицы для получения из него значений
 
@@ -89,7 +89,7 @@ function get_translate(style_list) {
 //проверяем доступность локального хранилища и записываем данные
 function set_localStorage(key, value) {
     try {
-        window.localStorage.setItem(key, value); //пытаемся записать в хранилище
+        w.localStorage.setItem(key, value); //пытаемся записать в хранилище
         return true;
     } catch (e) {
         if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' || e.name === 'QUOTA_EXCEEDED_ERR' || e.name === 'W3CException_DOM_QUOTA_EXCEEDED_ERR') {

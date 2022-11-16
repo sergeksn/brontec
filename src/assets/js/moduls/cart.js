@@ -19,7 +19,7 @@ GDS.cart = {
 
         this.set_cart_size(); //задаёт размеры и позицию блока с корзиной
 
-        $(window).on({ events: "resize_optimize", callback: this.set_cart_size.bind(this) }); //перечитываем размеры корзины при ресайзах
+        $(w).on({ events: "resize_optimize", callback: this.set_cart_size.bind(this) }); //перечитываем размеры корзины при ресайзах
     },
 
     //задаёт размеры и позицию блока с корзиной

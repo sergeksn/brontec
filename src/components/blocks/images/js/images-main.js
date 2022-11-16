@@ -13,19 +13,19 @@ const Img_Loader = new (class {
         this.img_visible_observer = new IntersectionObserver(this.img_upload_manager.bind(this), options_observer); //создаём наблюдатель за видимостью элементов на экране
 
         let timer_resize, //будет хранить таймер отложенной функции для ресайза
-            update_observer_images = () => this.add_in_observe(document.querySelectorAll('[data-img-type]:not(.original-size)')); //данная функция добавит в отслеживание элементы которые ещё не
+            update_observer_images = () => this.add_in_observe(d.querySelectorAll('[data-img-type]:not(.original-size)')); //данная функция добавит в отслеживание элементы которые ещё не
 
         update_observer_images(); //добаляем все нужные элементы на отслеживание видимости
 
         //при изменении размеров окна браузера запускаем проверку подходящих размеров для видимых картинок
-        window._on('resize_optimize', () => {
+        w._on('resize_optimize', () => {
             clearTimeout(timer_resize); //удаляем прежний таймаут чтоб отсчёт времени пошёл заново
             timer_resize = setTimeout(() => update_observer_images(), GDS.media.img.resize_delay_load); //если пробыли в данном разрешении достаточно долго запоскаем проверку актуальности размеров картинок
         });
         //при изменении размеров окна браузера запускаем проверку подходящих размеров для видимых картинок
 
         //при смене ориентации устройства запускаем проверку подходящих размеров для видимых картинок
-        window._on('orientation_chenge', () => {
+        w._on('orientation_chenge', () => {
             setTimeout(() => clearTimeout(timer_resize), GDS.media.img.resize_delay_load / 2); //чтоб не было двух вызовов функции проверке при ресайзе и смене ориентации, мы спустя половину времени отведённого на фиксациию ресайза для проверки, удаляем его таймаут чтоб предотвратить лишний вызов
             update_observer_images(); //а сами сразу вызываем проверку актуальности размеров картинок с дальнейшим их отслеживанием в этом размере окна браузера
         });
@@ -97,7 +97,7 @@ const Img_Loader = new (class {
             url_bez_ext = data_src.replace(ext, ''), //адрес картинки без расширения файла и точки перед ним
             original_w = +img.getAttribute('data-original-w'), //ширина оригинальной картинки в px
             original_h = +img.getAttribute('data-original-h'), //высота оригинальной картинки в px
-            width = +window.getComputedStyle(img).width.replace('px', ''), //целочисленно значение ширины отведённое под картинку
+            width = +w.getComputedStyle(img).width.replace('px', ''), //целочисленно значение ширины отведённое под картинку
             need_dpr_width = width * GDS.device.dpr, //требуемая ширина картинки для качественного отображения, с учётом плотности пиксилей
             miniatura_width; //сюда будет записана требуемая ширина миниатюры из списка заданных
 
@@ -232,7 +232,7 @@ const Img_Loader = new (class {
                 if (typeof e.ksn_message === 'undefined') return console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
             }); //скрываем и удаляем лоадер если он есть
 
-            let div = document.createElement('div');
+            let div = d.createElement('div');
             div.classList.add('media-load-error');
             data.img.parentNode.append(div);
             data.img.style.visibility = 'hidden'; //скрываем картинку чтоб не было пустых контуров и маленького стандартного значка ошибки загрузки картинки от браузера, а был только наш значёк ошибки
@@ -288,7 +288,7 @@ const Img_Loader = new (class {
     async svg_kit_render(img) {
         await this.common_img_loader(img)
             .then(async url => {
-                let svg_wrap = document.createElement('div'),
+                let svg_wrap = d.createElement('div'),
                     nead_id = img.getAttribute('data-kit-nead-id').split(/\s+/); //нужные к выводу части комплекта
 
                 svg_wrap.classList.add('svg-kit-wrap');
@@ -297,8 +297,8 @@ const Img_Loader = new (class {
                     .split(/\s+/) //в качестве разделителя берём пробел, который может повторятся от 1 до сколько угодно раз, на случай если мы случайно поставили 2-3 пробеда вместо одного
                     .forEach(id => {
                         let svgNS = 'http://www.w3.org/2000/svg',
-                            svg = document.createElementNS(svgNS, 'svg'),
-                            use = document.createElementNS(svgNS, 'use');
+                            svg = d.createElementNS(svgNS, 'svg'),
+                            use = d.createElementNS(svgNS, 'use');
 
                         svg.append(use);
                         svg.setAttribute('data-id', id);
@@ -313,7 +313,7 @@ const Img_Loader = new (class {
 
                 img.parentNode.appendChild(svg_wrap); //вставляем набор нужных svg картинок
 
-                let sl = window.getComputedStyle(svg_wrap);
+                let sl = w.getComputedStyle(svg_wrap);
 
                 await wait(() => sl.display === 'block', true); //ждём пока все динамичсески вставленные svg добавятся в документ т.к. есть микроскопическая задержка
 

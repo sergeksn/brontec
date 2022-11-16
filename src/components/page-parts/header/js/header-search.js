@@ -9,7 +9,6 @@ import anime from 'animejs';
 export default new (class {
     //иницализируем все функции и слушатели для работы поиска
     constructor() {
-        let d = document;
         //записываем все неоходимые переменные для удобства доступа
         this.header = d.getElementsByTagName('header')[0];
         this.header_visible_search_button = d.querySelector('.header-visible__search-button');
@@ -47,17 +46,21 @@ export default new (class {
 
         this.search_input._on('input', () => this.chenge_in_search_input()); //начинаем поиск после ввода символов
 
-        window._on('resize_optimize', () => this.size_recalculate()); //выполяем перерисвку при ресайзе
+        w._on('resize_optimize', () => this.size_recalculate()); //выполяем перерисвку при ресайзе
     }
     //иницализируем все функции и слушатели для работы поиска
+
+    //получаем минимальную высоту которую должен занимать блок с результатми поиска
+    search_results_block_height() {
+        let height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }) - w.getComputedStyle(this.search_input_wrap).height.replace('px', ''); //получаем минимальную высоту которую должен занимать блок с результатми поиска
+
+        return height >= 100 ? height : 100; //минимальная высота анимации раскрытия блока поиска
+    }
+    //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
     //открываем окно для отображения результатов поиска
     async open_results_block() {
         this.status = 'pending to open'; //статус открытия окна
-
-        let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }) - window.getComputedStyle(this.search_input_wrap).height.replace('px', ''); //получаем минимальную высоту которую должен занимать блок с результатми поиска
-
-        search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //минимальная высота анимации раскрытия блока поиска
 
         //если размер экрана менее 640px или 40rem то сначало дожидаемся сокрытия пунктов мобильного меню
         if (GDS.win.width_rem < 40) {
@@ -70,7 +73,8 @@ export default new (class {
         }
         //если размер экрана менее 640px то сначало дожидаемся сокрытия пунктов мобильного меню
 
-        let lower_header = anime({
+        let srb_height = this.search_results_block_height(),
+            lower_header = anime({
                 //опускаем хедер до низа окна бразуера
                 targets: this.header,
                 height: GDS.win.height,
@@ -80,7 +84,7 @@ export default new (class {
             lower_search_results_block = anime({
                 //опускаем блок с результатами поиска да низа окна браузера
                 targets: this.results_wrap,
-                height: search_results_block_height,
+                height: srb_height,
                 duration: GDS.anim.time,
                 easing: GDS.anim.graph,
             }).finished;
@@ -89,7 +93,7 @@ export default new (class {
 
         [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
 
-        this.results_wrap.style.minHeight = search_results_block_height + 'px'; //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
+        this.results_wrap.style.minHeight = srb_height + 'px'; //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
 
         this.results_loader.style.display = 'block'; //отображаем лоадер в документе
 
@@ -121,11 +125,7 @@ export default new (class {
 
         if (!fust_close) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = '')); //возвращаем в документ блоки
 
-        let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }) - window.getComputedStyle(this.search_input_wrap).height.replace('px', ''); //получаем минимальную высоту которую должен занимать блок с результатми поиска
-
-        search_results_block_height = search_results_block_height > 0 ? search_results_block_height : 0; //получаем растояние от верха экрана до верха блока для отображение результатов поиска и получаем высоту которую дожен будет занять блок чтоб покрыть всю высоту экрана
-
-        this.results_wrap.style.height = search_results_block_height + 'px'; //задаём высоту блоку с результатами поиска
+        this.results_wrap.style.height = this.search_results_block_height() + 'px'; //задаём высоту блоку с результатами поиска
 
         //скрываем блок со ссылками
         anime({
@@ -480,11 +480,7 @@ export default new (class {
 
             if (GDS.win.width_rem < 40) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
 
-            let search_results_block_height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }) - window.getComputedStyle(this.search_input_wrap).height.replace('px', ''); //получаем минимальную высоту которую должен занимать блок с результатми поиска
-
-            search_results_block_height = search_results_block_height >= 100 ? search_results_block_height : 100; //задаём минимальню высота для блока с выводом результатов и лоадера в 100 пикселей
-
-            this.results_wrap.style.minHeight = search_results_block_height + 'px'; //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
+            this.results_wrap.style.minHeight = this.search_results_block_height() + 'px'; //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
         };
         //функция для обновления параметров блока
 

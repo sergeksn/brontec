@@ -5,7 +5,6 @@ import { Header, Header_Search } from '@header-main-js';
 export default new (class {
     //инициализируем кнопку скрола, вычисляем её текущие размеры и позицию, проверяем нужно ли её показать, вычисляем минимальную высоту показа кнопки, добавляем слушатели события на скрол
     constructor() {
-        let d = document;
         //записываем все неоходимые переменные для удобства доступа
         this.button = d.querySelector('.scroll-to-top-button'); //кнопка скрола вверх
         this.header = d.getElementsByTagName('header')[0];
@@ -17,9 +16,9 @@ export default new (class {
 
         this.toggle_show_button(); //проверяем текущуюю позиции кнопки и показываем её если нужно
 
-        [window, this.header].forEach(elem => elem._on('scroll_throttle', this.toggle_show_button.bind(this))); //привязываем отслеживание скрола на окне и на хедере, т.к. как там будет поиск
+        [w, this.header].forEach(elem => elem._on('scroll_throttle', this.toggle_show_button.bind(this))); //привязываем отслеживание скрола на окне и на хедере, т.к. как там будет поиск
 
-        window._on('resize_throttle', this.toggle_show_button.bind(this)); //так же проверяем нужно ли показывать кнопку при ресайзе
+        w._on('resize_throttle', this.toggle_show_button.bind(this)); //так же проверяем нужно ли показывать кнопку при ресайзе
 
         this.button._on('click', () => this.scroll_top_action()); //скролим вверх при клике
     }
@@ -78,7 +77,7 @@ export default new (class {
         //если открыт блок с результатами поиска
         else {
             await anime({
-                targets: document.getElementsByTagName('html')[0],
+                targets: d.getElementsByTagName('html')[0],
                 easing: GDS.scroll.anim_tf,
                 duration: GDS.scroll.time,
                 scrollTop: 0,

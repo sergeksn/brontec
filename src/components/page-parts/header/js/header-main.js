@@ -7,7 +7,6 @@ import Header_Overlay from './header-overlay';
 
 let Header = new (class {
     constructor() {
-        let d = document;
         //записываем все неоходимые переменные для удобства доступа
         this.header = d.getElementsByTagName('header')[0]; //хедер
         this.header_poster = d.querySelector('.header-poster');
@@ -22,9 +21,9 @@ let Header = new (class {
 
         this.header_active_elements_set_data(); //задаёт и управляет доступностью активных элементов в хедере
 
-        window.addEventListener('load', () => setTimeout(() => window._on('scroll_throttle', () => this.toggle_header()), 500)); //скрываем/показываем хедер при прокрутке, добавляем слушатель с задержкой чтоб точно избещать скролов браузера от прокуртки к текущему месту на странице, чтоб меню не скрывалось сразу после закгрузки, а было видно
+        w.addEventListener('load', () => setTimeout(() => w._on('scroll_throttle', () => this.toggle_header()), 500)); //скрываем/показываем хедер при прокрутке, добавляем слушатель с задержкой чтоб точно избещать скролов браузера от прокуртки к текущему месту на странице, чтоб меню не скрывалось сразу после закгрузки, а было видно
 
-        window._on('resize_optimize', () => {
+        w._on('resize_optimize', () => {
             this.toggle_header(); //проверяем нужно ли скрыть хедер
             this.header_background.style.height = `${this.get_header_h({ header_poster: this.has_header_poster, header_visible: true })}px`; //пересчитываем высоту фона хедера
         });
@@ -32,7 +31,6 @@ let Header = new (class {
 
     //устанавливает список активных элементов и функции их включени/отключения
     header_active_elements_set_data() {
-        let d = document;
         this.active_elements = {
             status_lock: false, //определяет заблокированны активные элементы в хедере или нет
             elements: [
@@ -82,7 +80,7 @@ let Header = new (class {
         for (let el in searched_height) {
             if (searched_height[el]) {
                 //если нужно получить высоту текущего элемента
-                let el_h = window.getComputedStyle(this[el]).height; //получаем высоту
+                let el_h = w.getComputedStyle(this[el]).height; //получаем высоту
                 if (el_h === 'auto') continue; //auto высота только если блок скрыт, в этом случаем мы пропускае его добавление в итоговую высоту
                 result += +el_h.replace('px', ''); //добавляем высоту в результат
             }

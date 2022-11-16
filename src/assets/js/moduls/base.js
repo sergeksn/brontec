@@ -2,16 +2,16 @@ new (class {
     //инициализируем настрйоку базовых параметров
     constructor() {
         //записываем все неоходимые переменные для удобства доступа
-        this.body = document.getElementsByTagName('body')[0];
+        this.body = d.getElementsByTagName('body')[0];
         //записываем все неоходимые переменные для удобства доступа
 
         this.set_base_params(); //станавливаем базовые параметры для работы скриптов
 
         this.get_win_and_divise_size(); //devise высота и ширина экрана устройства и win окна браузера записываем для удобста чтоб не вычислять каждый раз
 
-        window._on('resize_optimize', this.get_win_and_divise_size); //devise высота и ширина экрана устройства и win окна браузера , обновляем после каждого ресайза
+        w._on('resize_optimize', this.get_win_and_divise_size); //devise высота и ширина экрана устройства и win окна браузера , обновляем после каждого ресайза
 
-        window._on('orientation_chenge', () => (GDS.device.orientation = window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape')); //записываем отриентацию экрана при каждом её изменении
+        w._on('orientation_chenge', () => (GDS.device.orientation = w.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape')); //записываем отриентацию экрана при каждом её изменении
 
         this.scroll_data(); //определяем направление скрола и его значение, а также функции блокироваки прокуртки
     }
@@ -23,14 +23,14 @@ new (class {
 
         //параметры устройства
         GDS.device = {
-            is_touch: 'ontouchstart' in window || navigator.maxTouchPoints > 0, //определяем сенсорный экран или нет
-            dpr: window.devicePixelRatio, //записываем плотность пикселей экрана устройства
-            orientation: window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape', //узнаём стартовую отриентацию экрана
+            is_touch: 'ontouchstart' in w || navigator.maxTouchPoints > 0, //определяем сенсорный экран или нет
+            dpr: w.devicePixelRatio, //записываем плотность пикселей экрана устройства
+            orientation: w.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape', //узнаём стартовую отриентацию экрана
         };
 
         //параметры окна браузера
         GDS.win = {
-            default_font_size: window.getComputedStyle(document.documentElement).fontSize.replace('px', ''),
+            default_font_size: w.getComputedStyle(d.documentElement).fontSize.replace('px', ''),
             flicker_active_elements: true, //определяет будут ли тускнет активные элементы на время отключения
         };
 
@@ -52,7 +52,7 @@ new (class {
 
         //параметры прокрутки
         GDS.scroll = {
-            value: document.getElementsByTagName('html')[0].scrollTop, //отсуп от верха страницы
+            value: d.getElementsByTagName('html')[0].scrollTop, //отсуп от верха страницы
             dir: 'bottom', //начально направление скрола
             time: 500, //время для анимации прокрутки в мс
             anim_tf: 'linear',
@@ -71,21 +71,21 @@ new (class {
     //devise высота и ширина экрана устройства и win окна браузера записываем для удобста чтоб не вычислять каждый раз, а так же обновлять при ресайзах
     get_win_and_divise_size() {
         //ПРИМЕЧАНИЕ: ширина/высота окна браузера не учитывает полосы прокрутки
-        GDS.device.height = window.screen.height;
-        GDS.device.width = window.screen.width;
+        GDS.device.height = w.screen.height;
+        GDS.device.width = w.screen.width;
         //GDS.device.max_size = Math.max(GDS.device.height, GDS.device.width); //наибольший размер экрана
-        GDS.win.height = document.documentElement.clientHeight;
-        GDS.win.width = document.documentElement.clientWidth;
-        GDS.win.height_rem = document.documentElement.clientHeight / GDS.win.default_font_size;
-        GDS.win.width_rem = document.documentElement.clientWidth / GDS.win.default_font_size;
+        GDS.win.height = d.documentElement.clientHeight;
+        GDS.win.width = d.documentElement.clientWidth;
+        GDS.win.height_rem = d.documentElement.clientHeight / GDS.win.default_font_size;
+        GDS.win.width_rem = d.documentElement.clientWidth / GDS.win.default_font_size;
     }
     //devise высота и ширина экрана устройства и win окна браузера записываем для удобста чтоб не вычислять каждый раз, а так же обновлять при ресайзах
 
     //определяем направление скрола и его значение
     scroll_data() {
         //перебираем все элементы которые будут прокручиваемыми и будут считаться условным телом страницы в соответствующий момент времени
-        [document.getElementsByTagName('header')[0], window].forEach(elem => {
-            let target_scroll_area = elem === window ? document.getElementsByTagName('html')[0] : elem; //определяем элемент величина прокрутки которого будет браться для измерения для данного элемента
+        [d.getElementsByTagName('header')[0], w].forEach(elem => {
+            let target_scroll_area = elem === w ? d.getElementsByTagName('html')[0] : elem; //определяем элемент величина прокрутки которого будет браться для измерения для данного элемента
 
             //при скроле записываем направление и дистанцию скрола
             elem._on('scroll_optimize', () => {

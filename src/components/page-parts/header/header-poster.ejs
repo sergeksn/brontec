@@ -19,10 +19,10 @@
 </div>
 <script id="header-poster__script">
   (() => {
-    let header_poster = document.getElementsByClassName("header-poster")[0],
-      header_poster__script = document.getElementById("header-poster__script"),
+    let header_poster = d.getElementsByClassName("header-poster")[0],
+      header_poster__script = d.getElementById("header-poster__script"),
       header_poster_id = header_poster.getAttribute("id"),
-      cookie_header_poster = document.cookie.match(new RegExp("(?:^|; )top_baner_hide_" + header_poster_id + "=([^;]*)")); //пытаемся получить значение из куки
+      cookie_header_poster = d.cookie.match(new RegExp("(?:^|; )top_baner_hide_" + header_poster_id + "=([^;]*)")); //пытаемся получить значение из куки
 
     cookie_header_poster = cookie_header_poster ? cookie_header_poster[1] : false; //если значения нет занчит показываем банер, если есть то скрываем
 

@@ -11,12 +11,12 @@
   <!--не забыть поменть на woff2-->
   <!--для того чтоб не было cls из-за дёргания букв при поддгрузке шрифта-->
   <script>
-    const GDS = {}; /*global data site  тут будут хранится все необходимые данные для работы фронтенда сайта, размеры блоков или какието-то данные для взаимодействия модулей*/
+    const d = document,
+      w = window,
+      GDS = {}; /*global data site  тут будут хранится все необходимые данные для работы фронтенда сайта, размеры блоков или какието-то данные для взаимодействия модулей*/
     (() => {
       /*скрипт создаёт и обновляет при ресайзе css переменный для высоты и ширины экрна в rem*/
-      let d = document,
-        w = window,
-        head = d.getElementsByTagName("head")[0],
+      let head = d.getElementsByTagName("head")[0],
         common_style = d.createElement("style"),
         dynamic_vars = d.createElement("style"),
         dfs = w.getComputedStyle(d.documentElement).fontSize.replace("px", "");
@@ -70,13 +70,13 @@
     //         added_on_page: false
     //       }
     //     ],
-    //     head = document.getElementsByTagName("head")[0];
+    //     head = d.getElementsByTagName("head")[0];
 
 
     //   /*instens - объект для данной ссылки с её параметрами*/
     //   function add_style_link(instens, check_media = true) {
     //     let al = () => {
-    //       let link = document.createElement("link");
+    //       let link = d.createElement("link");
 
     //       link.setAttribute("crossorigin", "");
     //       link.rel = "stylesheet";
@@ -88,7 +88,7 @@
     //       console.log("load " + instens.href);
     //     };
 
-    //     if (!check_media || window.matchMedia(instens.media_query).matches) al(); /*если не нужно проверять медиа или если удовлетворяет медиаусловию*/
+    //     if (!check_media || w.matchMedia(instens.media_query).matches) al(); /*если не нужно проверять медиа или если удовлетворяет медиаусловию*/
     //   };
 
     //   /*check_media - если false то ресурсы будут загружены не смотря на медиазапросы*/
@@ -100,11 +100,11 @@
     //   };
     //   add_links_in_head();
 
-    //   window.addEventListener("resize", add_links_in_head); /*подгружаем нужные стили при ресайзе*/
+    //   w.addEventListener("resize", add_links_in_head); /*подгружаем нужные стили при ресайзе*/
 
-    //   window.addEventListener("load", () => {
+    //   w.addEventListener("load", () => {
     //     /*после того как полностью всё загружено можно подгрузить оставшиеся стили на всякий случай и убрать загрзку стилей при ресайзе*/
-    //     window.removeEventListener("resize", add_links_in_head);
+    //     w.removeEventListener("resize", add_links_in_head);
     //     add_links_in_head(false);
     //   });
     // })();
@@ -112,19 +112,19 @@
   <script>
     /*скрипт определяет страница из кеша или с сервера и делает соответственные манипуляции*/
     (() => {
-      document.cookie = "Is-cached-page=yes"; //ВАЖНО: не забыть УБРАТЬ после того как загружу на сервер
+      d.cookie = "Is-cached-page=yes"; //ВАЖНО: не забыть УБРАТЬ после того как загружу на сервер
 
-      let search_cookie = document.cookie.match(/(?:^|; )Is-cached-page=([^;]*)/), //пытаемся найти запись в куки, если не нашли будет null
+      let search_cookie = d.cookie.match(/(?:^|; )Is-cached-page=([^;]*)/), //пытаемся найти запись в куки, если не нашли будет null
         is_cached_page = search_cookie && search_cookie[1] === "yes" ? true : false; //если есть запись и её 2 ([1]) параметр равен yes
       /*на сервер устанавливается куки для каждого запроса страницы, если ответ 200, т.е. страница грузится с сервера то куки установится в значение "no" если сервер ответит кодом 304 т.е. изменений страницы не проихошло то он так же задаст куки стратус "yes" что скажет нам что страница взята из локального кеща пользователя 
       ПРИМЕЧАНИЕ: если страница взята из локального кеша пользователя то мы точно уверены что те картинки которые статичны, т.е. не грузятся динамически чрез ajax с сервера, уже раннее грузились для пользователя и сейчас скорее всего быстро загрузятся и не нужно ставить лоадер, если ли же страница пользователем ещё не кешировалась то скорее всего картинки на ней ещй не были загружены пользователем и нужно сразу показать лоадер*/
 
-      document.cookie = "Is-cached-page=; max-age=-1"; //ВАЖНО: не забыть ДОБАВИТЬ после того как загружу на сервер
+      d.cookie = "Is-cached-page=; max-age=-1"; //ВАЖНО: не забыть ДОБАВИТЬ после того как загружу на сервер
       /*удаляем данный куки за ненадобностью*/
 
       GDS.is_cached_page = is_cached_page; /*записываем кешированная версия страницы или скачанная с сервера*/
 
-      if (is_cached_page) document.getElementById("common-style").innerHTML += `.image .loader {
+      if (is_cached_page) d.getElementById("common-style").innerHTML += `.image .loader {
         opacity:0;
         display:none;
       }`; /*если траница из кеша скрываем лоадеры у картинок, если вдруг картинка будет грузится дольше чем минимально допустимое время GDS.media.img.loader_delay_time то лоадер снова покажем*/

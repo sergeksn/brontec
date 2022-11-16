@@ -5,7 +5,7 @@ export default class Loader {
         if (!loader_elem) return; //если лоадера нет то прерываем дальнешие операции, и все вызываемые методы данного объекта лоадера будут просто сразу завершаться
         this.loader = loader_elem; //записываем для того чтоб из методов объекта получать доступ к элементу лоадера если он существует
 
-        this.styles_loader = window.getComputedStyle(loader_elem); //живая колекция стилей лоадера
+        this.styles_loader = w.getComputedStyle(loader_elem); //живая колекция стилей лоадера
 
         this.status = this.styles_loader.display === 'none' ? ' hide' : 'show'; //стартовый статус лоадера
 

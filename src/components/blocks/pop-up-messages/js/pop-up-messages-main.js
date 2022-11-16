@@ -6,8 +6,7 @@ export default class {
     //fast_show - если true то сообщени будет сразу показано
     constructor(data, fast_show = true) {
         //создаём структуру окна и вставляем данные
-        let d = document,
-            wrap = d.createDocumentFragment(),
+        let wrap = d.createDocumentFragment(),
             overlay = d.querySelector('#pop-up-message-overlay'); //будет содержать элемент подложки или null
 
         if (d.querySelector('.pop-up-message--fatal-error')) return; //если уже есть критическая ошибка далее ничего не выводим
@@ -63,7 +62,7 @@ export default class {
 
     //клик по кнопке закрытия сообщения
     close_window_message() {
-        let full_close = document.querySelectorAll('.pop-up-message').length < 2; //полностью закрываем все элементы вплывающего сообщения или нет, если сообщений больше чем одно то при закрытии одного (если оно не критическое) не нужно скрывать подложку и разблокировать прокрутку
+        let full_close = d.querySelectorAll('.pop-up-message').length < 2; //полностью закрываем все элементы вплывающего сообщения или нет, если сообщений больше чем одно то при закрытии одного (если оно не критическое) не нужно скрывать подложку и разблокировать прокрутку
 
         full_close && this.overlay.overlay_controler.hide(); //если активных окон сейчас меньше 2-х то скрываем и подложку
 

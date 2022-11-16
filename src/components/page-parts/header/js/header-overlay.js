@@ -5,7 +5,7 @@ export default new (class {
     constructor() {
         this.status = 'hide';
         this.lock = false; //польностью блокирует любые действия с подложкой
-        this.overlay = document.getElementById('header-overlay'); //полупрозрачная бела подложка для хедера
+        this.overlay = d.getElementById('header-overlay'); //полупрозрачная бела подложка для хедера
 
         this.overlay._on('click', () => {
             if (this.lock) return; //прерываем если заблокированная любая активность

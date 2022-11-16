@@ -137,7 +137,7 @@ const swipe_event = {
         });
         //записываем в глобальный список данные этого элемента
 
-        //window.getEventListeners($(".top_banner_wrap")[0])
+        //w.getEventListeners($(".top_banner_wrap")[0])
 
         //отключаем события по умолчанию если задано в настройках
         if (settings.remove_default_events) {
@@ -150,7 +150,7 @@ const swipe_event = {
         //отключаем события по умолчанию если задано в настройках
 
         $(el).on({ events: settings.start_events, callback: swipe_event.start }); //начинаем слушать событие нажатия мыши и/или касания
-        $(window).on({ events: 'resize_optimize', callback: swipe_event.resize_recalculete }); //он добавляется и его НЕ нужно удалять
+        $(w).on({ events: 'resize_optimize', callback: swipe_event.resize_recalculete }); //он добавляется и его НЕ нужно удалять
     },
     //срабатывает в момент подключения слушателя swipe к элементу
 
@@ -475,7 +475,7 @@ class Add_Custom_Event_Optimaze_And_Throttle {
     constructor(custom_event_name, element, el_callback, custom_settings) {
         let base_event = custom_event_name.replace(/_.*/, '');
 
-        if (base_event === 'resize' && element !== window) return; //если кастомные событие свзяно с resize, а элемент на который мы вещаем этот обработчик не window то прерываем добавление слушателя
+        if (base_event === 'resize' && element !== w) return; //если кастомные событие свзяно с resize, а элемент на который мы вещаем этот обработчик не w то прерываем добавление слушателя
 
         if (!element.hasOwnProperty(custom_event_name)) {
             element[custom_event_name] = []; //если у данного элемента ещё не было слушателей данного типа создаём масив для того чтоб записывать в него все слушатели данного типа с их данными
@@ -574,9 +574,9 @@ class Remove_Custom_Event_Optimaze_And_Throttle {
 //отключаем слушатель от данного элемента Optimaze_And_Throttle
 
 //добавляем кастомные события измения ориентации
-//ПРИМЕЧАНИЕ: этот слушатель актуален только для window, он работает как для пк так и для мобильных!
+//ПРИМЕЧАНИЕ: этот слушатель актуален только для w, он работает как для пк так и для мобильных!
 (() => {
-    let mql = window.matchMedia('(orientation: portrait)'), //хранит медиа запрос, от сюда мы можем узнать соостветствует состояние страницы медиазапросу или нет
+    let mql = w.matchMedia('(orientation: portrait)'), //хранит медиа запрос, от сюда мы можем узнать соостветствует состояние страницы медиазапросу или нет
         orientation_events_list = {
             //хранит объекты кастомных событий ориентации чтоб брать их от сюда и не содавать каждый раз по новой при каждом событии смены ориентации
             orientation_chenge: new CustomEvent('orientation_chenge'),
@@ -586,12 +586,12 @@ class Remove_Custom_Event_Optimaze_And_Throttle {
 
     //добавляет кастомные события
     function add_custom_orientation_events(e) {
-        window.dispatchEvent(orientation_events_list.orientation_chenge); //срабатывает в момент смены ориентации
+        w.dispatchEvent(orientation_events_list.orientation_chenge); //срабатывает в момент смены ориентации
 
-        e.matches ? window.dispatchEvent(orientation_events_list.orientation_portrait) : window.dispatchEvent(orientation_events_list.orientation_landscape); //в зависимости от соответствия условиям медиа запроса orientation: portrait срабатывает то или иное событие ориентации
+        e.matches ? w.dispatchEvent(orientation_events_list.orientation_portrait) : w.dispatchEvent(orientation_events_list.orientation_landscape); //в зависимости от соответствия условиям медиа запроса orientation: portrait срабатывает то или иное событие ориентации
     }
 
-    typeof window.matchMedia('').addListener === 'function' ? mql.addListener(add_custom_orientation_events) : mql.addEventListener('change', add_custom_orientation_events); //проблема в том что addListener сейчас доступен во всех соременных браузерах, но помечен как устаревший и нужно использовать addEventListener с change, но change для matchMedia не поддерживается в версиях ios до 13, а ним их нужно поддерживать, по этому проверяем есть ли в браузере функиця addListener то используем её, если же она удалени в новых браузерах используем современное свойство addEventListener с change
+    typeof w.matchMedia('').addListener === 'function' ? mql.addListener(add_custom_orientation_events) : mql.addEventListener('change', add_custom_orientation_events); //проблема в том что addListener сейчас доступен во всех соременных браузерах, но помечен как устаревший и нужно использовать addEventListener с change, но change для matchMedia не поддерживается в версиях ios до 13, а ним их нужно поддерживать, по этому проверяем есть ли в браузере функиця addListener то используем её, если же она удалени в новых браузерах используем современное свойство addEventListener с change
 })();
 //добавляем кастомные события измения ориентации
 

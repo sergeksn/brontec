@@ -6,7 +6,6 @@ import anime from 'animejs';
 export default new (class {
     //инициализируем все скрипты для работы открывающиегося блока в хедере
     constructor() {
-        let d = document;
         //записываем все неоходимые переменные для удобства доступа
         this.body = d.getElementsByTagName('body')[0];
         this.header = d.getElementsByTagName('header')[0];
@@ -31,7 +30,7 @@ export default new (class {
             el._on('click', () => this.toggle_header_hidden_block()); //открываем/закрываем скрытый блок при клике на бургер кнопку и кнопку поиска в видимой части хедеера
         });
 
-        window._on('resize_optimize', () => this.size_recalculate()); //выполяем нужные действия при ресайзе
+        w._on('resize_optimize', () => this.size_recalculate()); //выполяем нужные действия при ресайзе
     }
     //инициализируем все скрипты для работы открывающиегося блока в хедере
 
@@ -132,7 +131,7 @@ export default new (class {
 
         let anim_open_header_hidden = anime({
             targets: this.header_hidden,
-            translateY: window.getComputedStyle(this.header_hidden).height,
+            translateY: w.getComputedStyle(this.header_hidden).height,
             duration: GDS.anim.time,
             easing: GDS.anim.graph,
         }).finished; //опускаем весь скрытый блок
@@ -169,7 +168,7 @@ export default new (class {
 
         this.header_hidden.style.position = ''; //меняем позиционирование чтоб скрыть блок
 
-        this.header_hidden.style.transform = `translateY(${window.getComputedStyle(this.header_hidden).height})`; //расчитываем и устанавливаем стартовое значение смещение по оси Y для скрытого блока
+        this.header_hidden.style.transform = `translateY(${w.getComputedStyle(this.header_hidden).height})`; //расчитываем и устанавливаем стартовое значение смещение по оси Y для скрытого блока
 
         //debugger;
 
