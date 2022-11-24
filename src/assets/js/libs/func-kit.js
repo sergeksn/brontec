@@ -143,6 +143,36 @@ async function request_to_server(request_data, url = GDS.ajax_url) {
 //params.value - значение до которого должно измениться css свойство
 //params.duration - пример 500мс
 //params.tf - пример ease
+// async function show(params) {
+//     if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
+
+//     if (this.status === 'show') return; //если блок уже виден
+
+//     if (this.status === 'pending to show') return this.pending_to_show_promise; //если попытались показать блок когда он в процеес показа возвращаем промис с процессом его показа
+
+//     this.status = 'pending to show'; //помечаем что блок в процессе появления
+
+//     //ПРИМЕЧАНИЕ: если params.display === null то значение останется тем что есть у данного блока по умолчанию
+//     if (params.display !== null) params.el.style.display = params.display || 'block'; //задаём дисплей значение перед показом
+
+//     let property = params.property || 'opacity'; //определяем свойство для анимации, по умолчанию opacity
+
+//     //анимируем показ блока
+//     this.pending_to_show_promise = anime({
+//         targets: params.el,
+//         [property]: params.value !== undefined ? params.value : 1,
+//         duration: params.duration || GDS.anim.time,
+//         easing: params.tf || GDS.anim.graph,
+//         update: anim => this.status !== 'pending to show' && anim.remove(), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to show', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
+//     }).finished;
+
+//     //дожидаемся показа блока
+//     await this.pending_to_show_promise.then(() => {
+//         if (this.status !== 'pending to show') throw { ksn_message: 'block in process hiding' }; //если анимация завершилась но статус блока не в процессе показа это значит что блок начал процесс скрытия в момент показа, и нам нужно выдать исключение в этом случае
+
+//         this.status = 'show'; //помечаем что блок виден
+//     });
+// }
 async function show(params) {
     if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
 
@@ -155,7 +185,8 @@ async function show(params) {
     //ПРИМЕЧАНИЕ: если params.display === null то значение останется тем что есть у данного блока по умолчанию
     if (params.display !== null) params.el.style.display = params.display || 'block'; //задаём дисплей значение перед показом
 
-    let property = params.property || 'opacity'; //определяем свойство для анимации, по умолчанию opacity
+    let property = params.property || 'opacity', //определяем свойство для анимации, по умолчанию opacity
+        translates = ['translateX', 'translateY', 'translateZ'];
 
     //анимируем показ блока
     this.pending_to_show_promise = anime({
@@ -165,6 +196,16 @@ async function show(params) {
         easing: params.tf || GDS.anim.graph,
         update: anim => this.status !== 'pending to show' && anim.remove(), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to show', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
     }).finished;
+
+    let sl = w.getComputedStyle(params.el);
+
+    if(translates.includes(property)){
+        let direction = property.replace("translate","").toLowerCase();
+        this.pending_to_show_promise = wait(()=> get_translate(sl)[direction], params.value);
+    } else {
+        
+    }
+
 
     //дожидаемся показа блока
     await this.pending_to_show_promise.then(() => {
