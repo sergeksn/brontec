@@ -1,10 +1,9 @@
 import { Header, Header_Hidden } from '@header-main-js';
-import { wait, request_to_server, set_localStorage } from '@js-libs/func-kit';
+import { wait, request_to_server, set_localStorage, anime } from '@js-libs/func-kit';
 
 import Product_Small_Info_Block from '@product-small-info-block-main-js';
 
 import { Img_Loader } from '@images-main-js';
-import anime from 'animejs';
 
 export default new (class {
     //иницализируем все функции и слушатели для работы поиска
@@ -67,29 +66,17 @@ export default new (class {
             await anime({
                 targets: [this.header_hidden_menu, this.header_hidden_phone],
                 opacity: 0,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
             }).finished;
         }
         //если размер экрана менее 640px то сначало дожидаемся сокрытия пунктов мобильного меню
 
-        let srb_height = this.search_results_block_height(),
-            lower_header = anime({
-                //опускаем хедер до низа окна бразуера
-                targets: this.header,
-                height: GDS.win.height,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
-            }).finished,
-            lower_search_results_block = anime({
-                //опускаем блок с результатами поиска да низа окна браузера
-                targets: this.results_wrap,
-                height: srb_height,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
-            }).finished;
+        let srb_height = this.search_results_block_height();
 
-        await Promise.all([lower_header, lower_search_results_block]);
+        await anime({
+            //опускаем блок с результатами поиска да низа окна браузера
+            targets: this.results_wrap,
+            height: srb_height,
+        }).finished;
 
         [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
 
@@ -102,8 +89,6 @@ export default new (class {
             //показываем лоадер после откытия блока с результатами поиска
             targets: this.results_loader,
             opacity: 1,
-            duration: GDS.anim.time,
-            easing: GDS.anim.graph,
         }).finished;
 
         this.results_wrap.style.height = ''; //убираем высоту у блока с результатми вывода чтоб не было полосы теней на результатах
@@ -131,8 +116,6 @@ export default new (class {
         anime({
             targets: this.results_any_links,
             opacity: 0,
-            duration: GDS.anim.time,
-            easing: GDS.anim.graph,
             complete: () => (this.results_any_links.style.display = ''),
         });
         //скрываем блок со ссылками
@@ -143,8 +126,6 @@ export default new (class {
             await anime({
                 targets: this.results_loader,
                 opacity: 0,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
             }).finished;
         }
         //если результаты поиска пусты и ещё не заполнены ни чем
@@ -157,8 +138,6 @@ export default new (class {
                 //дожидаемся пока станет прозрачным блок с результатами поиска
                 targets: this.results_data,
                 opacity: 0,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
             }).finished;
 
             this.results_data.innerHTML = ''; //очищаем содержимое блока с результатами поиска
@@ -175,8 +154,6 @@ export default new (class {
             //уменьшаем высоту блок с результатами поиска для его скрытия
             targets: this.results_wrap,
             height: 0,
-            duration: GDS.anim.time,
-            easing: GDS.anim.graph,
         }).finished;
 
         //дожидаемся отображения меню и телефона на маленьких экранах
@@ -184,14 +161,10 @@ export default new (class {
             let show_menu_mobile = anime({
                     targets: this.header_hidden_menu,
                     opacity: 1,
-                    duration: GDS.anim.time,
-                    easing: GDS.anim.graph,
                 }).finished,
                 show_phone_mobile = anime({
                     targets: this.header_hidden_phone,
                     opacity: 1,
-                    duration: GDS.anim.time,
-                    easing: GDS.anim.graph,
                 }).finished;
 
             await Promise.all([show_menu_mobile, show_phone_mobile]);
@@ -314,8 +287,6 @@ export default new (class {
                     //дожидаемся скрытия лоадера
                     targets: this.results_loader,
                     opacity: 0,
-                    duration: GDS.anim.time,
-                    easing: GDS.anim.graph,
                 }).finished;
 
                 if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
@@ -326,8 +297,6 @@ export default new (class {
                     //плавно показываем блок с результатами
                     targets: this.results_data,
                     opacity: 1,
-                    duration: GDS.anim.time,
-                    easing: GDS.anim.graph,
                 }).finished;
 
                 if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
@@ -339,8 +308,6 @@ export default new (class {
                     //плавно показываем блок с результатами
                     targets: this.results_any_links,
                     opacity: 1,
-                    duration: GDS.anim.time,
-                    easing: GDS.anim.graph,
                 });
                 //показываем блок со ссылками
 
@@ -358,16 +325,12 @@ export default new (class {
             let hide_any_links = anime({
                     targets: this.results_any_links,
                     opacity: 0,
-                    duration: GDS.anim.time,
-                    easing: GDS.anim.graph,
                     complete: () => (this.results_any_links.style.display = ''),
                 }).finished,
                 hide_results_data = anime({
                     //дожидаемся пока результаты поиска станут прозрачными
                     targets: this.results_data,
                     opacity: 0,
-                    duration: GDS.anim.time,
-                    easing: GDS.anim.graph,
                 }).finished;
 
             await Promise.all([hide_any_links, hide_results_data]); //дожидаемся пока скроются дополнительные ссылки снизу а так же результаты поиска
@@ -380,8 +343,6 @@ export default new (class {
                 //показываем лоадер
                 targets: this.results_loader,
                 opacity: 1,
-                duration: GDS.anim.time,
-                easing: GDS.anim.graph,
             });
         }
         //если мы уже ищем не первый раз то блок с результатами поиска нужно очистить перед выводом новых результатов

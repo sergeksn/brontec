@@ -9,13 +9,7 @@ import { custom_events_list } from './custom-events.js';
 
         events_list.forEach(event => {
             //если событие кастомное
-            if (custom_events_list.hasOwnProperty(event) && event === 'swipe') {
-                custom_events_list[event].initiator(elem, custom_settings, action); //запускаем соответствующую функцию для регистрации данного события
-            }
-            //если событие кастомное
-
-            //если событие кастомное
-            if (custom_events_list.hasOwnProperty(event) && event !== 'swipe') {
+            if (custom_events_list.hasOwnProperty(event)) {
                 //event - кастомное имя события наприаер resize_optimize
                 //elem - лемент DOM к которому нужно применить прослушку данного события
                 custom_events_list[event].initiator({

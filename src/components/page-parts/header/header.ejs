@@ -176,40 +176,22 @@
     </div>
     <div style="height:500px"></div>
 
-    <style>
-      @keyframes animate {
-  0% {
-    transform: translateX(0) rotate(0deg) scale(0.6);
-  }
-  100% {
-    transform: translateX(500px) rotate(360deg) scale(1.4);
-  }
-}
-      .css-animation {
-    animation: animate 6s linear 0s infinite alternate;
-}
-.box {
-    width: 30px;
-    height: 30px;
-    background-color: red;
-    will-change: transform;
-}
-    </style>
-      <div id="header" style="position: sticky;
-      top: 0.5rem;
-      margin: 0 0.5rem;
-      z-index: 100;
-      background-color: lightgreen;">
-        <button id="toggle-button">Toggle</button>
-        <span id="type">CSS Animation</span>
+    <!-- Slider main container -->
+    <div class="swiper">
+      <!-- Additional required wrapper -->
+      <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide">Slide 1</div>
+        <div class="swiper-slide">Slide 2</div>
+        <div class="swiper-slide">Slide 3</div>
       </div>
-      <div id="box-container" style="    margin-top: 1.5rem;
-      display: grid;
-      grid-template-columns: repeat(40, 1fr);
-      gap: 15px;
-      will-change: transform;"></div>
+      <!-- If we need pagination -->
+      <div class="swiper-pagination"></div>
 
+      <!-- If we need navigation buttons -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
 
-
-
-
+      <!-- If we need scrollbar -->
+      <div class="swiper-scrollbar"></div>
+    </div>

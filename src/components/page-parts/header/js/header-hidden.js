@@ -1,7 +1,6 @@
 import { Header, Header_Search, Header_Overlay } from '@header-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
-import { wait } from '@js-libs/func-kit';
-import anime from 'animejs';
+import { wait, anime } from '@js-libs/func-kit';
 
 export default new (class {
     //инициализируем все скрипты для работы открывающиегося блока в хедере
@@ -60,7 +59,6 @@ export default new (class {
         if (this.status === 'pending to open') return wait(() => this.status, 'open').then(() => update_size()); //если скрытый блок в процессе открытия дожидаемся открытия блока и перестичитываем парметры хедера
     }
     //функция будет выполянять нужные действия в зависимости от размеров экрана
-    
 
     //открываем/закрываем скрытый блок при клике на бургер кнопку и кнопку поиска в видимой части хедеера
     //ПРИМЕЧАНИЕ: так же если в куки есть поисковой запрос откроет блок с результатами поиска
@@ -132,8 +130,6 @@ export default new (class {
         let anim_open_header_hidden = anime({
             targets: this.header_hidden,
             translateY: w.getComputedStyle(this.header_hidden).height,
-            duration: GDS.anim.time,
-            easing: GDS.anim.graph,
         }).finished; //опускаем весь скрытый блок
 
         //ждём завершение открытия
@@ -170,13 +166,9 @@ export default new (class {
 
         this.header_hidden.style.transform = `translateY(${w.getComputedStyle(this.header_hidden).height})`; //расчитываем и устанавливаем стартовое значение смещение по оси Y для скрытого блока
 
-        //debugger;
-
         let anim_close_header_hidden = anime({
             targets: this.header_hidden,
             translateY: 0,
-            duration: GDS.anim.time,
-            easing: GDS.anim.graph,
         }).finished; //закрываем скртый блок
 
         await Promise.all([Header_Overlay.hide(), anim_close_header_hidden]); //плавно скрываем блок меню и подложку, а так же меняем высоту скролбара хедера
