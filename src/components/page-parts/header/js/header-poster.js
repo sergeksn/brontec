@@ -9,11 +9,33 @@ export default new (class {
 
         this.header = d.getElementsByTagName('header')[0]; //хедер
         this.poster_close_button = d.querySelector('.header-poster__close>button'); //кнопка закрытия банера в хедере
+        this.poster_link = d.querySelector('.header-poster>a');
 
         this.lock = false;
         this.swipe_lock = false;
         this.status = 'show';
         this.close_button_lock = false;
+
+        this.poster_link._on('click', e => e.preventDefault(), { passive: false }); //предотвращаем переход по ссылке при клике
+
+        this.poster_close_button._on('click', async e => {
+            if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
+
+            if (this.close_button_lock) return; //проверяем разрешено ли нажимать на кнопку
+
+            this.swipe_lock = true; //блокируем свайп
+
+            Header.active_elements.lock();
+
+            await Header.show().catch(e => {}); //пытаем показать хедер, т.к. клик мог произойти в момент когда хедер в движении после скрола, в этом случае мы дождёмся пока хедер полностью не покажется, сели же он уже ыбл полностью виден этот пункт завершится мгновенно
+            //ПРИМЕЧАНИЕ: catch(e=>{}) НЕЛЬЗЯ убирать т.к. при попытке закрыть блоки получим исключение в виде того что невозможно показать хедер т.к. он заблокирован
+
+
+            //ВАЖНО: не забыть поменять тут на TRUE
+            await this.hide(false); //скрываем банер
+
+            Header.active_elements.unlock();
+        });
 
         this.top_poster_swipe(); //добавляет слушатель для скрытия банера свайпом
     }
@@ -105,10 +127,7 @@ export default new (class {
 
                 let data = e.target.swipe_event_data,
                     s = data.settings,
-                    el_width = parseFloat(w.getComputedStyle(data.el).width),
-                    cb = this.poster_close_button;
-
-                if (s.start_terget_el === cb || s.start_terget_el === cb.querySelector('.icon--close') || s.start_terget_el === cb.querySelector('.icon--close-bold')) return; //если свайп начался на крестике банера прерываем свайп
+                    el_width = parseFloat(w.getComputedStyle(data.el).width);
 
                 this.close_button_lock = true; //блокируем кнопку закрытия
 
@@ -134,16 +153,13 @@ export default new (class {
                 min_percent_dist_x: 10, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп в % от ширины экрана
                 max_time: 2000, //максимальное время, за которое должен быть совершен свайп (ms)
 
+                exceptions_el: [this.poster_close_button], //не вызываем свайп если нажали на кнопку закрытия
+
                 callback_start: () => Header.active_elements.lock(), //блокируем активные элементы в хедере
                 callback_finally: () => Header.active_elements.unlock(), //разблокируем активные элементы в хедере
                 //двигаем банер за указателем
                 callback_move: data => {
-                    let s = data.settings,
-                        cb = this.poster_close_button;
-
-                    //console.log(s.start_direction);
-
-                    if (s.start_terget_el === cb || s.start_terget_el === cb.querySelector('.icon--close') || s.start_terget_el === cb.querySelector('.icon--close-bold')) return (s.abort_swipe_fail = true); //если свайп начался на крестике банера прерываем свайп
+                    let s = data.settings;
 
                     if (s.start_direction === 'right' || s.start_direction === 'left') data.el.style.transform = `translateX(${s.x - s.start_x}px)`; //перемещаем банер за указателем
                 },
@@ -151,24 +167,11 @@ export default new (class {
 
                 //в случае неудачного свайпа возвращаем банер в исходное положение
                 callback_faill: async data => {
-                    let s = data.settings,
-                        cb = this.poster_close_button;
+                    let s = data.settings;
 
-                    // если клик был по кнопке закрытия
-                    //ПРИМЕЧАНИЕ: если тока нажатия и тачка отпускания указателя была на кнопке закрытия
-                    if ((s.start_terget_el === cb || s.start_terget_el === cb.querySelector('.icon--close') || s.start_terget_el === cb.querySelector('.icon--close-bold')) && (s.finall_target_el === cb || s.finall_target_el === cb.querySelector('.icon--close') || s.finall_target_el === cb.querySelector('.icon--close-bold'))) {
-                        if (this.close_button_lock) return; //проверяем разрешено ли нажимать на кнопку
+                    if (s.find_exceptions_el) return; // если клик был по кнопке закрытия
 
-                        await Header.show().catch(e => {}); //пытаем показать хедер, т.к. клик мог произойти в момент когда хедер в движении после скрола, в этом случае мы дождёмся пока хедер полностью не покажется, сели же он уже ыбл полностью виден этот пункт завершится мгновенно
-                        //ПРИМЕЧАНИЕ: catch(e=>{}) НЕЛЬЗЯ убирать т.к. при попытке закрыть блоки получим исключение в виде того что невозможно показать хедер т.к. он заблокирован
-
-                        await this.hide(false); //скрываем банер
-
-                        return;
-                    }
-                    // если клик был по кнопке закрытия
-
-                    if (s.x_dist <= 15 && s.y_dist <= 15) d.location.href = data.el.querySelector('a').href; //если было очень маленькое смещение то мы переходим по ссылке банера
+                    if (s.x_dist <= 15 && s.y_dist <= 15) d.location.href = this.poster_link.href; //если было очень маленькое смещение то мы переходим по ссылке банера
 
                     //возвращаем банер в исходное положение
                     await anime({

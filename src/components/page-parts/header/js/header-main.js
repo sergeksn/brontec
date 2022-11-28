@@ -1,9 +1,10 @@
-import { show, hide, get_translate } from '@js-libs/func-kit';
+import { show, hide } from '@js-libs/func-kit';
 
 import Header_Poster from './header-poster';
 import Header_Hidden from './header-hidden';
 import Header_Search from './header-search';
 import Header_Overlay from './header-overlay';
+import Header_Cart from './header-cart';
 
 let Header = new (class {
     constructor() {
@@ -134,4 +135,4 @@ let Header = new (class {
     //функция оправляет сворачиванием и разворачиванием хедера
 })();
 
-export { Header, Header_Poster, Header_Hidden, Header_Search, Header_Overlay };
+export { Header, Header_Poster, Header_Hidden, Header_Search, Header_Overlay, Header_Cart };

@@ -54,6 +54,8 @@ export default class {
             y_dist: 0, //дистанция проейдаеная по вертикали
             abort_swipe_faill: false, //может быть использованно для принудительного прерывания свайпа как неудачный
             max_ugol: 30, //максимальный угол смещения свайпа от изначальной прямой его направления
+            exceptions_el: [],//хранит массив с элементами исключений, если свайп начался на этих элементах то от будет сразуже прерван
+            find_exceptions_el: false,//индикатор того найдены ли элементы исключения или нет
         };
         // настройки по умолчанию
 
@@ -70,8 +72,6 @@ export default class {
         this.el.swipe_event_data = this; //создаём свойство с данными для свайпа
 
         this.get_min_and_max_px_swipe_distanse(); //получаем максимально и минимально дупустимые растояния в пикселях для учёта свайпа
-
-        this.el._on(`click ${this.generate_events.start} ${this.generate_events.move} ${this.generate_events.finall} ${this.generate_events.leave}`, this.remove_default, { passive: false }); //отключаем события по умолчанию для вспомогательных событий
 
         this.run_observe_swipe(); //начитает отслеживание свайпа после клика и/или тача на элементе
     }
@@ -91,8 +91,6 @@ export default class {
         this.el._off(this.generate_events.start, this.start); //заверщаем слушать событие нажатия мыши и/или касания
 
         w._off('resize_throttle', this.el.swipe_event_data.resize_support_event); //снимаем слашатель с ресайза окна
-
-        this.el._off(`click ${this.generate_events.start} ${this.generate_events.move} ${this.generate_events.finall} ${this.generate_events.leave}`, this.remove_default, { passive: false }); //возвращаем события по умолчанию для вспомогательных событий
     }
     //удаляем все события нужные для прослушивания свайпа
 
@@ -142,7 +140,7 @@ export default class {
 
     //функция призвана остановить события браузера по умолчанию для click mousedown touchstart mousemove touchmove mouseup touchend mouseleave touchcancel
     remove_default(e) {
-        e.preventDefault();
+        e.cancelable && e.preventDefault(); //ВАЖНО: отменяем по умолчанию только если данное событие может быть отменено иначе будут предупреждения
     }
     //функция призвана остановить события браузера по умолчанию для click mousedown touchstart mousemove touchmove mouseup touchend mouseleave touchcancel
 
@@ -158,11 +156,49 @@ export default class {
     }
     //проверяем сколько точек касания на экране и какая кнопка мыши нажата
 
+    //проверяет не является ли в данный момент целевой объект исключением
+    check_premision_el(data, e) {
+        let s = data.settings,
+            ex_el = s.exceptions_el;
+
+        e = e.touches === undefined ? e : e.touches[0];
+
+        for (let i = 0; i < ex_el.length; i++) {
+            let result = [],
+                find_childs = el => {
+                    result.push(el);
+                    [...el.children].forEach(item => find_childs(item));
+                };
+
+            find_childs(ex_el[i]);
+
+            if (result.includes(e.target)) {
+                //если исключение нашли
+                s.find_exceptions_el = true;
+                break;
+            }
+        }
+
+        if (s.find_exceptions_el) return false; //если исключение нашли
+
+        data.el._on(`click ${data.generate_events.start} ${data.generate_events.move} ${data.generate_events.finall} ${data.generate_events.leave}`, data.remove_default, { passive: false }); //отключаем события по умолчанию для вспомогательных событий
+
+        return true;
+    }
+    //проверяет не является ли в данный момент целевой объект исключением
+
     //стартует после нажатия клавиши мыши или касания пальца на элементе
     start(e) {
         //в this будет этот element на котором вызвано слушанье события
-        let s = this.swipe_event_data.settings,
-            el = this.swipe_event_data.el; //целевой элемент
+        let data = this.swipe_event_data,
+            s = data.settings,
+            el = data.el; //целевой элемент
+
+            //делаем сброс настроек которые моглы быть изменены в предидущем свайпе
+            s.start_direction = null; //сбрасаваем стартовое направление свайпа
+            s.find_exceptions_el = false; //сбрасываем индикатор обнаруженных исключений
+
+        if (!data.check_premision_el(data, e)) return data.end(false, el); //если кликнули на элемент исключения завершаем, т.к. этот жест нельзя рассматривать как свайп
 
         s.start_time = Math.round(performance.now()); //время начало свайпа
 
@@ -264,29 +300,30 @@ export default class {
 
     //завершаем обработку события
     end(result, el) {
-        el.swipe_event_data.clean(el); //функция чистит все ненужные слушатели и настройки после того как указатель убран
+        let data = el.swipe_event_data,
+            s = data.settings;
 
-        let s = el.swipe_event_data.settings;
+        data.clean(el); //функция чистит все ненужные слушатели и настройки после того как указатель убран
 
         if (result) {
             //свайп
-            s.callback_success && s.callback_success(el.swipe_event_data);
+            s.callback_success && s.callback_success(data);
             el.dispatchEvent(custom_events_list.swipe.event); //вызываем событие на элементе
         } else {
             //не свайп
-            s.callback_faill && s.callback_faill(el.swipe_event_data);
+            s.callback_faill && s.callback_faill(data);
         }
 
-        s.callback_finally && s.callback_finally(el.swipe_event_data);
+        s.callback_finally && s.callback_finally(data);
     }
     //завершаем обработку события
 
-    //функция чистит все ненужные слушатели и настрйоки
+    //функция чистит все ненужные слушатели
     clean(el) {
-        let events = el.swipe_event_data.generate_events,
-            data = el.swipe_event_data;
+        let data = el.swipe_event_data,
+            events = data.generate_events;
 
-        el.swipe_event_data.settings.start_direction = null; //сбрасаваем стартовое направление свайпа
+        el._off(`click ${events.start} ${events.move} ${events.finall} ${events.leave}`, data.remove_default, { passive: false }); //возвращаем события по умолчанию для вспомогательных событий
 
         el._off(events.move, data.move); //удаляем слушатель события для перемещения курсора или пальца
 
@@ -294,7 +331,7 @@ export default class {
 
         el._off(events.leave, data.leave); //удаляем слушатель курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на
     }
-    //функция чистит все ненужные слушатели  и настрйоки
+    //функция чистит все ненужные слушатели
 
     //оцениваем жест как свайп
     analiz_swipe(s) {
@@ -305,7 +342,7 @@ export default class {
 
         //проверяем не превышено ли время разрешённое на свайп
         if (s.total_time < s.min_time || s.total_time > s.max_time) {
-            console.log('NO swipe timeout');
+            //console.log('NO swipe timeout');
             return false;
         }
         //проверяем не превышено ли время разрешённое на свайп
@@ -327,11 +364,11 @@ export default class {
 
                 if (s.x > s.start_x) {
                     s.direction = 'right';
-                    console.log('RIGHT swipe');
+                    //console.log('RIGHT swipe');
                     return s.permission_directions.right ? true : false;
                 } else {
                     s.direction = 'left';
-                    console.log('LEFT swipe');
+                    //console.log('LEFT swipe');
                     return s.permission_directions.left ? true : false;
                 }
             }
@@ -339,7 +376,7 @@ export default class {
 
             //пройдена слишком маленькая дистация
             else {
-                console.log('NO swipe distance x');
+                //console.log('NO swipe distance x');
                 return false;
             }
             //пройдена слишком маленькая дистация
@@ -354,11 +391,11 @@ export default class {
 
                 if (s.y > s.start_y) {
                     s.direction = 'bottom';
-                    console.log('BOTTOM swipe');
+                    //console.log('BOTTOM swipe');
                     return s.permission_directions.bottom ? true : false;
                 } else {
                     s.direction = 'top';
-                    console.log('TOP swipe');
+                    //console.log('TOP swipe');
                     return s.permission_directions.top ? true : false;
                 }
             }
@@ -366,7 +403,7 @@ export default class {
 
             //пройдена слишком маленькая дистация
             else {
-                console.log('NO swipe distance y');
+                //console.log('NO swipe distance y');
                 return false;
             }
             //пройдена слишком маленькая дистация
