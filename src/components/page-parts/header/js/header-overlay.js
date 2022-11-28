@@ -39,6 +39,7 @@ export default new (class {
     hide() {
         return hide.call(this, {
             el: this.overlay,
+            started_value: 0.9,
         });
     }
     //скрываем подложку

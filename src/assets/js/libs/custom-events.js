@@ -128,6 +128,7 @@ class Remove_Custom_Event_Optimaze_And_Throttle {
 //тут храняться кастомные собития и функции которые нужно вызывать при добавлени или удалении каждого события
 const custom_events_list = {
     swipe: {
+        event: new CustomEvent('swipe'),
         initiator: params => new Swipe(params),//ВАЖНО: на одном элементе может быть только одно событие свайпа для корректной работы!
     },
     resize_optimize: {

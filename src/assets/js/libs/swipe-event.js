@@ -1,14 +1,9 @@
-//ВАЖНО: на одном элементе может быть только одно событие свайпа для корректной работы!
+import { custom_events_list } from './custom-events.js';
+
+//ВАЖНО: если к элементу применён слушатель swipe то все действия по умолчанию у элемента будут убраны (click mousedown touchstart mousemove touchmove mouseup touchend), а так же к одному элементу может быть привязано только ОДНО событие свайпа !!!
 export default class {
     constructor(params) {
-        console.log(params);
         this.el = params.element; //текущий элемент для отслеживания свайпа
-
-        if (!params.listener_action) return this.remove_swipe_event(); //если передано что нужно удалить слушатель
-
-        if (this.el.swipe_event_data) return console.error('На элементе может быть только одно событие свайпа'); //если у элемента уже есть слушатель свайпа то прерываем выполнение
-
-        this.el.swipe_event_data = this; //создаём свойство с данными для свайпа
 
         // настройки по умолчанию
         this.settings = {
@@ -18,49 +13,24 @@ export default class {
             max_percent_dist_x: 90, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в % от ширины экрана
             min_percent_dist_y: 2, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в % от высоты экрана
             max_percent_dist_y: 90, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в % от высоты экрана
-            min_px_dist_x: null, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп в пикселях px
-            max_px_dist_x: null, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в пикселях px
-            min_px_dist_y: null, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в пикселях px
-            max_px_dist_y: null, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в пикселях px
+            //min_px_dist_x: undefined, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп в пикселях px
+            //max_px_dist_x: undefined, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в пикселях px
+            //min_px_dist_y: undefined, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в пикселях px
+            //max_px_dist_y: undefined, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в пикселях px
             min_time: 50, //минимальное время, за которое должен быть совершен свайп (ms)
             max_time: 1000, //максимальное время, за которое должен быть совершен свайп (ms)
             allow_leave: true, //считать ли жесты при которых указатель покидал границы элемента свайпом, если false то если указатиль покинул границы элемента свайп не будет засчитан
-
-
-
-
-
-
-
-            remove_default_events: true, //убирать ли события click mousedown touchstart mousemove touchmove mouseup touchend mouseleave touchcancel по умолчанию для элемента
-
-
-
-
-
-
-
-
-
             /*callback_success: () => console.log("SUCCESS"), //функция которая будет вызвана если жест над элементом был свайпом, тоже самое что и срабатывае события, но выполяняется раньше чем событие будет инициализированно, а следоовательно запустится раньше чем те функции которые прикреплены к событию swipe
-            callback_fail: () => console.log("FAIL"), //функция которая будет вызвана если жест над элементом не был свайпом
+            callback_faill: () => console.log("FAIL"), //функция которая будет вызвана если жест над элементом не был свайпом
             callback_finally: () => console.log("FINALLY"), //функция которая будет вызвана по завершенни проверки действия на свайп, вне зависимости как завершилась проверка
             callback_start: () => console.log("START"), //функция которая будет вызвана каждый раз при старте свайпа, когда указатель нажали
             callback_move: () => console.log("MOVE"), //функция которая будет вызвана каждый раз в момент движения указателя
             callback_leave: () => console.log("LEAVE"), //функция которая будет вызвана когдя указатель  покинет элемент или будет ошибка регистрации указателя*/
-            callback_success: () => {},
-            callback_fail: () => {},
-            callback_finally: () => {},
-            callback_start: () => {},
-            callback_move: () => {},
-            callback_leave: () => {},
-            el: this.el, //элемент на котором изначально было привязано событие свайпа
             terget_el: null, //элемент который является целевым в данные момент времени, т.е. в начале это элемент по кторому кликнули потом элементы по которым движется курсор, вконце элемент над которым отпустили мышку, не особо работает для сенсорых экранов там почему-то всего элемент который мы нажали вначале
             start_terget_el: null, //элемент на котором начат свайп, т.е. нажали мышь или палец
             finall_target_el: null, //элемент на котором окончен свайп, т.е. отпустили кнопку мыши или палец, не особо работает для сенсорых экранов там почему-то всего элемент который мы нажали вначале
-            direction: '', //направление свайпа
+            direction: null, //направление свайпа
             start_direction: null, //начальное направление свайпа, для того чтоб понять куда изначально элемент начали смещать
-            some_touches: false, //если true то будет регистрировать свайп даже при нескольких точках касания на сансорном экране (вне целевого элемента!!!), и как следствие сможет обрабатывать несколько разных свайпов или других сенсорных событий для разных элементов одновременно
             touch_identifier: null, //ВАЖНО: это для избежаения ошибки иногда индентификаторы путаются местами и получается глюки, не знаю почему так происходит, но сверяем идентификаторы мы именно чтоб избежать багов
             permission_directions: {
                 top: true,
@@ -68,7 +38,8 @@ export default class {
                 bottom: true,
                 left: true,
             }, //направления в которых нужно учитывать свайп
-            permission_mouse_buttons: {
+            permission_click_buttons: {
+                0: true, //будет при сенсорном нажатии
                 1: true, //левая
                 2: false, //центральная
                 3: false, //правая
@@ -81,7 +52,8 @@ export default class {
             y: 0, //будет хранить изменяемую позицию точки нажатия при перемещении по вертикали
             x_dist: 0, //дистанция проейдаеная по горизонтали
             y_dist: 0, //дистанция проейдаеная по вертикали
-            abort_swipe_fail: false, //может быть использованно для принудительного прерывания свайпа как неудачный
+            abort_swipe_faill: false, //может быть использованно для принудительного прерывания свайпа как неудачный
+            max_ugol: 30, //максимальный угол смещения свайпа от изначальной прямой его направления
         };
         // настройки по умолчанию
 
@@ -91,22 +63,37 @@ export default class {
 
         this.generate_events_name(); //генерируем имена событий для реализации отслеживания свайпа
 
+        if (!params.listener_action) return this.remove_swipe_event(); //если передано что нужно удалить слушатель
+
+        if (this.el.swipe_event_data) return console.error('На элементе может быть только одно событие свайпа'); //если у элемента уже есть слушатель свайпа то прерываем выполнение
+
+        this.el.swipe_event_data = this; //создаём свойство с данными для свайпа
+
         this.get_min_and_max_px_swipe_distanse(); //получаем максимально и минимально дупустимые растояния в пикселях для учёта свайпа
 
-        if (this.settings.remove_default_events) this.el._on(`click ${this.generate_events.start} ${this.generate_events.move} ${this.generate_events.finall} ${this.generate_events.leave}`, this.remove_default, { passive: false }); //отключаем события по умолчанию если задано в настройках
+        this.el._on(`click ${this.generate_events.start} ${this.generate_events.move} ${this.generate_events.finall} ${this.generate_events.leave}`, this.remove_default, { passive: false }); //отключаем события по умолчанию для вспомогательных событий
 
-        this.run_monitoring_swipe(); //начитает мониторинг свайпа после клика и/или тача на элементе
+        this.run_observe_swipe(); //начитает отслеживание свайпа после клика и/или тача на элементе
     }
 
-    //начитает мониторинг свайпа после клика и/или тача на элементе
-    run_monitoring_swipe() {
+    //начитает отслеживание свайпа после клика и/или тача на элементе
+    run_observe_swipe() {
         this.el._on(this.generate_events.start, this.start); //начинаем слушать событие нажатия мыши и/или касания
-        w._on('resize_throttle', this.get_min_and_max_px_swipe_distanse); //при ресайзе окна пересчитываем новые значение минимальных и максимальных дистанций для срабатывания свайпа
+
+        this.el.swipe_event_data.resize_support_event = this.get_min_and_max_px_swipe_distanse.bind(this); //сохранеям слушатель ресайза через bind чтоб передать в него нужый this и записываем его в свойства элемента для возможности дальнейшей отмены
+
+        w._on('resize_throttle', this.el.swipe_event_data.resize_support_event); //при ресайзе окна пересчитываем новые значение минимальных и максимальных дистанций для срабатывания свайпа
     }
-    //начитает мониторинг свайпа после клика и/или тача на элементе
+    //начитает отслеживание свайпа после клика и/или тача на элементе
 
     //удаляем все события нужные для прослушивания свайпа
-    remove_swipe_event() {}
+    remove_swipe_event() {
+        this.el._off(this.generate_events.start, this.start); //заверщаем слушать событие нажатия мыши и/или касания
+
+        w._off('resize_throttle', this.el.swipe_event_data.resize_support_event); //снимаем слашатель с ресайза окна
+
+        this.el._off(`click ${this.generate_events.start} ${this.generate_events.move} ${this.generate_events.finall} ${this.generate_events.leave}`, this.remove_default, { passive: false }); //возвращаем события по умолчанию для вспомогательных событий
+    }
     //удаляем все события нужные для прослушивания свайпа
 
     //генерируем имена событий для реализации отслеживания свайпа
@@ -159,416 +146,193 @@ export default class {
     }
     //функция призвана остановить события браузера по умолчанию для click mousedown touchstart mousemove touchmove mouseup touchend mouseleave touchcancel
 
-    //стартует после нажатия клавиши мыши или касания пальца на элементе
-    start() {
-        let settings = this.swipe_event_data.settings;
-        console.log(settings);
-    }
-    //стартует после нажатия клавиши мыши или касания пальца на элементе
-}
-//тут храним все необходимые данные для работы функций
-const list_data = {
-    swipe: [],
-};
-//тут храним все необходимые данные для работы функций
-
-//ПРИМЕЧАНИЕ: не знаю почему но при движении нескольких точек по экрану в момент одновременного их события touchmove идентификаторы и соответсвенно события первого касание перекрывает более позние, тем самым переодически получаются глюки что когда движется второй палец браузер считает что движентся первый
-
-//ВАЖНО: если к элементу применён слушатель swipe то все действия по умолчанию у элемента будут убраны (click mousedown touchstart mousemove touchmove mouseup touchend), а так же к одному элементу может быть привязано только ОДНО событие свайпа !!!
-//el - элемент DOM
-//settings - настройки для определения был ли данный жест свайпом
-//add_listener - уесли функция вызвана с true значит мы добавляем слушатель данного события, если с false то удаляем
-const swipe_event = {
-    /*touchstart — начало касания, пользователь нажал на экран;
-    touchmove — пользователь двигает пальцем по экрану;
-    touchend — пользователь отпустил экран;
-    touchcancel — отмена касания. Это событие срабатывает, если пользователь заходит за край страницы, переворачивает экран, сворачивает браузер и так далее.*/
-    //срабатывает в момент подключения слушателя swipe к элементу
-    init: function (el, settings, add_listener = true) {
-        //если передано что нужно удалить слушатель
-        //ПРИМЕЧАНИЕ: это используется когда мы отключаем слушатель события от элемента
-        if (!add_listener) {
-            let settings = swipe_event.get_settings(el); //настройки свайпа текущего элемента
-
-            //функция удаляет прослушивание всех событий для обнаружения свайпа
-            $(el).off({
-                events: 'click ' + settings.start_events + ' ' + settings.move_events + ' ' + settings.finall_events + ' ' + settings.leave_events,
-                callback: swipe_event.remove_default,
-            }); //включаем события по умолчанию
-            $(el).off({
-                events: settings.start_events,
-                callback: swipe_event.start,
-            }); //отключаем прослушивани событий mousedown touchstart для функции start
-            //функция удаляет прослушивание всех событий для обнаружения свайпа
-            return; //прерываем дальнейщее выполнение функции
-        }
-        //если передано что нужно удалить слушатель
-
-        // настройки по умолчанию
-        let default_settings = {
-            touch_swipe: true, //отслеживать свайп на сенсорных устройствах
-            mouse_swipe: true, //отслеживать свайп на устройствах с мышкой
-            min_percent_dist_x: 2, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп в % от ширины экрана
-            max_percent_dist_x: 90, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в % от ширины экрана
-            min_percent_dist_y: 2, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в % от высоты экрана
-            max_percent_dist_y: 90, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в % от высоты экрана
-            min_px_dist_x: null, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп в пикселях px
-            max_px_dist_x: null, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в пикселях px
-            min_px_dist_y: null, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в пикселях px
-            max_px_dist_y: null, //максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп в пикселях px
-            min_time: 50, //минимальное время, за которое должен быть совершен свайп (ms)
-            max_time: 1000, //максимальное время, за которое должен быть совершен свайп (ms)
-            allow_leave: true, //считать ли жесты при которых указатель покидал границы элемента свайпом, если false то если указатиль покинул границы элемента свайп не будет засчитан
-            remove_default_events: true, //убирать ли события click mousedown touchstart mousemove touchmove mouseup touchend mouseleave touchcancel по умолчанию для элемента
-            /*callback_success: () => console.log("SUCCESS"), //функция которая будет вызвана если жест над элементом был свайпом, тоже самое что и срабатывае события, но выполяняется раньше чем событие будет инициализированно, а следоовательно запустится раньше чем те функции которые прикреплены к событию swipe
-            callback_fail: () => console.log("FAIL"), //функция которая будет вызвана если жест над элементом не был свайпом
-            callback_finally: () => console.log("FINALLY"), //функция которая будет вызвана по завершенни проверки действия на свайп, вне зависимости как завершилась проверка
-            callback_start: () => console.log("START"), //функция которая будет вызвана каждый раз при старте свайпа, когда указатель нажали
-            callback_move: () => console.log("MOVE"), //функция которая будет вызвана каждый раз в момент движения указателя
-            callback_leave: () => console.log("LEAVE"), //функция которая будет вызвана когдя указатель  покинет элемент или будет ошибка регистрации указателя*/
-            callback_success: () => {},
-            callback_fail: () => {},
-            callback_finally: () => {},
-            callback_start: () => {},
-            callback_move: () => {},
-            callback_leave: () => {},
-            el: el, //элемент на котором изначально было привязано событие свайпа
-            terget_el: null, //элемент который является целевым в данные момент времени, т.е. в начале это элемент по кторому кликнули потом элементы по которым движется курсор, вконце элемент над которым отпустили мышку, не особо работает для сенсорых экранов там почему-то всего элемент который мы нажали вначале
-            start_terget_el: null, //элемент на котором начат свайп, т.е. нажали мышь или палец
-            finall_target_el: null, //элемент на котором окончен свайп, т.е. отпустили кнопку мыши или палец, не особо работает для сенсорых экранов там почему-то всего элемент который мы нажали вначале
-            direction: '', //направление свайпа
-            start_direction: null, //начальное направление свайпа, для того чтоб понять куда изначально элемент начали смещать
-            some_touches: false, //если true то будет регистрировать свайп даже при нескольких точках касания на сансорном экране (вне целевого элемента!!!), и как следствие сможет обрабатывать несколько разных свайпов или других сенсорных событий для разных элементов одновременно
-            touch_identifier: null, //ВАЖНО: это для избежаения ошибки иногда индентификаторы путаются местами и получается глюки, не знаю почему так происходит, но сверяем идентификаторы мы именно чтоб избежать багов
-            permission_directions: {
-                top: true,
-                right: true,
-                bottom: true,
-                left: true,
-            }, //направления в которых нужно учитывать свайп
-            permission_mouse_buttons: {
-                1: true, //левая
-                2: false, //центральная
-                3: false, //правая
-            }, //какие кнопки мыши учитывать при свайпе
-            start_time: 0, //время начало свайпа
-            total_time: 0, //сколько времени занял свайп
-            start_x: 0, //позиция точки нажатия в самом начале по горизонтали
-            start_y: 0, //позиция точки нажатия в самом начале по вертикали
-            x: 0, //будет хранить изменяемую позицию точки нажатия при перемещении по горизонтали
-            y: 0, //будет хранить изменяемую позицию точки нажатия при перемещении по вертикали
-            x_dist: 0, //дистанция проейдаеная по горизонтали
-            y_dist: 0, //дистанция проейдаеная по вертикали
-            abort_swipe_fail: false, //может быть использованно для принудительного прерывания свайпа как неудачный
-        };
-        // настройки по умолчанию
-
-        settings = Object.assign({}, default_settings, settings); // настройки по умолчанию объединяем и заменяем настройками пользователя
-
-        if (!settings.touch_swipe && !settings.mouse_swipe) return; //если не указан ни один тип устройства для мониторинга свайпа завершаем инициализацию прослушивания свайпа
-
-        settings.start_events = ''; //тут будут храниться события которые будут вызываться для начала слушания свайпа mousedown touchstart
-        settings.move_events = ''; //тут будут храниться события которые будут вызываться во время движения указателя mousemove touchmove
-        settings.finall_events = ''; //тут будут храниться события которые будут вызываться во время окончания жеста mouseup touchend
-        settings.leave_events = ''; //тут будут храниться события которые будут вызываться в момент когда указатель покидает элемент или всевозможные ошибки mouseleave touchcancel
-
-        //формируем нужные имена событий
-        if (settings.touch_swipe) {
-            settings.start_events += settings.start_events.length > 0 ? ' touchstart' : 'touchstart';
-            settings.move_events += settings.move_events.length > 0 ? ' touchmove' : 'touchmove';
-            settings.finall_events += settings.finall_events.length > 0 ? ' touchend' : 'touchend';
-            settings.leave_events += settings.leave_events.length > 0 ? ' touchcancel' : 'touchcancel';
-        }
-
-        if (settings.mouse_swipe) {
-            settings.start_events += settings.start_events.length > 0 ? ' mousedown' : 'mousedown';
-            settings.move_events += settings.move_events.length > 0 ? ' mousemove' : 'mousemove';
-            settings.finall_events += settings.finall_events.length > 0 ? ' mouseup' : 'mouseup';
-            settings.leave_events += settings.leave_events.length > 0 ? ' mouseleave' : 'mouseleave';
-        }
-        //формируем нужные имена событий
-
-        //получаем максимально и минимально дупустимые растояния в пикселях для учёта свайпа
-        let el_width = $(el).width(),
-            el_height = $(el).height();
-
-        settings.min_px_dist_x = settings.min_px_dist_x === null ? (el_width / 100) * settings.min_percent_dist_x : settings.min_px_dist_x;
-        settings.max_px_dist_x = settings.max_px_dist_x === null ? (el_width / 100) * settings.max_percent_dist_x : settings.max_px_dist_x;
-        settings.min_px_dist_y = settings.min_px_dist_y === null ? (el_height / 100) * settings.min_percent_dist_y : settings.min_px_dist_y;
-        settings.max_px_dist_y = settings.max_px_dist_y === null ? (el_height / 100) * settings.max_percent_dist_y : settings.max_px_dist_y;
-        //получаем максимально и минимально дупустимые растояния в пикселях для учёта свайпа
-
-        //записываем в глобальный список данные этого элемента
-        list_data.swipe.push({
-            element: el,
-            settings: settings,
-        });
-        //записываем в глобальный список данные этого элемента
-
-        //w.getEventListeners($(".top_banner_wrap")[0])
-
-        //отключаем события по умолчанию если задано в настройках
-        if (settings.remove_default_events) {
-            $(el).on({
-                events: 'click ' + settings.start_events + ' ' + settings.move_events + ' ' + settings.finall_events + ' ' + settings.leave_events,
-                callback: swipe_event.remove_default,
-                options_event: { passive: false },
-            });
-        }
-        //отключаем события по умолчанию если задано в настройках
-
-        $(el).on({ events: settings.start_events, callback: swipe_event.start }); //начинаем слушать событие нажатия мыши и/или касания
-        $(w).on({ events: 'resize_optimize', callback: swipe_event.resize_recalculete }); //он добавляется и его НЕ нужно удалять
-    },
-    //срабатывает в момент подключения слушателя swipe к элементу
-
-    //при ресайзе пересчитываем максимальные и минимальные длинны свайпа в пикселях
-    resize_recalculete: function () {
-        for (let i = 0; i < list_data.swipe.length; i++) {
-            let settings = list_data.swipe[i].settings,
-                el_width = $(settings.el).width(),
-                el_height = $(settings.el).height();
-
-            settings.min_px_dist_x = (el_width / 100) * settings.min_percent_dist_x;
-            settings.max_px_dist_x = (el_width / 100) * settings.max_percent_dist_x;
-            settings.min_px_dist_y = (el_height / 100) * settings.min_percent_dist_y;
-            settings.max_px_dist_y = (el_height / 100) * settings.max_percent_dist_y;
-        }
-    },
-    //при ресайзе пересчитываем максимальные и минимальные длинны свайпа в пикселях
-
-    //ищем текущий элемент с его настройками для свайпа
-    get_settings: function (el) {
-        for (let i = 0; i < list_data.swipe.length; i++) {
-            if (list_data.swipe[i].element === el) {
-                return list_data.swipe[i].settings;
-            }
-        }
-    },
-    //ищем текущий элемент с его настройками для свайпа
-
     //проверяем сколько точек касания на экране и какая кнопка мыши нажата
-    check_touch_and_mouses_buttons: function (e, settings) {
+    check_touch_and_mouses_buttons(e, settings) {
         /*touches: список всех точек соприкосновения пальцев с экраном.
-        targetTouches: список всех точек соприкосновения с текущим элементом DOM.
-        changedTouches: список всех точек соприкосновения, участвующих в текущем событии. Например, в случае события touchend это будет точка, в которой пользователь убрал палец с экрана.*/
+            targetTouches: список всех точек соприкосновения с текущим элементом DOM.
+            changedTouches: список всех точек соприкосновения, участвующих в текущем событии. Например, в случае события touchend это будет точка, в которой пользователь убрал палец с экрана.*/
 
-        if (typeof e.touches !== 'undefined' && e.targetTouches.length > 1) return false; //если экран сенсорный экран и на данном элементе уже есть касание то мы игнорируем все остальные касание по данному элементу
+        if (e.touches && (e.touches.length > 1 || e.targetTouches.length > 1)) return false; //если экран сенсорный экран и если на экране сейчас более одного касания или на данном элементе уже есть касание то мы игнорируем все остальные касание по данному элементу
 
-        let event = swipe_event.events_props(e); //получаем объект с событиями для текущего типа устройства
-
-        if (typeof event.which !== 'undefined' && !settings.permission_mouse_buttons[event.which]) return false; // игнорирование нажатие неразрешённых кнопок мыши
-
-        return event;
-    },
+        if (e.which && !settings.permission_click_buttons[e.which]) return false; // игнорирование нажатие неразрешённых кнопок
+    }
     //проверяем сколько точек касания на экране и какая кнопка мыши нажата
 
     //стартует после нажатия клавиши мыши или касания пальца на элементе
-    start: function (e) {
-        //this элемент до которого дошло всплытие события, т.е. element.addEventListener(type, test) в данном случае если клик был по любому дочернему элементу element или нему самому , то в this будет этот element на котором вызвано слушанье события
-        let settings = swipe_event.get_settings(this); //настройки свайпа текущего элемента
+    start(e) {
+        //в this будет этот element на котором вызвано слушанье события
+        let s = this.swipe_event_data.settings,
+            el = this.swipe_event_data.el; //целевой элемент
 
-        settings.start_time = Math.round(performance.now()); //время начало свайпа
+        s.start_time = Math.round(performance.now()); //время начало свайпа
 
-        if (typeof e.touches !== 'undefined' && !settings.some_touches && e.touches.length > 1) return; //для сенсорных экранов и если запрещено более чем одно сенсорное соприкосновение с экраном и на экране сейчас более одного касания
+        if (this.swipe_event_data.check_touch_and_mouses_buttons(e, s) === false) return; //если указатель не прошёл проврку, больше одного касания или не разрешённая кнопка
 
-        let event = swipe_event.check_touch_and_mouses_buttons(e, settings); //вернёт объект события или false если указатель не прошёл проверку
+        e = e.touches === undefined ? e : e.touches[0];
 
-        if (typeof event.identifier !== 'undefined') settings.touch_identifier = event.identifier; //ВАЖНО: это для избежаения ошибки иногда индентификаторы путаются местами и получается глюки, не знаю почему так происходит, но сверяем идентификаторы мы именно чтоб избежать багов
+        s.start_x = e.pageX; //записываем стартовое положение точки нажатия на документе
+        s.start_y = e.pageY; //записываем стартовое положение точки нажатия на документе
 
-        if (!event) return; //если указатель не прошёл проврку, больше одного касания или не разрешённая кнопка миши
+        s.x = e.pageX; //записываем текущее положение точки нажатия на документе
+        s.y = e.pageY; //записываем текущее положение точки нажатия на документе
 
-        settings.start_x = event.pageX; //записываем стартовое положение точки нажатия на документе
-        settings.start_y = event.pageY; //записываем стартовое положение точки нажатия на документе
+        el._on(this.swipe_event_data.generate_events.move, this.swipe_event_data.move, { passive: false }); //добавляем слушатель события для перемещения курсора или пальца
 
-        settings.x = event.pageX; //записываем текущее положение точки нажатия на документе
-        settings.y = event.pageY; //записываем текущее положение точки нажатия на документе
+        el._on(this.swipe_event_data.generate_events.finall, this.swipe_event_data.finall, { passive: false }); //добавляем слушатель события когда кнопка мыши отпущена или палец поднят
 
-        //добаляем слушатели в зависимости от типов устройств для которых свайп будет отслеживаться
-        $(settings.el).on({ events: settings.move_events, callback: swipe_event.move, options_event: { passive: false } }); //добавляем слушатель события для перемещения курсора или пальца
-        $(settings.el).on({ events: settings.finall_events, callback: swipe_event.finall, options_event: { passive: false } }); //добавляем слушатель события когда кнопка мыши отпущена или палец поднят
-        $(settings.el).on({ events: settings.leave_events, callback: swipe_event.leave, options_event: { passive: false } }); //добавляем слушатель события курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на сенсоре
-        //добаляем слушатели в зависимости от типов устройств для которых свайп будет отслеживаться
+        el._on(this.swipe_event_data.generate_events.leave, this.swipe_event_data.leave, { passive: false }); //добавляем слушатель события курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на сенсоре
 
-        settings.start_terget_el = event.target; //записываем элемент на котором было нажатие
+        s.start_terget_el = e.target; //записываем элемент на котором было нажатие
 
-        settings.start_direction = null; //сбрасаваем стартовое направление свайпа
-
-        settings.callback_start();
-    },
+        s.callback_start && s.callback_start(el.swipe_event_data);
+    }
     //стартует после нажатия клавиши мыши или касания пальца на элементе
 
     //перемещения курсора или пальца
-    move: function (e) {
-        let settings = swipe_event.get_settings(this), //настройки свайпа текущего элемента
-            event = swipe_event.check_touch_and_mouses_buttons(e, settings); //вернёт объект события или false если не указатель не прошёл проверку
+    move(e) {
+        //в this будет этот element на котором вызвано слушанье события
+        let s = this.swipe_event_data.settings,
+            el = this.swipe_event_data.el; //целевой элемент
 
-        if (typeof event.identifier !== 'undefined' && settings.touch_identifier !== event.identifier) return; //ВАЖНО: это для избежаения ошибки иногда индентификаторы путаются местами и получается глюки, не знаю почему так происходит, но сверяем идентификаторы мы именно чтоб избежать багов
-        if (!event) {
-            swipe_event.end(false, settings);
-            return; //если указатель не прошёл проврку, больше одного касания или не разрешённая кнопка миши
-        }
+        if (el.swipe_event_data.check_touch_and_mouses_buttons(e, s) === false || s.abort_swipe_faill) return el.swipe_event_data.end(false, el); //если указатель не прошёл проврку, больше одного касания или не разрешённая кнопка или если через калбеки было прервано выполение свайпа
 
-        //если через калбеки было прервано выполение свайпа
-        if (settings.abort_swipe_fail) {
-            swipe_event.end(false, settings);
-            return;
-        }
+        e = e.touches === undefined ? e : e.touches[0];
 
-        settings.terget_el = event.target; //записываем элемент над которым проходит сейчас указатель, не особо работает для сенсорых экранов там почему-то всего элемент который мы нажали вначале
+        s.terget_el = e.target; //записываем элемент над которым проходит сейчас указатель, не особо работает для сенсорых экранов там почему-то всего элемент который мы нажали вначале
 
-        settings.x = event.pageX; //записываем текущее положение точки нажатия на документе
-        settings.y = event.pageY; //записываем текущее положение точки нажатия на документе
+        s.x = e.pageX; //записываем текущее положение точки нажатия на документе
+        s.y = e.pageY; //записываем текущее положение точки нажатия на документе
 
-        //определяем изначальное напрвление свайпа
-        if (!settings.start_direction) {
-            let x_dist = Math.abs(settings.x - settings.start_x), //получаем на сколько пикселей было смещение по горизонтали
-                y_dist = Math.abs(settings.y - settings.start_y); //получаем на сколько пикселей было смещение по вертикали
+        //определяем изначальное напрвление свайпа если оно не определено
+        if (!s.start_direction) {
+            let x_dist = Math.abs(s.x - s.start_x), //получаем на сколько пикселей было смещение по горизонтали
+                y_dist = Math.abs(s.y - s.start_y); //получаем на сколько пикселей было смещение по вертикали
 
-            //нужно чтоб разница в смещении сталь хоть немного существенной что +- точно пределить направление свайпа и отсеять ложные напраления
+            //нужно чтоб разница в смещении сталь хоть немного существенной чтоб +- точно определить направление свайпа и отсеять ложные напраления
             if (Math.abs(x_dist - y_dist) > 3) {
                 if (x_dist > y_dist) {
-                    if (settings.x > settings.start_x) {
-                        settings.start_direction = 'right';
+                    if (s.x > s.start_x) {
+                        s.start_direction = 'right';
                     } else {
-                        settings.start_direction = 'left';
+                        s.start_direction = 'left';
                     }
                 } else if (x_dist < y_dist) {
-                    if (settings.y > settings.start_y) {
-                        settings.start_direction = 'bottom';
+                    if (s.y > s.start_y) {
+                        s.start_direction = 'bottom';
                     } else {
-                        settings.start_direction = 'top';
+                        s.start_direction = 'top';
                     }
                 }
             }
         }
-        //определяем изначальное напрвление свайпа
+        //определяем изначальное напрвление свайпа если оно не определено
 
-        settings.callback_move();
-    },
+        s.callback_move && s.callback_move(el.swipe_event_data);
+    }
     //перемещения курсора или пальца
 
     //курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на сенсоре
-    leave: function (e) {
-        let settings = swipe_event.get_settings(this), //настройки свайпа текущего элемента
-            result = swipe_event.analiz_swipe(settings), //определяем соответствует ли жест свайпу
-            event = swipe_event.check_touch_and_mouses_buttons(e, settings); //вернёт объект события или false если не указатель не прошёл проверку
+    leave(e) {
+        //в this будет этот element на котором вызвано слушанье события
+        let s = this.swipe_event_data.settings,
+            el = this.swipe_event_data.el; //целевой элемент
 
-        if (!event) {
-            swipe_event.end(false, settings);
-            return; //если указатель не прошёл проврку, больше одного касания или не разрешённая кнопка миши
-        }
+        if (el.swipe_event_data.check_touch_and_mouses_buttons(e, s) === false || s.abort_swipe_faill) return el.swipe_event_data.end(false, el); //если указатель не прошёл проврку, больше одного касания или не разрешённая кнопка или если через калбеки было прервано выполение свайпа
 
-        settings.finall_target_el = settings.el;
+        s.finall_target_el = s.el;
 
-        settings.callback_leave();
+        s.callback_leave && s.callback_leave(el.swipe_event_data);
 
-        settings.allow_leave ? swipe_event.end(result, settings) : swipe_event.end(false, settings); //передаём в конечный обработчик end результат проверки был ли это свайп если разрешено покидать элемент при свайпе
-    },
+        s.allow_leave ? this.swipe_event_data.end(this.swipe_event_data.analiz_swipe(s), el) : this.swipe_event_data.end(false, el); //передаём в конечный обработчик end результат проверки был ли это свайп если разрешено покидать элемент при свайпе
+    }
     //курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на сенсоре
 
     //будет вызвана когда указатель будет отпущен
-    finall: function (e) {
-        let settings = swipe_event.get_settings(this), //настройки свайпа текущего элемента
-            result = swipe_event.analiz_swipe(settings), //определяем соответствует ли жест свайпу
-            event = swipe_event.check_touch_and_mouses_buttons(e, settings); //вернёт объект события или false если не указатель не прошёл проверку
+    finall(e) {
+        //в this будет этот element на котором вызвано слушанье события
+        let s = this.swipe_event_data.settings,
+            el = this.swipe_event_data.el; //целевой элемент
 
-        if (!event) {
-            swipe_event.end(false, settings);
-            return; //если указатель не прошёл проврку, больше одного касания или не разрешённая кнопка миши
-        }
+        if (el.swipe_event_data.check_touch_and_mouses_buttons(e, s) === false || s.abort_swipe_faill) return el.swipe_event_data.end(false, el); //если указатель не прошёл проврку, больше одного касания или не разрешённая кнопка или если через калбеки было прервано выполение свайпа
 
-        settings.finall_target_el = event.target; //записываем элемент над которым отпустили указатель, не особо работает для сенсорых экранов там почему-то всего элемент который мы нажали вначале
-        swipe_event.end(result, settings); //анализируем жест и результат передаём в завершающую функцию
-    },
+        e = e.touches === undefined ? e : e.changedTouches[0]; //для touchend
+
+        s.finall_target_el = e.target; //записываем элемент над которым отпустили указатель, не особо работает для сенсорых экранов там почему-то всего элемент который мы нажали вначале
+        this.swipe_event_data.end(this.swipe_event_data.analiz_swipe(s), el); //анализируем жест и результат передаём в завершающую функцию
+    }
     //будет вызвана когда указатель будет отпущен
 
     //завершаем обработку события
-    end: function (result, settings) {
-        swipe_event.clean(settings); //функция чистит все ненужные слушатели после того как указатель убран
+    end(result, el) {
+        el.swipe_event_data.clean(el); //функция чистит все ненужные слушатели и настройки после того как указатель убран
+
+        let s = el.swipe_event_data.settings;
 
         if (result) {
             //свайп
-            settings.callback_success();
-            swipe_event.run_event(settings);
+            s.callback_success && s.callback_success(el.swipe_event_data);
+            el.dispatchEvent(custom_events_list.swipe.event); //вызываем событие на элементе
         } else {
             //не свайп
-            settings.callback_fail();
+            s.callback_faill && s.callback_faill(el.swipe_event_data);
         }
 
-        settings.callback_finally();
-    },
+        s.callback_finally && s.callback_finally(el.swipe_event_data);
+    }
     //завершаем обработку события
 
-    //возвращает объект со списком свойств текущего события для текущего устройства
-    events_props: function (e) {
-        if (typeof e.touches !== 'undefined') {
-            let event = null;
-            //перебираем события данного типа (touchemove например) которые происходят в данный момент
-            for (let i = 0; i < e.changedTouches.length; i++) {
-                let changed_id = e.changedTouches[i].identifier; //для каждого события получаем идентификатор касание который его вызвал
+    //функция чистит все ненужные слушатели и настрйоки
+    clean(el) {
+        let events = el.swipe_event_data.generate_events,
+            data = el.swipe_event_data;
 
-                //перебираем события которые применяются конкретно к этому элементу в данный момент времени
-                for (let b = 0; b < e.targetTouches.length; b++) {
-                    let target_id = e.changedTouches[b].identifier; //для каждого события получаем идентификатор касание который его вызвал
-                    if (changed_id === target_id) event = e.changedTouches[b]; //находи те касания которые применяются к текущему элементу и соответствуют текущему событию
-                }
-                //перебираем события которые применяются конкретно к этому элементу в данный момент времени
-            }
-            //перебираем события данного типа (touchemove например) которые происходят в данный момент
+        el.swipe_event_data.settings.start_direction = null; //сбрасаваем стартовое направление свайпа
 
-            if (event === null) return e.changedTouches[0]; //для touchend
+        el._off(events.move, data.move); //удаляем слушатель события для перемещения курсора или пальца
 
-            return event;
-        } else {
-            return e;
-        }
-    },
-    //возвращает объект со списком свойств текущего события для текущего устройства
+        el._off(events.finall, data.finall); //удаляем слушатель события когда кнопка мыши отпущена или палец поднят
 
-    //функция чистит все ненужные слушатели
-    clean: function (settings) {
-        $(settings.el).off({
-            events: settings.move_events,
-            callback: swipe_event.move,
-        }); //удаляем слушатель события для перемещения курсора или пальца
-        $(settings.el).off({
-            events: settings.finall_events,
-            callback: swipe_event.finall,
-        }); //удаляем слушатель события когда кнопка мыши отпущена или палец поднят
-        $(settings.el).off({
-            events: settings.leave_events,
-            callback: swipe_event.leave,
-        }); //удаляем слушатель курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на
-    },
-    //функция чистит все ненужные слушатели
+        el._off(events.leave, data.leave); //удаляем слушатель курсор мыши покинул элемент или палец вышел за пределы экрана или ещё какая-то ошибка на
+    }
+    //функция чистит все ненужные слушатели  и настрйоки
 
     //оцениваем жест как свайп
-    analiz_swipe: function (settings) {
-        settings.x_dist = Math.abs(settings.x - settings.start_x); //получаем на сколько пикселей было смещение по горизонтали
-        settings.y_dist = Math.abs(settings.y - settings.start_y); //получаем на сколько пикселей было смещение по вертикали
+    analiz_swipe(s) {
+        s.x_dist = Math.abs(s.x - s.start_x); //получаем на сколько пикселей было смещение по горизонтали
+        s.y_dist = Math.abs(s.y - s.start_y); //получаем на сколько пикселей было смещение по вертикали
 
-        settings.total_time = Math.round(performance.now() - settings.start_time); //сколько времени длился свайп
+        s.total_time = Math.round(performance.now() - s.start_time); //сколько времени длился свайп
 
         //проверяем не превышено ли время разрешённое на свайп
-        if (settings.total_time < settings.min_time || settings.total_time > settings.max_time) {
+        if (s.total_time < s.min_time || s.total_time > s.max_time) {
             console.log('NO swipe timeout');
             return false;
         }
         //проверяем не превышено ли время разрешённое на свайп
 
+        //функция проверяет угловое смещение для свайпа
+        let check_ugol = catet => {
+            let gipotinuza = Math.sqrt(Math.pow(s.x_dist, 2) + Math.pow(s.y_dist, 2)),
+                s_ugol_sin = Math.sin((s.max_ugol * Math.PI) / 180);
+
+            return s_ugol_sin >= catet / gipotinuza;
+        };
+        //функция проверяет угловое смещение для свайпа
+
         //спайп по горизонтали
-        if (settings.x_dist >= settings.y_dist) {
+        if (s.x_dist >= s.y_dist) {
             //если дистанция свайпа больше минимально счиаемой дистанции и меньше максимальной дистации
-            if (settings.x_dist >= settings.min_px_dist_x && settings.x_dist <= settings.max_px_dist_x) {
-                if (settings.x > settings.start_x) {
-                    settings.direction = 'right';
+            if (s.x_dist >= s.min_px_dist_x && s.x_dist <= s.max_px_dist_x) {
+                if (!check_ugol(s.y_dist)) return false; //если угол смещени превышает максимально допустимео значение
+
+                if (s.x > s.start_x) {
+                    s.direction = 'right';
                     console.log('RIGHT swipe');
-                    return settings.permission_directions.right ? true : false;
+                    return s.permission_directions.right ? true : false;
                 } else {
-                    settings.direction = 'left';
+                    s.direction = 'left';
                     console.log('LEFT swipe');
-                    return settings.permission_directions.left ? true : false;
+                    return s.permission_directions.left ? true : false;
                 }
             }
             //если дистанция свайпа больше минимально счиаемой дистанции и меньше максимальной дистации
@@ -585,15 +349,17 @@ const swipe_event = {
         //спайп по вертикали
         else {
             //если дистанция свайпа больше минимально счиаемой дистанции и меньше максимальной дистации
-            if (settings.y_dist >= settings.min_px_dist_y && settings.y_dist <= settings.max_px_dist_y) {
-                if (settings.y > settings.start_y) {
-                    settings.direction = 'bottom';
+            if (s.y_dist >= s.min_px_dist_y && s.y_dist <= s.max_px_dist_y) {
+                if (!check_ugol(s.x_dist)) return false; //если угол смещени превышает максимально допустимео значение
+
+                if (s.y > s.start_y) {
+                    s.direction = 'bottom';
                     console.log('BOTTOM swipe');
-                    return settings.permission_directions.bottom ? true : false;
+                    return s.permission_directions.bottom ? true : false;
                 } else {
-                    settings.direction = 'top';
+                    s.direction = 'top';
                     console.log('TOP swipe');
-                    return settings.permission_directions.top ? true : false;
+                    return s.permission_directions.top ? true : false;
                 }
             }
             //если дистанция свайпа больше минимально счиаемой дистанции и меньше максимальной дистации
@@ -606,33 +372,6 @@ const swipe_event = {
             //пройдена слишком маленькая дистация
         }
         //спайп по вертикали
-    },
+    }
     //оцениваем жест как свайп
-
-    remove_default: function (e) {
-        e.preventDefault();
-    }, //функция призвана остановить события браузера по умолчанию для тех элементов и событий к которым она вызвана
-
-    //запускаем привязку события
-    run_event: function (settings) {
-        //данные которые будут переданы в событие
-        let data = {
-                direction: settings.direction,
-                x_dist: settings.x_dist,
-                y_dist: settings.y_dist,
-                total_time: settings.total_time,
-            },
-            //данные которые будут переданы в событие
-
-            //создаём кастомное событие
-            swipeEvent = new CustomEvent('swipe', {
-                bubbles: true, //если true то все его родительские элменты у которых есть слушатели события свайпа будут тоже вызваны
-                detail: data,
-            });
-        //создаём кастомное событие
-
-        settings.el.dispatchEvent(swipeEvent); //привязываем событие к элементу
-    },
-    //запускаем привязку события
-};
-//функция реализует событие свайпа
+}

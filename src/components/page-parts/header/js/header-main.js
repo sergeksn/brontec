@@ -1,4 +1,4 @@
-import { show, hide } from '@js-libs/func-kit';
+import { show, hide, get_translate } from '@js-libs/func-kit';
 
 import Header_Poster from './header-poster';
 import Header_Hidden from './header-hidden';
@@ -82,7 +82,7 @@ let Header = new (class {
                 //если нужно получить высоту текущего элемента
                 let el_h = w.getComputedStyle(this[el]).height; //получаем высоту
                 if (el_h === 'auto') continue; //auto высота только если блок скрыт, в этом случаем мы пропускае его добавление в итоговую высоту
-                result += +el_h.replace('px', ''); //добавляем высоту в результат
+                result += parseFloat(el_h); //добавляем высоту в результат
             }
         }
 
@@ -96,6 +96,7 @@ let Header = new (class {
             el: this.header,
             property: 'translateY',
             value: 0,
+            started_value: -this.get_header_h({ header_poster: this.has_header_poster, header_visible: true }),
             display: null,
         });
     }
@@ -107,6 +108,7 @@ let Header = new (class {
             el: this.header,
             property: 'translateY',
             value: -this.get_header_h({ header_poster: this.has_header_poster, header_visible: true }),
+            started_value: 0,
             display: null,
         });
     }

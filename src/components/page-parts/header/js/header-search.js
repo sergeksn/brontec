@@ -51,7 +51,7 @@ export default new (class {
 
     //получаем минимальную высоту которую должен занимать блок с результатми поиска
     search_results_block_height() {
-        let height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }) - w.getComputedStyle(this.search_input_wrap).height.replace('px', ''); //получаем минимальную высоту которую должен занимать блок с результатми поиска
+        let height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }) - parseFloat(w.getComputedStyle(this.search_input_wrap).height); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
         return height >= 100 ? height : 100; //минимальная высота анимации раскрытия блока поиска
     }
@@ -77,6 +77,8 @@ export default new (class {
             targets: this.results_wrap,
             height: srb_height,
         }).finished;
+
+        this.header.style.height = GDS.win.height + 'px';
 
         [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
 

@@ -3,8 +3,8 @@ import Pop_Up_Message from '@pop-up-messages-main-js';
 
 //оболочка лоя функции анимации, она добавляет длительность и график по умолчанию
 function anime(params) {
-    if (!params.duration) params.duration = GDS.anim.time;
-    if (!params.easing) params.easing = GDS.anim.graph;
+    if (params.duration === undefined) params.duration = GDS.anim.time;
+    if (params.easing === undefined) params.easing = GDS.anim.graph;
     return anime_original(params);
 }
 //оболочка лоя функции анимации, она добавляет длительность и график по умолчанию
@@ -80,6 +80,39 @@ function wait(check_value, data_fo_wait, abort_trigger = {}) {
 }
 //функция сравнивет данные из check_value с data_fo_wait и когда они будут равными завершит функцию
 
+//функция получет значение translate свойства transform элемента
+//style_list - это живая колекция стилей window.getComputedStyle
+function get_translate(style_list) {
+    let matrix = new WebKitCSSMatrix(style_list.transform); //создаём объект матицы для получения из него значений
+
+    return {
+        //возвращаем объект со значениями translate
+        x: matrix.m41,
+        y: matrix.m42,
+        z: matrix.m43,
+    };
+}
+//функция получет значение translate свойства transform элемента
+
+//получает время оставшиеся для выполянения анимации
+function get_remaining_time({ el, started_value, final_value, property, duration }) {
+    let curret_value;
+    if (duration === undefined) duration = GDS.anim.time; //если не задано вреям перехода берём по умолчанию
+
+    if (['translateX', 'translateY', 'translateZ'].includes(property)) {
+        //если анимируем translate
+        curret_value = get_translate(w.getComputedStyle(el))[property.replace('translate', '').toLowerCase()]; //текущее знчение анимируемого свойства
+    } else {
+        //если анимируем opacity
+        curret_value = parseFloat(w.getComputedStyle(el).opacity); //текущее знчение анимируемого свойства
+    }
+
+    if (final_value - curret_value === 0) return 0; //если финальное значение не отличается от текущего значения то ставим длительность равную нулю
+
+    return ((final_value - curret_value) * duration) / (final_value - started_value); //получаем время которое необходимо чтоб дозавершить анимацию
+}
+//получает время оставшиеся для выполянения анимации
+
 //проверяем доступность локального хранилища и записываем данные
 function set_localStorage(key, value) {
     try {
@@ -135,6 +168,7 @@ async function request_to_server(request_data, url = GDS.ajax_url) {
 //params.el - сам элемент изменения свойств которого мы быдем отслеживать
 //params.property - css свойство для анимации
 //params.value - значение до которого должно измениться css свойство
+//params.started_value - значение от которого ничинается анимация при стартовых условиях
 //params.duration - пример 500мс
 //params.tf - пример ease
 async function show(params) {
@@ -149,15 +183,25 @@ async function show(params) {
     //ПРИМЕЧАНИЕ: если params.display === null то значение останется тем что есть у данного блока по умолчанию
     if (params.display !== null) params.el.style.display = params.display || 'block'; //задаём дисплей значение перед показом
 
-    let property = params.property || 'opacity'; //определяем свойство для анимации, по умолчанию opacity
+    let el = params.el,
+        property = params.property || 'opacity', //определяем свойство для анимации, по умолчанию opacity
+        value = params.value !== undefined ? params.value : 1,
+        started_value = params.started_value !== undefined ? params.started_value : 0,
+        duration = get_remaining_time({
+            el: el,
+            started_value: started_value,
+            final_value: value,
+            property: property,
+            duration: params.duration,
+        });
 
     //анимируем показ блока
     this.pending_to_show_promise = anime({
-        targets: params.el,
-        [property]: params.value !== undefined ? params.value : 1,
-        duration: params.duration,
+        targets: el,
+        [property]: value,
+        duration: duration,
         easing: params.tf,
-        update: anim => this.status !== 'pending to show' && anim.remove(), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to show', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
+        update: anim => this.status !== 'pending to show' && anim.remove(el), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to show', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
     }).finished;
 
     //дожидаемся показа блока
@@ -174,6 +218,7 @@ async function show(params) {
 //params.display - какое свойство дисплея должно быть у скрытого элемента
 //params.property - css свойство для анимации
 //params.value - значение до которого должно измениться css свойство
+//params.started_value - значение от которого ничинается анимация при стартовых условиях
 //params.duration - пример 500мс
 //params.tf - пример ease
 async function hide(params) {
@@ -185,15 +230,27 @@ async function hide(params) {
 
     this.status = 'pending to hide'; //помечаем что блок начал скрываться
 
-    let property = params.property || 'opacity'; //определяем свойство для анимации, по умолчанию opacity
+    let el = params.el,
+        property = params.property || 'opacity', //определяем свойство для анимации, по умолчанию opacity
+        value = params.value !== undefined ? params.value : 0,
+        started_value = params.started_value !== undefined ? params.started_value : 1,
+        duration = get_remaining_time({
+            el: el,
+            started_value: started_value,
+            final_value: value,
+            property: property,
+            duration: params.duration,
+        });
 
     //анимаруем скрытие
     this.pending_to_hide_promise = anime({
         targets: params.el,
-        [property]: params.value !== undefined ? params.value : 0,
-        duration: params.duration,
+        [property]: value,
+        duration: duration,
         easing: params.tf,
-        update: anim => this.status !== 'pending to hide' && anim.remove(), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to hide', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
+        update: anim => {
+            this.status !== 'pending to hide' && anim.remove(params.el);
+        }, //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to hide', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
     }).finished;
 
     //дожидаемся скрытия блока
