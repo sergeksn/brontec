@@ -171,6 +171,7 @@ async function request_to_server(request_data, url = GDS.ajax_url) {
 //params.started_value - значение от которого ничинается анимация при стартовых условиях
 //params.duration - пример 500мс
 //params.tf - пример ease
+//params.units - единицы измерения для значения
 async function show(params) {
     if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
 
@@ -193,12 +194,13 @@ async function show(params) {
             final_value: value,
             property: property,
             duration: params.duration,
-        });
+        }),
+        units = params.units !== undefined ? params.units : '';
 
     //анимируем показ блока
     this.pending_to_show_promise = anime({
         targets: el,
-        [property]: value,
+        [property]: value + units,
         duration: duration,
         easing: params.tf,
         update: anim => this.status !== 'pending to show' && anim.remove(el), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to show', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
@@ -221,6 +223,7 @@ async function show(params) {
 //params.started_value - значение от которого ничинается анимация при стартовых условиях
 //params.duration - пример 500мс
 //params.tf - пример ease
+//params.units - единицы измерения для значения
 async function hide(params) {
     if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
 
@@ -240,12 +243,13 @@ async function hide(params) {
             final_value: value,
             property: property,
             duration: params.duration,
-        });
+        }),
+        units = params.units !== undefined ? params.units : '';
 
     //анимаруем скрытие
     this.pending_to_hide_promise = anime({
         targets: params.el,
-        [property]: value,
+        [property]: value + units,
         duration: duration,
         easing: params.tf,
         update: anim => {
@@ -265,4 +269,4 @@ async function hide(params) {
 }
 //данная функция скрывает блок уменьшая значение его css свойства
 
-export { wait, request_to_server, show, hide, set_localStorage, anime };
+export { wait, request_to_server, show, hide, set_localStorage, anime, get_translate };

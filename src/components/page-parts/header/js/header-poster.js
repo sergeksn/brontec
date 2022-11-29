@@ -1,4 +1,4 @@
-import { Header, Header_Hidden, Header_Search } from '@header-main-js';
+import { Header, Header_Hidden, Header_Search, Header_Cart } from '@header-main-js';
 import { wait, set_localStorage, anime, hide } from '@js-libs/func-kit';
 
 export default new (class {
@@ -29,7 +29,6 @@ export default new (class {
 
             await Header.show().catch(e => {}); //пытаем показать хедер, т.к. клик мог произойти в момент когда хедер в движении после скрола, в этом случае мы дождёмся пока хедер полностью не покажется, сели же он уже ыбл полностью виден этот пункт завершится мгновенно
             //ПРИМЕЧАНИЕ: catch(e=>{}) НЕЛЬЗЯ убирать т.к. при попытке закрыть блоки получим исключение в виде того что невозможно показать хедер т.к. он заблокирован
-
 
             //ВАЖНО: не забыть поменять тут на TRUE
             await this.hide(false); //скрываем банер
@@ -80,15 +79,20 @@ export default new (class {
                 //поднимаем фон хедера
                 targets: header_background,
                 height: '-=' + poster_height,
-            }).finished;
+            }).finished,
+            up_cart =
+                Header_Cart.status !== 'hide'
+                    ? anime({
+                          //поднимаем корзину если она открыта
+                          targets: Header_Cart.cart,
+                          top: '-=' + poster_height,
+                      }).finished
+                    : null;
 
-        //this.cart.animate({ height: '+=' + poster_height + 'px' }, GDS.anim_time, GDS.anim_tf), //увеличиываем высоту корзины на высоту банера чтоб она заняла всё освободившееся по вертикали место
-
-        await Promise.all([up_header, up_header_background]); //поднимаем хедер и уменщаем высоту его подложки
+        await Promise.all([up_header, up_header_background, up_cart]); //поднимаем хедер и уменщаем высоту его подложки
 
         this.header_poster.style.display = 'none'; //скрываем банер из документа
         this.header.style.transform = 'translateY(0)'; //попутно быстро меняем верхнюю позицию для хедера сразу после удаленяи банераоткрытии всех окон и ресазах
-        //this.cart.css('top', ''); //попуткно поднимаем корзину к верху
 
         //если нужно скрыть данный рекламный банер навсегда
         if (forever) {
@@ -103,6 +107,7 @@ export default new (class {
         //если нужно скрыть данный рекламный банер навсегда
 
         Header_Hidden.size_recalculate(); //пересчитываем размеры хереда
+        Header_Cart.size_recalculate(); //пересчитываем данные дял корзины
 
         if (Header_Search.status === 'open') this.header.style.height = GDS.win.height + 'px'; //если постер скрыли в момент когда открыто окно с результатами поиска то мы после скрытия задаём хереду высоту окна
 

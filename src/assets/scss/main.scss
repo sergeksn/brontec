@@ -5,13 +5,14 @@
 @import '@scss-general/errors';
 
 //@dinamic node import fils
-@import '@images-interaction-scss';
-@import '@loader-interaction-scss';
-@import '@pop-up-messages-interaction-scss';
-@import '@product-small-info-block-interaction-scss';
-@import '@scroll-to-top-button-interaction-scss';
-@import '@footer-interaction-scss';
-@import '@header-interaction-scss';
+@import "@images-interaction-scss";
+@import "@loader-interaction-scss";
+@import "@overlays-interaction-scss";
+@import "@pop-up-messages-interaction-scss";
+@import "@product-small-info-block-interaction-scss";
+@import "@scroll-to-top-button-interaction-scss";
+@import "@footer-interaction-scss";
+@import "@header-interaction-scss";
 //@dinamic node import fils
 
 .swiper {

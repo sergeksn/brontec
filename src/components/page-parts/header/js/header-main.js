@@ -1,9 +1,9 @@
 import { show, hide } from '@js-libs/func-kit';
+import Overlay from '@overlays-main-js';
 
 import Header_Poster from './header-poster';
 import Header_Hidden from './header-hidden';
 import Header_Search from './header-search';
-import Header_Overlay from './header-overlay';
 import Header_Cart from './header-cart';
 
 let Header = new (class {
@@ -17,6 +17,8 @@ let Header = new (class {
         this.header_hidden = d.querySelector('.header-hidden');
         //записываем все неоходимые переменные для удобства доступа
 
+        this.Overlay = new Overlay({ el: d.getElementById('header-overlay') }); //создаём экземпляр подложки хедера
+
         this.lock = false; //польностью блокирует любые действия с хедером
         this.status = 'show'; //хранит текущее состояние блока хедера, свёрнут он или открыт или в процессе
 
@@ -26,7 +28,7 @@ let Header = new (class {
 
         w._on('resize_optimize', () => {
             this.toggle_header(); //проверяем нужно ли скрыть хедер
-            this.header_background.style.height = `${this.get_header_h({ header_poster: this.has_header_poster, header_visible: true })}px`; //пересчитываем высоту фона хедера
+            this.header_background.style.height = `${this.get_header_h({ header_poster: true, header_visible: true })}px`; //пересчитываем высоту фона хедера
         });
     }
 
@@ -76,6 +78,8 @@ let Header = new (class {
             searched_height,
         ); //получаем те данные которые нужно получить объединов объекты по умолчанию с тем что передал скрипт
 
+        if (searched_height.header_poster === true && this.has_header_poster !== true) searched_height.header_poster = false; //если нужно включить высоту банера, но его нет в документе тогта меняем настрйку на false
+
         let result = 0;
 
         for (let el in searched_height) {
@@ -97,7 +101,7 @@ let Header = new (class {
             el: this.header,
             property: 'translateY',
             value: 0,
-            started_value: -this.get_header_h({ header_poster: this.has_header_poster, header_visible: true }),
+            started_value: -this.get_header_h({ header_poster: true, header_visible: true }),
             display: null,
         });
     }
@@ -108,7 +112,7 @@ let Header = new (class {
         return hide.call(this, {
             el: this.header,
             property: 'translateY',
-            value: -this.get_header_h({ header_poster: this.has_header_poster, header_visible: true }),
+            value: -this.get_header_h({ header_poster: true, header_visible: true }),
             started_value: 0,
             display: null,
         });
@@ -123,7 +127,7 @@ let Header = new (class {
 
         try {
             //если скролим вниз и высота скрола больше высоты хедера скрываем хедер, в противном случае показываем хедер
-            if (GDS.scroll.dir === 'bottom' && GDS.scroll.value > this.get_header_h({ header_poster: this.has_header_poster, header_visible: true })) {
+            if (GDS.scroll.dir === 'bottom' && GDS.scroll.value > this.get_header_h({ header_poster: true, header_visible: true })) {
                 if (this.status !== 'pending to hide' && this.status !== 'hide') await this.hide();
             } else {
                 if (this.status !== 'pending to show' && this.status !== 'show') await this.show();
@@ -135,4 +139,4 @@ let Header = new (class {
     //функция оправляет сворачиванием и разворачиванием хедера
 })();
 
-export { Header, Header_Poster, Header_Hidden, Header_Search, Header_Overlay, Header_Cart };
+export { Header, Header_Poster, Header_Hidden, Header_Search, Header_Cart };

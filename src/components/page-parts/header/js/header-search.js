@@ -51,7 +51,7 @@ export default new (class {
 
     //получаем минимальную высоту которую должен занимать блок с результатми поиска
     search_results_block_height() {
-        let height = GDS.win.height - Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true }) - parseFloat(w.getComputedStyle(this.search_input_wrap).height); //получаем минимальную высоту которую должен занимать блок с результатми поиска
+        let height = GDS.win.height - Header.get_header_h({ header_poster: true, header_visible: true }) - parseFloat(w.getComputedStyle(this.search_input_wrap).height); //получаем минимальную высоту которую должен занимать блок с результатми поиска
 
         return height >= 100 ? height : 100; //минимальная высота анимации раскрытия блока поиска
     }

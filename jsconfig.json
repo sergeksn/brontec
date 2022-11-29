@@ -159,6 +159,42 @@
             "@loader-img/*": [
                 "@components\\blocks\\loader\\img/*"
             ],
+            "@overlays": [
+                "@components\\blocks\\overlays"
+            ],
+            "@overlays/*": [
+                "@components\\blocks\\overlays/*"
+            ],
+            "@overlays-main-js": [
+                "@components\\blocks\\overlays\\js\\overlays-main.js"
+            ],
+            "@overlays-main-js/*": [
+                "@components\\blocks\\overlays\\js\\overlays-main.js/*"
+            ],
+            "@overlays-render-scss": [
+                "@components\\blocks\\overlays\\scss\\overlays-render.scss"
+            ],
+            "@overlays-render-scss/*": [
+                "@components\\blocks\\overlays\\scss\\overlays-render.scss/*"
+            ],
+            "@overlays-interaction-scss": [
+                "@components\\blocks\\overlays\\scss\\overlays-interaction.scss"
+            ],
+            "@overlays-interaction-scss/*": [
+                "@components\\blocks\\overlays\\scss\\overlays-interaction.scss/*"
+            ],
+            "@overlays-fonts": [
+                "@components\\blocks\\overlays\\fonts"
+            ],
+            "@overlays-fonts/*": [
+                "@components\\blocks\\overlays\\fonts/*"
+            ],
+            "@overlays-img": [
+                "@components\\blocks\\overlays\\img"
+            ],
+            "@overlays-img/*": [
+                "@components\\blocks\\overlays\\img/*"
+            ],
             "@pop-up-messages": [
                 "@components\\blocks\\pop-up-messages"
             ],

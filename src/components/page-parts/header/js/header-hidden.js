@@ -1,4 +1,4 @@
-import { Header, Header_Search, Header_Overlay } from '@header-main-js';
+import { Header, Header_Search, Header_Cart } from '@header-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
 import { wait, anime } from '@js-libs/func-kit';
 
@@ -9,9 +9,7 @@ export default new (class {
         this.body = d.getElementsByTagName('body')[0];
         this.header = d.getElementsByTagName('header')[0];
         this.header_visible = d.querySelector('.header-visible'); //постоянно видимая часть меню
-        this.header_visible_search_button = d.querySelector('.header-visible__search-button');
         this.header_hidden = d.querySelector('.header-hidden'); //скрытая часть меню с поиском и мобильным меню
-        this.burger = d.querySelector('.header-visible__burger'); //кнопка бургер меню
         //записываем все неоходимые переменные для удобства доступа
 
         //pending to close - в процессе закрытия меню
@@ -25,8 +23,12 @@ export default new (class {
         //full - после открытия занимает всё окно браузера, т.е. высота меню + высота открытого блока больше или равноа высоте окна раузера
         this.size;
 
-        [this.header_visible_search_button, this.burger].forEach(el => {
-            el._on('click', () => this.toggle_header_hidden_block()); //открываем/закрываем скрытый блок при клике на бургер кнопку и кнопку поиска в видимой части хедеера
+        [
+            d.querySelector('.header-visible__search-button'), //кнопка поиска в хедере
+            d.querySelector('.header-visible__burger'), //кнопка бургер меню
+            d.getElementById('header-overlay'), //подложка хедера
+        ].forEach(el => {
+            el._on('click', () => this.toggle_header_hidden_block()); //открываем/закрываем скрытый блок при клике на бургер кнопку, кнопку поиска в видимой части хедеера или на подложку хедера
         });
 
         w._on('resize_optimize', () => this.size_recalculate()); //выполяем нужные действия при ресайзе
@@ -37,7 +39,7 @@ export default new (class {
     size_recalculate() {
         if (Header_Search.status === 'pending to open' || Header_Search.status === 'open') return; //если окно с результатами поиска открыто или в процессе открытия то заверашем данную функцию
 
-        this.size = Header.get_header_h({ header_poster: Header.has_header_poster, header_visible: true, header_hidden: true }) >= GDS.win.height ? 'full' : 'part'; //если высота хедера с банером + выоста скрытого блока больше или равна высоте окна браузера full, если же высота хедера с банером + выоста скрытого блока меньше высоты окна браузера part
+        this.size = Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }) >= GDS.win.height ? 'full' : 'part'; //если высота хедера с банером + выоста скрытого блока больше или равна высоте окна браузера full, если же высота хедера с банером + выоста скрытого блока меньше высоты окна браузера part
         //если высота хедера с банером + выоста скрытого блока больше или равна высоте окна браузера
 
         let update_size = () => {
@@ -70,7 +72,7 @@ export default new (class {
         await Header.show().catch(e => {}); //пытаем показать хедер, т.к. клик мог произойти в момент когда хедер в движении после скрола, в этом случае мы дождёмся пока хедер полностью не покажется, сели же он уже ыбл полностью виден этот пункт завершится мгновенно
         //ПРИМЕЧАНИЕ: catch(e=>{}) НЕЛЬЗЯ убирать т.к. при попытке закрыть блоки получим исключение в виде того что невозможно показать хедер т.к. он заблокирован
 
-        //if (GDS.cart.status === "open") await GDS.cart.close_cart(); //если открыта корзина то перед открытием или закрытием блока дожидаемся скрытия корзины
+        await Header_Cart.hide().catch(e => {}); //пробуем закрыть корзину если вдург она открыта, дажидаемся её закрытия
 
         //если скрытый блок хедера закрыт
         if (this.status === 'close') {
@@ -138,7 +140,7 @@ export default new (class {
 
             Scroll_To_Top_Button.hide(), //дожидаемся скрытия кнопки скрола вверх
 
-            Header_Overlay.show(), //показываем подложку и ждём завершения её появления
+            Header.Overlay.show(), //показываем подложку и ждём завершения её появления
         ]);
         //ждём завершение открытия
 
@@ -171,7 +173,7 @@ export default new (class {
             translateY: 0,
         }).finished; //закрываем скртый блок
 
-        await Promise.all([Header_Overlay.hide(), anim_close_header_hidden]); //плавно скрываем блок меню и подложку, а так же меняем высоту скролбара хедера
+        await Promise.all([Header.Overlay.hide(), anim_close_header_hidden]); //плавно скрываем блок меню и подложку, а так же меняем высоту скролбара хедера
 
         this.header.style.overflow = ''; //возвращаем стандартную прокрутку в хедер
 
