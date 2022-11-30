@@ -20,7 +20,7 @@
         padding: adaptiv_rem_size(10, 1920) 0;
     }
 
-    &__body {
+    &__wrap {
         border: rem(2) solid var(--blue);
         border-right: none;
         border-top-left-radius: var(--b-radius);
@@ -34,13 +34,17 @@
         }
     }
 
-    &__top-controls{
-        
+    &__header{
+        height: adaptiv_rem_size(50, 320, 60, 640);
+
+        @media (min-width: rem(640)) {
+            height: rem(60);
+        }
     }
 }
 
 #cart-overlay {
-    position: fixed;
+    position: fixed; 
     inset: 0;
     width: 100%;
     height: 100%;
