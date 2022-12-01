@@ -42,7 +42,9 @@ let Header = new (class {
                 d.querySelector('.header-visible__burger>button'),
                 d.querySelector('.header-visible__cart-button>button'),
                 d.querySelector('.header-visible__search-button>button'),
+                d.querySelector('.header-search__input-control-icons>button'),
                 d.querySelector('.header-search__close-button'),
+                d.querySelector('.cart__close-button'),
             ],
             lock: function () {
                 //блокирует все интерактывные элемеры в хедере

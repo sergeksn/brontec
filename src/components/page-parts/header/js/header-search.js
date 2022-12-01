@@ -17,7 +17,7 @@ export default new (class {
         this.header_search = d.querySelector('.header-search');
         this.search_input_wrap = d.querySelector('.header-search__input');
         this.search_input = d.querySelector('.header-search input');
-        this.close_button = d.querySelector('.header-search__close-button');
+        this.clean_input_button = d.querySelector('.header-search__input-control-icons>button');
         this.results_wrap = d.querySelector('.header-search__results-wrap');
         this.results_loader = d.querySelector('.header-search__loader');
         this.results_data = d.querySelector('.header-search__results-data');
@@ -41,7 +41,7 @@ export default new (class {
         //parts - только для частей комплекта
         //never - не добавлять инстукции ни к одному продукту
 
-        this.close_button._on('click', () => this.click_close_search_button()); //клик по крестику в окне поиска
+        this.clean_input_button._on('click', () => this.click_clean_input_button()); //клик по крестику в в инпуте для очистки инпута и хранилища
 
         this.search_input._on('input', () => this.chenge_in_search_input()); //начинаем поиск после ввода символов
 
@@ -181,25 +181,18 @@ export default new (class {
     //закрываем окно для отображения результатов поиска
 
     //клик по крестику в окне поиска
-    async click_close_search_button() {
+    click_clean_input_button() {
         if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
 
-        Header.active_elements.lock(); //блокируем активные элементы в хедере
+        this.clean_input(); //удаляем данные запроса пользователя в инпуте и хранилище
 
-        if (this.status === 'open') {
-            //если окно срезультатами поиска открыто, то после его закрытиея чистим инпут с поисковым запросом
-            await this.close_results_block();
-            this.clean_input();
-        } else {
-            this.search_input.value !== '' ? this.clean_input() : await Header_Hidden.close(); //если же окно с результатами поиска было закрыто, то значит оно уже было закрыто, тогда если в поле инпута был какой то текст просто чистим его, значит мы просто нажали на крестик в тот момент когда запрос на сервер ещё не отправился, если поле ввода пусто то значит можно закрывать окно поиска
-        }
-
-        Header.active_elements.unlock(); //разблокируем активные элементы в хедере
+        this.chenge_in_search_input(this.is_render_now); //вызываем событие изменения в инпуте и если сейчас происходит рендер закрываем блок с результатами поиска, иначе оставляем блок с со всем содержимым на месте а только чистим инпут и хранилище
     }
     //клик по крестику в окне поиска
 
     //начинаем поиск после ввода символов
-    chenge_in_search_input() {
+    //close_results_block - разрешает/запрещает скрывать блок с результатами поиска
+    chenge_in_search_input(close_results_block = true) {
         clearTimeout(this.input_timerid); //удаляем таймер
 
         this.search_input.value.length > 0 ? this.search_input.classList.add('started-inputed') : this.search_input.classList.remove('started-inputed'); //если введён хотяб один символ в поле поиска меняем стили инпута
@@ -256,13 +249,16 @@ export default new (class {
             }
             //если ввели 2 и блоее символов начинаем поиск
 
-            //если количество символов удалили до нуля то сворачиваем блок с результатами поиска
-            if (search_text.length === 0) {
+            //если количество символов удалили до нуля и можно закрыть блок с результатми поиска то сворачиваем блок с результатами поиска
+            if (search_text.length === 0 && close_results_block) {
                 Header.active_elements.lock(); //блокируем активные элементы в хедере
+
+                this.render_abort = true; //прерываем отображение возможных результатов поиска
                 await this.close_results_block(); //удаляем результаты поиска и закрываем его окно
+
                 Header.active_elements.unlock(); //разблокируем активные элементы в хедере
             }
-            //если количество символов удалили до нуля то сворачиваем блок с результатами поиска
+            //если количество символов удалили до нуля и можно закрыть блок с результатми поиска то сворачиваем блок с результатами поиска
         }, 500);
         //создаём таймер задержки ввода
     }
@@ -282,7 +278,18 @@ export default new (class {
 
     //раскрываем окно с результатами поиска и отображает результаты поиска в блоке для результатов
     async render_results(search_text) {
-        let check_abort_render = () => this.status !== 'open' || this.search_input.value !== search_text, //функции проверяет нужно ли прервать дальнейший рендер результатов поиска, например если окно начали закрывать или уже закрыли или если в поле вода поиска уже введён другой текст отичный от того результаты поиска которого мы рендерим, нужно проверять после каждой асинхронной операции черех await
+        this.is_render_now = true; //в начале рендера помечаем что начат рендер
+        this.render_abort = false; //в начале рендера помечаем что рендер не нужно прерывать
+
+        let check_abort_render = () => {
+                if (this.status !== 'open' || this.search_input.value !== search_text) {
+                    if (this.render_abort) {
+                        this.close_results_block(); //если нужно прервать рендер то закрываем и блок с результатами поиска
+                        this.is_render_now = false; //помечаем что рендер завершён
+                    }
+                    return true;
+                }
+            }, //функции проверяет нужно ли прервать дальнейший рендер результатов поиска, например если окно начали закрывать или уже закрыли или если в поле вода поиска уже введён другой текст отичный от того результаты поиска которого мы рендерим, нужно проверять после каждой асинхронной операции черех await
             //вставляет переданные код html в блок с результатами поиска и плавно показывает его
             show_results = async result_html => {
                 await anime({
@@ -291,7 +298,7 @@ export default new (class {
                     opacity: 0,
                 }).finished;
 
-                if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
+                if (check_abort_render()) return; //проверяем нужно ли продолжать рендер
 
                 this.results_data.innerHTML = result_html; //записываем результаты в блок с результатами поиска
 
@@ -301,7 +308,7 @@ export default new (class {
                     opacity: 1,
                 }).finished;
 
-                if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
+                if (check_abort_render()) return; //проверяем нужно ли продолжать рендер
 
                 //показываем блок со ссылками
                 this.results_any_links.style.opacity = '';
@@ -314,6 +321,8 @@ export default new (class {
                 //показываем блок со ссылками
 
                 Img_Loader.add_in_observe(this.results_data.querySelectorAll('[data-img-type]')); //добавляем отслеживание видимости картинок в окне поиска
+
+                this.is_render_now = false; //по завершению рендера помечаем что рендер завершён
             };
         //вставляет переданные код html в блок с результатами поиска и плавно показывает его
 
@@ -337,7 +346,7 @@ export default new (class {
 
             await Promise.all([hide_any_links, hide_results_data]); //дожидаемся пока скроются дополнительные ссылки снизу а так же результаты поиска
 
-            if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
+            if (check_abort_render()) return; //проверяем нужно ли продолжать рендер
 
             this.results_data.innerHTML = ''; //удаляем всё содержимое блока с результатами поиска
 
@@ -359,13 +368,13 @@ export default new (class {
                 //только если поиск НЕ был прерван
                 let html_code = data.error || data; //определяем HTML код для вставки
 
-                if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
+                if (check_abort_render()) return; //проверяем нужно ли продолжать рендер
 
                 await show_results(html_code); //вставляет переданные код html в блок с результатами поиска и плавно показывает его
 
-                if (check_abort_render()) return; //проверяем нужно ли продолжать ренде
+                if (check_abort_render()) return; //проверяем нужно ли продолжать рендер
 
-                if (!data.error && !set_localStorage('search-result', html_code)) return; //если это не ошибка и если локальное хранилище доступно сохраняем в него результат поиска, для быстрого рендера при повторном открытии окна, если оно было просто закрыто
+                !data.error && !set_localStorage('search-result', html_code); //если это не ошибка и если локальное хранилище доступно сохраняем в него результат поиска, для быстрого рендера при повторном открытии окна, если оно было просто закрыто
                 //ПРИМЕЧАНИЕ: сохранять в хранилище ошибки не тоит т.к. ошибки быстро пофиксятся, а то чего раньше не было в каталоге может добавится и нужна постоянно актуальная информация, так её мы не запоминаем что постоянно проверять заново
             })
             .catch(e => {}); //этот блок catch может сработать только из-за прерывания поиска AbortError или при ошибке в коде или исключении внутри then

@@ -54,20 +54,7 @@
         }
 
         button {
-            width: rem(50);
-            height: rem(50);
             max-height: 100%;
-            font-size: rem(20);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity var(--standart-anim);
-
-            @media (min-width: rem(1920)) {
-                font-size: adaptiv_rem_size(20, 1920);
-                width: adaptiv_rem_size(50, 1920);
-                height: adaptiv_rem_size(50, 1920);
-            }
         }
 
         .icon--close {

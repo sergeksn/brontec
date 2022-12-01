@@ -56,34 +56,36 @@ body {
 .red {
     color: red;
 }
-button {
+button,
+.button {
     cursor: pointer;
+    width: rem(50);
+    height: rem(50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: rem(20);
+    position: relative;
+    transition: opacity var(--standart-anim);
+
+    @media (min-width: rem(1920)) {
+        width: adaptiv_rem_size(50, 1920);
+        height: adaptiv_rem_size(50, 1920);
+        font-size: adaptiv_rem_size(20, 1920);
+    }
 }
 
 /*ширина основных блоков не стандартная так что задаём её отлельно от сетки*/
 .standart-container {
     width: 100%;
+    max-width: rem(1180);
     margin: 0 auto;
-    padding: 0 rem(20);
-
-    @media (min-width: rem(640)) {
-        padding: 0 adaptiv_rem_size(20, 640, 30, 960);
-    }
-
-    @media (min-width: rem(960)) {
-        padding: 0 rem(30);
-    }
-
-    @media (min-width: rem(1180)) {
-        max-width: rem(1180);
-        padding: 0 adaptiv_rem_size(30, 1180, 0, 1240);
-    }
-
-    @media (min-width: rem(1240)) {
-        padding: 0;
-    }
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: rem(20);
 
     @media (min-width: rem(1920)) {
+        grid-column-gap: adaptiv_rem_size(20, 1920);
         max-width: adaptiv_rem_size(1180, 1920);
     }
 }

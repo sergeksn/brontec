@@ -63,18 +63,7 @@
         }
 
         button {
-            @media (min-width: rem(640)) {
-                width: rem(50);
-                height: rem(50);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            @media (min-width: rem(1920)) {
-                width: adaptiv_rem_size(50, 1920);
-                height: adaptiv_rem_size(50, 1920);
-            }
+            font-size: inherit;
         }
 
         .icon--search {
@@ -184,13 +173,9 @@
         }
 
         button {
+            width: auto;
             min-width: rem(50);
-            height: rem(50);
             padding-left: rem(10);
-            font-size: rem(20);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             transition: opacity var(--standart-anim);
 
             @media (min-width: rem(640)) {
@@ -202,7 +187,6 @@
             }
 
             @media (min-width: rem(1920)) {
-                height: adaptiv_rem_size(50, 1920);
                 font-size: adaptiv_rem_size(22, 1920);
             }
         }
@@ -260,15 +244,6 @@
 }
 
 .burger {
-    button {
-        width: rem(50);
-        height: rem(50);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: opacity var(--standart-anim);
-    }
-
     &__body {
         width: rem(30);
         height: rem(30);

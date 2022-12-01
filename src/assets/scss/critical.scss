@@ -2,11 +2,11 @@
 @import "@scss-data/mixins";
 @import "@scss-data/scss-variables";
 
+@import "@scss-libs/normalize";
 @import "@scss-general/variables";
 @import "@scss-general/base";
 @import "@scss-general/scrollbar";
 @import "@scss/icon-font/icons";
-@import "@scss-libs/normalize";
 
 //@dinamic node import fils
 @import "@images-render-scss";

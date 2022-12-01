@@ -19,13 +19,14 @@ export default new (class {
         this.status = 'close'; //статус открытия меню
 
         //определяет какую часть экрана занимает блок после открытия
-        //part - после открытия занимает часть экрана, т.е. высота меню + высота открытого блока меньше высоты окна раузера
+        //part - после открытия занимает часть экрана, т.е. высота меню + высота открытого блока меньше высоты окна браузера
         //full - после открытия занимает всё окно браузера, т.е. высота меню + высота открытого блока больше или равноа высоте окна раузера
         this.size;
 
         [
             d.querySelector('.header-visible__search-button'), //кнопка поиска в хедере
             d.querySelector('.header-visible__burger'), //кнопка бургер меню
+            d.querySelector('.header-search__close-button'), //кнопка закрытия окна поиска
             d.getElementById('header-overlay'), //подложка хедера
         ].forEach(el => {
             el._on('click', () => this.toggle_header_hidden_block()); //открываем/закрываем скрытый блок при клике на бургер кнопку, кнопку поиска в видимой части хедеера или на подложку хедера
@@ -38,6 +39,10 @@ export default new (class {
     //функция будет выполянять нужные действия в зависимости от размеров экрана
     size_recalculate() {
         if (Header_Search.status === 'pending to open' || Header_Search.status === 'open') return; //если окно с результатами поиска открыто или в процессе открытия то заверашем данную функцию
+
+        console.log(Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }) );
+
+
 
         this.size = Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }) >= GDS.win.height ? 'full' : 'part'; //если высота хедера с банером + выоста скрытого блока больше или равна высоте окна браузера full, если же высота хедера с банером + выоста скрытого блока меньше высоты окна браузера part
         //если высота хедера с банером + выоста скрытого блока больше или равна высоте окна браузера
@@ -127,7 +132,7 @@ export default new (class {
 
         this.header.style.overflow = 'visible'; //добавляем чтоб во время открытия хедера он был виден по мере появления
 
-        this.header_hidden.style.display = 'block'; //показываем блок в документе
+        this.header_hidden.style.display = 'grid'; //показываем блок в документе
 
         let anim_open_header_hidden = anime({
             targets: this.header_hidden,
