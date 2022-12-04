@@ -25,7 +25,7 @@ export default new (class {
 
         [
             d.querySelector('.header-visible__search-button'), //кнопка поиска в хедере
-            d.querySelector('.header-visible__burger'), //кнопка бургер меню
+            d.querySelector('.header-visible__burger-button'), //кнопка бургер меню
             d.querySelector('.header-search__close-button'), //кнопка закрытия окна поиска
             d.getElementById('header-overlay'), //подложка хедера
         ].forEach(el => {
@@ -39,10 +39,6 @@ export default new (class {
     //функция будет выполянять нужные действия в зависимости от размеров экрана
     size_recalculate() {
         if (Header_Search.status === 'pending to open' || Header_Search.status === 'open') return; //если окно с результатами поиска открыто или в процессе открытия то заверашем данную функцию
-
-        console.log(Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }) );
-
-
 
         this.size = Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }) >= GDS.win.height ? 'full' : 'part'; //если высота хедера с банером + выоста скрытого блока больше или равна высоте окна браузера full, если же высота хедера с банером + выоста скрытого блока меньше высоты окна браузера part
         //если высота хедера с банером + выоста скрытого блока больше или равна высоте окна браузера
@@ -74,10 +70,12 @@ export default new (class {
 
         Header.active_elements.lock(); //блокируем активные элементы в хедере
 
-        await Header.show().catch(e => {}); //пытаем показать хедер, т.к. клик мог произойти в момент когда хедер в движении после скрола, в этом случае мы дождёмся пока хедер полностью не покажется, сели же он уже ыбл полностью виден этот пункт завершится мгновенно
+        await Header.show().catch(e => {}); //пытаем показать хедер, т.к. клик мог произойти в момент когда хедер в движении после скрола, в этом случае мы дождёмся пока хедер полностью не покажется, сели же он уже был полностью виден этот пункт завершится мгновенно
         //ПРИМЕЧАНИЕ: catch(e=>{}) НЕЛЬЗЯ убирать т.к. при попытке закрыть блоки получим исключение в виде того что невозможно показать хедер т.к. он заблокирован
 
-        await Header_Cart.hide().catch(e => {}); //пробуем закрыть корзину если вдург она открыта, дажидаемся её закрытия
+
+        console.log(Header_Cart.status === 'show')
+        if (Header_Cart.status === 'show') this.header.classList.remove('lock-scroll'); //если корзина открыта то возможно была заблокированна прокутка хедера, так что для начала снимем эту блокировку
 
         //если скрытый блок хедера закрыт
         if (this.status === 'close') {
@@ -116,6 +114,8 @@ export default new (class {
         }
         //если скрытый блок хедера открыт
 
+        if (this.size === 'full' && Header_Cart.status === 'show') this.header.classList.add('lock-scroll'); //если корзина открыта и хедер во весь экран то после успешного открытия блока хедера мы должны снова заблокировать его прокрутку
+
         Header.active_elements.unlock(); //разблокируем активные элементы в хедере
     }
     //открываем/закрываем скрытый блок при клике на бургер кнопку и кнопку поиска в видимой части хедеера
@@ -132,7 +132,7 @@ export default new (class {
 
         this.header.style.overflow = 'visible'; //добавляем чтоб во время открытия хедера он был виден по мере появления
 
-        this.header_hidden.style.display = 'grid'; //показываем блок в документе
+        this.header_hidden.style.display = 'block'; //показываем блок в документе
 
         let anim_open_header_hidden = anime({
             targets: this.header_hidden,
@@ -184,11 +184,13 @@ export default new (class {
 
         this.header_hidden.style.display = ''; //скрываем блок из документа
 
-        this.body.classList.remove('lock-scroll'); //разблокируем прокуртку документа
+        if (Header_Cart.status !== 'show') this.body.classList.remove('lock-scroll'); //разблокируем прокуртку документа если корзина закрыта
 
         Scroll_To_Top_Button.toggle_show_button(); //показываем кнопку скрола если нужно
 
         Header.lock = false;
+
+        this.size_recalculate(); //обновляем статус размера хедера и его стили
 
         this.status = 'close'; //помечеам что меню закрыто
     }

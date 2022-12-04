@@ -133,11 +133,30 @@
 </head>
 
 <body class="custom-scrollbar">
+  <script>
+    /*определяем поддержку flex gap*/
+    (() => {
+      let f = d.createElement("div");
+      f.style.display = "flex";
+      f.style.flexDirection = "column";
+      f.style.rowGap = "1px";
+
+      f.appendChild(d.createElement("div"));
+      f.appendChild(d.createElement("div"));
+
+      d.body.appendChild(f);
+      let s = f.scrollHeight === 1,
+        c = s ? 'support-flex-gap' : 'not-support-flex-gap';
+      f.parentNode.removeChild(f);
+
+      GDS.support_flex_gap = s;
+      d.body.classList.add(c);
+    })()
+  </script>
   <header class="custom-scrollbar">
     <%- include('./header-poster')%>
     <%- include('./header-visible')%>
     <%- include('./header-hidden')%>
-    <div id="cart-overlay-header-hidden" class="overlay"></div>
   </header>
   <%- include('./header-cart')%>
   <div id="header-background"></div>
@@ -171,6 +190,9 @@
     <!-- <div class="test_block">
       <%- include('./../../blocks/images/images.ejs', {data:{type: "img", url:"~@img/media-test/obrabotka_salona_3-1.jpg", loader:true, ow:6720, oh:3840, pt:57.1429,}})%>
     </div> -->
+
+
+
     <div style="height:200px"></div>
     <div style="max-width:780px; margin:auto;">
       <%- include('./../../blocks/product-small-info-block/product-small-info-block.ejs', {type: "header-search"}) %>

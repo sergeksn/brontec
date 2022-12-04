@@ -39,9 +39,9 @@ let Header = new (class {
             elements: [
                 //все активные эльменты которые есть в хедере
                 d.querySelector('.header-poster__close>button'),
-                d.querySelector('.header-visible__burger>button'),
-                d.querySelector('.header-visible__cart-button>button'),
-                d.querySelector('.header-visible__search-button>button'),
+                d.querySelector('.header-visible__burger-button'),
+                d.querySelector('.header-visible__cart-button'),
+                d.querySelector('.header-visible__search-button'), //кнопка поиска в хедере
                 d.querySelector('.header-search__input-control-icons>button'),
                 d.querySelector('.header-search__close-button'),
                 d.querySelector('.cart__close-button'),

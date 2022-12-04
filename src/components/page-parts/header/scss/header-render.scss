@@ -6,7 +6,6 @@
 
 /*оболочка хедера*/
 header {
- 
     width: 100%;
     position: fixed;
     background-color: var(--white);
@@ -20,11 +19,15 @@ header.--open-header-hidden {
 }
 
 @media (any-hover: hover) and (any-pointer: fine) {
-    //для браузеров с поддержкой наложения скролбара
     @supports (overflow: overlay) {
         header.--open-header-hidden {
-            scrollbar-gutter: stable !important;
-            overflow: hidden overlay;
+            overflow: hidden overlay; //для браузеров с поддержкой наложения скролбара
+        }
+    }
+
+    @supports not (overflow: overlay) {
+        header.--open-header-hidden {
+            scrollbar-gutter: stable !important; //если наложение не поддерживается то резервируем место под скрол
         }
     }
 }
@@ -36,5 +39,5 @@ header.--open-header-hidden {
     inset: 0;
     opacity: 0;
     background-color: var(--white);
-    z-index: map-get($z-index, header-overlay);//лучше привязать всё на переменные для удобства
+    z-index: map-get($z-index, header-overlay); //лучше привязать всё на переменные для удобства
 }

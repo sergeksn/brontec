@@ -172,6 +172,7 @@ function Get_Rules() {
                                           require('autoprefixer'), //добавляет префиксы на основе браузер листа
                                           require('cssnano'), //максимально минифицирует код
                                           require('postcss-inset'), //полифил для inset
+                                          require('postcss-sort-media-queries'), //групирует медиазапросы
                                       ],
                                   },
                               },
@@ -181,6 +182,17 @@ function Get_Rules() {
                     : [
                           MiniCssExtractPlugin.loader, //вставляет css в свой файл
                           'css-loader', //позволяет ноде обработать файл css
+                          {
+                              loader: 'postcss-loader', //выполняет все необходимые преобразования перед передачей в следующий лобавдер
+                              options: {
+                                  postcssOptions: {
+                                      plugins: [
+                                          require('postcss-inset'), //полифил для inset
+                                          require('postcss-sort-media-queries'), //групирует медиазапросы
+                                      ],
+                                  },
+                              },
+                          },
                           'sass-loader', //переводит код и scss или sass в css
                       ],
         },

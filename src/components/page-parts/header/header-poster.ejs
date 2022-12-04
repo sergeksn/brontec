@@ -1,16 +1,14 @@
-<div class="header-poster" id="NKkGUF0X9DGuvct">
-  <a href="#">
-    <div class="header-poster__item header-poster__item--mobile">
-      <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@header-img/banner2.jpg", loader:true, ow:320, oh:60, pt:18.75,}})%>
-    </div>
-    <div class="header-poster__item header-poster__item--tablet">
-      <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@header-img/banner.jpg", loader:true, ow:1920, oh:80, pt:4.1667,}})%>
-    </div>
-    <div class="header-poster__item header-poster__item--desktop">
-      <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@header-img/banner.jpg", loader:true, ow:1920, oh:80, pt:4.1667,}})%>
-    </div>
-  </a>
-  <div class="header-poster__close">
+<div class="header-poster" id="NKkGUF0X9DGuvct" data-href="#">
+  <div class="header-poster__img header-poster__img--mobile">
+    <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@header-img/banner2.jpg", loader:true, ow:320, oh:60, pt:18.75,}})%>
+  </div>
+  <div class="header-poster__img header-poster__img--tablet">
+    <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@header-img/banner.jpg", loader:true, ow:1920, oh:80, pt:4.1667,}})%>
+  </div>
+  <div class="header-poster__img header-poster__img--desktop">
+    <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@header-img/banner.jpg", loader:true, ow:1920, oh:80, pt:4.1667,}})%>
+  </div>
+  <div class="header-poster__close standart-container">
     <button>
       <div class="icon--close"></div>
       <div class="icon--close-bold"></div>

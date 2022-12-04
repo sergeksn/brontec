@@ -9,14 +9,11 @@ export default new (class {
 
         this.header = d.getElementsByTagName('header')[0]; //хедер
         this.poster_close_button = d.querySelector('.header-poster__close>button'); //кнопка закрытия банера в хедере
-        this.poster_link = d.querySelector('.header-poster>a');
 
         this.lock = false;
         this.swipe_lock = false;
         this.status = 'show';
         this.close_button_lock = false;
-
-        this.poster_link._on('click', e => e.preventDefault(), { passive: false }); //предотвращаем переход по ссылке при клике
 
         this.poster_close_button._on('click', async e => {
             if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
@@ -87,9 +84,17 @@ export default new (class {
                           targets: Header_Cart.cart,
                           top: '-=' + poster_height,
                       }).finished
+                    : null,
+            up_cart_overlay =
+                Header_Cart.status !== 'hide'
+                    ? anime({
+                          //поднимаем подложку корзины если она открыта
+                          targets: Header_Cart.overlay,
+                          top: '-=' + poster_height,
+                      }).finished
                     : null;
 
-        await Promise.all([up_header, up_header_background, up_cart]); //поднимаем хедер и уменщаем высоту его подложки
+        await Promise.all([up_header, up_header_background, up_cart, up_cart_overlay]); //поднимаем хедер и уменщаем высоту его подложки
 
         this.header_poster.style.display = 'none'; //скрываем банер из документа
         this.header.style.transform = 'translateY(0)'; //попутно быстро меняем верхнюю позицию для хедера сразу после удаленяи банераоткрытии всех окон и ресазах
@@ -176,7 +181,7 @@ export default new (class {
 
                     if (s.find_exceptions_el) return; // если клик был по кнопке закрытия
 
-                    if (s.x_dist <= 15 && s.y_dist <= 15) d.location.href = this.poster_link.href; //если было очень маленькое смещение то мы переходим по ссылке банера
+                    if (s.x_dist <= 15 && s.y_dist <= 15) d.location.href = this.header_poster.getAttribute('data-href'); //если было очень маленькое смещение то мы переходим по ссылке из атрибута
 
                     //возвращаем банер в исходное положение
                     await anime({

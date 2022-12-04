@@ -1,83 +1,31 @@
-<div class="header-visible">
-  <div class="header-visible__logo">
-    <a href="/pages/glavnaya.html">
-      <%- include('./../../blocks/images/images.ejs', {data:{type: "img", url:"~@header-img/logo.svg", pt:16.67,}})%>
-    </a>
-  </div>
-  <div class="header-visible__search-button">
-    <button>
-      <div class="icon--search"></div>
-      <div class="icon--search-bold"></div>
-    </button>
-  </div>
-  <div class="header-visible__menu">
-    <nav>
-      <ul>
-        <li><a href="#">Выбрать комплект</a></li>
-        <li><a href="#">Инструкции</a></li>
-        <li><a href="#">Доставка и оплата</a></li>
-        <li><a href="#">О нас</a></li>
-      </ul>
-    </nav>
-  </div>
-  <div class="header-visible__phone">
-    <a href="tel:+88000000000">8 800 000-00-00</a>
-  </div>
-  <div class="header-visible__cart-button">
-    <button>
-      <div class="icon--cart"></div>
-      <div class="icon--cart-bold"></div>
-      <div class="header-visible__cart-counter">1</div>
-    </button>
-  </div>
-  <div class="header-visible__burger burger">
-    <button>
-      <div class="burger__body">
-        <div class="burger__line-1"></div>
-        <div class="burger__line-2"></div>
-        <div class="burger__line-3"></div>
-        <div class="burger__line-4"></div>
-      </div>
-    </button>
-  </div>
+<div class="header-visible standart-container">
+  <a class="header-visible__logo set-min-interactive-size" href="/pages/glavnaya.html">
+    <%- include('./../../blocks/images/images.ejs', {data:{type: "img", url:"~@header-img/logo.svg", pt:16.67,}})%>
+  </a>
+  <button class="header-visible__search-button">
+    <div class="icon--search-bold"></div>
+    <div class="icon--search"></div>
+  </button>
+  <nav class="header-visible__menu">
+    <ul>
+      <li><a class="set-min-interactive-size" href="#">Выбрать комплект</a></li>
+      <li><a class="set-min-interactive-size" href="#">Инструкции</a></li>
+      <li><a class="set-min-interactive-size" href="#">Доставка и оплата</a></li>
+      <li><a class="set-min-interactive-size" href="#">О нас</a></li>
+    </ul>
+  </nav>
+  <a class="header-visible__phone set-min-interactive-size" href="tel:+88000000000">8 800 000-00-00</a>
+  <button class="header-visible__cart-button">
+    <div class="icon--cart"></div>
+    <div class="icon--cart-bold"></div>
+    <div class="header-visible__cart-counter">1</div>
+  </button>
+  <button class="header-visible__burger-button burger">
+    <div class="burger__body">
+      <div class="burger__line-1"></div>
+      <div class="burger__line-2"></div>
+      <div class="burger__line-3"></div>
+      <div class="burger__line-4"></div>
+    </div>
+  </button>
 </div>
-<script>
-  /*при переполнении переносим меню ниже*/
-  (() => {
-    let html = d.documentElement,
-      menu = d.querySelector(".header-visible__menu"),
-      parent = menu.parentNode;
-
-
-    transfer_menu = () => {
-      let result_width = 0,
-        rem_width = html.clientWidth / w.getComputedStyle(html).fontSize.replace('px', '');
-
-      /*только если больше 960px*/
-      if (rem_width >= 60) {
-        /*получаем полную ширину всех необходимых дочерних элементов header-visible*/
-        parent.childNodes.forEach(el => {
-          if (el.nodeType === 3 || el.nodeType === 8 || el === parent.querySelector(".header-visible__burger") || el === menu) return; /*прерываем если это обычный текст, комментарий, бургер или само меню*/
-
-          let sl = w.getComputedStyle(el),
-            width = +sl.width.replace("px", ""),
-            ml = +sl.marginLeft.replace("px", ""),
-            mr = el === parent.querySelector(".header-visible__logo") ? 0 : +sl.marginRight.replace("px", "");
-          result_width += width + ml + mr;
-        });
-
-        let max_menu_width = +w.getComputedStyle(parent).width.replace("px", "") - result_width,
-          menu_sl = w.getComputedStyle(menu),
-          menu_width = +menu_sl.width.replace("px", "") + +menu_sl.marginLeft.replace("px", "");
-
-        menu.style.order = menu_width >= max_menu_width ? "1" : "0";
-        menu.style.margin = menu_width >= max_menu_width ? "0 auto" : "";
-      } else {
-        menu.style.order = "1"; /*убираем стиль после брейкпоинта*/
-      }
-    };
-    transfer_menu();
-
-    w.addEventListener("resize", transfer_menu); /*так же проверяем нужно ли переносить при каждом ресайзе*/
-  })();
-</script>

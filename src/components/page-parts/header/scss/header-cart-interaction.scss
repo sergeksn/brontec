@@ -1,3 +1,20 @@
+.cart-grid {
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(12, 1fr);
+    align-items: center;
+    margin: 0 adaptiv_rem_size(20, 320, 30, 640);
+
+    @media (min-width: rem(640)) {
+        grid-template-columns: repeat(5, 1fr);
+        margin: 0 rem(50);
+    }
+
+    @media (min-width: rem(1920)) {
+        margin: 0 adaptiv_rem_size(50, 1920);
+    }
+}
+
 .cart {
     position: fixed;
     width: 100%;
@@ -6,7 +23,6 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--white);
     z-index: 20;
     padding: 0 0 rem(10) rem(10);
 
@@ -27,76 +43,76 @@
         border-bottom-left-radius: var(--b-radius);
         height: 100%;
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        display: grid;
+        grid-template-rows: adaptiv_rem_size(50, 320, 60, 640) 1fr rem(176); //178 - 2 граница
+        background-color: var(--white);
+
+        @media (min-width: rem(640)) {
+            grid-template-rows: rem(60) 1fr rem(178);
+        }
 
         @media (min-width: rem(1920)) {
-            border: adaptiv_rem_size(2, 1920) solid var(--blue);
+            border-width: adaptiv_rem_size(2, 1920);
             border-right: none;
+            grid-template-rows: adaptiv_rem_size(60, 1920) 1fr rem(176); //178 - 2 граница
         }
     }
 
     &__header {
-        width: 100%;
         display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        height: adaptiv_rem_size(50, 320, 60, 640);
-        background-color: pink;
+        justify-content: space-between;
 
         @media (min-width: rem(640)) {
-            height: rem(60);
+            justify-content: flex-end;
         }
 
-        @media (min-width: rem(1920)) {
-            height: adaptiv_rem_size(60, 1920);
+        &-titile {
+            font: var(--h2);
+
+            @media (min-width: rem(640)) {
+                display: none;
+            }
         }
-    }
 
-    &__titile {
-        margin: 0 auto 0 rem(10);
-        font: var(--h2);
-
-        @media (min-width: rem(640)) {
+        &-cart-icon {
             display: none;
-        }
-    }
 
-    &__cart-icon {
-        display: none;
+            @media (min-width: rem(640)) {
+                display: block;
+                font-size: rem(22);
+                margin-right: rem(10);
+            }
 
-        @media (min-width: rem(640)) {
-            display: block;
-            font-size: rem(22);
-            margin-right: rem(10);
-        }
-
-        @media (min-width: rem(1920)) {
-            font-size: adaptiv_rem_size(22, 1920);
-            margin-right: adaptiv_rem_size(10, 1920);
-        }
-    }
-
-    &__counter {
-        display: none;
-
-        @media (min-width: rem(640)) {
-            display: block;
-            margin-right: rem(20);
-            font-size: var(--default);
+            @media (min-width: rem(1920)) {
+                font-size: adaptiv_rem_size(22, 1920);
+                margin-right: adaptiv_rem_size(10, 1920);
+            }
         }
 
-        @media (min-width: rem(1920)) {
-            margin-right: adaptiv_rem_size(20, 1920);
+        &-counter {
+            display: none;
+
+            @media (min-width: rem(640)) {
+                display: block;
+                margin-right: rem(-15);
+                font-size: var(--default);
+            }
+
+            @media (min-width: rem(1920)) {
+                margin-right: adaptiv_rem_size(-15, 1920);
+            }
         }
-    }
 
-    &__close-button {
-        margin-right: rem(10);
+        &-close-button {
+            right: rem(-15);
 
-        @media (min-width: rem(1920)) {
-            margin-right: adaptiv_rem_size(10, 1920);
+            @media (min-width: rem(640)) {
+                right: rem(-40);
+            }
+
+            @media (min-width: rem(1920)) {
+                right: adaptiv_rem_size(-40, 1920);
+            }
         }
     }
 
@@ -105,9 +121,22 @@
     }
 
     &__footer {
-        width: 100%;
-        height: rem(178);
+        border-top: rem(2) solid var(--blue);
         background-color: green;
+
+        @media (min-width: rem(1920)) {
+            border-width: adaptiv_rem_size(2, 1920);
+        }
+
+        &-promocod {
+            width: 10px;
+        }
+
+        &-final-price {
+        }
+
+        &-design-order {
+        }
     }
 
     &__empty {
@@ -115,9 +144,6 @@
     }
 }
 
-#cart-overlay-common {
-    z-index: 9;
-}
-#cart-overlay-header-hidden {
-    z-index: 1;
+#cart-overlay {
+    z-index: 19;
 }

@@ -1,46 +1,45 @@
 .header-visible {
-    min-height: rem(60);
-    width: 100%;
+    z-index: 2;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: flex-end;
+    align-items: center;
+    grid-column-gap: 0;
+    min-height: rem(60);
     position: relative;
     background-color: var(--white);
-    z-index: 2;
+    max-width: none !important; //нужно чтоб переопределить после групировки медиазапросов
+
+    @media (min-width: rem(640)) {
+        min-height: rem(100);
+    }
 
     @media (min-width: rem(960)) {
-        min-height: adaptiv_rem_size(60, 960, 80, 1920);
+        min-height: rem(80);
+    }
+
+    @media (min-width: rem(1180)) {
+        //сброс стандартного контейнера и растягивание на всю ширину
+        width: calc(100% - adaptiv_rem_size(30, 1180, 50, 1920) * 2) !important; //нужно чтоб переопределить после групировки медиазапросов
+        margin: 0 adaptiv_rem_size(30, 1180, 50, 1920) !important; //нужно чтоб переопределить после групировки медиазапросов
     }
 
     @media (min-width: rem(1920)) {
         min-height: adaptiv_rem_size(80, 1920);
+        width: calc(100% - adaptiv_rem_size(50, 1920) * 2) !important; //нужно чтоб переопределить после групировки медиазапросов
+        margin: 0 adaptiv_rem_size(50, 1920) !important; //нужно чтоб переопределить после групировки медиазапросов
     }
 
     &__logo {
+        margin-right: auto;
         width: rem(110);
-        min-height: rem(50);
-        margin: 0 auto 0 rem(20);
 
         @media (min-width: rem(640)) {
             width: adaptiv_rem_size(130, 640, 120, 1920);
-            margin: 0 auto 0 adaptiv_rem_size(30, 640, 60, 1920);
         }
 
         @media (min-width: rem(1920)) {
             width: adaptiv_rem_size(120, 1920);
-            margin: 0 auto 0 adaptiv_rem_size(60, 1920);
-        }
-
-        a {
-            min-width: rem(50);
-            height: rem(50);
-            display: flex;
-            align-items: center;
-
-            @media (min-width: rem(1920)) {
-                height: adaptiv_rem_size(50, 1920);
-            }
         }
     }
 
@@ -48,41 +47,31 @@
         display: none;
 
         @media (min-width: rem(640)) {
-            display: block;
             font-size: rem(15);
-            margin-right: rem(15);
+            display: flex;
+            margin-right: adaptiv_rem_size(20, 640, 25, 960);
         }
 
-        @media (min-width: rem(640)) {
-            margin: 0 adaptiv_rem_size(25, 960, 55, 1920);
+        @media (min-width: rem(960)) {
+            margin-right: rem(25);
         }
 
         @media (min-width: rem(1920)) {
-            margin: 0 adaptiv_rem_size(55, 1920);
             font-size: adaptiv_rem_size(15, 1920);
-        }
-
-        button {
-            font-size: inherit;
-        }
-
-        .icon--search {
-            @media (min-width: rem(640)) {
-                display: none;
-            }
-
-            @media (min-width: rem(960)) {
-                display: block;
-            }
+            margin-right: adaptiv_rem_size(25, 1920);
         }
 
         .icon--search-bold {
-            @media (min-width: rem(640)) {
-                display: block;
-            }
-
             @media (min-width: rem(960)) {
                 display: none;
+            }
+        }
+
+        .icon--search {
+            display: none;
+
+            @media (min-width: rem(960)) {
+                display: flex;
             }
         }
     }
@@ -91,42 +80,44 @@
         display: none;
 
         @media (min-width: rem(640)) {
-            display: block;
-            width: 75%;
-            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            order: 1;
         }
 
-        @media (min-width: rem(960)) {
+        //для переноса меню
+        @media (min-width: rem(1050)) {
             width: auto;
-            margin: 0;
+            display: block;//нужно менять иначе в фаерфоксе поочему-то едет меню
+            order: 0;
+            margin-right: rem(40);
+        }
+        //для переноса меню
+
+        @media (min-width: rem(1920)) {
+            margin-right: adaptiv_rem_size(40, 1920);
         }
 
         ul {
             @media (min-width: rem(640)) {
+                grid-column: 2 / span 10;
                 display: flex;
                 justify-content: space-between;
             }
 
-            li {
-                @media (min-width: rem(960)) {
-                    margin-right: adaptiv_rem_size(10, 960, 40, 1920);
-                }
+            //для переноса меню
+            @media (min-width: rem(1050)) {
+                grid-column: span 12;
+            }
+            //для переноса меню
 
-                @media (min-width: rem(1920)) {
-                    margin-right: adaptiv_rem_size(40, 1920);
-                }
+            @media (min-width: rem(1920)) {
+                grid-gap: adaptiv_rem_size(40, 1920);
             }
 
-            a {
-                @media (min-width: rem(640)) {
-                    height: rem(50);
-                    display: flex;
-                    align-items: center;
-                }
-
-                @media (min-width: rem(1920)) {
-                    height: adaptiv_rem_size(50, 1920);
-                }
+            li > a {
+                min-width: auto;
             }
         }
     }
@@ -135,59 +126,37 @@
         display: none;
 
         @media (min-width: rem(640)) {
-            display: block;
-            margin-right: adaptiv_rem_size(40, 640, 10, 960);
+            display: flex;
             color: var(--blue);
-        }
-
-        @media (min-width: rem(960)) {
-            margin-right: adaptiv_rem_size(10, 960, 50, 1920);
+            margin-right: adaptiv_rem_size(50, 640, 60, 1920);
         }
 
         @media (min-width: rem(1920)) {
-            margin-right: adaptiv_rem_size(50, 1920);
-        }
-
-        a {
-            @media (min-width: rem(640)) {
-                min-width: rem(50);
-                height: rem(50);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            @media (min-width: rem(1920)) {
-                height: adaptiv_rem_size(50, 1920);
-            }
+            margin-right: adaptiv_rem_size(60, 1920);
         }
     }
 
     &__cart-button {
+        min-width: rem(50);
+        width: auto;
+        font-size: rem(22);
+        justify-content: flex-end;
+
         @media (min-width: rem(640)) {
-            margin-right: adaptiv_rem_size(30, 640, 70, 1920);
+            font-size: rem(17);
+        }
+
+        @media (min-width: rem(960)) {
+            font-size: rem(22);
         }
 
         @media (min-width: rem(1920)) {
-            margin-right: adaptiv_rem_size(70, 1920);
+            font-size: adaptiv_rem_size(22, 1920);
         }
 
-        button {
-            width: auto;
-            min-width: rem(50);
-            padding-left: rem(10);
-            transition: opacity var(--standart-anim);
-
-            @media (min-width: rem(640)) {
-                font-size: rem(15);
-            }
-
+        .icon--cart-bold {
             @media (min-width: rem(960)) {
-                font-size: rem(22);
-            }
-
-            @media (min-width: rem(1920)) {
-                font-size: adaptiv_rem_size(22, 1920);
+                display: none;
             }
         }
 
@@ -196,12 +165,6 @@
 
             @media (min-width: rem(960)) {
                 display: block;
-            }
-        }
-
-        .icon--cart-bold {
-            @media (min-width: rem(960)) {
-                display: none;
             }
         }
     }
@@ -217,14 +180,17 @@
         justify-content: center;
         color: var(--white);
         font: var(--small);
+        margin-left: rem(1);
 
         @media (min-width: rem(640)) {
             min-width: adaptiv_rem_size(24, 640, 30, 1920);
             height: adaptiv_rem_size(24, 640, 30, 1920);
+            margin-left: rem(4);
         }
 
         @media (min-width: rem(960)) {
             font: var(--default);
+            margin-left: 0;
         }
 
         @media (min-width: rem(1920)) {
@@ -234,12 +200,32 @@
         }
     }
 
-    &__burger {
-        margin: 0 rem(10) 0 rem(20);
+    &__burger-button {
+        right: rem(-15);
 
         @media (min-width: rem(640)) {
             display: none;
         }
+    }
+}
+
+.support-flex-gap .header-visible__menu ul {
+    @media (min-width: rem(640)) {
+        gap: rem(10) adaptiv_rem_size(30, 640, 40, 1920);
+    }
+
+    @media (min-width: rem(1920)) {
+        gap: rem(10) adaptiv_rem_size(40, 1920);
+    }
+}
+
+.not-support-flex-gap .header-visible__menu ul li {
+    @media (min-width: rem(640)) {
+        margin-right: adaptiv_rem_size(30, 640, 40, 1920);
+    }
+
+    @media (min-width: rem(1920)) {
+        margin-right: adaptiv_rem_size(40, 1920);
     }
 }
 
