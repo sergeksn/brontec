@@ -1,5 +1,5 @@
 import { show, hide } from '@js-libs/func-kit';
-import Pop_Up_Message_Overlay from './pop-up-message-overlay';
+import Overlay from '@overlays-main-js';
 
 export default class {
     //data - объект с данными для сообщения
@@ -31,7 +31,8 @@ export default class {
             this.overlay = d.createElement('div');
             wrap.append(this.overlay);
             this.overlay.id = 'pop-up-message-overlay';
-            this.overlay.overlay_controler = new Pop_Up_Message_Overlay(this.overlay); //при первом создании записываем в свойста элемента подложки её контролер
+            this.overlay.classList.add('overlay');
+            this.overlay.overlay_controler = new Overlay({ el: this.overlay, show_v: 0.5 }); //при первом создании записываем в свойста элемента подложки её контролер
         } else {
             this.overlay = overlay;
         }
@@ -49,15 +50,9 @@ export default class {
         this.status = 'hide';
         this.lock = false; //польностью блокирует любые действия с данным блоком сообщения
 
-        !this.is_fatal && this.close_button.addEventListener('click', this.close_window_message.bind(this)); //закрываем окно ссобщения по клику на кнопку закрытия, если она есть
+        !this.is_fatal && this.close_button.addEventListener('click', this.close_window_message.bind(this)); //закрываем окно сообщения по клику на кнопку закрытия, если она есть
 
         fast_show && this.show(); //если true то сообщени будет сразу показано
-        
-        //если есть фатальная ошибка
-        if (this.is_fatal) {
-            this.body.style.height = '100vh';//делаем весь документ высотой экрана чтоб не было прокруток
-            this.body.classList.remove('lock-scroll');//возвращаем скрол в документ чтоб пользователь мог на мобильном обновить страницы свайпом сверху вниз
-        }
     }
 
     //клик по кнопке закрытия сообщения
@@ -73,8 +68,9 @@ export default class {
     //клик по кнопке закрытия сообщения
 
     //показывыаем блок сообщения
-    async show(opacity = 0.5) {
+    async show() {
         this.body.classList.add('lock-scroll'); //блокируем прокрутку документа
+        let opacity;
 
         if (this.is_fatal) {
             //если ошибка критическая делаем подложку не прозрачной и меняем статус видимости подложки что ещё раз её показать но уже сделать полностью непрозрачной
@@ -83,21 +79,24 @@ export default class {
         }
 
         await Promise.all([
-            this.overlay.overlay_controler.show(opacity), //показываем подложку
-            show.call(this, {
+            this.overlay.overlay_controler.show({ show_v: opacity }), //показываем подложку
+            show({
                 //показываем блок сообщения
                 el: this.pop_up,
-                display: 'flex',
+                instance: this,
             }),
         ]);
+
+        if (this.is_fatal) this.overlay.overlay_controler.lock = true;// если фатальная ошибка после показа сообщени и подложки блокируем подложку
     }
     //показывыаем блок сообщения
 
     //скрываем блок сообщения
     async hide(unlock = true) {
-        await hide.call(this, {
+        await hide({
             //скрываем блок сообщения
             el: this.pop_up,
+            instance: this,
         });
 
         unlock && this.body.classList.remove('lock-scroll'); //разблокируем прокрутку документа

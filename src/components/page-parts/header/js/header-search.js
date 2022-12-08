@@ -1,5 +1,5 @@
 import { Header, Header_Hidden } from '@header-main-js';
-import { wait, request_to_server, set_localStorage, anime } from '@js-libs/func-kit';
+import { wait, request_to_server, set_localStorage, anime, show, hide } from '@js-libs/func-kit';
 
 import Product_Small_Info_Block from '@product-small-info-block-main-js';
 
@@ -49,14 +49,6 @@ export default new (class {
     }
     //иницализируем все функции и слушатели для работы поиска
 
-    //получаем минимальную высоту которую должен занимать блок с результатми поиска
-    search_results_block_height() {
-        let height = GDS.win.height - Header.get_header_h({ header_poster: true, header_visible: true }) - parseFloat(w.getComputedStyle(this.search_input_wrap).height); //получаем минимальную высоту которую должен занимать блок с результатми поиска
-
-        return height >= 100 ? height : 100; //минимальная высота анимации раскрытия блока поиска
-    }
-    //получаем минимальную высоту которую должен занимать блок с результатми поиска
-
     //открываем окно для отображения результатов поиска
     async open_results_block() {
         this.status = 'pending to open'; //статус открытия окна
@@ -70,34 +62,22 @@ export default new (class {
         }
         //если размер экрана менее 640px то сначало дожидаемся сокрытия пунктов мобильного меню
 
-        let srb_height = this.search_results_block_height();
-
-        await anime({
-            //опускаем блок с результатами поиска да низа окна браузера
-            targets: this.results_wrap,
-            height: srb_height,
-        }).finished;
-
-        this.header.style.height = GDS.win.height + 'px';
+        //если высота хедера меньше высоты окна браузера то мы дожидаемся пока хедер увеличится на всю высоту окна
+        if (Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }) < GDS.win.height) {
+            await anime({
+                //опускаем блок с результатами поиска да низа окна браузера
+                targets: this.header,
+                height: GDS.win.height,
+            }).finished;
+        }
+        //если высота хедера меньше высоты окна браузера то мы дожидаемся пока хедер увеличится на всю высоту окна
 
         [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
 
-        this.results_wrap.style.minHeight = srb_height + 'px'; //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
-
-        this.results_loader.style.display = 'block'; //отображаем лоадер в документе
+        this.results_wrap.classList.add('--open-search-results-block'); //устанавливаем минимальную высоту для болока с результатами поиска чтоб всегда было видно лоадер
 
         //Примечание: можно добавить await чтоб лоадер точно был замечен пользователем
-        anime({
-            //показываем лоадер после откытия блока с результатами поиска
-            targets: this.results_loader,
-            opacity: 1,
-        }).finished;
-
-        this.results_wrap.style.height = ''; //убираем высоту у блока с результатми вывода чтоб не было полосы теней на результатах
-
-        this.header.style.overflow = ''; //возвращем прокрутку в хедер
-
-        Header_Hidden.size = 'full'; //обновляем статус размера хедера
+        show({ el: this.results_loader, display: 'block' }); //отображаем лоадер в документе
 
         this.status = 'open'; //статус открытия окна
     }
@@ -110,27 +90,13 @@ export default new (class {
 
         this.status = 'pending to close'; //статус открытия окна
 
-        this.header.style.height = ''; //убираем высоту у хедера чтоб его можно было свернуть
-
         if (!fust_close) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = '')); //возвращаем в документ блоки
 
-        this.results_wrap.style.height = this.search_results_block_height() + 'px'; //задаём высоту блоку с результатами поиска
-
-        //скрываем блок со ссылками
-        anime({
-            targets: this.results_any_links,
-            opacity: 0,
-            complete: () => (this.results_any_links.style.display = ''),
-        });
-        //скрываем блок со ссылками
+        hide({ el: this.results_any_links, display: 'none' }); //плавно скрываем блок со ссылкам
 
         //если результаты поиска пусты и ещё не заполнены ни чем
         if (this.results_data.innerHTML === '') {
-            //плавно скрываем лоадер
-            await anime({
-                targets: this.results_loader,
-                opacity: 0,
-            }).finished;
+            hide({ el: this.results_loader, display: 'none' }); //плавно скрываем лоадер
         }
         //если результаты поиска пусты и ещё не заполнены ни чем
 
@@ -138,47 +104,35 @@ export default new (class {
         else {
             Img_Loader.dellete_from_observe(this.results_data.querySelectorAll('[data-img-type]')); //удаляем из отслеживания старые картинкинки
 
-            await anime({
-                //дожидаемся пока станет прозрачным блок с результатами поиска
-                targets: this.results_data,
-                opacity: 0,
-            }).finished;
+            await hide({ el: this.results_data }); //дожидаемся пока станет прозрачным блок с результатами поиска
 
             this.results_data.innerHTML = ''; //очищаем содержимое блока с результатами поиска
         }
         //если есть какие-то отображённые результаты поиска
 
-        this.results_loader.style.display = ''; //скрываем лоадер в документе
+        this.results_wrap.classList.remove('--open-search-results-block'); //убираем минимальную высоту для болока с результатами поиска чтоб он могу корректно скрыться
 
-        this.results_wrap.style.minHeight = ''; //чистим вспомогательные стили
-
-        this.header.style.overflow = 'visible'; //нужно добавить чтоб была видна полоса тени в момент сворачивания скрытого блока
+        let hh = fust_close ? Header.get_header_h({ header_poster: true, header_visible: true }) + parseFloat(w.getComputedStyle(this.search_input_wrap).height) : Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }); //если скрываем быстро то нужно учитывать из скрытой части только инпут, если обычное скрытие то берём высоту хедера полностью вместе с меню и номером
 
         await anime({
-            //уменьшаем высоту блок с результатами поиска для его скрытия
-            targets: this.results_wrap,
-            height: 0,
+            //уменьшаем высоту хедера так чтоб его низ был на уровне конца инпута для поиска
+            targets: this.header,
+            height: hh,
         }).finished;
 
-        //дожидаемся отображения меню и телефона на маленьких экранах
+        //дожидаемся отображения меню и телефона на маленьких экранах, если не нужно быстрое скрытие
         if (GDS.win.width_rem < 40 && !fust_close) {
-            let show_menu_mobile = anime({
-                    targets: this.header_hidden_menu,
-                    opacity: 1,
-                }).finished,
-                show_phone_mobile = anime({
-                    targets: this.header_hidden_phone,
-                    opacity: 1,
-                }).finished;
-
-            await Promise.all([show_menu_mobile, show_phone_mobile]);
+            await anime({
+                targets: [this.header_hidden_menu, this.header_hidden_phone],
+                opacity: 1,
+            }).finished;
         }
-        //дожидаемся отображения меню и телефона на маленьких экранах
+        //дожидаемся отображения меню и телефона на маленьких экранах, если не нужно быстрое скрытие
 
         this.status = 'close'; //статус открытия окна
         //ПРИМЕЧАНИЕ: должно быть раньше size_recalculate чтоб всё работало корректно
 
-        Header_Hidden.size_recalculate(); //пересчитываем новые размеры меню добавляем высоту хедеру и прокрутку если нужно
+        Header_Hidden.size_recalculate(); //пересчитываем новые размеры хедера
     }
     //закрываем окно для отображения результатов поиска
 
@@ -188,7 +142,7 @@ export default new (class {
 
         this.clean_input(); //удаляем данные запроса пользователя в инпуте и хранилище
 
-        let action = GDS.win.width_rem < 40 ? true : this.is_render_now;//если экран меньше 640 пикселей то это значи что у нас только одна конопка закрытия поиска и в этом случае мы не просто чистим запрос но и закрываем блок с результатами поиска иначе пользователь его ни как сне скроет без переоткрытия меню, а если экран больше то закрываем только если ейчас происходит запрос т.е. крутится лоадер
+        let action = GDS.win.width_rem < 40 ? true : this.is_render_now; //если экран меньше 640 пикселей то это значи что у нас только одна конопка закрытия поиска и в этом случае мы не просто чистим запрос но и закрываем блок с результатами поиска иначе пользователь его ни как сне скроет без переоткрытия меню, а если экран больше то закрываем только если ейчас происходит запрос т.е. крутится лоадер
 
         this.chenge_in_search_input(action); //вызываем событие изменения в инпуте и если сейчас происходит рендер закрываем блок с результатами поиска, иначе оставляем блок с со всем содержимым на месте а только чистим инпут и хранилище
     }
@@ -296,33 +250,17 @@ export default new (class {
             }, //функции проверяет нужно ли прервать дальнейший рендер результатов поиска, например если окно начали закрывать или уже закрыли или если в поле вода поиска уже введён другой текст отичный от того результаты поиска которого мы рендерим, нужно проверять после каждой асинхронной операции черех await
             //вставляет переданные код html в блок с результатами поиска и плавно показывает его
             show_results = async result_html => {
-                await anime({
-                    //дожидаемся скрытия лоадера
-                    targets: this.results_loader,
-                    opacity: 0,
-                }).finished;
+                await hide({ el: this.results_loader, display: 'none' }); //дожидаемся скрытия лоадера
 
                 if (check_abort_render()) return; //проверяем нужно ли продолжать рендер
 
                 this.results_data.innerHTML = result_html; //записываем результаты в блок с результатами поиска
 
-                await anime({
-                    //плавно показываем блок с результатами
-                    targets: this.results_data,
-                    opacity: 1,
-                }).finished;
+                await show({ el: this.results_data }); //плавно показываем блок с результатами
 
                 if (check_abort_render()) return; //проверяем нужно ли продолжать рендер
 
-                //показываем блок со ссылками
-                this.results_any_links.style.opacity = '';
-                this.results_any_links.style.display = 'flex';
-                anime({
-                    //плавно показываем блок с результатами
-                    targets: this.results_any_links,
-                    opacity: 1,
-                });
-                //показываем блок со ссылками
+                show({ el: this.results_any_links, display: 'grid' }); //плавно показываем блок со ссылками
 
                 Img_Loader.add_in_observe(this.results_data.querySelectorAll('[data-img-type]')); //добавляем отслеживание видимости картинок в окне поиска
 
@@ -336,29 +274,16 @@ export default new (class {
         if (this.results_data.innerHTML !== '') {
             Img_Loader.dellete_from_observe(this.results_data.querySelectorAll('[data-img-type]')); //удаляем из отслеживания старые картинкинки
 
-            //скрываем блок со ссылками
-            let hide_any_links = anime({
-                    targets: this.results_any_links,
-                    opacity: 0,
-                    complete: () => (this.results_any_links.style.display = ''),
-                }).finished,
-                hide_results_data = anime({
-                    //дожидаемся пока результаты поиска станут прозрачными
-                    targets: this.results_data,
-                    opacity: 0,
-                }).finished;
-
-            await Promise.all([hide_any_links, hide_results_data]); //дожидаемся пока скроются дополнительные ссылки снизу а так же результаты поиска
+            await Promise.all([
+                hide({ el: this.results_any_links, display: 'none' }), //скрываем блок со ссылками
+                hide({ el: this.results_data }), //дожидаемся пока результаты поиска станут прозрачными
+            ]); //дожидаемся пока скроются дополнительные ссылки снизу а так же результаты поиска
 
             if (check_abort_render()) return; //проверяем нужно ли продолжать рендер
 
             this.results_data.innerHTML = ''; //удаляем всё содержимое блока с результатами поиска
 
-            anime({
-                //показываем лоадер
-                targets: this.results_loader,
-                opacity: 1,
-            });
+            show({ el: this.results_loader, display: 'block' }); //показываем лоадер
         }
         //если мы уже ищем не первый раз то блок с результатами поиска нужно очистить перед выводом новых результатов
 
@@ -454,15 +379,13 @@ export default new (class {
                 el.style.opacity = '';
             });
 
-            if (GDS.win.width_rem < 40) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон
-
-            this.results_wrap.style.minHeight = this.search_results_block_height() + 'px'; //устанавливаем минимальную высоту для болока с результатами поиска чтоб даже при малом колическте ответов или при их отсутствии блок выглядел нормально
+            if (GDS.win.width_rem < 40) [this.header_hidden_menu, this.header_hidden_phone].forEach(el => (el.style.display = 'none')); //скрываем меню и телефон т.к. открыт блок поиска
         };
         //функция для обновления параметров блока
 
-        if (this.status === 'open') return update_size_params(); //если окно с результатами открыто обновляем данные блока
-
         if (this.status === 'pending to open') return wait(() => this.status, 'open').then(() => update_size_params()); //если откно с результатами поиска в прецессе открытия то сначало дажидаемся его открытия, а потом пересчитываем все параметры
+
+        update_size_params(); //если окно с результатами открыто обновляем данные блока
     }
     //функция пересчитывает размеры в окне с результатами поиска про ресайзе
 })();

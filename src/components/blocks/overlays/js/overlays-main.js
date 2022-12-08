@@ -18,20 +18,22 @@ export default class {
             this.el._on('click', this.click_fu); //так же вызываем эту функцию при клике
         }
         //показывыаем подложку
-        this.show = () =>
-            show.call(this, {
+        this.show = (params = {}) =>
+            show({
                 el: this.el,
-                value: this.show_v,
-                started_value: this.hide_v,
+                instance: this,
+                value: params.show_v !== undefined ? params.show_v : this.show_v,
+                started_value: params.hide_v !== undefined ? params.hide_v : this.hide_v,
             });
         //показывыаем подложку
 
         //скрываем подложку
-        this.hide = () =>
-            hide.call(this, {
+        this.hide = (params = {}) =>
+            hide({
                 el: this.el,
-                value: this.hide_v,
-                started_value: this.show_v,
+                instance: this,
+                value: params.hide_v !== undefined ? params.hide_v : this.hide_v,
+                started_value: params.show_v !== undefined ? params.show_v : this.show_v,
             });
         //скрываем подложку
     }

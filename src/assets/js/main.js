@@ -31,15 +31,7 @@ import '@js-libs/dom-add-func.js';
 
 import '@js-moduls/base'; //тут будут записаны основные функции для взаимодействи я с общими элементами сайта и установленны основные слушатели и те действия которые нужно выполнять на любой странице сайта в самом начале
 
-// import "@js-moduls/overlays"; //ВСЕ ПОДЛОЖКИ
-// import "@js-moduls/header-toggle-block"; //СКРЫТЫЙ БЛОК В ХЕДЕРЕ
-// import "@js-moduls/header-search"; //ОКНО ПОИСКА
-
-//import '@js-moduls/cart';
-//import '@js-moduls/top-poster';
-
-// import "@js-moduls/footer"; //ФУТЕР
-// import "@js-moduls/small-product-previv-block"; //отвечает за рендер блоков в выдаче поиска товаров
+import '@js-moduls/block-showed-on-scroll';//отвечает за показ блоков про прокрутке
 
 //@dinamic node import fils
 import "@images-main-js";
@@ -49,6 +41,17 @@ import "@pop-up-messages-main-js";
 import "@product-small-info-block-main-js";
 import "@scroll-to-top-button-main-js";
 import "@footer-main-js";
+import "@glavnaya-1-blue-img-text-main-js";
+import "@glavnaya-10-fqa-main-js";
+import "@glavnaya-11-cars-svg-main-js";
+import "@glavnaya-2-video-block-main-js";
+import "@glavnaya-3-icons-grid-main-js";
+import "@glavnaya-4-img-text-slider-main-js";
+import "@glavnaya-5-svoystva-plenki-main-js";
+import "@glavnaya-6-product-set-main-js";
+import "@glavnaya-7-video-instruction-main-js";
+import "@glavnaya-8-blue-block-main-js";
+import "@glavnaya-9-otzivi-main-js";
 import "@header-main-js";
 //@dinamic node import fils
 

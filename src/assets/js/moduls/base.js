@@ -30,7 +30,7 @@ new (class {
 
         //параметры окна браузера
         GDS.win = {
-            default_font_size: w.getComputedStyle(d.documentElement).fontSize.replace('px', ''),
+            default_font_size: parseFloat(w.getComputedStyle(d.documentElement).fontSize),
             flicker_active_elements: true, //определяет будут ли тускнет активные элементы на время отключения
         };
 

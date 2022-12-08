@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 @import "@scss-data/functions";
 @import "@scss-data/mixins";
 @import "@scss-data/scss-variables";
@@ -5,6 +7,7 @@
 @import "@scss-libs/normalize";
 @import "@scss-general/variables";
 @import "@scss-general/base";
+@import "@scss-general/block-showed-on-scroll";
 @import "@scss-general/scrollbar";
 @import "@scss/icon-font/icons";
 
@@ -16,5 +19,16 @@
 @import "@product-small-info-block-render-scss";
 @import "@scroll-to-top-button-render-scss";
 @import "@footer-render-scss";
+@import "@glavnaya-1-blue-img-text-render-scss";
+@import "@glavnaya-10-fqa-render-scss";
+@import "@glavnaya-11-cars-svg-render-scss";
+@import "@glavnaya-2-video-block-render-scss";
+@import "@glavnaya-3-icons-grid-render-scss";
+@import "@glavnaya-4-img-text-slider-render-scss";
+@import "@glavnaya-5-svoystva-plenki-render-scss";
+@import "@glavnaya-6-product-set-render-scss";
+@import "@glavnaya-7-video-instruction-render-scss";
+@import "@glavnaya-8-blue-block-render-scss";
+@import "@glavnaya-9-otzivi-render-scss";
 @import "@header-render-scss";
 //@dinamic node import fils

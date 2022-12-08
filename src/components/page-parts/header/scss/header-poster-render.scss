@@ -1,8 +1,8 @@
 .header-poster {
     width: 100%;
     position: relative;
-    background-color: var(--white);
     z-index: 2;
+    background-color: var(--white);
 
     &__img--mobile {
         @media (min-width: rem(640)) {
@@ -49,8 +49,7 @@
         }
 
         button {
-            max-height: 100%;
-            right: rem(-15);
+            font-size: rem(20);
 
             @media (min-width: rem(960)) {
                 font-size: rem(12);

@@ -1,6 +1,7 @@
 .pop-up-message {
     width: adaptiv_rem_size(280, 320, 580, 1920);
     opacity: 0;
+    display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     position: fixed;
@@ -101,10 +102,5 @@
 }
 
 #pop-up-message-overlay {
-    position: fixed;
-    display: none;
-    inset: 0;
-    opacity: 0;
-    background-color: var(--white);
     z-index: 998;
 }

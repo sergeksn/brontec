@@ -1,0 +1,10 @@
+.block-showed-on-scroll {
+    &--hide {
+        opacity: 0;
+        transition: opacity var(--standart-anim);
+    }
+
+    &--show {
+        opacity: 1;
+    }
+}

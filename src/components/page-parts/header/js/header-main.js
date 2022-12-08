@@ -99,24 +99,24 @@ let Header = new (class {
 
     //отпускает вниз и показывает блок хедера
     show() {
-        return show.call(this, {
+        return show({
             el: this.header,
+            instance: this,
             property: 'translateY',
             value: 0,
             started_value: -this.get_header_h({ header_poster: true, header_visible: true }),
-            display: null,
         });
     }
     //отпускает вниз и показывает блок хедера
 
     //поднимает вверх и скрывает блок хедера
     hide() {
-        return hide.call(this, {
+        return hide({
             el: this.header,
+            instance: this,
             property: 'translateY',
             value: -this.get_header_h({ header_poster: true, header_visible: true }),
             started_value: 0,
-            display: null,
         });
     }
     //поднимает вверх и скрывает блок хедера
@@ -125,18 +125,8 @@ let Header = new (class {
     async toggle_header() {
         if (this.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
 
-        if (this.lock) return; //прерываем если заблокированная любая активность
-
-        try {
-            //если скролим вниз и высота скрола больше высоты хедера скрываем хедер, в противном случае показываем хедер
-            if (GDS.scroll.dir === 'bottom' && GDS.scroll.value > this.get_header_h({ header_poster: true, header_visible: true })) {
-                if (this.status !== 'pending to hide' && this.status !== 'hide') await this.hide();
-            } else {
-                if (this.status !== 'pending to show' && this.status !== 'show') await this.show();
-            }
-        } catch (e) {
-            if (typeof e.ksn_message === 'undefined') console.error(e);
-        }
+        //если скролим вниз и высота скрола больше высоты хедера скрываем хедер, в противном случае показываем хедер
+        GDS.scroll.dir === 'bottom' && GDS.scroll.value > this.get_header_h({ header_poster: true, header_visible: true }) ? await this.hide() : await this.show();
     }
     //функция оправляет сворачиванием и разворачиванием хедера
 })();

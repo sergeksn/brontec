@@ -46,26 +46,8 @@ export default new (class {
             poster_height = Header.get_header_h({ header_poster: true }), //высота блока банера
             header_background = d.getElementById('header-background'); //фон хедера
 
-        //если открыт блок поиска
-        if (Header_Search.status === 'open') {
-            this.header.style.height = parseFloat(w.getComputedStyle(this.header).height) + poster_height + 'px'; //увеличиваем высоту хедера чтоб не появлялось пустое место снизу
-            Header_Search.results_wrap.style.minHeight = Header_Search.search_results_block_height() + poster_height + 'px'; //меняем минимальную высоту блок с результатами поиска
-        }
-        //если открыт блок поиска
-
-        //если скрытый блок открыт и его размер на всю высоту окна но окно поиска закрыто
-        else if (Header_Hidden.status === 'open' && Header_Hidden.size === 'full') {
-            //если высота хедера без учёта банера больше или равно высоте окна
-            if (Header.get_header_h({ header_visible: true, header_hidden: true }) - poster_height >= GDS.win.height) {
-                this.header.style.height = parseFloat(w.getComputedStyle(this.header).height) + poster_height + 'px'; //увеличиваем высоту хедера чтоб не появлялось пустое место снизу
-            }
-            //если высота хедера без учёта банера больше или равно высоте окна
-            else {
-                this.header.style.overflow = 'visible'; //нужно чтоб хедер лищился полосы прокуртки и просто поднялся при этом будет видна тень блока
-                this.header.style.height = ''; //убираем явно заданную высоту у хедера чтоб при сокрытии банера хедер просто поднялся вверх
-            }
-        }
-        //если скрытый блок открыт и его размер на всю высоту окна но окно поиска закрыто
+        if (Header_Search.status === 'open' || Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }) >= GDS.win.height) this.header.style.height = GDS.win.height + poster_height + 'px'; //если открыт блок поиска или если скрытый блок открыт и его размер на всю высоту окна увеличиваем высоту хедера чтоб не появлялось пустое место снизу
+        //GDS.win.height используем т.к. высота хедера в этих случаях будет высотой окна браузера
 
         let up_header = anime({
                 //поднимаем хедер чтоб скрыть банер за пределами видимой части экрана
@@ -112,9 +94,8 @@ export default new (class {
         //если нужно скрыть данный рекламный банер навсегда
 
         Header_Hidden.size_recalculate(); //пересчитываем размеры хереда
+        Header_Search.size_recalculate(); //пересчитываем размеры хереда если результаты поиска открыты
         Header_Cart.size_recalculate(); //пересчитываем данные дял корзины
-
-        if (Header_Search.status === 'open') this.header.style.height = GDS.win.height + 'px'; //если постер скрыли в момент когда открыто окно с результатами поиска то мы после скрытия задаём хереду высоту окна
 
         poster_parent.removeChild(this.header_poster); //удаляем из тела документа банер
         poster_parent.removeChild(d.getElementById('header-poster__script')); //удаляем из тела документа скрипт банера
@@ -141,16 +122,16 @@ export default new (class {
 
                 this.close_button_lock = true; //блокируем кнопку закрытия
 
-                await hide.call(this, {
+                await hide({
                     //скрываем банер уводя в соответсвующую начальному направлению свайпа сорону
                     el: data.el,
+                    instance: this,
                     property: 'translateX',
                     value: s.direction === 'left' ? -el_width : el_width,
                     started_value: 0,
-                    display: null,
                 });
 
-                await this.hide(false); //скоываем место после банера
+                await this.hide(false); //скрываем место после банера
             },
             {},
             {

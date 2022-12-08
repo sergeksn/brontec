@@ -30,6 +30,53 @@ export default new (class {
         this.swipe_cart();
     }
 
+
+    //блокирует прокрутки которые нужно
+    lock_scroll() {
+        //если сенсорный экран то полос скрола скорее всего не будет
+        if (w.matchMedia('(any-hover: hover) and (any-pointer: fine)').matches) {
+            this.header.addEventListener('wheel', this.rem_def); //блокируем прокрутку на хедере
+            this.overlay.addEventListener('wheel', this.rem_def); //блокируем прокрутку на подложке
+            d.addEventListener('keydown', this.rem_def); //блокируем прокрутку кнопками стрелок
+        }
+        //если сенсорный экран то полос скрола скорее всего не будет
+
+        //если экран обычный то скорее всего у нас мышка и скрол можно предотврать запретом скрола колёсиком
+        else {
+            this.body.classList.add('lock-scroll'); //блокируем прокуртку документа перед показом корзины
+            if (Header_Hidden.status === 'open') this.header.classList.add('lock-scroll'); //блокируем прокуртку хедера перед показом корзины если открыт скрытый блок хедера
+        }
+        //если экран обычный то скорее всего у нас мышка и скрол можно предотврать запретом скрола колёсиком
+    }
+    //блокирует прокрутки которые нужно
+
+    //разблокирует прокрутки которые нужно
+    unlock_scroll() {
+        //если сенсорный экран то полос скрола скорее всего не будет
+        if (w.matchMedia('(any-hover: hover) and (any-pointer: fine)').matches) {
+            this.header.removeEventListener('wheel', this.rem_def); //разблокируем прокрутку на хедере
+            this.overlay.removeEventListener('wheel', this.rem_def); //разблокируем прокрутку на подложке
+            d.removeEventListener('keydown', this.rem_def); //разблокируем прокрутку кнопками стрелок
+        }
+        //если сенсорный экран то полос скрола скорее всего не будет
+
+        //если экран обычный то скорее всего у нас мышка и скрол можно предотврать запретом скрола колёсиком
+        else {
+            if (Header_Hidden.status === 'close') this.body.classList.remove('lock-scroll'); //разблокируем прокуртку документа если закрыт блок хедера
+            this.header.classList.remove('lock-scroll'); //разблокируем прокуртку хедера
+        }
+        //если экран обычный то скорее всего у нас мышка и скрол можно предотврать запретом скрола колёсиком
+    }
+    //разблокирует прокрутки которые нужно
+
+    //блокирует действия по умолчанию для колёсика мышки и кнопок вверх и вниз
+    rem_def(e) {
+        //e.cancelable - сообщает о том что событие может быть отменено
+        e.type === 'wheel' && e.cancelable && e.preventDefault(); //если событие скрола
+        (e.code === 'ArrowUp' || e.code === 'ArrowDown') && e.cancelable && e.preventDefault(); //если это кнопки вверх/вниз
+    }
+    //блокирует действия по умолчанию для колёсика мышки и кнопок вверх и вниз
+
     //открываем/закрываем корзину
     async toggle_cart() {
         if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
@@ -60,11 +107,16 @@ export default new (class {
                     left: false,
                 }, //направления в которых нужно учитывать свайп
                 mouse_swipe: false,
-                min_percent_dist_x: 30, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп в % от ширины экрана
+                min_px_dist_x: 50, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп в % от ширины экрана
                 max_time: 500, //максимальное время, за которое должен быть совершен свайп (ms)
 
                 //НЕ ЗАБЫТЬ ДОБАВИТЬ В ИСКЛЮЧЕНИЯ все октивные элементы в корзине
-                exceptions_el: [this.close_button], //не вызываем свайп если нажали на кнопку закрытия
+                exceptions_el: [
+                    this.close_button, //кнопка закрытия корзины
+                    d.querySelector('.cart__footer-promocod>input'), //блок с промокодом т.к. там инпут
+                    d.querySelector('.cart__footer-design-order'), //кнопка оформленяи заказа
+                    d.querySelector('.cart__body'), //тело корзины т.к. там нужен нормальный скрол
+                ], //не вызываем свайп если нажали на кнопку закрытия
             },
         );
     }
@@ -74,9 +126,7 @@ export default new (class {
     async open_cart() {
         this.overlay.style.top = this.header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегода было видно постер и верхнюю часть хедера
 
-        this.body.classList.add('lock-scroll'); //блокируем прокуртку документа перед показом корзины
-
-        if (Header_Hidden.size === 'full' && Header_Hidden.status === 'open') this.header.classList.add('lock-scroll'); //блокируем прокуртку хедера перед показом корзины если хедер на всю высоту экран
+        this.lock_scroll(); //блокирует прокрутки которые нужно
 
         let cart_data = w.localStorage.getItem('cart'); //получаем данные карзины
 
@@ -95,8 +145,7 @@ export default new (class {
 
         await Promise.all([this.hide(), this.Overlay.hide()]); //дожидаемся скрытия корзины и подложки
 
-        if (Header_Hidden.status === 'close') this.body.classList.remove('lock-scroll'); //разблокируем прокуртку документа если закрыт блок хедера
-        this.header.classList.remove('lock-scroll'); //разблокируем прокуртку хедера
+        this.unlock_scroll(); //разблокирует прокрутки которые нужно
     }
     //выпоялняем все действия для закрытия корзины
 
@@ -104,12 +153,12 @@ export default new (class {
     show() {
         this.cart.style.transform = 'translateX(100%)'; //для корректной работы анимаци приходится явно задавать смещение т.к. почему-то скрипт не видит значение transform в стилях из таблиц css
 
-        return show.call(this, {
+        return show({
             el: this.cart,
+            instance: this,
             property: 'translateX',
             value: 0,
             started_value: this.cart.clientWidth,
-            display: null,
             units: '%',
         });
     }
@@ -117,12 +166,12 @@ export default new (class {
 
     //скрываем корзину
     hide() {
-        return hide.call(this, {
+        return hide({
             el: this.cart,
+            instance: this,
             property: 'translateX',
             value: 100,
             started_value: 0,
-            display: null,
             units: '%',
         });
     }
@@ -133,16 +182,6 @@ export default new (class {
         this.cart.style.top = GDS.win.width_rem < 40 ? Header.get_header_h({ header_poster: true, header_visible: true }) + 'px' : Header.get_header_h({ header_poster: true }) + 'px'; //при экранах меньше 640 корзину опускеаем к низу видимой части хедера, а если шире то поднимаем к верху видимрой части
 
         this.overlay.style.top = this.header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегода было видно постер и верхнюю часть хедера
-
-        if (this.status === 'show') {
-            if (Header_Hidden.size === 'full') {
-                //блокируем прокуртку хедера если хедер на всю высоту экран и корзина открыта
-                this.header.classList.add('lock-scroll');
-            } else {
-                //разблокируем прокуртку хедера если хедер меньше высоты экран и корзина открыта
-                this.header.classList.remove('lock-scroll');
-            }
-        }
     }
     //пересчитываем верхний отступ корзины пре ресайзе
 })();

@@ -1,19 +1,4 @@
-// /* смартфоны, устройства с сенсорным экраном, с которым работают пальцами */
-// @media (hover: none) and (pointer: coarse) {
-//     /* ... */
-// }
-// /* устройства с сенсорным экраном, с которым работают стилусом */
-// @media (hover: none) and (pointer: fine) {
-//     /* ... */
-// }
-// /* контроллер Nintendo Wii, Microsoft Kinect */
-// @media (hover: hover) and (pointer: coarse) {
-//     /* ... */
-// }
-// /* мышь, тачпад */
-// @media (hover: hover) and (pointer: fine) {
-//     /* ... */
-// }
+//@media (any-hover: none) and (any-pointer: coarse) - смартфон без возможности ховера, и с указателем ограниценной точности
 @font-face {
     font-family: Manrope;
     src: url(@fonts/manrope.woff2) format('woff2'), url(@fonts/manrope.woff) format('woff');
@@ -34,16 +19,7 @@ body {
     background-color: var(--white);
     font: var(--default);
     min-width: rem(320);
-    overflow: hidden auto;
-}
-
-@media (any-hover: hover) and (any-pointer: fine) {
-    //для браузеров с поддержкой наложения скролбара
-    @supports (overflow: overlay) {
-        body {
-            overflow: hidden overlay;
-        }
-    }
+    overflow-x: hidden;
 }
 
 .lock-scroll {
@@ -56,34 +32,103 @@ body {
 .red {
     color: red;
 }
-button,
-.button {
+
+button {
     cursor: pointer;
-    width: rem(50);
-    height: rem(50);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: rem(20);
     position: relative;
     transition: opacity var(--standart-anim);
+    //background-color: red;
 
-    @media (min-width: rem(1920)) {
-        width: adaptiv_rem_size(50, 1920);
-        height: adaptiv_rem_size(50, 1920);
-        font-size: adaptiv_rem_size(20, 1920);
+    @media (any-hover: none) and (any-pointer: coarse) {
+        min-width: rem(50);
+        min-height: rem(50);
+    }
+
+    @media (any-hover: none) and (any-pointer: coarse) and (min-width: rem(1920)) {
+        min-width: adaptiv_rem_size(50, 1920);
+        min-height: adaptiv_rem_size(50, 1920);
     }
 }
 
+input {
+    width: 100%;
+    border: none;
+    //если у пользователя нет ни какого указательно устройства, мы не должны убирать обводку чтоб когда пользователь сфокусируется на инпуте , через таб например, он выделился
+    @media not (any-pointer: none) {
+        outline: none;
+    }
+}
+
+.ruble-price {
+    &::after {
+        //если вдруг не понравится внешний вид рубля попросить шрифт и сюда вставить символ ₽ с указанием font-famaly
+        content: '\a0\20BD';
+        font-size: 110%;
+    }
+}
+
+.discont-price {
+    &::before {
+        content: '-';
+    }
+    &::after {
+        content: '%';
+    }
+}
+
+.old-price {
+    text-decoration: line-through;
+}
+
+
+//ПРИМЕЧАНИЕ: если будут притензии из-за слишком больших отступов между элементами то можно для отдельных элементов менять минимальные высоты
 .set-min-interactive-size {
     display: flex;
     align-items: center;
-    justify-content: center;
-    min-width: rem(50);
+
+    @media (any-hover: none) and (any-pointer: coarse) {
+        min-width: rem(50);
+        min-height: rem(50);
+    }
+
+    @media (any-hover: none) and (any-pointer: coarse) and (min-width: rem(1920)) {
+        min-width: adaptiv_rem_size(50, 1920);
+        min-height: adaptiv_rem_size(50, 1920);
+    }
+}
+
+//делает минимальные высоты меньше на 10 пикселей меньше, для того чтоб вставить 10 пикселей отступа, актуально для рядов, т.к. чтоб на пк были отсупы при автоматической высоте
+.set-min-interactive-size-bez-gap {
+    display: flex;
+    align-items: center;
+
+    @media (any-hover: none) and (any-pointer: coarse) {
+        min-width: rem(50);
+        min-height: rem(40);
+    }
+
+    @media (any-hover: none) and (any-pointer: coarse) and (min-width: rem(1920)) {
+        min-width: adaptiv_rem_size(50, 1920);
+        min-height: adaptiv_rem_size(40, 1920);
+    }
+}
+
+.button {
+    border-radius: var(--b-radius);
+    font: var(--default);
+    color: var(--white);
+    height: auto !important; //нужно чтоб переопределить после групировки медиазапросов
     min-height: rem(50);
+    width: 100%;
+    background-color: var(--blue);
+    text-align: center;
+    padding: rem(10) rem(20);
 
     @media (min-width: rem(1920)) {
-        min-width: adaptiv_rem_size(50, 1920);
+        padding: adaptiv_rem_size(10, 1920) adaptiv_rem_size(20, 1920);
         min-height: adaptiv_rem_size(50, 1920);
     }
 }
@@ -97,6 +142,7 @@ button,
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-column-gap: rem(20);
+    position: relative;
 
     @media (min-width: rem(640)) {
         margin-left: rem(30);

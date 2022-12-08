@@ -164,8 +164,10 @@ async function request_to_server(request_data, url = GDS.ajax_url) {
 //позволяет отправлять запросы на сервер и обрабатывать ответ и ошибки
 
 //данная функция показывает блок увеличивая значение его css свойства
-//params.display - какое свойство дисплея должно быть у видимого элемента
 //params.el - сам элемент изменения свойств которого мы быдем отслеживать
+//params.instance - для передачи объекта хранящего в себе состояние перехода и его настройки
+//params.generate_throws - если true то будет выбрасывать исключения когда элемент заблокирован или если появление прерванно из начала сокрытия, по умолчанию false и вместо throw будет просто завершать функцию с помощью return передав туда значение исключения
+//params.display - значение которое будет использоваться скриптом как значение свойства display, если ничего не переданно ничего не будет установленно
 //params.property - css свойство для анимации
 //params.value - значение до которого должно измениться css свойство
 //params.started_value - значение от которого ничинается анимация при стартовых условиях
@@ -173,51 +175,87 @@ async function request_to_server(request_data, url = GDS.ajax_url) {
 //params.tf - пример ease
 //params.units - единицы измерения для значения
 async function show(params) {
-    if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
+    let instance = params.instance, //объект который хранит в себе состояние элемента и его настройки
+        generate_throws = params.generate_throws; //нужно ли генерировать исключения
 
-    if (this.status === 'show') return; //если блок уже виден
+    //если не переданн объект с данными
+    if (!instance) {
+        if (!params.el.toggle_data) params.el.toggle_data = {}; //создаём у элемента свойство с объектом если его нет
 
-    if (this.status === 'pending to show') return this.pending_to_show_promise; //если попытались показать блок когда он в процеес показа возвращаем промис с процессом его показа
+        instance = params.el.toggle_data; //используем созданное свойство как объект для хранения текущих значений состояния перехода, нужно чтоб если мы попытаемся скрывать элемент до того как он окончательно скрылся ему вернулся промис ожидания вместо запуса новой анимации
+    }
+    //если не переданн объект с данными
 
-    this.status = 'pending to show'; //помечаем что блок в процессе появления
+    //прерываем если заблокированная любая активность
+    if (instance.lock) {
+        if (generate_throws) {
+            throw { ksn_message: 'locked' };
+        } else {
+            return 'locked';
+        }
+    }
+    //прерываем если заблокированная любая активность
 
-    //ПРИМЕЧАНИЕ: если params.display === null то значение останется тем что есть у данного блока по умолчанию
-    if (params.display !== null) params.el.style.display = params.display || 'block'; //задаём дисплей значение перед показом
+    if (instance.status === 'show') return; //если блок уже виден
+
+    if (instance.status === 'pending to show') return instance.pending_to_show_promise; //если попытались показать блок когда он в процеес показа возвращаем промис с процессом его показа
+
+    instance.status = 'pending to show'; //помечаем что блок в процессе появления
+
+    params.el.style.pointerEvents = 'auto'; //разрешаем взаимодействовать сразу как началось появление
+
+    if (params.display) params.el.style.display = params.display; //только если параметр передат меняем значение display элмента
 
     let el = params.el,
         property = params.property || 'opacity', //определяем свойство для анимации, по умолчанию opacity
-        value = params.value !== undefined ? params.value : 1,
-        started_value = params.started_value !== undefined ? params.started_value : 0,
-        duration = get_remaining_time({
-            el: el,
-            started_value: started_value,
-            final_value: value,
-            property: property,
-            duration: params.duration,
-        }),
-        units = params.units !== undefined ? params.units : '';
+        value = params.value !== undefined ? params.value : property === 'opacity' ? 1 : undefined, //по умолчанию конечное значение 1 для opacity и undefined для других свойств
+        started_value = params.started_value !== undefined ? params.started_value : property === 'opacity' ? 0 : undefined, //по умолчанию начальное значение 0 для opacity и undefined для других свойств
+        duration =
+            started_value === undefined
+                ? params.duration //если не определено значение для отсчёта то вреям анимации берём из параметров без измений
+                : get_remaining_time({
+                      //расчитываем оставшеся время анимации
+                      el: el,
+                      started_value: started_value,
+                      final_value: value,
+                      property: property,
+                      duration: params.duration,
+                  }),
+        units = params.units !== undefined ? params.units : ''; //единицы измерения анимируемого свойства
 
     //анимируем показ блока
-    this.pending_to_show_promise = anime({
+    instance.pending_to_show_promise = anime({
         targets: el,
         [property]: value + units,
         duration: duration,
         easing: params.tf,
-        update: anim => this.status !== 'pending to show' && anim.remove(el), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to show', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
+        update: anim => instance.status !== 'pending to show' && anim.remove(el), //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to show', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
     }).finished;
 
     //дожидаемся показа блока
-    await this.pending_to_show_promise.then(() => {
-        if (this.status !== 'pending to show') throw { ksn_message: 'block in process hiding' }; //если анимация завершилась но статус блока не в процессе показа это значит что блок начал процесс скрытия в момент показа, и нам нужно выдать исключение в этом случае
+    await instance.pending_to_show_promise.then(() => {
+        //если анимация завершилась но статус блока не в процессе показа это значит что блок начал процесс скрытия в момент показа, и нам нужно выдать исключение в этом случае
+        if (instance.status !== 'pending to show') {
+            if (generate_throws) {
+                throw { ksn_message: 'block in process hiding' };
+            } else {
+                return 'block in process hiding';
+            }
+        }
+        //если анимация завершилась но статус блока не в процессе показа это значит что блок начал процесс скрытия в момент показа, и нам нужно выдать исключение в этом случае
 
-        this.status = 'show'; //помечаем что блок виден
+        instance.status = 'show'; //помечаем что блок виден
+
+        delete params.el.toggle_data; //по завершению промиса чистим свойства объекта от временного свойства содержащего данные перехода
     });
 }
 //данная функция показывает блок увеличивая значение его css свойства
 
 //данная функция скрывает блок уменьшая значение его css свойства
 //params.el - сам элемент изменения свойств которого мы быдем отслеживать
-//params.display - какое свойство дисплея должно быть у скрытого элемента
+//params.instance - для передачи объекта хранящего в себе состояние перехода и его настройки
+//params.generate_throws - если true то будет выбрасывать исключения когда элемент заблокирован или если появление прерванно из начала сокрытия, по умолчанию false и вместо throw будет просто завершать функцию с помощью return передав туда значение исключения
+//params.display - значение которое будет использоваться скриптом как значение свойства display, если ничего не переданно ничего не будет установленно
 //params.property - css свойство для анимации
 //params.value - значение до которого должно измениться css свойство
 //params.started_value - значение от которого ничинается анимация при стартовых условиях
@@ -225,46 +263,80 @@ async function show(params) {
 //params.tf - пример ease
 //params.units - единицы измерения для значения
 async function hide(params) {
-    if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
+    let instance = params.instance, //объект который хранит в себе состояние элемента и его настройки
+        generate_throws = params.generate_throws; //нужно ли генерировать исключения
 
-    if (this.status === 'hide') return; //если блок уже скрыт
+    //если не переданн объект с данными
+    if (!instance) {
+        if (!params.el.toggle_data) params.el.toggle_data = {}; //создаём у элемента свойство с объектом если его нет
 
-    if (this.status === 'pending to hide') return this.pending_to_hide_promise; //если попытались скрыть блок когда он в процеес скрытия возвращаем промис с процессом его скрытия
+        instance = params.el.toggle_data; //используем созданное свойство как объект для хранения текущих значений состояния перехода, нужно чтоб если мы попытаемся скрывать элемент до того как он окончательно скрылся ему вернулся промис ожидания вместо запуса новой анимации
+    }
+    //если не переданн объект с данными
 
-    this.status = 'pending to hide'; //помечаем что блок начал скрываться
+    //прерываем если заблокированная любая активность
+    if (instance.lock) {
+        if (generate_throws) {
+            throw { ksn_message: 'locked' };
+        } else {
+            return 'locked';
+        }
+    }
+    //прерываем если заблокированная любая активность
+
+    if (instance.status === 'hide') return; //если блок уже скрыт
+
+    if (instance.status === 'pending to hide') return instance.pending_to_hide_promise; //если попытались скрыть блок когда он в процеес скрытия возвращаем промис с процессом его скрытия
+
+    instance.status = 'pending to hide'; //помечаем что блок начал скрываться
+
+    params.el.style.pointerEvents = 'none'; //запрещаем взаимодействовать сразу после начала скрытия
 
     let el = params.el,
         property = params.property || 'opacity', //определяем свойство для анимации, по умолчанию opacity
-        value = params.value !== undefined ? params.value : 0,
-        started_value = params.started_value !== undefined ? params.started_value : 1,
-        duration = get_remaining_time({
-            el: el,
-            started_value: started_value,
-            final_value: value,
-            property: property,
-            duration: params.duration,
-        }),
-        units = params.units !== undefined ? params.units : '';
+        value = params.value !== undefined ? params.value : property === 'opacity' ? 0 : undefined, //по умолчанию конечное значение 0 для opacity и undefined для других свойств
+        started_value = params.started_value !== undefined ? params.started_value : property === 'opacity' ? 1 : undefined, //по умолчанию начальное значение 1 для opacity и undefined для других свойств
+        duration =
+            started_value === undefined
+                ? params.duration //если не определено значение для отсчёта то вреям анимации берём из параметров без измений
+                : get_remaining_time({
+                      //расчитываем оставшеся время анимации
+                      el: el,
+                      started_value: started_value,
+                      final_value: value,
+                      property: property,
+                      duration: params.duration,
+                  }),
+        units = params.units !== undefined ? params.units : ''; //единицы измерения анимируемого свойства
 
     //анимаруем скрытие
-    this.pending_to_hide_promise = anime({
+    instance.pending_to_hide_promise = anime({
         targets: params.el,
         [property]: value + units,
         duration: duration,
         easing: params.tf,
         update: anim => {
-            this.status !== 'pending to hide' && anim.remove(params.el);
-        }, //принцип такой будет возвращать первое ложное выражение this.status !== 'pending to hide', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
+            instance.status !== 'pending to hide' && anim.remove(params.el);
+        }, //принцип такой будет возвращать первое ложное выражение instance.status !== 'pending to hide', но как только он станет true что вернёт и одновременно выполнит в нашем случае anim.remove()
     }).finished;
 
     //дожидаемся скрытия блока
-    await this.pending_to_hide_promise.then(() => {
-        if (this.status !== 'pending to hide') throw { ksn_message: 'block in process showed' }; //если анимация завершилась но статус блока не в процессе сокрытия это значит что блок начал процесс появления в момент скрытия, и нам нужно выдать исключение в этом случае
+    await instance.pending_to_hide_promise.then(() => {
+        //если анимация завершилась но статус блока не в процессе сокрытия это значит что блок начал процесс появления в момент скрытия, и нам нужно выдать исключение в этом случае
+        if (instance.status !== 'pending to hide') {
+            if (generate_throws) {
+                throw { ksn_message: 'block in process showed' };
+            } else {
+                return 'block in process showed';
+            }
+        }
+        //если анимация завершилась но статус блока не в процессе сокрытия это значит что блок начал процесс появления в момент скрытия, и нам нужно выдать исключение в этом случае
 
-        //ПРИМЕЧАНИЕ: если params.display === null то значение останется тем что есть у данного блока по умолчанию
-        if (params.display !== null) params.el.style.display = params.display || 'none'; //после того как блок пролностью скроется мы ставим ему новый дисплай, по умолчанию none
+        if (params.display) params.el.style.display = params.display; //только если параметр передат меняем значение display элмента
 
-        this.status = 'hide'; //помечаем что блок скрыт
+        instance.status = 'hide'; //помечаем что блок скрыт
+
+        delete params.el.toggle_data; //по завершению промиса чистим свойства объекта от временного свойства содержащего данные перехода
     });
 }
 //данная функция скрывает блок уменьшая значение его css свойства

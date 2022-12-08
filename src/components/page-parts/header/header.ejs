@@ -133,26 +133,6 @@
 </head>
 
 <body class="custom-scrollbar">
-  <script>
-    /*определяем поддержку flex gap*/
-    (() => {
-      let f = d.createElement("div");
-      f.style.display = "flex";
-      f.style.flexDirection = "column";
-      f.style.rowGap = "1px";
-
-      f.appendChild(d.createElement("div"));
-      f.appendChild(d.createElement("div"));
-
-      d.body.appendChild(f);
-      let s = f.scrollHeight === 1,
-        c = s ? 'support-flex-gap' : 'not-support-flex-gap';
-      f.parentNode.removeChild(f);
-
-      GDS.support_flex_gap = s;
-      d.body.classList.add(c);
-    })()
-  </script>
   <header class="custom-scrollbar">
     <%- include('./header-poster')%>
     <%- include('./header-visible')%>
@@ -160,7 +140,7 @@
   </header>
   <%- include('./header-cart')%>
   <div id="header-background"></div>
-  <div id="header-overlay"></div>
+  <div id="header-overlay" class="overlay"></div>
   <script>
     /*нужно чтоб в момент загрузки страницы меню занимало нужную позицию и не прыгало относитель но контента*/
     /*загоняем в самовызывающуюся функцию для того чтоб инкапсулировать переменные*/
@@ -173,48 +153,4 @@
       header_background.style.height = header_height; /*задаём высоту подложки хедера*/
     })()
   </script>
-  <main style="position: relative;  background-color: white; overflow-y: hidden;">
-    <style>
-      .test_block {
-        width: 50%;
-        /* width: 500px; */
-        margin: auto;
-      }
-
-      @media (max-width:1000px) {
-        .test_block {
-          /* width: 800px; */
-        }
-      }
-    </style>
-    <!-- <div class="test_block">
-      <%- include('./../../blocks/images/images.ejs', {data:{type: "img", url:"~@img/media-test/obrabotka_salona_3-1.jpg", loader:true, ow:6720, oh:3840, pt:57.1429,}})%>
-    </div> -->
-
-
-
-    <div style="height:200px"></div>
-    <div style="max-width:780px; margin:auto;">
-      <%- include('./../../blocks/product-small-info-block/product-small-info-block.ejs', {type: "header-search"}) %>
-    </div>
-    <div style="height:500px"></div>
-
-    <!-- Slider main container -->
-    <div class="swiper">
-      <!-- Additional required wrapper -->
-      <div class="swiper-wrapper">
-        <!-- Slides -->
-        <div class="swiper-slide">Slide 1</div>
-        <div class="swiper-slide">Slide 2</div>
-        <div class="swiper-slide">Slide 3</div>
-      </div>
-      <!-- If we need pagination -->
-      <div class="swiper-pagination"></div>
-
-      <!-- If we need navigation buttons -->
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-
-      <!-- If we need scrollbar -->
-      <div class="swiper-scrollbar"></div>
-    </div>
+  <main>

@@ -1,5 +1,4 @@
-import anime from 'animejs';
-import { show, hide } from '@js-libs/func-kit';
+import { anime, show, hide } from '@js-libs/func-kit';
 import { Header, Header_Search } from '@header-main-js';
 
 export default new (class {
@@ -42,17 +41,18 @@ export default new (class {
 
     //плавно показываем кнопку
     show() {
-        return show.call(this, {
+        return show({
             el: this.button,
-            display: 'flex',
+            instance: this,
         });
     }
     //плавно показываем кнопку
 
     //плавно скрываем кнопку
     hide() {
-        return hide.call(this, {
+        return hide({
             el: this.button,
+            instance: this,
         });
     }
     //плавно скрываем кнопку

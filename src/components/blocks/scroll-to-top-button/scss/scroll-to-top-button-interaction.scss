@@ -1,6 +1,6 @@
 .scroll-to-top-button {
     position: fixed;
-    display: none;
+    display: flex;
     opacity: 0;
     border-radius: 50%;
     background-color: var(--black-disabled);
@@ -15,6 +15,7 @@
     color: var(--white);
     z-index: map-get($z-index, scroll-to-top-button);
     cursor: pointer;
+    pointer-events: none;
 
     @media (any-hover: hover) {
         &:hover {

@@ -89,7 +89,7 @@
         //для переноса меню
         @media (min-width: rem(1050)) {
             width: auto;
-            display: block;//нужно менять иначе в фаерфоксе поочему-то едет меню
+            display: block; //нужно менять иначе в фаерфоксе поочему-то едет меню
             order: 0;
             margin-right: rem(40);
         }
@@ -102,7 +102,9 @@
         ul {
             @media (min-width: rem(640)) {
                 grid-column: 2 / span 10;
-                display: flex;
+                display: grid;
+                grid-template-columns: repeat(4, max-content);//4 - количество пунктов меню
+                grid-gap: adaptiv_rem_size(30, 640, 40, 1920);
                 justify-content: space-between;
             }
 
@@ -116,8 +118,10 @@
                 grid-gap: adaptiv_rem_size(40, 1920);
             }
 
-            li > a {
-                min-width: auto;
+            li {
+                a {
+                    min-width: auto; //нужно чтоб если текст в пункте меню будет маленький блок не растягивался
+                }
             }
         }
     }
@@ -137,21 +141,18 @@
     }
 
     &__cart-button {
-        min-width: rem(50);
-        width: auto;
-        font-size: rem(22);
-        justify-content: flex-end;
+        font-size: rem(30);
 
         @media (min-width: rem(640)) {
-            font-size: rem(17);
+            font-size: rem(25);
         }
 
         @media (min-width: rem(960)) {
-            font-size: rem(22);
+            font-size: rem(30);
         }
 
         @media (min-width: rem(1920)) {
-            font-size: adaptiv_rem_size(22, 1920);
+            font-size: adaptiv_rem_size(30, 1920);
         }
 
         .icon--cart-bold {
@@ -201,31 +202,11 @@
     }
 
     &__burger-button {
-        right: rem(-15);
+        margin-left: rem(20);
 
         @media (min-width: rem(640)) {
             display: none;
         }
-    }
-}
-
-.support-flex-gap .header-visible__menu ul {
-    @media (min-width: rem(640)) {
-        gap: rem(10) adaptiv_rem_size(30, 640, 40, 1920);
-    }
-
-    @media (min-width: rem(1920)) {
-        gap: rem(10) adaptiv_rem_size(40, 1920);
-    }
-}
-
-.not-support-flex-gap .header-visible__menu ul li {
-    @media (min-width: rem(640)) {
-        margin-right: adaptiv_rem_size(30, 640, 40, 1920);
-    }
-
-    @media (min-width: rem(1920)) {
-        margin-right: adaptiv_rem_size(40, 1920);
     }
 }
 

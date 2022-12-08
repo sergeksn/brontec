@@ -15,22 +15,25 @@ export default class Loader {
     }
 
     //показываем лоадер
-    async show() {
+    show() {
         if (!this.permission_to_show) throw { ksn_message: 'not permission to show' }; //запрещено показывать
 
-        return show.call(this, {
+        return show({
             el: this.loader,
+            instance: this,
             display: 'flex',
         });
     }
     //показываем лоадер
 
     //скрываем лоадер
-    async hide() {
+    hide() {
         if (!this.permission_to_hide) throw { ksn_message: 'not permission to hide' }; //запрещено скрывать
 
-        return hide.call(this, {
+        return hide({
             el: this.loader,
+            instance: this,
+            display: 'none',
         });
     }
     //скрываем лоадер

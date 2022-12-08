@@ -22,69 +22,65 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
-.icon--close {
-    &:before {
-        content: $icon--close;
-    }
-}
-.icon--close-bold {
-    &:before {
-        content: $icon--close-bold;
-    }
-}
 .icon--cart {
     &:before {
-        content: $icon--cart;
+      content: $icon--cart; 
     }
-}
-.icon--cart-bold {
+  }
+  .icon--cart-bold {
     &:before {
-        content: $icon--cart-bold;
+      content: $icon--cart-bold; 
     }
-}
-.icon--phone {
+  }
+  .icon--close {
     &:before {
-        content: $icon--phone;
+      content: $icon--close; 
     }
-}
-.icon--ruble-currency {
+  }
+  .icon--close-bold {
     &:before {
-        content: $icon--ruble-currency;
+      content: $icon--close-bold; 
     }
-}
-.icon--search {
+  }
+  .icon--error {
     &:before {
-        content: $icon--search;
+      content: $icon--error; 
     }
-}
-.icon--search-bold {
+  }
+  .icon--phone {
     &:before {
-        content: $icon--search-bold;
+      content: $icon--phone; 
     }
-}
-.icon--arrow-middle {
+  }
+  .icon--search {
     &:before {
-        content: $icon--arrow-middle;
+      content: $icon--search; 
     }
-}
-.icon--arrow-scroll-to-top {
+  }
+  .icon--search-bold {
     &:before {
-        content: $icon--arrow-scroll-to-top;
+      content: $icon--search-bold; 
     }
-}
-.icon--success {
+  }
+  .icon--success {
     &:before {
-        content: $icon--success;
+      content: $icon--success; 
     }
-}
-.icon--warning {
+  }
+  .icon--warning {
     &:before {
-        content: $icon--warning;
+      content: $icon--warning; 
     }
-}
-.icon--error {
+  }
+  .icon--arrow-middle {
     &:before {
-        content: $icon--error;
+      content: $icon--arrow-middle; 
     }
-}
+  }
+  .icon--arrow-scroll-to-top {
+    &:before {
+      content: $icon--arrow-scroll-to-top; 
+    }
+  }
+  
+  

@@ -72,7 +72,6 @@
     }
 
     &__old-price {
-        text-decoration: line-through;
         color: var(--gray);
     }
 
@@ -112,11 +111,12 @@
     }
 
     &__arrow-link {
+        //для неё не будем задавать минимальные размеры т.к. она всё равно одна в области активная и чтоб не поломать вёрстку
         position: absolute;
         top: rem(20);
         right: rem(8);
         color: var(--blue);
-        font-size: rem(16);
+        font-size: rem(20);
 
         @media (min-width: rem(640)) {
             top: adaptiv_rem_size(20, 640, 34, 1920);
@@ -126,7 +126,7 @@
         @media (min-width: rem(1920)) {
             top: adaptiv_rem_size(34, 1920);
             right: adaptiv_rem_size(20, 1920);
-            font-size: adaptiv_rem_size(16, 1920);
+            font-size: adaptiv_rem_size(20, 1920);
         }
     }
 }
