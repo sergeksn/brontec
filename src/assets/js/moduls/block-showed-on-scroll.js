@@ -2,7 +2,7 @@ import { wait } from '@js-libs/func-kit';
 
 new (class {
     constructor() {
-        w._on('load', this.start_observe()); //начианем отслеживание толкьо после полной загрузки страницы
+        w._on('load', () => this.start_observe()); //начианем отслеживание толкьо после полной загрузки страницы
     }
 
     //начинает отслеживание видимости блоков

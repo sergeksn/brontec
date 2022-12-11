@@ -59,7 +59,7 @@ import { custom_events_list } from './custom-events.js';
     //ПРИМЕЧАНИЕ: приписка _ перед функциями необходима для того чтоб избежать возможной перезаписи метода в исходном объекте
     //добавляем новые методы в объекты для взаиможействия с элементоми
     dom_obj_list.forEach(item => {
-        for (let func in dom_added_func) item.prototype['_'+func] = dom_added_func[func];
+        for (let func in dom_added_func) item.prototype['_' + func] = dom_added_func[func];
     });
     //добавляем новые методы в объекты для взаиможействия с элементом
 

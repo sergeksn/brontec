@@ -26,7 +26,7 @@
 
         input {
             font-weight: var(--font-bold);
-            padding: 0 rem(55) rem(10) 0;//55 для небольшого запаса от кнопки
+            padding: 0 rem(55) rem(10) 0; //55 для небольшого запаса от кнопки
             border-bottom: rem(1) solid var(--gray);
 
             @media (min-width: rem(1920)) {
@@ -152,17 +152,16 @@
             margin: adaptiv_rem_size(40, 1920) 0 adaptiv_rem_size(95, 1920) 0;
         }
 
-        a{
+        a {
             display: inline-flex;
         }
     }
 
     &__fail {
-        font: var(--h2);
-        font-weight: normal;
+        font: var(--h3);
 
         span {
-            font-weight: var(--font-bold);
+            font: var(--h2);
         }
     }
 }

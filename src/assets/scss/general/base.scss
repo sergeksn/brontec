@@ -1,7 +1,12 @@
 //@media (any-hover: none) and (any-pointer: coarse) - смартфон без возможности ховера, и с указателем ограниценной точности
 @font-face {
-    font-family: Manrope;
-    src: url(@fonts/manrope.woff2) format('woff2'), url(@fonts/manrope.woff) format('woff');
+    font-family: 'Manrope-Regular';
+    src: url(@fonts/manrope-regular.woff2) format('woff2'), url(@fonts/manrope-regular.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Manrope-Bold';
+    src: url(@fonts/manrope-bold.woff2) format('woff2'), url(@fonts/manrope-bold.woff) format('woff');
 }
 
 *,
@@ -26,6 +31,16 @@ body {
     overflow: hidden !important;
 }
 
+//доработатать
+@media (any-hover: hover) and (any-pointer: fine) {
+    @supports not (scrollbar-width: thin) {
+        body.lock-scroll {
+            margin-right: var(--scroll-width);
+        }
+    }
+}
+//доработатать
+
 .disabled {
     opacity: 0.3;
 }
@@ -43,13 +58,8 @@ button {
     //background-color: red;
 
     @media (any-hover: none) and (any-pointer: coarse) {
-        min-width: rem(50);
-        min-height: rem(50);
-    }
-
-    @media (any-hover: none) and (any-pointer: coarse) and (min-width: rem(1920)) {
-        min-width: adaptiv_rem_size(50, 1920);
-        min-height: adaptiv_rem_size(50, 1920);
+        min-width: var(--min-interactive-elements-width);
+        min-height: var(--min-interactive-elements-height);
     }
 }
 
@@ -66,7 +76,6 @@ input {
     &::after {
         //если вдруг не понравится внешний вид рубля попросить шрифт и сюда вставить символ ₽ с указанием font-famaly
         content: '\a0\20BD';
-        font-size: 110%;
     }
 }
 
@@ -83,20 +92,14 @@ input {
     text-decoration: line-through;
 }
 
-
 //ПРИМЕЧАНИЕ: если будут притензии из-за слишком больших отступов между элементами то можно для отдельных элементов менять минимальные высоты
 .set-min-interactive-size {
     display: flex;
     align-items: center;
 
     @media (any-hover: none) and (any-pointer: coarse) {
-        min-width: rem(50);
-        min-height: rem(50);
-    }
-
-    @media (any-hover: none) and (any-pointer: coarse) and (min-width: rem(1920)) {
-        min-width: adaptiv_rem_size(50, 1920);
-        min-height: adaptiv_rem_size(50, 1920);
+        min-width: var(--min-interactive-elements-width);
+        min-height: var(--min-interactive-elements-height);
     }
 }
 
@@ -106,34 +109,38 @@ input {
     align-items: center;
 
     @media (any-hover: none) and (any-pointer: coarse) {
-        min-width: rem(50);
-        min-height: rem(40);
+        min-width: var(--min-interactive-elements-width);
+        min-height: calc(var(--min-interactive-elements-height) - rem(10));
     }
 
     @media (any-hover: none) and (any-pointer: coarse) and (min-width: rem(1920)) {
-        min-width: adaptiv_rem_size(50, 1920);
-        min-height: adaptiv_rem_size(40, 1920);
+        min-height: calc(var(--min-interactive-elements-height) - adaptiv_rem_size(10, 1920)) !important; //!important нужно чтоб переопределить стил выше после групировки медиазапросов
     }
 }
 
-.button {
+.button-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: var(--b-radius);
     font: var(--default);
     color: var(--white);
     height: auto !important; //нужно чтоб переопределить после групировки медиазапросов
-    min-height: rem(50);
+    min-height: var(--min-interactive-elements-height);
     width: 100%;
     background-color: var(--blue);
-    text-align: center;
     padding: rem(10) rem(20);
+
+    &--black {
+        background-color: var(--black);
+    }
 
     @media (min-width: rem(1920)) {
         padding: adaptiv_rem_size(10, 1920) adaptiv_rem_size(20, 1920);
-        min-height: adaptiv_rem_size(50, 1920);
     }
 }
 
-/*ширина основных блоков не стандартная так что задаём её отлельно от сетки*/
+//ширина основных блоков не стандартная так что задаём её отлельно от сетки
 .standart-container {
     max-width: rem(1180);
     margin-left: adaptiv_rem_size(20, 320, 30, 640);
@@ -161,4 +168,11 @@ input {
         max-width: adaptiv_rem_size(1180, 1920);
     }
 }
-/*ширина основных блоков не стандартная так что задаём её отлельно от сетки*/
+//ширина основных блоков не стандартная так что задаём её отлельно от сетки
+
+//нужно для того чтоб слайдер был скрыт и недоступен для действий пока не загрузится
+.wait-init-slider-swiper {
+    pointer-events: none;
+    visibility: hidden;
+}
+//нужно для того чтоб слайдер был скрыт и недоступен для действий пока не загрузится

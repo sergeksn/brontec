@@ -59,7 +59,7 @@
             border-right: none;
             //grid-template-rows: adaptiv_rem_size(60, 1920) 1fr adaptiv_rem_size(176, 1920); //178 - 2 граница
             //если не понравится высота сделать как в макете ниже
-            grid-template-rows: rem(60) 1fr adaptiv_rem_size(240, 1920);
+            grid-template-rows: adaptiv_rem_size(60, 1920) 1fr adaptiv_rem_size(240, 1920);
         }
     }
 

@@ -10,7 +10,7 @@ const Img_Loader = new (class {
             threshold: GDS.media.img.percent_img_show_to_load / 100, //показываем только когда элемент виден минимум на n процентов от своего размера
         };
 
-        this.img_visible_observer = new IntersectionObserver(this.img_upload_manager.bind(this), options_observer); //создаём наблюдатель за видимостью элементов на экране
+        this.img_visible_observer = new IntersectionObserver(this.check_img_visibility.bind(this), options_observer); //создаём наблюдатель за видимостью элементов на экране
 
         let timer_resize, //будет хранить таймер отложенной функции для ресайза
             update_observer_images = () => this.add_in_observe(d.querySelectorAll('[data-img-type]:not(.original-size)')); //данная функция добавит в отслеживание элементы которые ещё не
@@ -49,43 +49,57 @@ const Img_Loader = new (class {
     }
     //удаляем элементы из отслеживания видимости
 
-    //определяет какой загрузчик нужен для данного блока картинки
-    img_upload_manager(entries) {
+    //определяет какие картинки видны и достаточно ли долго видны, и если всё удовлетворяет условиям видимости инициализирует её загрузку
+    check_img_visibility(entries) {
         //перебираем массив с объектами отслеживаемых элементов
         //ПРИМЕЧАНИЕ: при первой инициализации в этом массиве будут все элементы которые мы добавили к данному наблюдателю, а далее только те видимость которых будет изменяться
         entries.forEach(entrie => {
+            let img = entrie.target; //картинка видимость которой отслеживаем
+
             //из всех элементов берём только те которые пересекаются с экраном
             if (entrie.isIntersecting) {
                 //загружаем картинки только если её блок был на экране минимум GDS.media.img.min_vsible_time
-                entrie.target.start_intersecting_timeout_id = setTimeout(() => {
-                    //если ещё нет данного свойства у родителя картинки значит мы увидели её впервые и готовмся к её загрузке и отображению
-                    //ПРИМЕЧАНИЕ: т.к. этот пункт выполянется один раз при обнаружении нам не важно сколько картинок в этом блоке родителя, т.к. у них всё равно один лоадер, объект которого будет как раз и сохранён сюда
-                    if (!entrie.target.parentNode.ksn_loader) entrie.target.parentNode.ksn_loader = new Loader(entrie.target.parentNode.querySelector('.loader')); //сохраняем объект лоадера для этой картинки
-
-                    let dit = entrie.target.getAttribute('data-img-type'); //тип данной картинки, может быть тоько один так что можно вызывать проверки только через if без else if
-
-                    //'img' - для обычных блоков img с одной картинкой вставленной через тег img
-                    //'bg' - для обычных блоков div с одной картинкой вставленной через css background-image
-                    if (dit === 'img' || dit === 'bg') this.common_img_render(entrie.target, dit); //инициализируем загрузку и отображение картинки
-
-                    //'kit' - svg картинка предстваляющая из себя набор svg блоков к которым можно получить доступ по id
-                    if (dit === 'kit') this.svg_kit_render(entrie.target); //инициализируем загрузку и отображение картинки
-
-                    delete entrie.target.start_intersecting_timeout_id; //удаляем свойство за ненадобностью
-                }, GDS.media.img.min_vsible_time); //записываем id данного таймаута в свойства элемента entrie.target чтоб потом можно было его отключить если элемент слишком быстро пропал с экрана
+                img.start_intersecting_timeout_id = setTimeout(() => this.img_upload_manager(img), GDS.media.img.min_vsible_time); //записываем id данного таймаута в свойства элемента img чтоб потом можно было его отключить если элемент слишком быстро пропал с экрана
             }
             //из всех элементов берём только те которые пересекаются с экраном
 
             //если пересечние перешло в состояние не пересечения, т.е. элемент либо был за пределами root или в процессе вышел за его пределы, в нашем случае ушёл за границы видимой части экрана
             else {
-                if (entrie.target.start_intersecting_timeout_id) {
-                    clearTimeout(entrie.target.start_intersecting_timeout_id);
-                    delete entrie.target.start_intersecting_timeout_id;
+                if (img.start_intersecting_timeout_id) {
+                    clearTimeout(img.start_intersecting_timeout_id);
+                    delete img.start_intersecting_timeout_id;
                 }
             }
             //если пересечние перешло в состояние не пересечения
         });
         //перебираем массив с объектами отслеживаемых элементов
+    }
+    //определяет какие картинки видны и достаточно ли долго видны, и если всё удовлетворяет условиям видимости инициализирует её загрузку
+
+    //определяет какой загрузчик нужен для данного блока картинки
+    img_upload_manager(img) {
+        //если ещё нет данного свойства у родителя картинки значит мы увидели её впервые и готовмся к её загрузке и отображению
+        //ПРИМЕЧАНИЕ: т.к. этот пункт выполянется один раз при обнаружении нам не важно сколько картинок в этом блоке родителя, т.к. у них всё равно один лоадер, объект которого будет как раз и сохранён сюда
+        if (!img.parentNode.ksn_loader) img.parentNode.ksn_loader = new Loader(img.parentNode.querySelector('.loader')); //сохраняем объект лоадера для этой картинки
+
+        let dit = img.getAttribute('data-img-type'); //тип данной картинки, может быть тоько один так что можно вызывать проверки только через if без else if
+
+        //'img' - для обычных блоков img с одной картинкой вставленной через тег img
+        //'bg' - для обычных блоков div с одной картинкой вставленной через css background-image
+        if (dit === 'img' || dit === 'bg') this.common_img_render(img, dit); //инициализируем загрузку и отображение картинки
+
+        //'overlay-img' - для обычных блоков img с одной картинкой вставленной через тег img
+        //'overlay-bg' - для обычных блоков div с одной картинкой вставленной через css background-image
+        if (dit === 'overlay-img' || dit === 'overlay-bg') this.overlay_img_render(img, dit); //инициализируем загрузку и отображение картинки которая является наложением для другой
+
+        //'img-swiper-loop' - для обычных блоков img с одной картинкой вставленной через тег img которые являются сладйами сладера swiper с включённым циклом бесконечной прокрутки
+        //'bg-swiper-loop' - для обычных блоков div с одной картинкой вставленной через css background-image которые являются сладйами сладера swiper с включённым циклом бесконечной прокрутки
+        if (dit === 'img-swiper-loop' || dit === 'bg-swiper-loop') this.swiper_looped_img_render(img, dit); //инициализируем загрузку и отображение картинки которая являются слайдом сладера swiper с включённым циклом бесконечной прокрутки
+
+        //'kit' - svg картинка предстваляющая из себя набор svg блоков к которым можно получить доступ по id
+        if (dit === 'kit') this.svg_kit_render(img); //инициализируем загрузку и отображение картинки
+
+        delete img.start_intersecting_timeout_id; //удаляем свойство за ненадобностью
     }
     //определяет какой загрузчик нужен для данного блока картинки
 
@@ -191,16 +205,15 @@ const Img_Loader = new (class {
     }
     //получает на вход url картинки, после чего он создаёт новый объект изображения и мониторит его загрузку или ошибку загрузки в случае если картинка не найдена
 
+    //функция принудительной закгрузки картинки даже если её ещё не видно на экране
+    forced_download(img) {
+        this.img_upload_manager(img);
+    }
+    //функция принудительной закгрузки картинки даже если её ещё не видно на экране
+
     //функция начинает загрузку картинки img и верёнет промис о результатах загрузки
     async common_img_loader(img) {
-        //делаем проверку через малый интервал времени, если блок всё ещё не загружен после старта его загрузки, то скорее всего содержимое блока берётся не из кеша и пользователю нужно показать лоадер, если содержимое блока загрузилось очень быстро то лоадер показывать не зачем
-        setTimeout(() => {
-            if (!img.classList.contains('uploaded'))
-                img.parentNode.ksn_loader.show().catch(e => {
-                    //ПРИМЕЧАНИЕ: в данном случае наши исключения нас не интересуют т.к. они не смогут помещать коду в этом модуле, они нужны если код используется извне для управления состояниями элементов
-                    if (typeof e.ksn_message === 'undefined') return console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
-                }); //если содержимое блока всё ещё не загружено то показываем лоадер
-        }, GDS.media.img.loader_delay_time);
+        setTimeout(() => !img.classList.contains('uploaded') && img.parentNode.ksn_loader.show(), GDS.media.img.loader_delay_time); //делаем проверку через малый интервал времени, если блок всё ещё не загружен после старта его загрузки, то скорее всего содержимое блока берётся не из кеша и пользователю нужно показать лоадер если он есть и разрешён его показ, если содержимое блока загрузилось очень быстро то лоадер показывать не зачем
 
         let url = this.get_img_size_url(img); //сюда будет записан сгенерированный адрес на миниатюру картинки или на саму картинку в случае с svg
 
@@ -225,12 +238,9 @@ const Img_Loader = new (class {
 
     //в случае ошибки загрузки вставляем блок с ошибкой который покажент картинку ошибки загрузки
     error_img_load(data) {
+        //функция скрывает лоадер и показывает картинку ошибки загрузки
         let show_img_error_load_block = async () => {
-            //функция скрывает лоадер и показывает картинку ошибки загрузки
-            await data.img.parentNode.ksn_loader.hide_and_remove().catch(e => {
-                //ПРИМЕЧАНИЕ: в данном случае наши исключения нас не интересуют т.к. они не смогут помещать коду в этом модуле, они нужны если код используется извне для управления состояниями элементов
-                if (typeof e.ksn_message === 'undefined') return console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
-            }); //скрываем и удаляем лоадер если он есть
+            await data.img.parentNode.ksn_loader.hide_and_remove(); //скрываем и удаляем лоадер если он есть
 
             let div = d.createElement('div');
             div.classList.add('media-load-error');
@@ -238,6 +248,7 @@ const Img_Loader = new (class {
             data.img.style.visibility = 'hidden'; //скрываем картинку чтоб не было пустых контуров и маленького стандартного значка ошибки загрузки картинки от браузера, а был только наш значёк ошибки
             setTimeout(() => (div.style.opacity = '1'), 100); //показываем с небольшой задержкой чтоб блок успел отрендерится
         };
+        //функция скрывает лоадер и показывает картинку ошибки загрузки
 
         //исключение внутри fetch запроса
         if (data.error) {
@@ -271,10 +282,7 @@ const Img_Loader = new (class {
     async common_img_render(img, type) {
         await this.common_img_loader(img)
             .then(async url => {
-                await img.parentNode.ksn_loader.hide_and_remove().catch(async e => {
-                    //ПРИМЕЧАНИЕ: в данном случае наши исключения нас не интересуют т.к. они не смогут помещать коду в этом модуле, они нужны если код используется извне для управления состояниями элементов
-                    if (typeof e.ksn_message === 'undefined') return console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
-                }); //скрываем и удаляем лоадер если он есть
+                await img.parentNode.ksn_loader.hide_and_remove(); //скрываем и удаляем лоадер если он есть
 
                 type === 'bg' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url); //вставляем картинку
 
@@ -283,6 +291,52 @@ const Img_Loader = new (class {
             .catch(e => this.error_img_load(e)); //обрабатываем ошибки произошедшие в ходе загрузки картинки
     }
     //функция для загрузки картинок из блоков где всего одна картинка, вставленная через css background-image
+
+    //функция для загрузки картинок которые являются наложенными, т.е. показываются поверх основыной картинки и нам нужно их показывать не раньше чем загрузится основоная картинка
+    async overlay_img_render(img, type) {
+        await this.common_img_loader(img)
+            .then(async url => {
+                type === 'overlay-bg' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url); //вставляем картинку
+
+                await wait(() => img.parentNode.querySelector('[data-main]').classList.contains('uploaded'), true); //ждём пока не загрузится основная картинка
+
+                img.style.opacity = '1'; //показываем картинку
+            })
+            .catch(e => this.error_img_load(e)); //обрабатываем ошибки произошедшие в ходе загрузки картинки
+    }
+    //функция для загрузки картинок которые являются наложенными, т.е. показываются поверх основыной картинки и нам нужно их показывать не раньше чем загрузится основоная картинка
+
+    //функция для загрузки картинок из блоков где всего одна картинка, вставленная через css background-image или через тег img в сладйере swiper с бесконечным циклом прокрутки
+    //ПРИМЕЧАНИЕ: к этому моменту все слайды этого слайдера должы быть добавлены для отслеживания
+    //свайпер создаёт несколько дубликатов картинки для корректной работы зацикленности и присваевает дубликатам одинаковые data-swiper-slide-index по которым мы находим дубликаты и инициализируем их загрузку
+    async swiper_looped_img_render(img, type) {
+        await this.common_img_loader(img)
+            .then(async url => {
+                await img.parentNode.ksn_loader.hide_and_remove(); //скрываем и удаляем лоадер если он есть
+
+                type === 'bg-swiper-loop' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url); //вставляем картинку
+
+                img.style.opacity = '1'; //показываем картинку
+
+                let parent_search = (el, search_class) => {
+                        //функция для поиска родителя элемента с нужным классом
+                        let parent = el.parentNode;
+                        return parent.classList.contains(search_class) ? parent : parent_search(parent, search_class);
+                    },
+                    slide = parent_search(img, 'swiper-slide'), //текущий слайд для которого грузим картинку
+                    slide_index = slide.getAttribute('data-swiper-slide-index'), //индекс этого слайда в swiper
+                    swiper_wrap = parent_search(slide, 'swiper-wrapper'), //оболочка слайдов
+                    slide_dublicat = [...swiper_wrap.querySelectorAll('[data-swiper-slide-index="' + slide_index + '"]')].filter(el => el !== slide); //добликаты для данного слайда созданные свайпером для корректной работы цыкла
+
+                //перебираем все дубликаты картинки
+                slide_dublicat.forEach(el => {
+                    let img = el.querySelector('[data-img-type]:not(.uploaded)'); //чтоб избежать ненужных повторений нам нужны только те дубликаты которые ещё не были загружены
+                    img && this.forced_download(img); //если данный дубликат ещё не был загружен запускаем его принудитеьную загрузку
+                });
+            })
+            .catch(e => this.error_img_load(e)); //обрабатываем ошибки произошедшие в ходе загрузки картинки
+    }
+    //функция для загрузки картинок из блоков где всего одна картинка, вставленная через css background-image или через тег img в сладйере swiper с бесконечным циклом прокрутки
 
     //встваяет svg картинки из svg набора в документ
     async svg_kit_render(img) {
@@ -317,9 +371,7 @@ const Img_Loader = new (class {
 
                 await wait(() => sl.display === 'block', true); //ждём пока все динамичсески вставленные svg добавятся в документ т.к. есть микроскопическая задержка
 
-                await wait(() => typeof img.parentNode.ksn_loader.pending_to_hide_promise, 'object'); //ждём пока не создасться промис скрытия лоадера
-
-                await img.parentNode.ksn_loader.pending_to_hide_promise; //ждём скрытия лоадера
+                await wait(() => img.parentNode.querySelector('[data-main]').classList.contains('uploaded'), true); //ждём пока не загрузится основная картинка
 
                 svg_wrap.style.opacity = '1'; //отображаем набор
             })

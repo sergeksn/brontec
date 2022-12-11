@@ -5,6 +5,7 @@
     --black-disabled: #{rgba(#000000, 0.3)};
     --black-gradient: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
     --white: #fff;
+    --white-transparent: #{rgba(#fff, 0.5)};
     --white-disabled: #{rgba(#ffffff, 0.6)}; //--white-disabled применяется для текстов в кнопках с отключённым статусом
     --white-gradient: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 96.28%);
     --blue: #0049ff;
@@ -12,7 +13,7 @@
     --blue-transparent: #{rgba(#0049ff, 0.5)};
     --popup-backdrop: #{rgba(#ffffff, 0.9)};
     --gray: #999999;
-    --gray-transparent: #{rgba(#999999, 0.2)};//используется для скролбара
+    --gray-transparent: #{rgba(#999999, 0.2)}; //используется для скролбара
     --light: #e6e6e6;
     --error: #ff5050;
     --warning: #ffce50;
@@ -24,14 +25,13 @@
 
     /*шрифты*/
     //эти размеры шрифта актуальны до самых малых размеров экрана, т.к. эти размеры не меняются
-    --font-bold: 700;
-    --font-normal: 400;
-    --font-family: Manrope;
-    --h1: var(--font-bold) #{rem(25)} / #{rem(30)} var(--font-family);
-    --h2: var(--font-bold) #{rem(22)} / #{rem(30)} var(--font-family);
-    --h3: var(--font-normal) #{rem(18)} / #{rem(25)} var(--font-family);
-    --default: var(--font-normal) #{rem(15)} / #{rem(20)} var(--font-family); //--default обычный текст на страницах
-    --small: var(--font-normal) #{rem(13)} / #{rem(20)} var(--font-family); //--small маленький текст на страницах
+    --ff-regular: 'Manrope-Regular';
+    --ff-bold: 'Manrope-Bold';
+    --h1: #{rem(25)} / #{rem(30)} var(--ff-bold);
+    --h2: #{rem(22)} / #{rem(30)} var(--ff-bold);
+    --h3: #{rem(18)} / #{rem(25)} var(--ff-regular);
+    --default: #{rem(15)} / #{rem(20)} var(--ff-regular); //--default обычный текст на страницах
+    --small: #{rem(13)} / #{rem(20)} var(--ff-regular); //--small маленький текст на страницах
     /*шрифты*/
 
     /*отступы между блоками*/
@@ -43,11 +43,13 @@
 
     --fast-anim: 0s ease-in-out;
     --standart-anim: 0.5s ease-in-out;
+
     --b-radius: #{rem(10)};
+    --scroll-width: #{rem(6)};//ширина скролбара
 
     //bottons size
-    --btn-width: #{rem(50)};
-    --btn-height: #{rem(50)};
+    --min-interactive-elements-width: #{rem(50)};
+    --min-interactive-elements-height: #{rem(50)};
 
     @media (min-width: rem(960)) {
         $start_w: 960; //начальное значение ширины
@@ -61,23 +63,26 @@
 
         /*шрифты*/
 
-        --h1: var(--font-bold) #{adaptiv_rem_size(25, $start_w, 50, $final_w)} / #{adaptiv_rem_size(30, $start_w, 60, $final_w)} var(--font-family);
-        --h2: var(--font-bold) #{adaptiv_rem_size(22, $start_w, 32, $final_w)} / #{adaptiv_rem_size(30, $start_w, 40, $final_w)} var(--font-family);
-        --h3: var(--font-normal) #{adaptiv_rem_size(18, $start_w, 24, $final_w)} / #{adaptiv_rem_size(25, $start_w, 30, $final_w)} var(--font-family);
-        --default: var(--font-normal) #{adaptiv_rem_size(15, $start_w, 17, $final_w)} / #{adaptiv_rem_size(20, $start_w, 25, $final_w)} var(--font-family);
-        --small: var(--font-normal) #{adaptiv_rem_size(13, $start_w, 14, $final_w)} / #{rem(20)} var(--font-family);
+        --h1: #{adaptiv_rem_size(25, $start_w, 50, $final_w)} / #{adaptiv_rem_size(30, $start_w, 60, $final_w)} var(--ff-bold);
+        --h2: #{adaptiv_rem_size(22, $start_w, 32, $final_w)} / #{adaptiv_rem_size(30, $start_w, 40, $final_w)} var(--ff-bold);
+        --h3: #{adaptiv_rem_size(18, $start_w, 24, $final_w)} / #{adaptiv_rem_size(25, $start_w, 30, $final_w)} var(--ff-regular);
+        --default: #{adaptiv_rem_size(15, $start_w, 17, $final_w)} / #{adaptiv_rem_size(20, $start_w, 25, $final_w)} var(--ff-regular);
+        --small: #{adaptiv_rem_size(13, $start_w, 14, $final_w)} / #{rem(20)} var(--ff-regular);
         /*шрифты*/
     }
 
     @media (min-width: em(1920)) {
+        --min-interactive-elements-width: #{adaptiv_rem_size(50, 1920)};
+        --min-interactive-elements-height: #{adaptiv_rem_size(50, 1920)};
+
         $start_w: 1920; //начальное значение ширины
 
         /*шрифты*/
-        --h1: var(--font-bold) #{adaptiv_rem_size(50, $start_w)} / #{adaptiv_rem_size(60, $start_w)} var(--font-family);
-        --h2: var(--font-bold) #{adaptiv_rem_size(32, $start_w)} / #{adaptiv_rem_size(40, $start_w)} var(--font-family);
-        --h3: var(--font-normal) #{adaptiv_rem_size(24, $start_w)} / #{adaptiv_rem_size(30, $start_w)} var(--font-family);
-        --default: var(--font-normal) #{adaptiv_rem_size(17, $start_w)} / #{adaptiv_rem_size(25, $start_w)} var(--font-family);
-        --small: var(--font-normal) #{adaptiv_rem_size(14, $start_w)} / #{adaptiv_rem_size(20, $start_w)} var(--font-family);
+        --h1: #{adaptiv_rem_size(50, $start_w)} / #{adaptiv_rem_size(60, $start_w)} var(--ff-bold);
+        --h2: #{adaptiv_rem_size(32, $start_w)} / #{adaptiv_rem_size(40, $start_w)} var(--ff-bold);
+        --h3: #{adaptiv_rem_size(24, $start_w)} / #{adaptiv_rem_size(30, $start_w)} var(--ff-regular);
+        --default: #{adaptiv_rem_size(17, $start_w)} / #{adaptiv_rem_size(25, $start_w)} var(--ff-regular);
+        --small: #{adaptiv_rem_size(14, $start_w)} / #{adaptiv_rem_size(20, $start_w)} var(--ff-regular);
         /*шрифты*/
 
         /*отступы между блоками*/
@@ -87,5 +92,6 @@
         /*отступы между блоками*/
 
         --b-radius: #{adaptiv_rem_size(10, $start_w)};
+        --scroll-width: #{adaptiv_rem_size(6, $start_w)};
     }
 }

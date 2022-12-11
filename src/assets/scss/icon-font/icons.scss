@@ -82,5 +82,10 @@
       content: $icon--arrow-scroll-to-top; 
     }
   }
+  .icon--arrow {
+    &:before {
+      content: $icon--arrow; 
+    }
+  }
   
   

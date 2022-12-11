@@ -48,3 +48,9 @@
         }
     }
 }
+
+.loader--white .loader__circle {
+    border-color: var(--white-transparent);
+    border-top-color: var(--white);
+    border-bottom-color: var(--white);
+}

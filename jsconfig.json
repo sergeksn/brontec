@@ -339,6 +339,402 @@
             "@footer-img/*": [
                 "@components\\page-parts\\footer\\img/*"
             ],
+            "@glavnaya-1-blue-top-block": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block"
+            ],
+            "@glavnaya-1-blue-top-block/*": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block/*"
+            ],
+            "@glavnaya-1-blue-top-block-main-js": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block\\js\\glavnaya-1-blue-top-block-main.js"
+            ],
+            "@glavnaya-1-blue-top-block-main-js/*": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block\\js\\glavnaya-1-blue-top-block-main.js/*"
+            ],
+            "@glavnaya-1-blue-top-block-render-scss": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block\\scss\\glavnaya-1-blue-top-block-render.scss"
+            ],
+            "@glavnaya-1-blue-top-block-render-scss/*": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block\\scss\\glavnaya-1-blue-top-block-render.scss/*"
+            ],
+            "@glavnaya-1-blue-top-block-interaction-scss": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block\\scss\\glavnaya-1-blue-top-block-interaction.scss"
+            ],
+            "@glavnaya-1-blue-top-block-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block\\scss\\glavnaya-1-blue-top-block-interaction.scss/*"
+            ],
+            "@glavnaya-1-blue-top-block-fonts": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block\\fonts"
+            ],
+            "@glavnaya-1-blue-top-block-fonts/*": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block\\fonts/*"
+            ],
+            "@glavnaya-1-blue-top-block-img": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block\\img"
+            ],
+            "@glavnaya-1-blue-top-block-img/*": [
+                "@components\\page-parts\\glavnaya-1-blue-top-block\\img/*"
+            ],
+            "@glavnaya-10-fqa": [
+                "@components\\page-parts\\glavnaya-10-fqa"
+            ],
+            "@glavnaya-10-fqa/*": [
+                "@components\\page-parts\\glavnaya-10-fqa/*"
+            ],
+            "@glavnaya-10-fqa-main-js": [
+                "@components\\page-parts\\glavnaya-10-fqa\\js\\glavnaya-10-fqa-main.js"
+            ],
+            "@glavnaya-10-fqa-main-js/*": [
+                "@components\\page-parts\\glavnaya-10-fqa\\js\\glavnaya-10-fqa-main.js/*"
+            ],
+            "@glavnaya-10-fqa-render-scss": [
+                "@components\\page-parts\\glavnaya-10-fqa\\scss\\glavnaya-10-fqa-render.scss"
+            ],
+            "@glavnaya-10-fqa-render-scss/*": [
+                "@components\\page-parts\\glavnaya-10-fqa\\scss\\glavnaya-10-fqa-render.scss/*"
+            ],
+            "@glavnaya-10-fqa-interaction-scss": [
+                "@components\\page-parts\\glavnaya-10-fqa\\scss\\glavnaya-10-fqa-interaction.scss"
+            ],
+            "@glavnaya-10-fqa-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-10-fqa\\scss\\glavnaya-10-fqa-interaction.scss/*"
+            ],
+            "@glavnaya-10-fqa-fonts": [
+                "@components\\page-parts\\glavnaya-10-fqa\\fonts"
+            ],
+            "@glavnaya-10-fqa-fonts/*": [
+                "@components\\page-parts\\glavnaya-10-fqa\\fonts/*"
+            ],
+            "@glavnaya-10-fqa-img": [
+                "@components\\page-parts\\glavnaya-10-fqa\\img"
+            ],
+            "@glavnaya-10-fqa-img/*": [
+                "@components\\page-parts\\glavnaya-10-fqa\\img/*"
+            ],
+            "@glavnaya-11-cars-svg": [
+                "@components\\page-parts\\glavnaya-11-cars-svg"
+            ],
+            "@glavnaya-11-cars-svg/*": [
+                "@components\\page-parts\\glavnaya-11-cars-svg/*"
+            ],
+            "@glavnaya-11-cars-svg-main-js": [
+                "@components\\page-parts\\glavnaya-11-cars-svg\\js\\glavnaya-11-cars-svg-main.js"
+            ],
+            "@glavnaya-11-cars-svg-main-js/*": [
+                "@components\\page-parts\\glavnaya-11-cars-svg\\js\\glavnaya-11-cars-svg-main.js/*"
+            ],
+            "@glavnaya-11-cars-svg-render-scss": [
+                "@components\\page-parts\\glavnaya-11-cars-svg\\scss\\glavnaya-11-cars-svg-render.scss"
+            ],
+            "@glavnaya-11-cars-svg-render-scss/*": [
+                "@components\\page-parts\\glavnaya-11-cars-svg\\scss\\glavnaya-11-cars-svg-render.scss/*"
+            ],
+            "@glavnaya-11-cars-svg-interaction-scss": [
+                "@components\\page-parts\\glavnaya-11-cars-svg\\scss\\glavnaya-11-cars-svg-interaction.scss"
+            ],
+            "@glavnaya-11-cars-svg-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-11-cars-svg\\scss\\glavnaya-11-cars-svg-interaction.scss/*"
+            ],
+            "@glavnaya-11-cars-svg-fonts": [
+                "@components\\page-parts\\glavnaya-11-cars-svg\\fonts"
+            ],
+            "@glavnaya-11-cars-svg-fonts/*": [
+                "@components\\page-parts\\glavnaya-11-cars-svg\\fonts/*"
+            ],
+            "@glavnaya-11-cars-svg-img": [
+                "@components\\page-parts\\glavnaya-11-cars-svg\\img"
+            ],
+            "@glavnaya-11-cars-svg-img/*": [
+                "@components\\page-parts\\glavnaya-11-cars-svg\\img/*"
+            ],
+            "@glavnaya-2-video-block": [
+                "@components\\page-parts\\glavnaya-2-video-block"
+            ],
+            "@glavnaya-2-video-block/*": [
+                "@components\\page-parts\\glavnaya-2-video-block/*"
+            ],
+            "@glavnaya-2-video-block-main-js": [
+                "@components\\page-parts\\glavnaya-2-video-block\\js\\glavnaya-2-video-block-main.js"
+            ],
+            "@glavnaya-2-video-block-main-js/*": [
+                "@components\\page-parts\\glavnaya-2-video-block\\js\\glavnaya-2-video-block-main.js/*"
+            ],
+            "@glavnaya-2-video-block-render-scss": [
+                "@components\\page-parts\\glavnaya-2-video-block\\scss\\glavnaya-2-video-block-render.scss"
+            ],
+            "@glavnaya-2-video-block-render-scss/*": [
+                "@components\\page-parts\\glavnaya-2-video-block\\scss\\glavnaya-2-video-block-render.scss/*"
+            ],
+            "@glavnaya-2-video-block-interaction-scss": [
+                "@components\\page-parts\\glavnaya-2-video-block\\scss\\glavnaya-2-video-block-interaction.scss"
+            ],
+            "@glavnaya-2-video-block-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-2-video-block\\scss\\glavnaya-2-video-block-interaction.scss/*"
+            ],
+            "@glavnaya-2-video-block-fonts": [
+                "@components\\page-parts\\glavnaya-2-video-block\\fonts"
+            ],
+            "@glavnaya-2-video-block-fonts/*": [
+                "@components\\page-parts\\glavnaya-2-video-block\\fonts/*"
+            ],
+            "@glavnaya-2-video-block-img": [
+                "@components\\page-parts\\glavnaya-2-video-block\\img"
+            ],
+            "@glavnaya-2-video-block-img/*": [
+                "@components\\page-parts\\glavnaya-2-video-block\\img/*"
+            ],
+            "@glavnaya-3-icons-grid": [
+                "@components\\page-parts\\glavnaya-3-icons-grid"
+            ],
+            "@glavnaya-3-icons-grid/*": [
+                "@components\\page-parts\\glavnaya-3-icons-grid/*"
+            ],
+            "@glavnaya-3-icons-grid-main-js": [
+                "@components\\page-parts\\glavnaya-3-icons-grid\\js\\glavnaya-3-icons-grid-main.js"
+            ],
+            "@glavnaya-3-icons-grid-main-js/*": [
+                "@components\\page-parts\\glavnaya-3-icons-grid\\js\\glavnaya-3-icons-grid-main.js/*"
+            ],
+            "@glavnaya-3-icons-grid-render-scss": [
+                "@components\\page-parts\\glavnaya-3-icons-grid\\scss\\glavnaya-3-icons-grid-render.scss"
+            ],
+            "@glavnaya-3-icons-grid-render-scss/*": [
+                "@components\\page-parts\\glavnaya-3-icons-grid\\scss\\glavnaya-3-icons-grid-render.scss/*"
+            ],
+            "@glavnaya-3-icons-grid-interaction-scss": [
+                "@components\\page-parts\\glavnaya-3-icons-grid\\scss\\glavnaya-3-icons-grid-interaction.scss"
+            ],
+            "@glavnaya-3-icons-grid-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-3-icons-grid\\scss\\glavnaya-3-icons-grid-interaction.scss/*"
+            ],
+            "@glavnaya-3-icons-grid-fonts": [
+                "@components\\page-parts\\glavnaya-3-icons-grid\\fonts"
+            ],
+            "@glavnaya-3-icons-grid-fonts/*": [
+                "@components\\page-parts\\glavnaya-3-icons-grid\\fonts/*"
+            ],
+            "@glavnaya-3-icons-grid-img": [
+                "@components\\page-parts\\glavnaya-3-icons-grid\\img"
+            ],
+            "@glavnaya-3-icons-grid-img/*": [
+                "@components\\page-parts\\glavnaya-3-icons-grid\\img/*"
+            ],
+            "@glavnaya-4-img-text-slider": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider"
+            ],
+            "@glavnaya-4-img-text-slider/*": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider/*"
+            ],
+            "@glavnaya-4-img-text-slider-main-js": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider\\js\\glavnaya-4-img-text-slider-main.js"
+            ],
+            "@glavnaya-4-img-text-slider-main-js/*": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider\\js\\glavnaya-4-img-text-slider-main.js/*"
+            ],
+            "@glavnaya-4-img-text-slider-render-scss": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider\\scss\\glavnaya-4-img-text-slider-render.scss"
+            ],
+            "@glavnaya-4-img-text-slider-render-scss/*": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider\\scss\\glavnaya-4-img-text-slider-render.scss/*"
+            ],
+            "@glavnaya-4-img-text-slider-interaction-scss": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider\\scss\\glavnaya-4-img-text-slider-interaction.scss"
+            ],
+            "@glavnaya-4-img-text-slider-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider\\scss\\glavnaya-4-img-text-slider-interaction.scss/*"
+            ],
+            "@glavnaya-4-img-text-slider-fonts": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider\\fonts"
+            ],
+            "@glavnaya-4-img-text-slider-fonts/*": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider\\fonts/*"
+            ],
+            "@glavnaya-4-img-text-slider-img": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider\\img"
+            ],
+            "@glavnaya-4-img-text-slider-img/*": [
+                "@components\\page-parts\\glavnaya-4-img-text-slider\\img/*"
+            ],
+            "@glavnaya-5-svoystva-plenki": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki"
+            ],
+            "@glavnaya-5-svoystva-plenki/*": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki/*"
+            ],
+            "@glavnaya-5-svoystva-plenki-main-js": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki\\js\\glavnaya-5-svoystva-plenki-main.js"
+            ],
+            "@glavnaya-5-svoystva-plenki-main-js/*": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki\\js\\glavnaya-5-svoystva-plenki-main.js/*"
+            ],
+            "@glavnaya-5-svoystva-plenki-render-scss": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki\\scss\\glavnaya-5-svoystva-plenki-render.scss"
+            ],
+            "@glavnaya-5-svoystva-plenki-render-scss/*": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki\\scss\\glavnaya-5-svoystva-plenki-render.scss/*"
+            ],
+            "@glavnaya-5-svoystva-plenki-interaction-scss": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki\\scss\\glavnaya-5-svoystva-plenki-interaction.scss"
+            ],
+            "@glavnaya-5-svoystva-plenki-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki\\scss\\glavnaya-5-svoystva-plenki-interaction.scss/*"
+            ],
+            "@glavnaya-5-svoystva-plenki-fonts": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki\\fonts"
+            ],
+            "@glavnaya-5-svoystva-plenki-fonts/*": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki\\fonts/*"
+            ],
+            "@glavnaya-5-svoystva-plenki-img": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki\\img"
+            ],
+            "@glavnaya-5-svoystva-plenki-img/*": [
+                "@components\\page-parts\\glavnaya-5-svoystva-plenki\\img/*"
+            ],
+            "@glavnaya-6-product-set": [
+                "@components\\page-parts\\glavnaya-6-product-set"
+            ],
+            "@glavnaya-6-product-set/*": [
+                "@components\\page-parts\\glavnaya-6-product-set/*"
+            ],
+            "@glavnaya-6-product-set-main-js": [
+                "@components\\page-parts\\glavnaya-6-product-set\\js\\glavnaya-6-product-set-main.js"
+            ],
+            "@glavnaya-6-product-set-main-js/*": [
+                "@components\\page-parts\\glavnaya-6-product-set\\js\\glavnaya-6-product-set-main.js/*"
+            ],
+            "@glavnaya-6-product-set-render-scss": [
+                "@components\\page-parts\\glavnaya-6-product-set\\scss\\glavnaya-6-product-set-render.scss"
+            ],
+            "@glavnaya-6-product-set-render-scss/*": [
+                "@components\\page-parts\\glavnaya-6-product-set\\scss\\glavnaya-6-product-set-render.scss/*"
+            ],
+            "@glavnaya-6-product-set-interaction-scss": [
+                "@components\\page-parts\\glavnaya-6-product-set\\scss\\glavnaya-6-product-set-interaction.scss"
+            ],
+            "@glavnaya-6-product-set-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-6-product-set\\scss\\glavnaya-6-product-set-interaction.scss/*"
+            ],
+            "@glavnaya-6-product-set-fonts": [
+                "@components\\page-parts\\glavnaya-6-product-set\\fonts"
+            ],
+            "@glavnaya-6-product-set-fonts/*": [
+                "@components\\page-parts\\glavnaya-6-product-set\\fonts/*"
+            ],
+            "@glavnaya-6-product-set-img": [
+                "@components\\page-parts\\glavnaya-6-product-set\\img"
+            ],
+            "@glavnaya-6-product-set-img/*": [
+                "@components\\page-parts\\glavnaya-6-product-set\\img/*"
+            ],
+            "@glavnaya-7-video-instruction": [
+                "@components\\page-parts\\glavnaya-7-video-instruction"
+            ],
+            "@glavnaya-7-video-instruction/*": [
+                "@components\\page-parts\\glavnaya-7-video-instruction/*"
+            ],
+            "@glavnaya-7-video-instruction-main-js": [
+                "@components\\page-parts\\glavnaya-7-video-instruction\\js\\glavnaya-7-video-instruction-main.js"
+            ],
+            "@glavnaya-7-video-instruction-main-js/*": [
+                "@components\\page-parts\\glavnaya-7-video-instruction\\js\\glavnaya-7-video-instruction-main.js/*"
+            ],
+            "@glavnaya-7-video-instruction-render-scss": [
+                "@components\\page-parts\\glavnaya-7-video-instruction\\scss\\glavnaya-7-video-instruction-render.scss"
+            ],
+            "@glavnaya-7-video-instruction-render-scss/*": [
+                "@components\\page-parts\\glavnaya-7-video-instruction\\scss\\glavnaya-7-video-instruction-render.scss/*"
+            ],
+            "@glavnaya-7-video-instruction-interaction-scss": [
+                "@components\\page-parts\\glavnaya-7-video-instruction\\scss\\glavnaya-7-video-instruction-interaction.scss"
+            ],
+            "@glavnaya-7-video-instruction-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-7-video-instruction\\scss\\glavnaya-7-video-instruction-interaction.scss/*"
+            ],
+            "@glavnaya-7-video-instruction-fonts": [
+                "@components\\page-parts\\glavnaya-7-video-instruction\\fonts"
+            ],
+            "@glavnaya-7-video-instruction-fonts/*": [
+                "@components\\page-parts\\glavnaya-7-video-instruction\\fonts/*"
+            ],
+            "@glavnaya-7-video-instruction-img": [
+                "@components\\page-parts\\glavnaya-7-video-instruction\\img"
+            ],
+            "@glavnaya-7-video-instruction-img/*": [
+                "@components\\page-parts\\glavnaya-7-video-instruction\\img/*"
+            ],
+            "@glavnaya-8-blue-block": [
+                "@components\\page-parts\\glavnaya-8-blue-block"
+            ],
+            "@glavnaya-8-blue-block/*": [
+                "@components\\page-parts\\glavnaya-8-blue-block/*"
+            ],
+            "@glavnaya-8-blue-block-main-js": [
+                "@components\\page-parts\\glavnaya-8-blue-block\\js\\glavnaya-8-blue-block-main.js"
+            ],
+            "@glavnaya-8-blue-block-main-js/*": [
+                "@components\\page-parts\\glavnaya-8-blue-block\\js\\glavnaya-8-blue-block-main.js/*"
+            ],
+            "@glavnaya-8-blue-block-render-scss": [
+                "@components\\page-parts\\glavnaya-8-blue-block\\scss\\glavnaya-8-blue-block-render.scss"
+            ],
+            "@glavnaya-8-blue-block-render-scss/*": [
+                "@components\\page-parts\\glavnaya-8-blue-block\\scss\\glavnaya-8-blue-block-render.scss/*"
+            ],
+            "@glavnaya-8-blue-block-interaction-scss": [
+                "@components\\page-parts\\glavnaya-8-blue-block\\scss\\glavnaya-8-blue-block-interaction.scss"
+            ],
+            "@glavnaya-8-blue-block-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-8-blue-block\\scss\\glavnaya-8-blue-block-interaction.scss/*"
+            ],
+            "@glavnaya-8-blue-block-fonts": [
+                "@components\\page-parts\\glavnaya-8-blue-block\\fonts"
+            ],
+            "@glavnaya-8-blue-block-fonts/*": [
+                "@components\\page-parts\\glavnaya-8-blue-block\\fonts/*"
+            ],
+            "@glavnaya-8-blue-block-img": [
+                "@components\\page-parts\\glavnaya-8-blue-block\\img"
+            ],
+            "@glavnaya-8-blue-block-img/*": [
+                "@components\\page-parts\\glavnaya-8-blue-block\\img/*"
+            ],
+            "@glavnaya-9-otzivi": [
+                "@components\\page-parts\\glavnaya-9-otzivi"
+            ],
+            "@glavnaya-9-otzivi/*": [
+                "@components\\page-parts\\glavnaya-9-otzivi/*"
+            ],
+            "@glavnaya-9-otzivi-main-js": [
+                "@components\\page-parts\\glavnaya-9-otzivi\\js\\glavnaya-9-otzivi-main.js"
+            ],
+            "@glavnaya-9-otzivi-main-js/*": [
+                "@components\\page-parts\\glavnaya-9-otzivi\\js\\glavnaya-9-otzivi-main.js/*"
+            ],
+            "@glavnaya-9-otzivi-render-scss": [
+                "@components\\page-parts\\glavnaya-9-otzivi\\scss\\glavnaya-9-otzivi-render.scss"
+            ],
+            "@glavnaya-9-otzivi-render-scss/*": [
+                "@components\\page-parts\\glavnaya-9-otzivi\\scss\\glavnaya-9-otzivi-render.scss/*"
+            ],
+            "@glavnaya-9-otzivi-interaction-scss": [
+                "@components\\page-parts\\glavnaya-9-otzivi\\scss\\glavnaya-9-otzivi-interaction.scss"
+            ],
+            "@glavnaya-9-otzivi-interaction-scss/*": [
+                "@components\\page-parts\\glavnaya-9-otzivi\\scss\\glavnaya-9-otzivi-interaction.scss/*"
+            ],
+            "@glavnaya-9-otzivi-fonts": [
+                "@components\\page-parts\\glavnaya-9-otzivi\\fonts"
+            ],
+            "@glavnaya-9-otzivi-fonts/*": [
+                "@components\\page-parts\\glavnaya-9-otzivi\\fonts/*"
+            ],
+            "@glavnaya-9-otzivi-img": [
+                "@components\\page-parts\\glavnaya-9-otzivi\\img"
+            ],
+            "@glavnaya-9-otzivi-img/*": [
+                "@components\\page-parts\\glavnaya-9-otzivi\\img/*"
+            ],
             "@header": [
                 "@components\\page-parts\\header"
             ],

@@ -7,6 +7,7 @@
 @import '@scss-general/errors';
 
 //@dinamic node import fils
+@import "@iframes-interaction-scss";
 @import "@images-interaction-scss";
 @import "@loader-interaction-scss";
 @import "@overlays-interaction-scss";
@@ -14,7 +15,7 @@
 @import "@product-small-info-block-interaction-scss";
 @import "@scroll-to-top-button-interaction-scss";
 @import "@footer-interaction-scss";
-@import "@glavnaya-1-blue-img-text-interaction-scss";
+@import "@glavnaya-1-blue-top-block-interaction-scss";
 @import "@glavnaya-10-fqa-interaction-scss";
 @import "@glavnaya-11-cars-svg-interaction-scss";
 @import "@glavnaya-2-video-block-interaction-scss";
@@ -28,11 +29,7 @@
 @import "@header-interaction-scss";
 //@dinamic node import fils
 
-.swiper {
-    width: 600px;
-    height: 300px;
-}
-
 // import Swiper styles
-@import 'swiper/css';
-@import 'swiper/css/navigation';
+@import 'swiper/scss';
+@import 'swiper/scss/navigation';
+@import 'swiper/scss/autoplay';

@@ -30,6 +30,9 @@ let Header = new (class {
             this.toggle_header(); //проверяем нужно ли скрыть хедер
             this.header_background.style.height = `${this.get_header_h({ header_poster: true, header_visible: true })}px`; //пересчитываем высоту фона хедера
         });
+
+        let fifst_child_main = d.querySelector('main').children[0];//первый элемент в блоке main
+        if (fifst_child_main) this.header_background.style.backgroundColor = w.getComputedStyle(fifst_child_main).backgroundColor; //цвет фона хедера берём такой же как и цвет первого блока в теге main
     }
 
     //устанавливает список активных элементов и функции их включени/отключения

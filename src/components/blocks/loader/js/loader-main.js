@@ -10,15 +10,24 @@ export default class Loader {
         this.status = this.styles_loader.display === 'none' ? ' hide' : 'show'; //стартовый статус лоадера
 
         this.lock = false; //польностью блокирует любые действия с лоадером
+        this.generate_throws = false; //в случае неудачного выполнения сокрытия или появления нужно ли генерировать исключения
         this.permission_to_show = true; //разрешено ли показывать лоадер
         this.permission_to_hide = true; //разрешено ли скрывать лоадер
     }
 
     //показываем лоадер
-    show() {
-        if (!this.permission_to_show) throw { ksn_message: 'not permission to show' }; //запрещено показывать
+    async show() {
+        //если запрещено показывать прерываем
+        if (!this.permission_to_show) {
+            if (this.generate_throws) {
+                throw { ksn_message: 'not permission to show' };
+            } else {
+                return 'not permission to show';
+            }
+        }
+        //если запрещено показывать прерываем
 
-        return show({
+        await show({
             el: this.loader,
             instance: this,
             display: 'flex',
@@ -27,10 +36,18 @@ export default class Loader {
     //показываем лоадер
 
     //скрываем лоадер
-    hide() {
-        if (!this.permission_to_hide) throw { ksn_message: 'not permission to hide' }; //запрещено скрывать
+    async hide() {
+        //если запрещено скрывать прерываем
+        if (!this.permission_to_hide) {
+            if (this.generate_throws) {
+                throw { ksn_message: 'not permission to hide' };
+            } else {
+                return 'not permission to hide';
+            }
+        }
+        //если запрещено скрывать прерываем
 
-        return hide({
+        await hide({
             el: this.loader,
             instance: this,
             display: 'none',
@@ -40,17 +57,32 @@ export default class Loader {
 
     //скрываем и удаляем лоадер если он есть
     async hide_and_remove() {
-        if (this.lock) throw { ksn_message: 'locked' }; //прерываем если заблокированная любая активность
-        if (!this.loader) throw { ksn_message: 'no loader' }; //нет лоадера
+        //прерываем если заблокированная любая активность
+        if (this.lock) {
+            if (this.generate_throws) {
+                throw { ksn_message: 'locked' };
+            } else {
+                return 'locked';
+            }
+        }
+        //прерываем если заблокированная любая активность
+
+        //если нет лоадера прерываем
+        if (!this.loader) {
+            if (this.generate_throws) {
+                throw { ksn_message: 'no loader' };
+            } else {
+                return 'no loader';
+            }
+        }
+        //если нет лоадера прерываем
 
         this.permission_to_show = false; //запрещаем показывать лоадер чтоб это не помещало нам его корректно скрыть и удалить
 
-        await this.hide().catch(e => {
-            //ПРИМЕЧАНИЕ: в данном случае наши исключения нас не интересуют т.к. они не смогут помещать коду в этом модуле, они нужны если код используется извне для управления состояниями элементов
-            if (typeof e.ksn_message === 'undefined') console.error(e); //если ошибка не наша выводим её в консоль и завершаем функцию, это ошибка могла произойти из-за непридвиденной ошибки в коде
-        }); //дожидаемся пока скроется лоадер
-        // this.loader.remove(); //удаляем лоадер из документа
-        // this.loader = null; //помечаем что лоадера в этом блоке больше нет
+        await this.hide(); //дожидаемся пока скроется лоадер
+
+        this.loader.remove(); //удаляем лоадер из документа
+        this.loader = null; //помечаем что лоадера в этом блоке больше нет
     }
     //скрываем и удаляем лоадер если он есть
 }

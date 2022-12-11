@@ -34,6 +34,7 @@ import '@js-moduls/base'; //тут будут записаны основные 
 import '@js-moduls/block-showed-on-scroll';//отвечает за показ блоков про прокрутке
 
 //@dinamic node import fils
+import "@iframes-main-js";
 import "@images-main-js";
 import "@loader-main-js";
 import "@overlays-main-js";
@@ -41,7 +42,7 @@ import "@pop-up-messages-main-js";
 import "@product-small-info-block-main-js";
 import "@scroll-to-top-button-main-js";
 import "@footer-main-js";
-import "@glavnaya-1-blue-img-text-main-js";
+import "@glavnaya-1-blue-top-block-main-js";
 import "@glavnaya-10-fqa-main-js";
 import "@glavnaya-11-cars-svg-main-js";
 import "@glavnaya-2-video-block-main-js";

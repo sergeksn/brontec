@@ -221,7 +221,7 @@ async function show(params) {
                       property: property,
                       duration: params.duration,
                   }),
-        units = params.units !== undefined ? params.units : ''; //единицы измерения анимируемого свойства
+        units = params.units ?? ''; //единицы измерения анимируемого свойства
 
     //анимируем показ блока
     instance.pending_to_show_promise = anime({
@@ -307,7 +307,7 @@ async function hide(params) {
                       property: property,
                       duration: params.duration,
                   }),
-        units = params.units !== undefined ? params.units : ''; //единицы измерения анимируемого свойства
+        units = params.units ?? ''; //единицы измерения анимируемого свойства
 
     //анимаруем скрытие
     instance.pending_to_hide_promise = anime({
@@ -341,4 +341,42 @@ async function hide(params) {
 }
 //данная функция скрывает блок уменьшая значение его css свойства
 
-export { wait, request_to_server, show, hide, set_localStorage, anime, get_translate };
+//функция переводит писельное в эквивалентное значениев rem
+//value - пиксельное значение для перевода в rem
+//add_units - нужно ли к результату добавлять приставку rem
+function rem(value, add_units = false) {
+    return value / 16 + (add_units ? 'rem' : 0);
+}
+//функция переводит писельное в эквивалентное значениев rem
+
+//функция переводит rem в пиксели учитывая текущее значение размера шрифта по умолчанию
+function rem_to_px(value, add_units = false) {
+    return value * GDS.win.default_font_size + (add_units ? 'px' : 0);
+}
+//функция переводит rem в пиксели учитывая текущее значение размера шрифта по умолчанию
+
+//функция переводит пиксели в пиксели учитывая текущее значение размера шрифта по умолчанию
+function px_to_px(value, add_units = false) {
+    return rem_to_px(rem(value)) + (add_units ? 'px' : 0);
+}
+//функция переводит пиксели в пиксели учитывая текущее значение размера шрифта по умолчанию
+
+//функция получает значения в пикселях или rem отталкиваясь от переданных пределов значений и ширины экрана
+//min_value - минимальное значение в писелях
+//min_win_width - минимальная ширина жкрана при которой значение равно min_value
+//max_value - максимально допустимое значение при ширине wax_win_width
+//wax_win_width - максимальная ширина до которой производится расчёт
+//return_in_px - по умолчанию возвращает писельное значение, но можно вернуть и rem
+function adaptiv_size(min_value, min_win_width, max_value = false, wax_win_width = false, return_in_px = true) {
+    if (!wax_win_width) wax_win_width = 99999;
+
+    if (!max_value) max_value = (wax_win_width * min_value) / min_win_width;
+
+    let residual = rem(wax_win_width) - rem(min_win_width),
+        result = rem(min_value) + rem(max_value - min_value) * ((GDS.win.width_rem - rem(min_win_width)) / residual);
+
+    return return_in_px ? result * GDS.win.default_font_size : result;
+}
+//функция получает значения в пикселях или rem отталкиваясь от переданных пределов значений и ширины экрана
+
+export { wait, request_to_server, show, hide, set_localStorage, anime, get_translate, rem, rem_to_px, px_to_px, adaptiv_size };

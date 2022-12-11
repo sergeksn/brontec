@@ -16,16 +16,16 @@ if(data.oh){
     original_h = `data-original-h="${data.oh}"`;
 } %>
 
-<% if(data.type === "img"){ %>
+<% if(data.type === "img" || data.type === "img-swiper-loop"){ %>
 <div class="image" <%-style_pt%>>
-  <img data-img-type="img" data-src="<%-data.url%>" <%-original_w%> <%-original_h%> alt="">
+  <img data-img-type="<%-data.type%>" data-src="<%-data.url%>" <%-original_w%> <%-original_h%> alt="">
   <%-loader_html%>
 </div>
 <% } %>
 
-<% if(data.type === "bg"){ %>
+<% if(data.type === "bg" || data.type === "bg-swiper-loop"){ %>
 <div class="image" <%-style_pt%>>
-  <div data-img-type="bg" data-src="<%-data.url%>" <%-original_w%> <%-original_h%>></div>
+  <div data-img-type="<%-data.type%>" data-src="<%-data.url%>" <%-original_w%> <%-original_h%>></div>
   <%-loader_html%>
 </div>
 <% } %>

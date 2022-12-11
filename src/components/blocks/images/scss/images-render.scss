@@ -4,8 +4,10 @@
 
     > div:first-child,
     > img,
-    > div[data-img-type='kit'],
-    > div.svg-kit-wrap {
+    > [data-img-type='kit'],
+    > [data-img-type='overlay-img'],
+    > [data-img-type='overlay-bg'],
+    > .svg-kit-wrap {
         position: absolute;
         inset: 0;
         width: 100%;

@@ -1,0 +1,230 @@
+.glavnaya-1-blue-top-block {
+    background-color: var(--blue);
+    padding: rem(40) 0;
+
+    @media (min-width: rem(640)) {
+        padding: adaptiv_rem_size(40, 640, 80, 1920) 0;
+    }
+
+    @media (min-width: rem(1920)) {
+        padding: adaptiv_rem_size(80, 1920) 0;
+    }
+
+    &__first-part {
+        grid-column: 1/-1;
+        margin-top: rem(30);
+        position: relative;
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+            margin-top: 0;
+        }
+
+        &-car-img-wrap {
+            position: relative;
+            width: 100vw;
+            margin: 0 0 rem(60) adaptiv_rem_size(-20, 320, -30, 640);
+
+            @media (min-width: rem(640)) {
+                position: absolute;
+                width: 50vw;
+                margin: 0;
+                right: 0;
+            }
+
+            @media (min-width: rem(960)) {
+                display: grid;
+                grid-template-columns: 1fr;
+                justify-items: end;
+            }
+        }
+
+        &-circle-text-img-wrap {
+            position: absolute;
+            width: adaptiv_rem_size(57, 320);
+            height: adaptiv_rem_size(57, 320);
+            left: adaptiv_rem_size(35, 320);
+            bottom: adaptiv_rem_size(-10, 320);
+
+            @media (min-width: rem(640)) {
+                width: adaptiv_rem_size(57, 640);
+                height: adaptiv_rem_size(57, 640);
+                left: adaptiv_rem_size(35, 640);
+                bottom: adaptiv_rem_size(-10, 640);
+            }
+
+            @media (min-width: rem(960)) {
+                position: static;
+                display: flex;
+                order: -1;
+                width: adaptiv_rem_size(57, 960, 80, 1920);
+                height: adaptiv_rem_size(57, 960, 80, 1920);
+                margin-right: adaptiv_rem_size(50, 960, 100, 1920);
+            }
+
+            @media (min-width: rem(1920)) {
+                width: adaptiv_rem_size(80, 1920);
+                height: adaptiv_rem_size(80, 1920);
+                margin-right: adaptiv_rem_size(100, 1920);
+            }
+        }
+    }
+
+    &__second-part {
+        grid-column: 1/-1;
+        color: var(--white);
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+
+        @media (min-width: rem(640)) {
+            grid-column: 7/-1;
+        }
+
+        &-h1 {
+            font: var(--h1);
+            margin-bottom: rem(30);
+            grid-column: 1/-1;
+        }
+
+        &-text {
+            grid-column: 1/-1;
+        }
+
+        &-marki-slider {
+            grid-column: 1/-1;
+            width: 100%; //нужно для FIREFOX
+            height: adaptiv_rem_size(30, 320); //обязательно задаём высоту чтоб не было смещения макета пока слайдер не инициализируется
+            margin: adaptiv_rem_size(30, 320) 0; //делаем отступы т.к. во время загрузки слайдер прыгает по всей доступной высоте родителя, и по этому мы ограничиваем размеры родителя и задём отступы чтоб слайдер не прыгал больше своей высоты и не тригерил событие обнаружение видимости, а занимал свю положенную высоту
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            @media (min-width: rem(640)) {
+                height: adaptiv_rem_size(30, 640, 80, 1920);
+                margin: adaptiv_rem_size(30, 640, 40, 1920) 0;
+            }
+
+            @media (min-width: rem(1920)) {
+                height: adaptiv_rem_size(80, 1920);
+                margin: adaptiv_rem_size(40, 1920) 0;
+            }
+
+            &-swiper {
+                width: 100%;
+            }
+
+            &-link-wrap {
+                padding-top: 100%;
+                position: relative;
+
+                a {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    border-radius: var(--b-radius);
+                    transition: background-color var(--standart-anim);
+
+                    @media (any-hover: hover) {
+                        &:hover {
+                            background-color: var(--blue-hover);
+                        }
+
+                        &:focus {
+                            background-color: var(--blue-hover);
+                        }
+                    }
+                }
+            }
+
+            &-img-wrap {
+                width: 100%;
+                max-width: adaptiv_rem_size(30, 320);
+
+                @media (min-width: rem(640)) {
+                    max-width: adaptiv_rem_size(30, 640, 47, 1920);
+                }
+
+                @media (min-width: rem(1920)) {
+                    max-width: adaptiv_rem_size(47, 1920);
+                }
+            }
+
+            &-control-buttons {
+                button {
+                    min-width: auto;
+                    width: adaptiv_rem_size(20, 320, 30, 640); //тут берём место от внешних отступов standart-container
+                    justify-content: center;
+                    position: absolute;
+                    top: 50%;
+                    font-size: adaptiv_rem_size(10, 320);
+                    cursor: pointer;
+                    color: var(--white-disabled);
+
+                    @media (min-width: rem(640)) {
+                        font-size: rem(20);
+                        width: rem(30);
+                    }
+
+                    @media (min-width: rem(1920)) {
+                        width: adaptiv_rem_size(30, 1920);
+                        font-size: adaptiv_rem_size(20, 1920);
+                    }
+
+                    @media (any-hover: hover) {
+                        &:hover {
+                            color: var(--white);
+                        }
+                    }
+                }
+
+                &-button-prev {
+                    left: 0;
+                    transform: translate(-100%, -50%) rotate(180deg);
+                }
+
+                &-button-next {
+                    right: 0;
+                    transform: translate(100%, -50%);
+                }
+            }
+        }
+
+        &-button {
+            grid-column: 1/-1;
+
+            @media (min-width: rem(640)) {
+                min-height: adaptiv_rem_size(50, 640, 60, 1920);
+            }
+
+            @media (min-width: rem(960)) {
+                grid-column: 1/5;
+            }
+        }
+    }
+
+    &__decor-vertical-line {
+        grid-column: 1/-1;
+        border-left: rem(1) solid var(--white);
+        margin: rem(40) auto 0 auto;
+        height: rem(40);
+
+        @media (min-width: rem(640)) {
+            grid-column: 7/-1;
+            margin: adaptiv_rem_size(40, 640, 80, 1920) auto 0 0;
+            height: adaptiv_rem_size(40, 640, 80, 1920);
+            border-width: rem(2);
+        }
+
+        @media (min-width: rem(1920)) {
+            border-width: adaptiv_rem_size(2, 1920);
+            margin: adaptiv_rem_size(80, 1920) auto 0 0;
+            height: adaptiv_rem_size(80, 1920);
+        }
+    }
+}

@@ -37,7 +37,7 @@ export default class {
         <div class="product-info__img-wrap">
           <div class="product-info__gradient-fon"></div>
           <div class="image" style="padding-top:${this.main_img.pt}%;">
-            <img data-img-type="img" data-src="${this.main_img.url}" data-original-w="${this.main_img.ow}" data-original-h="${this.main_img.oh}">
+            <img data-img-type="img" data-main data-src="${this.main_img.url}" data-original-w="${this.main_img.ow}" data-original-h="${this.main_img.oh}">
             <div data-img-type="kit" data-src="${this.kit_img.url}" data-kit-all-id="${this.kit_img.all_id}" data-kit-nead-id="${this.kit_img.nead_id}"></div>
             <div class="loader">
               <div class="loader__circle"></div>

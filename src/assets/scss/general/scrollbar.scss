@@ -4,16 +4,16 @@
 @media (any-hover: hover) and (any-pointer: fine) {
     //в любом браузере резервируем место под скрол в блоках в которых он точно или скорее всего будет чтоб избежать дёргания макета
     .custom-scrollbar {
-        scrollbar-gutter: stable;//зарезервирует место при owerfolov auto и scroll
+        scrollbar-gutter: stable; //зарезервирует место при owerfolov auto и scroll
     }
 
     .custom-scrollbar::-webkit-scrollbar {
-        width: rem(6);
+        width: var(--scroll-width);
         background-color: var(--gray-transparent);
     }
 
     .custom-scrollbar::-webkit-scrollbar-thumb {
-        border-radius: rem(10);
+        border-radius: var(--b-radius);
         background-color: var(--black-disabled);
     }
 
@@ -29,15 +29,5 @@
             scrollbar-color: var(--black-disabled) transparent;
             scrollbar-gutter: stable;
         }
-    }
-}
-
-@media (any-hover: hover) and (any-pointer: fine) and (min-width: rem(1920)) {
-    .custom-scrollbar::-webkit-scrollbar {
-        width: adaptiv_rem_size(6, 1920);
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        border-radius: adaptiv_rem_size(10, 1920);
     }
 }
