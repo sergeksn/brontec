@@ -199,7 +199,7 @@
 
 .footer__decoration {
     //ПРИМЕЧАНИЕ: т.к. при расчётах позиции частей декорации получаютс не целые значения, элементы могут иметь ненужные зазоры в 1 пиксель что не нужно, для этого я сделал их соединение не впритых а в нахёляст на половину ширины их границы т.е. на 1 пиксель, и так же не забыл увеличть радиус круга на 1 пиксель соответственно, тем самым вроде больше нет зазоров про изменении ширины экрана
-    --fd-border-w: #{rem(2)}; //толщина полос
+    //--border-width-bold - толщина полос
     --fd-zazor: #{rem(17)}; //растояние между вертикальной левой и правой полосками
     --circle-radius: #{rem(19)}; //радиус круга
     --left-otstup: #{rem(20)}; //смещении декорации вправую сторону
@@ -222,7 +222,6 @@
     }
 
     @media (min-width: rem(1920)) {
-        --fd-border-w: #{adaptiv_rem_size(2, 1920)};
         --fd-zazor: #{adaptiv_rem_size(23, 1920)};
         --circle-radius: #{adaptiv_rem_size(25, 1920)};
         --left-otstup: #{adaptiv_rem_size(278, 1920)}; //смещении декорации вправую сторону
@@ -235,36 +234,36 @@
     &-top-line {
         width: calc(100% - var(--fd-zazor));
         left: var(--fd-zazor);
-        border-top: var(--fd-border-w) solid var(--blue);
+        border-top: var(--border-width-bold) solid var(--blue);
     }
 
     &-bottom-line {
         width: calc(100% - var(--fd-zazor));
-        bottom: var(--fd-border-w);
+        bottom: var(--border-width-bold);
         left: var(--fd-zazor);
-        border-top: var(--fd-border-w) solid var(--blue);
+        border-top: var(--border-width-bold) solid var(--blue);
     }
 
     &-left-line {
-        height: calc(100% - var(--fd-border-w));
+        height: calc(100% - var(--border-width-bold));
         bottom: var(--circle-radius);
-        left: calc(var(--fd-border-w) / 2);
-        border-left: var(--fd-border-w) solid var(--blue);
+        left: calc(var(--border-width-bold) / 2);
+        border-left: var(--border-width-bold) solid var(--blue);
     }
 
     &-right-line {
-        height: calc(100% - var(--fd-border-w));
+        height: calc(100% - var(--border-width-bold));
         bottom: calc(var(--circle-radius) * 2);
-        left: calc(var(--fd-zazor) + var(--fd-border-w) / 2);
-        border-left: var(--fd-border-w) solid var(--blue);
+        left: calc(var(--fd-zazor) + var(--border-width-bold) / 2);
+        border-left: var(--border-width-bold) solid var(--blue);
     }
 
     &-top-circle {
         width: var(--circle-radius);
         height: calc(var(--circle-radius) * 2);
-        top: calc(var(--circle-radius) * -2 + var(--fd-border-w));
-        left: calc(var(--fd-border-w) / 2);
-        border: var(--fd-border-w) solid var(--blue);
+        top: calc(var(--circle-radius) * -2 + var(--border-width-bold));
+        left: calc(var(--border-width-bold) / 2);
+        border: var(--border-width-bold) solid var(--blue);
         border-right: 0;
         border-radius: 100% 0 0 100% / 50%;
     }
@@ -272,9 +271,9 @@
     &-bottom-circle {
         width: var(--circle-radius);
         height: calc(var(--circle-radius) * 2);
-        bottom: var(--fd-border-w);
-        left: calc(var(--fd-border-w) / 2);
-        border: var(--fd-border-w) solid var(--blue);
+        bottom: var(--border-width-bold);
+        left: calc(var(--border-width-bold) / 2);
+        border: var(--border-width-bold) solid var(--blue);
         border-right: 0;
         border-radius: 100% 0 0 100% / 50%;
     }

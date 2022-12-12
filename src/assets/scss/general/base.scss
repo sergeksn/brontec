@@ -66,6 +66,8 @@ button {
 input {
     width: 100%;
     border: none;
+    outline: none;//иногда пользовательские таблицы стилей делают обводку нам это нужно запретить
+
     //если у пользователя нет ни какого указательно устройства, мы не должны убирать обводку чтоб когда пользователь сфокусируется на инпуте , через таб например, он выделился
     @media not (any-pointer: none) {
         outline: none;
@@ -122,7 +124,7 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--b-radius);
+    border-radius: var(--border-radius);
     font: var(--default);
     color: var(--white);
     height: auto !important; //нужно чтоб переопределить после групировки медиазапросов

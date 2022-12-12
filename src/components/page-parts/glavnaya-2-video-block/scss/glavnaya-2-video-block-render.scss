@@ -1,0 +1,11 @@
+.glavnaya-2-video-block {
+    background: linear-gradient(to bottom, var(--blue) 50%, var(--white) 50%); //чтоб корректно работало нужно чтоб блок был поровну разделён видео блоком или сам размером с видео блок
+
+    &-video-wrap {
+        grid-column: 1/-1;
+        border: var(--border-width) solid var(--black);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        background-color: var(--white);
+    }
+}

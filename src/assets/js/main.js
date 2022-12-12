@@ -31,16 +31,16 @@ import '@js-libs/dom-add-func.js';
 
 import '@js-moduls/base'; //тут будут записаны основные функции для взаимодействи я с общими элементами сайта и установленны основные слушатели и те действия которые нужно выполнять на любой странице сайта в самом начале
 
-import '@js-moduls/block-showed-on-scroll';//отвечает за показ блоков про прокрутке
-
 //@dinamic node import fils
-import "@iframes-main-js";
+import "@iframe-youtube-main-js";
 import "@images-main-js";
 import "@loader-main-js";
 import "@overlays-main-js";
 import "@pop-up-messages-main-js";
 import "@product-small-info-block-main-js";
 import "@scroll-to-top-button-main-js";
+import "@block-showed-on-scroll-main-js";
+import "@scrollbar-main-js";
 import "@footer-main-js";
 import "@glavnaya-1-blue-top-block-main-js";
 import "@glavnaya-10-fqa-main-js";

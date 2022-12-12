@@ -219,7 +219,7 @@
     }
 
     [class^='burger__line'] {
-        border-top: rem(2) solid var(--black);
+        border-top: var(--border-width-bold) solid var(--black);
         width: calc(100% - rem(6));
         position: absolute;
         transition: transform var(--standart-anim);

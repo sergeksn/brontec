@@ -1,0 +1,10 @@
+.cart {
+    position: fixed;
+    width: 100%;
+    max-width: rem(640);
+    transform: translateX(100%);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+}

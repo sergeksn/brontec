@@ -8,7 +8,8 @@ new (class {
     //начинает отслеживание видимости блоков
     async start_observe() {
         let otstup = GDS.win.height * 0.05 > 50 ? GDS.win.height * 0.05 : 50, //задержка обнаружения в 5% высоты экрана но минимум 50px
-            all_showed_blocks = d.querySelectorAll('.block-showed-on-scroll'); //все элементы которые нужно отслеживать
+            all_showed_blocks = d.querySelectorAll('[data-showed-on-scroll]'); //все элементы которые нужно отслеживать
+            //ПРИМЕЧАНИЕ: решил использовать data атрибут вместо класса чтоб было удобнее искать такие блоки в вёрстке и в коде
 
         this.first_observe = new IntersectionObserver(this.show_block.bind(this)); //первое сканирование без отсупов, т.е. если элемент виден хоть на 1 пискель он будет виден и дальше
 

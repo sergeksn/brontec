@@ -36,16 +36,18 @@
 
     /*отступы между блоками*/
     //эти отсупы актуальны до самых малых размеров экрана, т.к. эти отсупы не меняются
-    --big: #{rem(100)};
-    --medium: #{rem(40)};
-    --little: #{rem(20)};
+    --big-gap: #{rem(100)};
+    --medium-gap: #{rem(40)};
+    --small-gap: #{rem(20)};
     /*отступы между блоками*/
 
     --fast-anim: 0s ease-in-out;
     --standart-anim: 0.5s ease-in-out;
 
-    --b-radius: #{rem(10)};
-    --scroll-width: #{rem(6)};//ширина скролбара
+    --border-width: #{rem(1)}; //стандартная тощина бордера для большинства элементов
+    --border-width-bold: #{rem(2)}; //более толстая граница для элементов
+    --border-radius: #{rem(10)}; //бордер радиус
+    --scroll-width: #{rem(6)}; //ширина скролбара
 
     //bottons size
     --min-interactive-elements-width: #{rem(50)};
@@ -56,9 +58,9 @@
         $final_w: 1919; //конечное значение ширины
 
         /*отступы между блоками*/
-        --big: #{adaptiv_rem_size(100, $start_w, 200, $final_w)};
-        --medium: #{adaptiv_rem_size(40, $start_w, 80, $final_w)};
-        --little: #{adaptiv_rem_size(20, $start_w, 40, $final_w)};
+        --big-gap: #{adaptiv_rem_size(100, $start_w, 200, $final_w)};
+        --medium-gap: #{adaptiv_rem_size(40, $start_w, 80, $final_w)};
+        --small-gap: #{adaptiv_rem_size(20, $start_w, 40, $final_w)};
         /*отступы между блоками*/
 
         /*шрифты*/
@@ -86,12 +88,14 @@
         /*шрифты*/
 
         /*отступы между блоками*/
-        --big: #{adaptiv_rem_size(200, $start_w)};
-        --medium: #{adaptiv_rem_size(80, $start_w)};
-        --little: #{adaptiv_rem_size(40, $start_w)};
+        --big-gap: #{adaptiv_rem_size(200, $start_w)};
+        --medium-gap: #{adaptiv_rem_size(80, $start_w)};
+        --small-gap: #{adaptiv_rem_size(40, $start_w)};
         /*отступы между блоками*/
 
-        --b-radius: #{adaptiv_rem_size(10, $start_w)};
+        --border-width: #{adaptiv_rem_size(1, $start_w)};
+        --border-width-bold: #{adaptiv_rem_size(2, $start_w)};
+        --border-radius: #{adaptiv_rem_size(10, $start_w)};
         --scroll-width: #{adaptiv_rem_size(6, $start_w)};
     }
 }

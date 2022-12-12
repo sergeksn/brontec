@@ -39,6 +39,7 @@
         "abortcontroller-polyfill": "^1.7.5",
         "animejs": "^3.2.1",
         "intersection-observer": "^0.12.2",
-        "swiper": "^8.4.4"
+        "swiper": "^8.4.4",
+        "ua-parser-js": "^1.0.32"
     }
 }

@@ -87,6 +87,42 @@
             "@js-libs/*": [
                 "@js\\libs/*"
             ],
+            "@iframe-youtube": [
+                "@components\\blocks\\iframe-youtube"
+            ],
+            "@iframe-youtube/*": [
+                "@components\\blocks\\iframe-youtube/*"
+            ],
+            "@iframe-youtube-main-js": [
+                "@components\\blocks\\iframe-youtube\\js\\iframe-youtube-main.js"
+            ],
+            "@iframe-youtube-main-js/*": [
+                "@components\\blocks\\iframe-youtube\\js\\iframe-youtube-main.js/*"
+            ],
+            "@iframe-youtube-render-scss": [
+                "@components\\blocks\\iframe-youtube\\scss\\iframe-youtube-render.scss"
+            ],
+            "@iframe-youtube-render-scss/*": [
+                "@components\\blocks\\iframe-youtube\\scss\\iframe-youtube-render.scss/*"
+            ],
+            "@iframe-youtube-interaction-scss": [
+                "@components\\blocks\\iframe-youtube\\scss\\iframe-youtube-interaction.scss"
+            ],
+            "@iframe-youtube-interaction-scss/*": [
+                "@components\\blocks\\iframe-youtube\\scss\\iframe-youtube-interaction.scss/*"
+            ],
+            "@iframe-youtube-fonts": [
+                "@components\\blocks\\iframe-youtube\\fonts"
+            ],
+            "@iframe-youtube-fonts/*": [
+                "@components\\blocks\\iframe-youtube\\fonts/*"
+            ],
+            "@iframe-youtube-img": [
+                "@components\\blocks\\iframe-youtube\\img"
+            ],
+            "@iframe-youtube-img/*": [
+                "@components\\blocks\\iframe-youtube\\img/*"
+            ],
             "@images": [
                 "@components\\blocks\\images"
             ],
@@ -302,6 +338,78 @@
             ],
             "@scroll-to-top-button-img/*": [
                 "@components\\blocks\\scroll-to-top-button\\img/*"
+            ],
+            "@block-showed-on-scroll": [
+                "@components\\moduls\\block-showed-on-scroll"
+            ],
+            "@block-showed-on-scroll/*": [
+                "@components\\moduls\\block-showed-on-scroll/*"
+            ],
+            "@block-showed-on-scroll-main-js": [
+                "@components\\moduls\\block-showed-on-scroll\\js\\block-showed-on-scroll-main.js"
+            ],
+            "@block-showed-on-scroll-main-js/*": [
+                "@components\\moduls\\block-showed-on-scroll\\js\\block-showed-on-scroll-main.js/*"
+            ],
+            "@block-showed-on-scroll-render-scss": [
+                "@components\\moduls\\block-showed-on-scroll\\scss\\block-showed-on-scroll-render.scss"
+            ],
+            "@block-showed-on-scroll-render-scss/*": [
+                "@components\\moduls\\block-showed-on-scroll\\scss\\block-showed-on-scroll-render.scss/*"
+            ],
+            "@block-showed-on-scroll-interaction-scss": [
+                "@components\\moduls\\block-showed-on-scroll\\scss\\block-showed-on-scroll-interaction.scss"
+            ],
+            "@block-showed-on-scroll-interaction-scss/*": [
+                "@components\\moduls\\block-showed-on-scroll\\scss\\block-showed-on-scroll-interaction.scss/*"
+            ],
+            "@block-showed-on-scroll-fonts": [
+                "@components\\moduls\\block-showed-on-scroll\\fonts"
+            ],
+            "@block-showed-on-scroll-fonts/*": [
+                "@components\\moduls\\block-showed-on-scroll\\fonts/*"
+            ],
+            "@block-showed-on-scroll-img": [
+                "@components\\moduls\\block-showed-on-scroll\\img"
+            ],
+            "@block-showed-on-scroll-img/*": [
+                "@components\\moduls\\block-showed-on-scroll\\img/*"
+            ],
+            "@scrollbar": [
+                "@components\\moduls\\scrollbar"
+            ],
+            "@scrollbar/*": [
+                "@components\\moduls\\scrollbar/*"
+            ],
+            "@scrollbar-main-js": [
+                "@components\\moduls\\scrollbar\\js\\scrollbar-main.js"
+            ],
+            "@scrollbar-main-js/*": [
+                "@components\\moduls\\scrollbar\\js\\scrollbar-main.js/*"
+            ],
+            "@scrollbar-render-scss": [
+                "@components\\moduls\\scrollbar\\scss\\scrollbar-render.scss"
+            ],
+            "@scrollbar-render-scss/*": [
+                "@components\\moduls\\scrollbar\\scss\\scrollbar-render.scss/*"
+            ],
+            "@scrollbar-interaction-scss": [
+                "@components\\moduls\\scrollbar\\scss\\scrollbar-interaction.scss"
+            ],
+            "@scrollbar-interaction-scss/*": [
+                "@components\\moduls\\scrollbar\\scss\\scrollbar-interaction.scss/*"
+            ],
+            "@scrollbar-fonts": [
+                "@components\\moduls\\scrollbar\\fonts"
+            ],
+            "@scrollbar-fonts/*": [
+                "@components\\moduls\\scrollbar\\fonts/*"
+            ],
+            "@scrollbar-img": [
+                "@components\\moduls\\scrollbar\\img"
+            ],
+            "@scrollbar-img/*": [
+                "@components\\moduls\\scrollbar\\img/*"
             ],
             "@footer": [
                 "@components\\page-parts\\footer"

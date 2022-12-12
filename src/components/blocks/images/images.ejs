@@ -1,20 +1,9 @@
 <%
-let loader_html = null,
-    original_w = null,
-    original_h = null,
+let loader_html = data.loader ? include('./../../blocks/loader/loader.ejs') : null,
+    original_w = data.ow ? `data-original-w="${data.ow}"` : null,
+    original_h = data.oh ? `data-original-h="${data.oh}"` : null,
     style_pt = `style="padding-top:${data.pt}%;"`;
-
-if(data.loader){
-   loader_html = include('./../../blocks/loader/loader.ejs'); 
-} 
-
-if(data.ow){
-    original_w = `data-original-w="${data.ow}"`; 
-} 
-
-if(data.oh){
-    original_h = `data-original-h="${data.oh}"`;
-} %>
+%>
 
 <% if(data.type === "img" || data.type === "img-swiper-loop"){ %>
 <div class="image" <%-style_pt%>>
