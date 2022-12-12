@@ -18,7 +18,7 @@ module.exports = {
     },
     entry: {
         critical: `${ENTRY_PATH}/entrys/main/critical.js`,
-        main: `${ENTRY_PATH}/entrys/main/index.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
+        main: `${ENTRY_PATH}/entrys/main/main.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
         AbortController: `${ENTRY_PATH}/entrys/polyfills/AbortController.js`,
         IntersectionObserver: `${ENTRY_PATH}/entrys/polyfills/IntersectionObserver.js`,
     },
@@ -29,8 +29,8 @@ module.exports = {
             let to_bace_path = ['main', 'critical'],
                 to_pollyfill_path = ['AbortController', 'IntersectionObserver'];
 
-            if (to_bace_path.includes(data_obj.runtime)) return './assets/js/[name].[contenthash].js';
-            if (to_pollyfill_path.includes(data_obj.runtime)) return './assets/js/polyfills/[name].[contenthash].js';
+            if (to_bace_path.includes(data_obj.runtime)) return './assets/js/[name].js';
+            if (to_pollyfill_path.includes(data_obj.runtime)) return './assets/js/polyfills/[name].js';
         },
         clean: true, //сообщает что нужно очистить выходную папку перед тем как записать обновлённые или новые файлы
     },

@@ -19,7 +19,7 @@ module.exports = {
     },
     entry: {
         critical: `${ENTRY_PATH}/entrys/main/critical.js`,
-        main: `${ENTRY_PATH}/entrys/main/index.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
+        main: `${ENTRY_PATH}/entrys/main/main.js`, //точка входа, файл с которого мы начинаем собирать наш проект в нём и нужно подключать все другие файлы такие как html css и другие
         AbortController: `${ENTRY_PATH}/entrys/polyfills/AbortController.js`,
         IntersectionObserver: `${ENTRY_PATH}/entrys/polyfills/IntersectionObserver.js`,
     },

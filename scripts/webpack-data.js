@@ -33,7 +33,6 @@ function Get_Base_Aliases() {
         '@scss-data': '@scss/_scss-data',
         '@js': '@assets/js',
         '@js-moduls': '@js/moduls',
-        '@js-polyfills': '@js/polyfills',
         '@js-libs': '@js/libs',
     };
     return aliases;
@@ -91,10 +90,8 @@ function Get_Plagins() {
                     //плагин переносить добавляет во все файл из массива PAGES скрипты и стили с указание актуальных хешей
                     template: `${ENTRY_PATH}/pages/${page}.ejs`,
                     filename: `./pages/${page}.html`,
-                    inject: 'body',
-                    //scriptLoading: 'blocking',
                     minify: false,
-                    excludeAssets: [/critical\.?.*\.js/, /main\.?.*\.js/, /polyfills/],
+                    excludeAssets: [/.*/],//я буду подключать файлы в html
                 }),
         ),
         new HtmlWebpackSkipAssetsPlugin(), //исключит excludeAssets в HtmlWebpackPlugin
