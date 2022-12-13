@@ -48,7 +48,6 @@ new (class {
             iframe = d.createElement('iframe');//создаём фрейм
 
         iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
-        iframe.setAttribute('allowFullScreen', '');
         iframe.setAttribute('src', src);
 
         iframe.ksn_loader = new Loader(wrap.querySelector('.loader'));//записываем в свойства фрейма объект его лоадера

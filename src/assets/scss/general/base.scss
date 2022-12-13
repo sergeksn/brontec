@@ -1,11 +1,13 @@
 //@media (any-hover: none) and (any-pointer: coarse) - смартфон без возможности ховера, и с указателем ограниценной точности
 @font-face {
     font-family: 'Manrope-Regular';
+    font-display: swap;
     src: url(@fonts/manrope-regular.woff2) format('woff2'), url(@fonts/manrope-regular.woff) format('woff');
 }
 
 @font-face {
     font-family: 'Manrope-Bold';
+    font-display: swap;
     src: url(@fonts/manrope-bold.woff2) format('woff2'), url(@fonts/manrope-bold.woff) format('woff');
 }
 
@@ -23,23 +25,8 @@ a[title='Вы тут!'] {
 body {
     background-color: var(--white);
     font: var(--default);
-    min-width: rem(320);
     overflow-x: hidden;
 }
-
-.lock-scroll {
-    overflow: hidden !important;
-}
-
-//доработатать
-@media (any-hover: hover) and (any-pointer: fine) {
-    @supports not (scrollbar-width: thin) {
-        body.lock-scroll {
-            margin-right: var(--scroll-width);
-        }
-    }
-}
-//доработатать
 
 .disabled {
     opacity: 0.3;

@@ -96,7 +96,7 @@ function Get_Plagins() {
         ),
         new HtmlWebpackSkipAssetsPlugin(), //исключит excludeAssets в HtmlWebpackPlugin
         new MiniCssExtractPlugin({
-            filename: `./assets/css/[name]${mode === 'prod' ? '.[contenthash]' : ''}.css`, //указывает куда сохранить и как назвать выходные css файлы
+            filename: `./assets/css/[name].css`, //указывает куда сохранить и как назвать выходные css файлы
         }),
     ];
 

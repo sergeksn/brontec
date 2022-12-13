@@ -1,7 +1,5 @@
-/* мышь, тачпад */
-//делаем это чтоб на мобилках и на экрнах планшенов были скролбары устройства по умолчаию,
-//а так же на устройствах где не прусмотрено точное указание по экрану
-@media (any-hover: hover) and (any-pointer: fine) {
+//если скролбар разрешён к показу
+[data-premission-show-scrollbar] {
     //в любом браузере резервируем место под скрол в блоках в которых он точно или скорее всего будет чтоб избежать дёргания макета
     .custom-scrollbar {
         scrollbar-gutter: stable; //зарезервирует место при owerfolov auto и scroll
@@ -20,19 +18,33 @@
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background-color: var(--black-hover);
     }
-
-
-
-//для сафари т.к. у него во всех браузерах не работает резервирование места
-
-
-    //в браузере фаерфокс меняем ширину и цвет скрола, а так же резервируем место под скролбар в любом случае
-    @supports (scrollbar-width: thin) {
-        html,
-        .custom-scrollbar {
-            scrollbar-width: thin;
-            scrollbar-color: var(--black-disabled) transparent;
-            scrollbar-gutter: stable;
-        }
-    }
+    //для сафари т.к. у него во всех браузерах не работает резервирование места
 }
+//если скролбар разрешён к показу
+
+//в браузере фаерфокс меняем ширину и цвет скрола, а так же резервируем место под скролбар, только в случае если скролбар разрешён к показу
+@supports (scrollbar-width: thin) {
+    html[data-premission-show-scrollbar],
+    [data-premission-show-scrollbar] .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: var(--black-disabled) transparent;
+        scrollbar-gutter: stable;
+    }
+
+    // html[data-premission-show-scrollbar],
+    // [data-premission-show-scrollbar] body.lock-scroll {
+    //     scrollbar-gutter: auto;
+    // }
+}
+
+// [data-premission-show-scrollbar] body.lock-scroll {
+//     margin-right: var(--custom-scrollbar-width); //--custom-scrollbar-width - переменная полученная из js после создания элемента body в ней хранится ширина кастомного скрола, т.к. в фаерфоксе мы не можем чётко здать ширину
+// }
+
+// [data-premission-show-scrollbar] body.lock-scroll header{
+//     padding-right: var(--custom-scrollbar-width); 
+// }
+
+// .lock-scroll {
+//     overflow: hidden !important;
+// }

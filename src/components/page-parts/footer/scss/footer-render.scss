@@ -84,7 +84,6 @@
         ul {
             display: grid;
             grid-gap: rem(5);
-            grid-template-columns: max-content;
 
             @media (min-width: rem(960)) {
                 grid-gap: adaptiv_rem_size(5, 960, 10, 1920);

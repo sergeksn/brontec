@@ -30,53 +30,6 @@ export default new (class {
         this.swipe_cart();
     }
 
-
-    //блокирует прокрутки которые нужно
-    lock_scroll() {
-        //если сенсорный экран то полос скрола скорее всего не будет
-        if (w.matchMedia('(any-hover: hover) and (any-pointer: fine)').matches) {
-            this.header.addEventListener('wheel', this.rem_def); //блокируем прокрутку на хедере
-            this.overlay.addEventListener('wheel', this.rem_def); //блокируем прокрутку на подложке
-            d.addEventListener('keydown', this.rem_def); //блокируем прокрутку кнопками стрелок
-        }
-        //если сенсорный экран то полос скрола скорее всего не будет
-
-        //если экран обычный то скорее всего у нас мышка и скрол можно предотврать запретом скрола колёсиком
-        else {
-            this.body.classList.add('lock-scroll'); //блокируем прокуртку документа перед показом корзины
-            if (Header_Hidden.status === 'open') this.header.classList.add('lock-scroll'); //блокируем прокуртку хедера перед показом корзины если открыт скрытый блок хедера
-        }
-        //если экран обычный то скорее всего у нас мышка и скрол можно предотврать запретом скрола колёсиком
-    }
-    //блокирует прокрутки которые нужно
-
-    //разблокирует прокрутки которые нужно
-    unlock_scroll() {
-        //если сенсорный экран то полос скрола скорее всего не будет
-        if (w.matchMedia('(any-hover: hover) and (any-pointer: fine)').matches) {
-            this.header.removeEventListener('wheel', this.rem_def); //разблокируем прокрутку на хедере
-            this.overlay.removeEventListener('wheel', this.rem_def); //разблокируем прокрутку на подложке
-            d.removeEventListener('keydown', this.rem_def); //разблокируем прокрутку кнопками стрелок
-        }
-        //если сенсорный экран то полос скрола скорее всего не будет
-
-        //если экран обычный то скорее всего у нас мышка и скрол можно предотврать запретом скрола колёсиком
-        else {
-            if (Header_Hidden.status === 'close') this.body.classList.remove('lock-scroll'); //разблокируем прокуртку документа если закрыт блок хедера
-            this.header.classList.remove('lock-scroll'); //разблокируем прокуртку хедера
-        }
-        //если экран обычный то скорее всего у нас мышка и скрол можно предотврать запретом скрола колёсиком
-    }
-    //разблокирует прокрутки которые нужно
-
-    //блокирует действия по умолчанию для колёсика мышки и кнопок вверх и вниз
-    rem_def(e) {
-        //e.cancelable - сообщает о том что событие может быть отменено
-        e.type === 'wheel' && e.cancelable && e.preventDefault(); //если событие скрола
-        (e.code === 'ArrowUp' || e.code === 'ArrowDown') && e.cancelable && e.preventDefault(); //если это кнопки вверх/вниз
-    }
-    //блокирует действия по умолчанию для колёсика мышки и кнопок вверх и вниз
-
     //открываем/закрываем корзину
     async toggle_cart() {
         if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
@@ -126,7 +79,21 @@ export default new (class {
     async open_cart() {
         this.overlay.style.top = this.header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегода было видно постер и верхнюю часть хедера
 
-        this.lock_scroll(); //блокирует прокрутки которые нужно
+        this.body.scrollbar.lock(); //блокируем прокуртку документа
+        this.body.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
+
+        //если открыт блок хедера
+        if (Header_Hidden.status === 'open') {
+            this.header.scrollbar.lock(); //блокируем прокуртку хедера перед показом корзины если открыт скрытый блок хедера
+            this.header.scrollbar.hide_scrollbar_space(); //так же нужно удалить пространство которое резервируется под скрол
+        }
+        //если открыт блок хедера
+
+        //если закрыт блок хедера
+        else {
+            this.header.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
+        }
+        //если закрыт блок хедера
 
         let cart_data = w.localStorage.getItem('cart'); //получаем данные карзины
 
@@ -145,7 +112,15 @@ export default new (class {
 
         await Promise.all([this.hide(), this.Overlay.hide()]); //дожидаемся скрытия корзины и подложки
 
-        this.unlock_scroll(); //разблокирует прокрутки которые нужно
+        //если закрыт блок хедера
+        if (Header_Hidden.status === 'close') {
+            this.body.scrollbar.unlock(); //разблокируем прокуртку документа
+            this.body.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
+        }
+        //если закрыт блок хедера
+
+        this.header.scrollbar.unlock(); //разблокируем прокуртку хедера
+        this.header.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
     }
     //выпоялняем все действия для закрытия корзины
 

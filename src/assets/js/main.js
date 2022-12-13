@@ -29,30 +29,27 @@
 //ВАЖНО: скорость выполнения функции зависит от её фактического размера, особенно если в ней объявляются очень большие объекты, так что чтоб увеличисть производительность нужно выносить всё большое за пределы функции
 import '@js-libs/dom-add-func.js';
 
-import '@js-moduls/base'; //тут будут записаны основные функции для взаимодействи я с общими элементами сайта и установленны основные слушатели и те действия которые нужно выполнять на любой странице сайта в самом начале
-
 //@dinamic node import fils
-import "@iframe-youtube-main-js";
-import "@images-main-js";
-import "@loader-main-js";
-import "@overlays-main-js";
-import "@pop-up-messages-main-js";
-import "@product-small-info-block-main-js";
-import "@scroll-to-top-button-main-js";
-import "@block-showed-on-scroll-main-js";
-import "@scrollbar-main-js";
-import "@footer-main-js";
-import "@glavnaya-1-blue-top-block-main-js";
-import "@glavnaya-10-fqa-main-js";
-import "@glavnaya-11-cars-svg-main-js";
-import "@glavnaya-2-video-block-main-js";
-import "@glavnaya-3-icons-grid-main-js";
-import "@glavnaya-4-img-text-slider-main-js";
-import "@glavnaya-5-svoystva-plenki-main-js";
-import "@glavnaya-6-product-set-main-js";
-import "@glavnaya-7-video-instruction-main-js";
-import "@glavnaya-8-blue-block-main-js";
-import "@glavnaya-9-otzivi-main-js";
-import "@header-main-js";
+import '@iframe-youtube-main-js';
+import '@images-main-js';
+import '@loader-main-js';
+import '@overlays-main-js';
+import '@pop-up-messages-main-js';
+import '@product-small-info-block-main-js';
+import '@scroll-to-top-button-main-js';
+import '@block-showed-on-scroll-main-js';
+import '@scrollbar-main-js';
+import '@footer-main-js';
+import '@glavnaya-1-blue-top-block-main-js';
+import '@glavnaya-10-fqa-main-js';
+import '@glavnaya-11-cars-svg-main-js';
+import '@glavnaya-2-video-block-main-js';
+import '@glavnaya-3-icons-grid-main-js';
+import '@glavnaya-4-img-text-slider-main-js';
+import '@glavnaya-5-svoystva-plenki-main-js';
+import '@glavnaya-6-product-set-main-js';
+import '@glavnaya-7-video-instruction-main-js';
+import '@glavnaya-8-blue-block-main-js';
+import '@glavnaya-9-otzivi-main-js';
+import '@header-main-js';
 //@dinamic node import fils
-
