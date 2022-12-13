@@ -2,16 +2,13 @@ import { Header, Header_Search, Header_Cart } from '@header-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
 import { wait, anime } from '@js-libs/func-kit';
 
+let body = qs('body'),
+    header = qs('header'),
+    header_hidden = qs('.header-hidden'); //скрытая часть меню с поиском и мобильным меню
+
 export default new (class {
     //инициализируем все скрипты для работы открывающиегося блока в хедере
     constructor() {
-        //записываем все неоходимые переменные для удобства доступа
-        this.body = d.getElementsByTagName('body')[0];
-        this.header = d.getElementsByTagName('header')[0];
-        this.header_visible = d.querySelector('.header-visible'); //постоянно видимая часть меню
-        this.header_hidden = d.querySelector('.header-hidden'); //скрытая часть меню с поиском и мобильным меню
-        //записываем все неоходимые переменные для удобства доступа
-
         //pending to close - в процессе закрытия меню
         //close - меню закрыто
         //pending to open - в процессе открытия меню
@@ -19,10 +16,10 @@ export default new (class {
         this.status = 'close'; //статус открытия меню
 
         [
-            d.querySelector('.header-visible__search-button'), //кнопка поиска в хедере
-            d.querySelector('.header-visible__burger-button'), //кнопка бургер меню
-            d.querySelector('.header-search__close-button'), //кнопка закрытия окна поиска
-            d.getElementById('header-overlay'), //подложка хедера
+            qs('.header-visible__search-button'), //кнопка поиска в хедере
+            qs('.header-visible__burger-button'), //кнопка бургер меню
+            qs('.header-search__close-button'), //кнопка закрытия окна поиска
+            qs('#header-overlay'), //подложка хедера
         ].forEach(el => {
             el._on('click', () => this.toggle_header_hidden_block()); //открываем/закрываем скрытый блок при клике на бургер кнопку, кнопку поиска в видимой части хедеера или на подложку хедера
         });
@@ -35,7 +32,7 @@ export default new (class {
     size_recalculate() {
         let update_size = () => {
             let hh = Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }); //высота хедера
-            this.header.style.height = (hh >= GDS.win.height ? GDS.win.height : hh) + 'px'; //если высота хедера больше высоты окна ставим ему высоту окна чтоб была правильная прокрутка
+            header.style.height = (hh >= GDS.win.height ? GDS.win.height : hh) + 'px'; //если высота хедера больше высоты окна ставим ему высоту окна чтоб была правильная прокрутка
         };
 
         if (Header_Search.status === 'pending to close') return wait(() => Header_Search.status, 'close').then(() => update_size()); //если блок с результатами поиска в процессе закрытия дожидаемся закрытия блока с результатами поиска и перестичитываем парметры хедера
@@ -60,12 +57,12 @@ export default new (class {
         await Header.show().catch(e => {}); //пытаем показать хедер, т.к. клик мог произойти в момент когда хедер в движении после скрола, в этом случае мы дождёмся пока хедер полностью не покажется, сели же он уже был полностью виден этот пункт завершится мгновенно
         //ПРИМЕЧАНИЕ: catch(e=>{}) НЕЛЬЗЯ убирать т.к. при попытке закрыть блоки получим исключение в виде того что невозможно показать хедер т.к. он заблокирован
 
-        //если корзина открыта то была заблокированна прокутка хедера, а для правильно анимации открытия хедера нам нужно на вреям вернуть ему прокрутку
+        //если корзина открыта то была заблокированна прокутка хедера, а для правильной анимации открытия хедера нам нужно на вреям вернуть ему прокрутку
         if (Header_Cart.status === 'show') {
-            this.header.scrollbar.unlock(); //разблокируем прокуртку хедера
-            this.header.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
-        } 
-        //если корзина открыта то была заблокированна прокутка хедера, а для правильно анимации открытия хедера нам нужно на вреям вернуть ему прокрутку
+            header.scrollbar.unlock(); //разблокируем прокуртку хедера
+            header.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
+        }
+        //если корзина открыта то была заблокированна прокутка хедера, а для правильной анимации открытия хедера нам нужно на вреям вернуть ему прокрутку
 
         //если скрытый блок хедера закрыт
         if (this.status === 'close') {
@@ -106,8 +103,8 @@ export default new (class {
 
         //если корзина открыта, то после завершения анимации открытия хедера нужно снова заблокировать его прокрутку
         if (Header_Cart.status === 'show') {
-            this.header.scrollbar.lock(); //блокируем прокуртку хедера перед показом корзины если открыт скрытый блок хедера
-            this.header.scrollbar.hide_scrollbar_space(); //так же нужно удалить пространство которое резервируется под скрол
+            header.scrollbar.lock(); //блокируем прокуртку хедера перед показом корзины если открыт скрытый блок хедера
+            header.scrollbar.hide_scrollbar_space(); //так же нужно удалить пространство которое резервируется под скрол
         }
         //если корзина открыта, то после завершения анимации открытия хедера нужно снова заблокировать его прокрутку
 
@@ -121,17 +118,17 @@ export default new (class {
 
         Header.lock = true; //запрещаем хедеру сворачиваться при прокрутке
 
-        this.header.classList.add('--open-header-hidden'); //помечаем что открыта скрытая часть хедера
+        header.classList.add('--open-header-hidden'); //помечаем что открыта скрытая часть хедера
 
-        this.body.scrollbar.lock(); //блокируем прокуртку документа
-        this.body.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
+        body.scrollbar.lock(); //блокируем прокуртку документа
+        body.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
 
         //ждём завершение открытия
         await Promise.all([
             anime({
                 //увеличиваем высоту хедера чтоб показался скрытый блок
-                targets: this.header,
-                height: '+=' + w.getComputedStyle(this.header_hidden).height,
+                targets: header,
+                height: '+=' + w.getComputedStyle(header_hidden).height,
             }).finished,
 
             Scroll_To_Top_Button.hide(), //дожидаемся скрытия кнопки скрола вверх
@@ -140,7 +137,7 @@ export default new (class {
         ]);
         //ждём завершение открытия
 
-        this.header_hidden.style.position = 'relative'; //меняем позицию скрытого блока чтоб при уменьшении высоты экрана до размера хедера, хедер нормально прокручивался, а если оставим абсолютную розицию то блок просто поднимется под хедером без создания прокрутки
+        header_hidden.style.position = 'relative'; //меняем позицию скрытого блока чтоб при уменьшении высоты экрана до размера хедера, хедер нормально прокручивался, а если оставим абсолютную розицию то блок просто поднимется под хедером без создания прокрутки
 
         this.size_recalculate(); //обновляем высоту хедера и данные о его размерме
 
@@ -152,23 +149,23 @@ export default new (class {
     async close() {
         this.status = 'pending to close'; //статус откряытия блока
 
-        this.header.style.height = Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }) + 'px'; //для того чтоб хедер плавно скрылся ему нужно задать явно высоту, тут важно получить высоту именно так
+        header.style.height = Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }) + 'px'; //для того чтоб хедер плавно скрылся ему нужно задать явно высоту, тут важно получить высоту именно так
 
-        this.header_hidden.style.position = ''; //меняем позиционирование чтоб скрыть блок снова стал абсолютным, и при уменьшении высоты хедера скрывался под хедером
+        header_hidden.style.position = ''; //меняем позиционирование чтоб скрыть блок снова стал абсолютным, и при уменьшении высоты хедера скрывался под хедером
 
         await Promise.all([
             Header.Overlay.hide(), //скрываем пожложку хедера
             anime({
                 //уменьшаем высоту хедера чтоб скрыть скрытй блок под хедером
-                targets: this.header,
+                targets: header,
                 height: Header.get_header_h({ header_poster: true, header_visible: true }), //уменьшаем высоту до суммы высот постера и видимой части хедера
             }).finished,
         ]);
 
         //если корзина закрыта
         if (Header_Cart.status !== 'show') {
-            this.body.scrollbar.unlock(); //разблокируем прокуртку документа
-            this.body.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
+            body.scrollbar.unlock(); //разблокируем прокуртку документа
+            body.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
         }
         //если корзина закрыта
 
@@ -178,7 +175,7 @@ export default new (class {
 
         this.size_recalculate(); //обновляем высоту хедера и данные о его размерме
 
-        this.header.classList.remove('--open-header-hidden'); //помечаем что закрыта скрытая часть хедера
+        header.classList.remove('--open-header-hidden'); //помечаем что закрыта скрытая часть хедера
 
         this.status = 'close'; //помечеам что меню закрыто
     }

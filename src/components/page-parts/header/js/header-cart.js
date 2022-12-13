@@ -1,7 +1,6 @@
 import { show, hide, anime } from '@js-libs/func-kit';
 import Overlay from '@overlays-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
-
 import { Header, Header_Poster, Header_Hidden, Header_Search } from '@header-main-js';
 
 export default new (class {
@@ -85,7 +84,6 @@ export default new (class {
         //если открыт блок хедера
         if (Header_Hidden.status === 'open') {
             this.header.scrollbar.lock(); //блокируем прокуртку хедера перед показом корзины если открыт скрытый блок хедера
-            this.header.scrollbar.hide_scrollbar_space(); //так же нужно удалить пространство которое резервируется под скрол
         }
         //если открыт блок хедера
 
