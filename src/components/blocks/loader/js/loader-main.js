@@ -1,6 +1,6 @@
 import { show, hide } from '@js-libs/func-kit';
 
-export default class Loader {
+export default class {
     constructor(loader_elem) {
         if (!loader_elem) return; //если лоадера нет то прерываем дальнешие операции, и все вызываемые методы данного объекта лоадера будут просто сразу завершаться
         this.loader = loader_elem; //записываем для того чтоб из методов объекта получать доступ к элементу лоадера если он существует

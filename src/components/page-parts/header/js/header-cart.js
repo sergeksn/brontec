@@ -1,160 +1,156 @@
-import { show, hide, anime } from '@js-libs/func-kit';
+import { show, hide } from '@js-libs/func-kit';
 import Overlay from '@overlays-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
-import { Header, Header_Poster, Header_Hidden, Header_Search } from '@header-main-js';
+import { Header, Header_Hidden } from '@header-main-js';
 
-export default new (class {
-    constructor() {
-        this.cart = d.querySelector('.cart');
-        this.cart_body = d.querySelector('.cart__body');
-        this.header_visible = d.querySelector('.header-visible'); //постоянно видимая часть меню
-        this.body = d.getElementsByTagName('body')[0];
-        this.header = d.getElementsByTagName('header')[0];
-        this.overlay = d.getElementById('cart-overlay'); //положка корзины на сайте
-        this.close_button = d.querySelector('.cart__header-close-button');
+let cart = qs('.cart'),
+    header_visible = qs('.header-visible'),
+    body = qs('body'),
+    header = qs('header'),
+    overlay = qs('#cart-overlay'),
+    close_button = qs('.cart__header-close-button'),
+    CONTROLLER = {
+        status: 'hide',
+        lock: false,
+        Overlay: new Overlay({ el: overlay }), //создаём экземпляр подложки корзины для всего контента сайта
 
-        this.Overlay = new Overlay({ el: this.overlay }); //создаём экземпляр подложки корзины для всего контента сайта
+        //открываем/закрываем корзину
+        toggle_cart: async function () {
+            if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
 
-        this.lock = false;
-        this.status = 'hide';
+            Header.active_elements.lock();
 
-        [
-            d.querySelector('.header-visible__cart-button'), //кнопка корзины в хедере
-            this.overlay, //положка корзины на сайте
-            this.close_button, //кнопка закрытия корзины
-        ].forEach(item => item._on('click', e => this.toggle_cart())); //показываем/скрываем корзину при клике
+            if (this.status === 'hide') {
+                await this.open();
+            } else if (this.status === 'show') {
+                await this.close();
+            }
 
-        w._on('resize_throttle load', e => this.size_recalculate()); //пересчитываем верхний отступ корзины пре ресайзе и при первой загрузке
+            Header.active_elements.unlock();
+        },
+        //открываем/закрываем корзину
 
-        this.swipe_cart();
-    }
+        //скрываем корзину при свайпе
+        swipe_cart: function () {
+            cart._on(
+                'swipe',
+                () => this.toggle_cart(),
+                {},
+                {
+                    permission_directions: {
+                        top: false,
+                        right: true,
+                        bottom: false,
+                        left: false,
+                    }, //направления в которых нужно учитывать свайп
+                    mouse_swipe: false,
+                    min_px_dist_x: 50, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп в % от ширины экрана
+                    max_time: 500, //максимальное время, за которое должен быть совершен свайп (ms)
 
-    //открываем/закрываем корзину
-    async toggle_cart() {
-        if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
+                    //НЕ ЗАБЫТЬ ДОБАВИТЬ В ИСКЛЮЧЕНИЯ все октивные элементы в корзине
+                    exceptions_el: [
+                        close_button, //кнопка закрытия корзины
+                        qs('.cart__footer-promocod>input'), //блок с промокодом т.к. там инпут
+                        qs('.cart__footer-design-order'), //кнопка оформленяи заказа
+                        qs('.cart__body'), //тело корзины т.к. там нужен нормальный скрол
+                    ], //не вызываем свайп если нажали на кнопку закрытия
+                },
+            );
+        },
+        //скрываем корзину при свайпе
 
-        Header.active_elements.lock();
+        //выпоялняем все действия для открытия корзины
+        open: async function () {
+            overlay.style.top = header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегода было видно постер и верхнюю часть хедера
 
-        if (this.status === 'hide') {
-            await this.open_cart();
-        } else if (this.status === 'show') {
-            await this.close_cart();
-        }
+            body.scrollbar.lock(); //блокируем прокуртку документа
+            body.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
 
-        Header.active_elements.unlock();
-    }
-    //открываем/закрываем корзину
+            //если открыт блок хедера
+            if (Header_Hidden.status === 'open') {
+                header.scrollbar.lock(); //блокируем прокуртку хедера перед показом корзины если открыт скрытый блок хедера
+            }
+            //если открыт блок хедера
 
-    //скрываем корзину при свайпе
-    swipe_cart() {
-        this.cart._on(
-            'swipe',
-            () => this.toggle_cart(),
-            {},
-            {
-                permission_directions: {
-                    top: false,
-                    right: true,
-                    bottom: false,
-                    left: false,
-                }, //направления в которых нужно учитывать свайп
-                mouse_swipe: false,
-                min_px_dist_x: 50, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп в % от ширины экрана
-                max_time: 500, //максимальное время, за которое должен быть совершен свайп (ms)
+            //если закрыт блок хедера
+            else {
+                header.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
+            }
+            //если закрыт блок хедера
 
-                //НЕ ЗАБЫТЬ ДОБАВИТЬ В ИСКЛЮЧЕНИЯ все октивные элементы в корзине
-                exceptions_el: [
-                    this.close_button, //кнопка закрытия корзины
-                    d.querySelector('.cart__footer-promocod>input'), //блок с промокодом т.к. там инпут
-                    d.querySelector('.cart__footer-design-order'), //кнопка оформленяи заказа
-                    d.querySelector('.cart__body'), //тело корзины т.к. там нужен нормальный скрол
-                ], //не вызываем свайп если нажали на кнопку закрытия
-            },
-        );
-    }
-    //скрываем корзину при свайпе
+            let cart_data = w.localStorage.getItem('cart'); //получаем данные карзины
 
-    //выпоялняем все действия для открытия корзины
-    async open_cart() {
-        this.overlay.style.top = this.header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегода было видно постер и верхнюю часть хедера
+            //если корзина пуста
+            if (cart_data === null) {
+            }
+            //если корзина пуста
 
-        this.body.scrollbar.lock(); //блокируем прокуртку документа
-        this.body.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
+            cart.style.transform = 'translateX(100%)'; //для корректной работы анимаци приходится явно задавать смещение т.к. почему-то скрипт не видит значение transform в стилях из таблиц css
 
-        //если открыт блок хедера
-        if (Header_Hidden.status === 'open') {
-            this.header.scrollbar.lock(); //блокируем прокуртку хедера перед показом корзины если открыт скрытый блок хедера
-        }
-        //если открыт блок хедера
+            await Promise.all([
+                show({
+                    el: cart,
+                    instance: this,
+                    property: 'translateX',
+                    value: 0,
+                    started_value: cart.clientWidth,
+                    units: '%',
+                }),
+                this.Overlay.show(),
+                Scroll_To_Top_Button.hide(),
+            ]); //дожидаемся показа корзины и подложки, а так же скрытия кнопки скрола вверх
+        },
+        //выпоялняем все действия для открытия корзины
 
-        //если закрыт блок хедера
-        else {
-            this.header.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
-        }
-        //если закрыт блок хедера
+        //выпоялняем все действия для закрытия корзины
+        close: async function () {
+            Scroll_To_Top_Button.toggle_show_button(); //показываем кнопку если нужно, этого не обязательно дожидаться
 
-        let cart_data = w.localStorage.getItem('cart'); //получаем данные карзины
+            await Promise.all([
+                hide({
+                    el: cart,
+                    instance: this,
+                    property: 'translateX',
+                    value: 100,
+                    started_value: 0,
+                    units: '%',
+                }),
+                this.Overlay.hide(),
+            ]); //дожидаемся скрытия корзины и подложки
 
-        //если корзина пуста
-        if (cart_data === null) {
-        }
-        //если корзина пуста
+            //если закрыт блок хедера
+            if (Header_Hidden.status === 'close') {
+                body.scrollbar.unlock(); //разблокируем прокуртку документа
+                body.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
+            }
+            //если закрыт блок хедера
 
-        await Promise.all([this.show(), this.Overlay.show(), Scroll_To_Top_Button.hide()]); //дожидаемся показа корзины и подложки, а так же скрытия кнопки скрола вверх
-    }
-    //выпоялняем все действия для открытия корзины
+            header.scrollbar.unlock(); //разблокируем прокуртку хедера
+            header.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
+        },
+        //выпоялняем все действия для закрытия корзины
 
-    //выпоялняем все действия для закрытия корзины
-    async close_cart() {
-        Scroll_To_Top_Button.toggle_show_button(); //показываем кнопку если нужно, этого не обязательно дожидаться
+        //пересчитываем верхний отступ корзины пре ресайзе
+        size_recalculate: function () {
+            cart.style.top = GDS.win.width_rem < 40 ? Header.get_header_h({ header_poster: true, header_visible: true }) + 'px' : Header.get_header_h({ header_poster: true }) + 'px'; //при экранах меньше 640 корзину опускеаем к низу видимой части хедера, а если шире то поднимаем к верху видимрой части
 
-        await Promise.all([this.hide(), this.Overlay.hide()]); //дожидаемся скрытия корзины и подложки
+            overlay.style.top = header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегода было видно постер и верхнюю часть хедера
+        },
+        //пересчитываем верхний отступ корзины пре ресайзе
 
-        //если закрыт блок хедера
-        if (Header_Hidden.status === 'close') {
-            this.body.scrollbar.unlock(); //разблокируем прокуртку документа
-            this.body.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
-        }
-        //если закрыт блок хедера
+        init: function () {
+            [
+                qs('.header-visible__cart-button'), //кнопка корзины в хедере
+                overlay, //положка корзины на сайте
+                close_button, //кнопка закрытия корзины
+            ].forEach(item => item._on('click', _ => this.toggle_cart())); //показываем/скрываем корзину при клике
 
-        this.header.scrollbar.unlock(); //разблокируем прокуртку хедера
-        this.header.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
-    }
-    //выпоялняем все действия для закрытия корзины
+            w._on('resize_throttle load', _ => this.size_recalculate()); //пересчитываем верхний отступ корзины пре ресайзе и при первой загрузке
 
-    //показываем корзину
-    show() {
-        this.cart.style.transform = 'translateX(100%)'; //для корректной работы анимаци приходится явно задавать смещение т.к. почему-то скрипт не видит значение transform в стилях из таблиц css
+            this.swipe_cart();
+        },
+    };
 
-        return show({
-            el: this.cart,
-            instance: this,
-            property: 'translateX',
-            value: 0,
-            started_value: this.cart.clientWidth,
-            units: '%',
-        });
-    }
-    //показываем корзину
+CONTROLLER.init(); //выполянем действия необходимые при загрузке модуля
 
-    //скрываем корзину
-    hide() {
-        return hide({
-            el: this.cart,
-            instance: this,
-            property: 'translateX',
-            value: 100,
-            started_value: 0,
-            units: '%',
-        });
-    }
-    //скрываем корзину
-
-    //пересчитываем верхний отступ корзины пре ресайзе
-    size_recalculate() {
-        this.cart.style.top = GDS.win.width_rem < 40 ? Header.get_header_h({ header_poster: true, header_visible: true }) + 'px' : Header.get_header_h({ header_poster: true }) + 'px'; //при экранах меньше 640 корзину опускеаем к низу видимой части хедера, а если шире то поднимаем к верху видимрой части
-
-        this.overlay.style.top = this.header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегода было видно постер и верхнюю часть хедера
-    }
-    //пересчитываем верхний отступ корзины пре ресайзе
-})();
+export default CONTROLLER;

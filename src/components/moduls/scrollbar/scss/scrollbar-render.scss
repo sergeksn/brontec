@@ -24,27 +24,10 @@
 
 //в браузере фаерфокс меняем ширину и цвет скрола, а так же резервируем место под скролбар, только в случае если скролбар разрешён к показу
 @supports (scrollbar-width: thin) {
-    html[data-premission-show-scrollbar],
+    [data-premission-show-scrollbar],//это html элемент
     [data-premission-show-scrollbar] .custom-scrollbar {
         scrollbar-width: thin;
         scrollbar-color: var(--black-disabled) transparent;
         scrollbar-gutter: stable;
     }
-
-    // html[data-premission-show-scrollbar],
-    // [data-premission-show-scrollbar] body.lock-scroll {
-    //     scrollbar-gutter: auto;
-    // }
 }
-
-// [data-premission-show-scrollbar] body.lock-scroll {
-//     margin-right: var(--custom-scrollbar-width); //--custom-scrollbar-width - переменная полученная из js после создания элемента body в ней хранится ширина кастомного скрола, т.к. в фаерфоксе мы не можем чётко здать ширину
-// }
-
-// [data-premission-show-scrollbar] body.lock-scroll header{
-//     padding-right: var(--custom-scrollbar-width); 
-// }
-
-// .lock-scroll {
-//     overflow: hidden !important;
-// }

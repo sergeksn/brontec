@@ -1,5 +1,9 @@
 import { show, hide } from '@js-libs/func-kit';
 import Overlay from '@overlays-main-js';
+import {  Header_Hidden, Header_Cart } from '@header-main-js';
+
+let body = d.body,
+    header = qs('header');
 
 export default class {
     //data - объект с данными для сообщения
@@ -7,12 +11,11 @@ export default class {
     constructor(data, fast_show = true) {
         //создаём структуру окна и вставляем данные
         let wrap = d.createDocumentFragment(),
-            overlay = d.querySelector('#pop-up-message-overlay'); //будет содержать элемент подложки или null
+            overlay = qs('#pop-up-message-overlay'); //будет содержать элемент подложки или null
 
-        if (d.querySelector('.pop-up-message--fatal-error')) return; //если уже есть критическая ошибка далее ничего не выводим
+        if (qs('.pop-up-message--fatal-error')) return; //если уже есть критическая ошибка далее ничего не выводим
 
         this.is_fatal = data.type === 'fatal-error' || false; //определяет фатльная ошибка или нет
-        this.body = d.body;
 
         this.pop_up = d.createElement('div');
         this.close_button = this.is_fatal ? '' : d.createElement('button'); //если ошибка фатальная то кнопку закрытия мы не показываем
@@ -44,20 +47,20 @@ export default class {
         this.title.classList.add('pop-up-message__title');
         this.text_block.classList.add('pop-up-message__text');
 
-        this.body.append(wrap);
+        body.append(wrap);
         //создаём структуру окна и вставляем данные
 
         this.status = 'hide';
         this.lock = false; //польностью блокирует любые действия с данным блоком сообщения
 
-        !this.is_fatal && this.close_button.addEventListener('click', this.close_window_message.bind(this)); //закрываем окно сообщения по клику на кнопку закрытия, если она есть
+        !this.is_fatal && this.close_button._on('click', this.close_window_message.bind(this)); //закрываем окно сообщения по клику на кнопку закрытия, если она есть
 
         fast_show && this.show(); //если true то сообщени будет сразу показано
     }
 
     //клик по кнопке закрытия сообщения
     close_window_message() {
-        let full_close = d.querySelectorAll('.pop-up-message').length < 2; //полностью закрываем все элементы вплывающего сообщения или нет, если сообщений больше чем одно то при закрытии одного (если оно не критическое) не нужно скрывать подложку и разблокировать прокрутку
+        let full_close = qsa('.pop-up-message').length < 2; //полностью закрываем все элементы вплывающего сообщения или нет, если сообщений больше чем одно то при закрытии одного (если оно не критическое) не нужно скрывать подложку и разблокировать прокрутку
 
         full_close && this.overlay.overlay_controler.hide(); //если активных окон сейчас меньше 2-х то скрываем и подложку
 
@@ -69,7 +72,10 @@ export default class {
 
     //показывыаем блок сообщения
     async show() {
-        this.body.classList.add('lock-scroll'); //блокируем прокрутку документа
+        body.scrollbar.lock(); //блокируем прокрутку документа
+        body.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
+        (Header_Cart.status !== 'show' && Header_Hidden.status !== 'open') && header.scrollbar.lock(); //блокируем прокуртку хедера если корзина закрыта и закрыт скртый блок хедера
+
         let opacity;
 
         if (this.is_fatal) {
@@ -87,7 +93,7 @@ export default class {
             }),
         ]);
 
-        if (this.is_fatal) this.overlay.overlay_controler.lock = true;// если фатальная ошибка после показа сообщени и подложки блокируем подложку
+        if (this.is_fatal) this.overlay.overlay_controler.lock = true; // если фатальная ошибка после показа сообщени и подложки блокируем подложку
     }
     //показывыаем блок сообщения
 
@@ -99,7 +105,11 @@ export default class {
             instance: this,
         });
 
-        unlock && this.body.classList.remove('lock-scroll'); //разблокируем прокрутку документа
+        if (unlock && Header_Hidden.status !== 'open' && Header_Cart.status !== 'show') {
+            body.scrollbar.unlock(); //разблокируем прокрутку документа
+            body.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
+            header.scrollbar.unlock(); //разблокируем прокуртку
+        }
     }
     //скрываем блок сообщения
 }

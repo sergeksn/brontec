@@ -1,5 +1,5 @@
 import Swiper, { Navigation, Autoplay } from 'swiper';
-import { Img_Loader } from '@images-main-js';
+import { add_in_observe } from '@images-main-js';
 import { px_to_px, adaptiv_size } from '@js-libs/func-kit';
 //написать новую функцию для получения размеров в пикселях
 
@@ -55,7 +55,7 @@ export default new (class {
             },
             on: {
                 afterInit: function () {
-                    this.slides.forEach(el => Img_Loader.add_in_observe([el.querySelector('[data-img-type]')])); //все картинки в слайдере добавляем на отслеживание, т.к. при цикличной прокрутке создаются дубликаты которые тоже нужно отслеживать
+                    this.slides.forEach(el => add_in_observe([qs('[data-img-type]', el)])); //все картинки в слайдере добавляем на отслеживание, т.к. при цикличной прокрутке создаются дубликаты которые тоже нужно отслеживать
 
                     this.el.classList.remove('wait-init-slider-swiper'); //убираем класс скрывающий слайдер до его инициализации
 
