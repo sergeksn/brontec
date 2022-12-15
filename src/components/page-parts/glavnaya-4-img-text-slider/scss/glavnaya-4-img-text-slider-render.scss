@@ -1,0 +1,94 @@
+.glavnaya-4 {
+    .standart-container {
+      //  background-color: green;
+    }
+
+    h2 {
+        font: var(--h2);
+        grid-column: 1/-1;
+        margin-bottom: var(--medium-gap);
+
+        @media (min-width: rem(960)) {
+            grid-column: 1/9;
+        }
+    }
+
+    &__wrap-slider {
+        margin-bottom: var(--small-gap);
+        height: adaptiv_rem_size(160, 320, 195, 640);
+
+        @media (min-width: rem(960)) {
+            height: adaptiv_rem_size(195, 640, 400, 1240);
+        }
+
+        @media (min-width: rem(1240)) {
+            height: rem(400);
+        }
+
+        @media (min-width: rem(1920)) {
+            height: adaptiv_rem_size(400, 1920);
+        }
+
+        &-swiper-wrap {
+
+
+        }
+    }
+
+    &__text-swiper {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(960)) {
+            grid-column: 1/7;
+        }
+    }
+
+    &__control-buttons {
+        color: var(--blue-transparent);
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        grid-gap: rem(20);
+        margin: rem(40) 0 rem(20) 0;
+
+        @media (min-width: rem(640)) {
+            grid-gap: adaptiv_rem_size(20, 640, 60, 1920);
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 7/-1;
+            margin: 0;
+            justify-content: end;
+        }
+
+        @media (min-width: rem(1920)) {
+            grid-gap: adaptiv_rem_size(60, 1920);
+        }
+
+        .icon--arrow-big {
+            @media (any-hover: hover) {
+                &:hover {
+                    color: var(--blue-hover);
+                }
+            }
+        }
+
+        &-button-prev {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__link-button-wrap {
+        grid-column: 1/-1;
+        margin-bottom: var(--big-gap);
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 1/4;
+            margin-top: var(--small-gap);
+        }
+    }
+}

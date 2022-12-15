@@ -4,7 +4,7 @@
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
-    grid-column-gap: 0;
+    grid-column-gap: 0;//нужно для переопределения стилей standart-container
     min-height: rem(60);
     position: relative;
     background-color: var(--white);

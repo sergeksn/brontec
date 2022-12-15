@@ -22,6 +22,11 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.icon--arrow-big {
+  &:before {
+    content: $icon--arrow-big; 
+  }
+}
 .icon--cart {
     &:before {
       content: $icon--cart; 

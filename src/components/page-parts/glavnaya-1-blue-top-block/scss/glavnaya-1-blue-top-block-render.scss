@@ -1,4 +1,14 @@
-.glavnaya-1-blue-top-block {
+//анимация вращения картинки
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.glavnaya-1 {
     background-color: var(--blue);
     padding: var(--medium-gap) 0;
 
@@ -37,6 +47,7 @@
             height: adaptiv_rem_size(57, 320);
             left: adaptiv_rem_size(35, 320);
             bottom: adaptiv_rem_size(-10, 320);
+            animation: 10s linear infinite rotate;
 
             @media (min-width: rem(640)) {
                 width: adaptiv_rem_size(57, 640);

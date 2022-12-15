@@ -1,28 +1,60 @@
-.glavnaya-3-icons-grid {
-    margin: var(--big-gap) 0;
+.glavnaya-3 {
+    --icon-block-row-gap: var(--gap);//зазор между строками флексблока с иконками и текстом
+    margin: var(--big-gap) 0 calc(var(--big-gap) - var(--icon-block-row-gap)) 0; //нужно уменьшать нижний отступ чтоб учесть нижний марджив в блоках иконок с текстом
+
+    @media (min-width: rem(640)) {
+        --icon-block-row-gap: #{adaptiv_rem_size(20, 640, 80, 1920)};
+    }
+
+    @media (min-width: rem(1920)) {
+        --icon-block-row-gap: #{adaptiv_rem_size(80, 1920)};
+    }
 
     h2 {
+        font: var(--h2);
         grid-column: 1/-1;
+        margin-bottom: var(--medium-gap);
     }
 
     &-icons-block {
         grid-column: 1/-1;
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: center;
 
         &-item {
-            grid-column: 1/-1;
+            width: 100%;
+            margin-bottom: var(--icon-block-row-gap);
             display: grid;
             align-items: center;
-            grid-column-gap: rem(20);
-            grid-template-columns: repeat(12, 1fr);
+            grid-column-gap: var(--gap);
+            grid-template-columns: 1fr 1fr;
 
-            &-img-wrap{
-                grid-column: 1/6;
+            @media (min-width: rem(640)) {
+                width: calc((100% / 4) - (var(--gap) * 3 / 4)); //ширина элмента с учётом того что нужно учесть марджины
+                margin-right: var(--gap);
+
+                &:nth-child(4n) {
+                    margin-right: 0;
+                }
             }
 
-            &-text{
-                grid-column: 6/-1;
+            &-img-wrap {
+                grid-column: span 1;
+
+                @media (min-width: rem(640)) {
+                    grid-column: 1/-1;
+                }
+            }
+
+            &-text {
+                grid-column: span 1;
+
+                @media (min-width: rem(640)) {
+                    grid-column: 1/-1;
+                    text-align: center;
+                }
             }
         }
     }

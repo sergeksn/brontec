@@ -15,6 +15,24 @@
         padding: adaptiv_rem_size(30, 1920) 0 adaptiv_rem_size(30, 1920) adaptiv_rem_size(40, 1920);
     }
 
+    @media (any-hover: hover) {
+        &:hover {
+            border-color: var(--blue-hover);
+
+            .product-info__arrow {
+                color: var(--blue);
+            }
+        }
+
+        &:focus {
+            border-color: var(--blue-hover);
+
+            .product-info__arrow {
+                color: var(--blue);
+            }
+        }
+    }
+
     &__searched-text {
         color: var(--blue);
     }
@@ -109,13 +127,17 @@
         z-index: 1;
     }
 
-    &__arrow-link {
+    &__arrow {
         //для неё не будем задавать минимальные размеры т.к. она всё равно одна в области активная и чтоб не поломать вёрстку
         position: absolute;
         top: rem(20);
         right: rem(8);
-        color: var(--blue);
+        color: var(--gray);
         font-size: rem(20);
+
+        @media (any-hover: none) {
+            color: var(--blue);
+        }
 
         @media (min-width: rem(640)) {
             top: adaptiv_rem_size(20, 640, 34, 1920);

@@ -55,9 +55,9 @@ GDS.anim = {
 GDS.scroll = {
     premission_show_scrollbar: !GDS.device.is_iOS && !GDS.device.is_Mac_OS && w.matchMedia('(any-hover: hover) and (any-pointer: fine)').matches, //разрешает отображать скролбар толкьо если это не iOS, и не Mac OS, и это устройство с точныйм указывающим прибором способное вызывать событие hover
     dir: 'bottom', //начально направление скрола
-    time: 500, //время для анимации прокрутки в мс
+    time: 1000, //время для анимации прокрутки в мс
     anim_tf: 'linear',
-    min_distans: Math.round(GDS.win_height * 0.7) > 500 ? Math.round(GDS.win_height * 0.7) : 500, //если 75% высоты экрана больше чем 500 то используем их как минимальную дистанцию скрола, иначеи используем 500
+    min_distans: Math.round(GDS.win_height * 1.5) > 500 ? Math.round(GDS.win_height * 1.5) : 500, //если 150% высоты экрана больше чем 500 то используем их как минимальную дистанцию скрола, иначеи используем 500
 };
 
 GDS.scroll.premission_show_scrollbar && qs('html').setAttribute('data-premission-show-scrollbar', ''); //помечаем что можно выводить скролбар для данного пользователя

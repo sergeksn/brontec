@@ -39,6 +39,7 @@
     --big-gap: #{rem(100)};
     --medium-gap: #{rem(40)};
     --small-gap: #{rem(20)};
+    --gap: #{rem(20)};//стандартынй зазор в сетке и межу некторыми блоками
     /*отступы между блоками*/
 
     --fast-anim: 0s ease-in-out;
@@ -53,8 +54,8 @@
     --min-interactive-elements-width: #{rem(50)};
     --min-interactive-elements-height: #{rem(50)};
 
-    @media (min-width: rem(960)) {
-        $start_w: 960; //начальное значение ширины
+    @media (min-width: rem(640)) {
+        $start_w: 640; //начальное значение ширины
         $final_w: 1919; //конечное значение ширины
 
         /*отступы между блоками*/
@@ -73,7 +74,7 @@
         /*шрифты*/
     }
 
-    @media (min-width: em(1920)) {
+    @media (min-width: rem(1920)) {
         --min-interactive-elements-width: #{adaptiv_rem_size(50, 1920)};
         --min-interactive-elements-height: #{adaptiv_rem_size(50, 1920)};
 
@@ -91,6 +92,7 @@
         --big-gap: #{adaptiv_rem_size(200, $start_w)};
         --medium-gap: #{adaptiv_rem_size(80, $start_w)};
         --small-gap: #{adaptiv_rem_size(40, $start_w)};
+        --gap: #{adaptiv_rem_size(20, $start_w)};
         /*отступы между блоками*/
 
         --border-width: #{adaptiv_rem_size(1, $start_w)};

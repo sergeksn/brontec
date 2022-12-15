@@ -24,48 +24,52 @@ export default class {
     }
 
     render_product_block() {
-        return `<div class="product-info product-info--header-search">
-        <div class="product-info__description">
-          <div class="product-info__title">${this.title}</div>
-          <div class="product-info__small-description">${this.small_description}</div>
-          <div class="product-info__price-block">
-            ${this.old_price}
-            <div class="product-info__current-price ruble-price">${this.price}</div>
-            ${this.discont}
-          </div>
-        </div>
-        <div class="product-info__img-wrap">
-          <div class="product-info__gradient-fon"></div>
-          <div class="image" style="padding-top:${this.main_img.pt}%;">
-            <img data-img-type="img" data-main data-src="${this.main_img.url}" data-original-w="${this.main_img.ow}" data-original-h="${this.main_img.oh}">
-            <div data-img-type="kit" data-src="${this.kit_img.url}" data-kit-all-id="${this.kit_img.all_id}" data-kit-nead-id="${this.kit_img.nead_id}"></div>
-            <div class="loader">
-              <div class="loader__circle"></div>
+        return `<a href="${this.page_url}">
+          <div class="product-info product-info--header-search">
+          <div class="product-info__description">
+            <div class="product-info__title">${this.title}</div>
+            <div class="product-info__small-description">${this.small_description}</div>
+            <div class="product-info__price-block">
+              ${this.old_price}
+              <div class="product-info__current-price ruble-price">${this.price}</div>
+              ${this.discont}
             </div>
           </div>
+          <div class="product-info__img-wrap">
+            <div class="product-info__gradient-fon"></div>
+            <div class="image" style="padding-top:${this.main_img.pt}%;">
+              <img data-img-type="img" data-main data-src="${this.main_img.url}" data-original-w="${this.main_img.ow}" data-original-h="${this.main_img.oh}">
+              <div data-img-type="kit" data-src="${this.kit_img.url}" data-kit-all-id="${this.kit_img.all_id}" data-kit-nead-id="${this.kit_img.nead_id}"></div>
+              <div class="loader">
+                <div class="loader__circle"></div>
+              </div>
+            </div>
+          </div>
+          <div class="product-info__arrow icon--arrow-middle"></div>
         </div>
-        <a class="product-info__arrow-link icon--arrow-middle" href="${this.page_url}"></a>
-      </div>`;
+      </a>`;
     }
 
     render_instruction_block() {
         if (!this.instruction_img) return ''; //если для данного продукта не передана картинка инструкций значит для этого блока инструкции показывать неужно
 
-        return `<div class="product-info product-info--header-search">
-        <div class="product-info__description">
-          <div class="product-info__title">Инструкция по монтажу ${this.title}</div>
-          <div class="product-info__small-description">${this.small_description}</div>
-        </div>
-        <div class="product-info__img-wrap">
-          <div class="product-info__gradient-fon"></div>
-          <div class="image" style="padding-top:${this.instruction_img.pt}%;">
-            <div data-img-type="bg" data-src="${this.instruction_img.url}" data-original-w="${this.instruction_img.ow}" data-original-h="${this.instruction_img.oh}"></div>
-            <div class="loader">
-              <div class="loader__circle"></div>
+        return `<a href="${this.page_url}">
+          <div class="product-info product-info--header-search">
+          <div class="product-info__description">
+            <div class="product-info__title">Инструкция по монтажу ${this.title}</div>
+            <div class="product-info__small-description">${this.small_description}</div>
+          </div>
+          <div class="product-info__img-wrap">
+            <div class="product-info__gradient-fon"></div>
+            <div class="image" style="padding-top:${this.instruction_img.pt}%;">
+              <div data-img-type="bg" data-src="${this.instruction_img.url}" data-original-w="${this.instruction_img.ow}" data-original-h="${this.instruction_img.oh}"></div>
+              <div class="loader">
+                <div class="loader__circle"></div>
+              </div>
             </div>
           </div>
+          <div class="product-info__arrow icon--arrow-middle"></div>
         </div>
-        <a class="product-info__arrow-link icon--arrow-middle" href="${this.page_url}"></a>
-      </div>`;
+      </a>`;
     }
 }
