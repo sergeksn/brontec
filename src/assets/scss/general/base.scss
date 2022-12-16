@@ -22,6 +22,14 @@ a[title='Вы тут!'] {
     cursor: default;
 }
 
+h1{
+    font: var(--h1);
+}
+
+h2{
+    font: var(--h2);
+}
+
 body {
     background-color: var(--white);
     font: var(--default);

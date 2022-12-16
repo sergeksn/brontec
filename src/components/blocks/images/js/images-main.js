@@ -374,4 +374,4 @@ async function svg_kit_render(img) {
 }
 //встваяет svg картинки из svg набора в документ
 
-export { add_in_observe, dellete_from_observe };
+export { add_in_observe, dellete_from_observe, forced_download };

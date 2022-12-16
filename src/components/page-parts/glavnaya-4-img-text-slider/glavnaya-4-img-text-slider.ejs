@@ -3,29 +3,75 @@
     <h2>Полиуретановая плёнка Brontero® — невидимая защита кузова от сколов и царапин</h2>
   </div>
   <div class="glavnaya-4__wrap-slider">
-    <div class="swiper glavnaya-4__wrap-slider-swiper-wrap">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-
-            добавить лоадеры
-
-          <%- include('./../../blocks/images/images.ejs', {data:{type: "bg-swiper-loop", url:"~@glavnaya-4-img-text-slider-img/1.jpg", pt:68.9655,}})%>
-        </div>
-        <div class="swiper-slide">
-          <%- include('./../../blocks/images/images.ejs', {data:{type: "bg-swiper-loop", url:"~@glavnaya-4-img-text-slider-img/2.jpg", pt:68.9655,}})%>
-        </div>
-        <div class="swiper-slide">
-          <%- include('./../../blocks/images/images.ejs', {data:{type: "bg-swiper-loop", url:"~@glavnaya-4-img-text-slider-img/3.jpg", pt:68.9655,}})%>
-        </div>
-        <div class="swiper-slide">
-          <%- include('./../../blocks/images/images.ejs', {data:{type: "bg-swiper-loop", url:"~@glavnaya-4-img-text-slider-img/4.jpg", pt:68.9655,}})%>
+    <div class="glavnaya-4__wrap-slider-swiper-wrap">
+      <div class="swiper wait-init-slider-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="hide-text-data">Незаметна с близкого расстояния</div>
+            <%- include('./../../blocks/images/images.ejs', {data:{type: "bg-swiper-loop", loader:true, url:"~@glavnaya-4-img-text-slider-img/1.jpg", pt:68.9655,}})%>
+          </div>
+          <div class="swiper-slide">
+            <div class="hide-text-data">Прочна на растяжение и разрыв</div>
+            <%- include('./../../blocks/images/images.ejs', {data:{type: "bg-swiper-loop", loader:true, url:"~@glavnaya-4-img-text-slider-img/2.jpg", pt:68.9655,}})%>
+          </div>
+          <div class="swiper-slide">
+            <div class="hide-text-data">Защищает уязвимые мест кузова: фар, части капота и крыши, крыльев, зеркал</div>
+            <%- include('./../../blocks/images/images.ejs', {data:{type: "bg-swiper-loop", loader:true, url:"~@glavnaya-4-img-text-slider-img/3.jpg", pt:68.9655,}})%>
+          </div>
+          <div class="swiper-slide">
+            <div class="hide-text-data">Не изменяет световой поток фар</div>
+            <%- include('./../../blocks/images/images.ejs', {data:{type: "bg-swiper-loop", loader:true, url:"~@glavnaya-4-img-text-slider-img/4.jpg", pt:68.9655,}})%>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="standart-container">
-    <div class="glavnaya-4__text-swiper">
-      ewegwgewg ewg ewg ewg ewge
+    <div class="glavnaya-4__toggler">
+      <script>
+        (() => {
+          /*скрипт задаёт высоту блокс с текстом от слайдов по высоте самого большого блока с текстом*/
+          function set_toggler_height() {
+            let sc_width = parseFloat(w.getComputedStyle(qs('.glavnaya-4>.standart-container')).width),
+              toggler = qs('.glavnaya-4__toggler'),
+              swiper_slides = qsa('.glavnaya-4__wrap-slider-swiper-wrap .swiper-slide'),
+              greatest_length = 0,
+              greatest_str,
+              div = d.createElement('div');
+
+            swiper_slides.forEach(el => {
+              let t = qs('.hide-text-data', el).innerText;
+              if (t.length > greatest_length) {
+                greatest_length = t.length;
+                greatest_str = t;
+              }
+            });
+
+            div.innerText = greatest_str;
+            div.style.position = 'absolute';
+            div.style.visibility = 'hidden';
+            div.style.pointerEvents = 'none';
+
+            d.body.append(div);
+
+            if (w.matchMedia('(min-width:40rem)').matches) {
+              div.style.width = sc_width / 2 + 'px';
+            } else {
+              div.style.width = sc_width + 'px';
+            }
+
+            toggler.style.height = w.getComputedStyle(div).height;
+
+            div.remove();
+          }
+
+          set_toggler_height();
+
+          w.addEventListener('resize', set_toggler_height);
+
+        })();
+      </script>
+      <div class="glavnaya-4__toggler-text-wrap"></div>
     </div>
     <div class="glavnaya-4__control-buttons">
       <button class="glavnaya-4__control-buttons-button-prev icon--arrow-big"></button>
