@@ -28,16 +28,15 @@
     }
 
     @media (min-width: rem(960)) {
-        left: auto;
+        left: calc(var(--wwr) - rem(50) - adaptiv_rem_size(30, 960, 50, 1920));
         bottom: adaptiv_rem_size(110, 960, 120, 1920);
-        right: adaptiv_rem_size(30, 960, 50, 1920);
     }
 
     @media (min-width: rem(1920)) {
         width: adaptiv_rem_size(50, 1920);
         height: adaptiv_rem_size(50, 1920);
         bottom: adaptiv_rem_size(120, 1920);
-        right: adaptiv_rem_size(50, 1920);
+        left: calc(var(--wwr) - adaptiv_rem_size(50, 1920) - adaptiv_rem_size(50, 1920));
         font-size: adaptiv_rem_size(25, 1920);
     }
 }

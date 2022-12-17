@@ -104,8 +104,6 @@ let cart = qs('.cart'),
 
         //выпоялняем все действия для закрытия корзины
         close: async function () {
-            Scroll_To_Top_Button.toggle_show_button(); //показываем кнопку если нужно, этого не обязательно дожидаться
-
             await Promise.all([
                 hide({
                     el: cart,
@@ -124,6 +122,8 @@ let cart = qs('.cart'),
                 body.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
             }
             //если закрыт блок хедера
+
+            Scroll_To_Top_Button.toggle_show_button(); //показываем кнопку если нужно, этого не обязательно дожидаться
 
             header.scrollbar.unlock(); //разблокируем прокуртку хедера
             header.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар

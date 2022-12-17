@@ -22,11 +22,11 @@ a[title='Вы тут!'] {
     cursor: default;
 }
 
-h1{
+h1 {
     font: var(--h1);
 }
 
-h2{
+h2 {
     font: var(--h2);
 }
 
@@ -123,47 +123,59 @@ input {
     font: var(--default);
     color: var(--white);
     height: auto !important; //нужно чтоб переопределить после групировки медиазапросов
-    min-height: var(--min-interactive-elements-height);
     width: 100%;
+    min-height: var(--min-interactive-elements-height);
+    min-width: var(--button-min-width);
+    max-width: var(--button-max-width);
     background-color: var(--blue);
-    padding: rem(10) rem(20);
+    padding: rem(10) var(--gap);
+
+    &--not-minmax-width {
+        min-width: auto;
+        max-width: none;
+    }
+
+    @media (any-hover: hover) {
+        &:hover {
+            background-color: var(--blue-hover);
+        }
+    }
 
     &--black {
         background-color: var(--black);
+
+        @media (any-hover: hover) {
+            &:hover {
+                background-color: var(--black-hover);
+            }
+        }
+    }
+
+    &--white {
+        background-color: var(--light);
+        color: var(--black);
+
+        @media (any-hover: hover) {
+            &:hover {
+                background-color: var(--white-hover);
+            }
+        }
     }
 
     @media (min-width: rem(1920)) {
-        padding: adaptiv_rem_size(10, 1920) adaptiv_rem_size(20, 1920);
+        padding: adaptiv_rem_size(10, 1920) var(--gap);
     }
 }
 
 //ширина основных блоков не стандартная так что задаём её отлельно от сетки
 .standart-container {
-    max-width: rem(1180);
-    margin-left: adaptiv_rem_size(20, 320, 30, 640);
-    margin-right: adaptiv_rem_size(20, 320, 30, 640);
-    width: calc(100% - adaptiv_rem_size(20, 320, 30, 640) * 2);
+    max-width: var(--standart-container-max-width);
+    margin: 0 var(--standart-container-margin-lr);
+    width: var(--standart-container-width);
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-column-gap: rem(20);
+    grid-column-gap: var(--gap);
     position: relative;
-
-    @media (min-width: rem(640)) {
-        margin-left: rem(30);
-        margin-right: rem(30);
-        width: calc(100% - rem(30) * 2);
-    }
-
-    @media (min-width: rem(1240)) {
-        //30+1180+30
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    @media (min-width: rem(1920)) {
-        grid-column-gap: adaptiv_rem_size(20, 1920);
-        max-width: adaptiv_rem_size(1180, 1920);
-    }
 }
 //ширина основных блоков не стандартная так что задаём её отлельно от сетки
 

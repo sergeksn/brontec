@@ -22,75 +22,100 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.icon--star-outline {
+  &:before {
+    content: $icon--star-outline; 
+  }
+}
+.icon--star {
+  &:before {
+    content: $icon--star; 
+  }
+}
+.icon--plus {
+  &:before {
+    content: $icon--plus; 
+  }
+}
+.icon--minus {
+  &:before {
+    content: $icon--minus; 
+  }
+}
+.icon--check-mark {
+  &:before {
+    content: $icon--check-mark; 
+  }
+}
 .icon--arrow-big {
   &:before {
     content: $icon--arrow-big; 
   }
 }
 .icon--cart {
-    &:before {
-      content: $icon--cart; 
-    }
+  &:before {
+    content: $icon--cart; 
   }
-  .icon--cart-bold {
-    &:before {
-      content: $icon--cart-bold; 
-    }
+}
+.icon--cart-bold {
+  &:before {
+    content: $icon--cart-bold; 
   }
-  .icon--close {
-    &:before {
-      content: $icon--close; 
-    }
+}
+.icon--close {
+  &:before {
+    content: $icon--close; 
   }
-  .icon--close-bold {
-    &:before {
-      content: $icon--close-bold; 
-    }
+}
+.icon--close-bold {
+  &:before {
+    content: $icon--close-bold; 
   }
-  .icon--error {
-    &:before {
-      content: $icon--error; 
-    }
+}
+.icon--error {
+  &:before {
+    content: $icon--error; 
   }
-  .icon--phone {
-    &:before {
-      content: $icon--phone; 
-    }
+}
+.icon--phone {
+  &:before {
+    content: $icon--phone; 
   }
-  .icon--search {
-    &:before {
-      content: $icon--search; 
-    }
+}
+.icon--search {
+  &:before {
+    content: $icon--search; 
   }
-  .icon--search-bold {
-    &:before {
-      content: $icon--search-bold; 
-    }
+}
+.icon--search-bold {
+  &:before {
+    content: $icon--search-bold; 
   }
-  .icon--success {
-    &:before {
-      content: $icon--success; 
-    }
+}
+.icon--success {
+  &:before {
+    content: $icon--success; 
   }
-  .icon--warning {
-    &:before {
-      content: $icon--warning; 
-    }
+}
+.icon--warning {
+  &:before {
+    content: $icon--warning; 
   }
-  .icon--arrow-middle {
-    &:before {
-      content: $icon--arrow-middle; 
-    }
+}
+.icon--arrow-middle {
+  &:before {
+    content: $icon--arrow-middle; 
   }
-  .icon--arrow-scroll-to-top {
-    &:before {
-      content: $icon--arrow-scroll-to-top; 
-    }
+}
+.icon--arrow-scroll-to-top {
+  &:before {
+    content: $icon--arrow-scroll-to-top; 
   }
-  .icon--arrow {
-    &:before {
-      content: $icon--arrow; 
-    }
+}
+.icon--arrow {
+  &:before {
+    content: $icon--arrow; 
   }
-  
-  
+}
+

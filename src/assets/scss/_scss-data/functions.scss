@@ -59,6 +59,23 @@
 }
 
 //данная функция будет плавно увиличивать свой результат по мере увеличения текущей ширины экрана от $min-value до $max-value
+//ВАЖНО: результат будет в px
+//не зависит от размера шрифта браузера, полезно когда нужно жёстко привязаться к пиксельному значению и точно менять его
+@function adaptiv_px_size($min-value, $min-win-width, $max-value: false, $wax-win-width: false) {
+    @if $wax-win-width == false {
+        $wax-win-width: 99999;
+    }
+
+    @if $max-value == false {
+        $max-value: math.div($wax-win-width * $min-value, $min-win-width);
+    }
+
+    $residual: $wax-win-width - $min-win-width;
+
+    @return calc(#{$min-value+'px'} + (#{$max-value - $min-value}) * ((100vw - #{$min-win-width+'px'}) / #{$residual}));
+}
+
+//данная функция будет плавно увиличивать свой результат по мере увеличения текущей ширины экрана от $min-value до $max-value
 //ВАЖНО: результат будет в %
 //$min-value - начально значение, т.е. которе будет увеличиваться по мере увеличиения ширины экрана
 //$min-win-width - ширина экрана на которой начинается отсчёт с $min-value и увидичивается, т.е. ширина экрана на котрой выходное значение будет равно $min-value
