@@ -5,13 +5,13 @@
         margin-left: auto;
 
         @media (min-width: rem(640)) {
-            height: adaptiv_rem_size(136.95, 640, 202, 1920);
             width: adaptiv_rem_size(558, 640, 1545, 1920);
+            height: adaptiv_rem_size(136.95, 640, 202, 1920);
         }
 
         @media (min-width: rem(1920)) {
-            height: adaptiv_rem_size(202, 1920);
             width: adaptiv_rem_size(1545, 1920);
+            height: adaptiv_rem_size(202, 1920);
         }
 
         .image {
