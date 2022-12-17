@@ -99,7 +99,7 @@
         }
     }
 
-    &__link-button-wrap {
+    &__link-button {
         grid-column: 1/-1;
 
         @media (min-width: rem(640)) {

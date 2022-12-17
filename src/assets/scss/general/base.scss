@@ -121,14 +121,14 @@ input {
     justify-content: center;
     border-radius: var(--border-radius);
     font: var(--default);
+    cursor: pointer;
     color: var(--white);
-    height: auto !important; //нужно чтоб переопределить после групировки медиазапросов
     width: 100%;
-    min-height: var(--min-interactive-elements-height);
+    min-height: var(--button-min-height);
     min-width: var(--button-min-width);
     max-width: var(--button-max-width);
     background-color: var(--blue);
-    padding: rem(10) var(--gap);
+    padding: var(--gap-10) var(--gap);
 
     &--not-minmax-width {
         min-width: auto;
@@ -160,10 +160,6 @@ input {
                 background-color: var(--white-hover);
             }
         }
-    }
-
-    @media (min-width: rem(1920)) {
-        padding: adaptiv_rem_size(10, 1920) var(--gap);
     }
 }
 

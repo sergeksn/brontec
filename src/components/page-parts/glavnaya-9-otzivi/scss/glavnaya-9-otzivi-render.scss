@@ -1,0 +1,8 @@
+.glavnaya-9{
+    margin: var(--big-gap) 0;
+
+    h2{
+        grid-column: 1/-1;
+        margin-bottom: var(--medium-gap);
+    }
+}

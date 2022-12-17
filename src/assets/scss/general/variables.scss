@@ -46,6 +46,7 @@
 
     --button-min-width: auto; //ширина кнопок
     --button-max-width: none; //ширина кнопок
+    --button-min-height: #{rem(50)}; //минимальняа высота кнопок
 
     --standart-container-margin-lr: #{adaptiv_rem_size(20, 320, 30, 640)}; //боковые внешние отступы стандартного контейнера
     --standart-container-width: calc(100% - var(--standart-container-margin-lr) * 2); //ширина стандартного контейнера
@@ -83,6 +84,7 @@
 
         --button-min-width: #{rem(280)}; //ширина кнопок
         --button-max-width: #{rem(280)}; //ширина кнопок
+        --button-min-height: #{adaptiv_rem_size(50, $start_w, 60, $final_w)}; //минимальняа высота кнопок
 
         --standart-container-margin-lr: #{rem(30)}; //боковые внешние отступы стандартного контейнера
     }
@@ -117,6 +119,7 @@
 
         --button-min-width: #{adaptiv_rem_size(280, $start_w)}; //ширина кнопок
         --button-max-width: #{adaptiv_rem_size(280, $start_w)}; //ширина кнопок
+        --button-min-height: #{adaptiv_rem_size(60, $start_w)}; //минимальняа высота кнопок
 
         --standart-container-max-width: #{adaptiv_rem_size(1180, 1920)}; //максимальная ширина стандартного контейнера
 
