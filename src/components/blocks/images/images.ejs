@@ -2,7 +2,7 @@
 let loader_html = data.loader ? include('./../../blocks/loader/loader.ejs') : null,
     original_w = data.ow ? `data-original-w="${data.ow}"` : null,
     original_h = data.oh ? `data-original-h="${data.oh}"` : null,
-    style_pt = `style="padding-top:${data.pt}%;"`;
+    style_pt = data.pt ? `style="padding-top:${data.pt}%;"` : null;
 %>
 
 <% if(data.type === "img" || data.type === "img-swiper-loop"){ %>
