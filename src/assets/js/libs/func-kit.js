@@ -102,7 +102,7 @@ function get_remaining_time({ el, started_value, final_value, property, duration
     if (['translateX', 'translateY', 'translateZ'].includes(property)) {
         //если анимируем translate
         curret_value = get_translate(w.getComputedStyle(el))[property.replace('translate', '').toLowerCase()]; //текущее знчение анимируемого свойства
-    } else {
+    } else if (property === 'opacity') {
         //если анимируем opacity
         curret_value = parseFloat(w.getComputedStyle(el).opacity); //текущее знчение анимируемого свойства
     }

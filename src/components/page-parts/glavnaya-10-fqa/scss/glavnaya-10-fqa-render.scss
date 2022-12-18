@@ -24,6 +24,7 @@
                 grid-template-columns: repeat(12, 1fr);
                 padding: rem(20) 0;
                 font: var(--h3);
+                cursor: pointer;
 
                 @media (min-width: rem(640)) {
                     padding: adaptiv_rem_size(20, 640, 25, 1920) 0;
@@ -34,7 +35,7 @@
                 }
 
                 &-text {
-                    grid-column: 2/12;
+                    grid-column: 2/11;
 
                     &-toggle-icon {
                         color: var(--blue);
@@ -47,6 +48,7 @@
                         position: absolute;
                         top: rem(20);
                         right: rem(10);
+                        transition: transform 0.3s ease-out;
 
                         @media (min-width: rem(640)) {
                             top: adaptiv_rem_size(20, 640, 30, 1920);
@@ -59,10 +61,14 @@
                             right: adaptiv_rem_size(30, 1920);
                         }
                     }
+
+                    &-toggle-icon--open {
+                        transform: rotate(-45deg);
+                    }
                 }
             }
 
-            &-content {
+            &-wrap {
                 grid-column: 2/12;
                 padding: rem(20) 0 adaptiv_rem_size(20, 320, 35, 640) 0;
                 position: relative;
@@ -75,15 +81,23 @@
                     padding: adaptiv_rem_size(25, 1920) 0 adaptiv_rem_size(40, 1920) 0;
                 }
 
-                &:before {
-                    content: '';
-                    width: 100%;
-                    display: block;
-                    border-top: var(--border-width) solid var(--gray);
-                    position: absolute;
-                    top: 0;
+                &-content {
+                    opacity: 0;
+
+                    &:before {
+                        content: '';
+                        width: 100%;
+                        display: block;
+                        border-top: var(--border-width) solid var(--gray);
+                        position: absolute;
+                        top: 0;
+                    }
                 }
             }
+        }
+
+        &-spoiler--can-click {
+            border-color: var(--blue);
         }
     }
 
@@ -97,11 +111,5 @@
     &__button {
         grid-column: 1/-1;
         margin: 0 auto var(--big-gap) auto;
-    }
-}
-
-.close {
-    .glavnaya-10__fqa-wrap-spoiler-content {
-        //display: none;
     }
 }
