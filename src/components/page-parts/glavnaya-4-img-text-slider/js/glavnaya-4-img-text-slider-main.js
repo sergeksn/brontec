@@ -15,6 +15,8 @@ let slider = qs('.glavnaya-4__wrap-slider-swiper-wrap>.swiper'), //элемен�
 
         //инициализируем объект слайдера
         init_swiper: function () {
+            let _this = this;
+
             this.swiper = new Swiper(slider, {
                 modules: [Navigation],
                 navigation: {
@@ -37,17 +39,30 @@ let slider = qs('.glavnaya-4__wrap-slider-swiper-wrap>.swiper'), //элемен�
                             hide({ el: toggler }); //как только дотронулись до слайдера скрываем текст
                         });
 
-                        this.on('touchEnd', function () {
+                        this.on('touchEnd', function (s, e) {
                             show({ el: toggler }); //когда отпустили слайдер показывает текст
                         });
 
                         this.on('activeIndexChange', function () {
                             update_hide_text(); //обновляем текст после смены активного слайда
                         });
+
+                        //отвечает за перемотку слайдера при клике на крайние слайды
+                        this.on('click', function (_, e) {
+                            let find_target_slide_el = el => (el.classList.contains('swiper-slide') ? el : find_target_slide_el(el.parentNode)),
+                                clicked_slide = find_target_slide_el(e.target),
+                                clicked_slide_index = clicked_slide.getAttribute('data-swiper-slide-index'),
+                                activ_slide_real_index = this.realIndex,
+                                slider_full_view = GDS.win.width_rem >= 40 ? 2 : 1; //текущее количиство полных слайдов на экране, т.е. в этом случае тот  слайд который будет скраю будет объектом клика
+
+                            if (clicked_slide.classList.contains('swiper-slide-prev')) return this.slidePrev(); //если кликнули по предидущему сладеру мотаем назад
+
+                            if ((activ_slide_real_index + slider_full_view >= _this.slides_amount ? Math.abs(_this.slides_amount - activ_slide_real_index - slider_full_view) : activ_slide_real_index + slider_full_view) == clicked_slide_index) this.slideNext(); //если кликнули по крайнему слайду мотаем вперёд
+                        });
+                        //отвечает за перемотку слайдера при клике на крайние слайды
                     },
                 },
                 grabCursor: true,
-
                 loop: true,
                 speed: this.animation_speed ?? GDS.anim.time, //скорость переходов слайдера, если не задана то берём по умолчанию скорость анимационных переходов
                 spaceBetween: this.get_slider_spaceBetween(),
@@ -92,6 +107,8 @@ let slider = qs('.glavnaya-4__wrap-slider-swiper-wrap>.swiper'), //элемен�
                     //если слайдер есть на экране
                     if (entrie.isIntersecting) {
                         if (entrie.target === slider) {
+                            this.slides_amount = qs('.swiper-wrapper', slider).children.length; //записываем количество слайдов
+
                             this.init_swiper(); //инициализируем объект слайдера только когда он виден на экране
 
                             this.visible_observer.unobserve(slider); //убаляем сладер из отслеживания видимости

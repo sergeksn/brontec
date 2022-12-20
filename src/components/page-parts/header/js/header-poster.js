@@ -92,7 +92,7 @@ let header = qs('header'),
 
                     let data = e.target.swipe_event_data,
                         s = data.settings,
-                        el_width = parseFloat(w.getComputedStyle(data.el).width) + GDS.scroll.custom_scrollbar_width; //уводим в сторону на растояние ширины элемента + ширины кастомного скролбара, т.к. если скрол заблокирован банер уедет не полностью , а будет торчать кусочек скраю
+                        el_width = parseFloat(w.getComputedStyle(data.el).width) + GDS.scroll.custom_page_scrollbar_width; //уводим в сторону на растояние ширины элемента + ширины кастомного скролбара, т.к. если скрол заблокирован банер уедет не полностью , а будет торчать кусочек скраю
 
                     this.close_button_lock = true; //блокируем кнопку закрытия
 

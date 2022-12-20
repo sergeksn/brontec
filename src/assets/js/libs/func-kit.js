@@ -361,7 +361,7 @@ function px_to_px(value, add_units = false) {
 }
 //функция переводит пиксели в пиксели учитывая текущее значение размера шрифта по умолчанию
 
-//функция получает значения в пикселях или rem отталкиваясь от переданных пределов значений и ширины экрана
+//функция возвращает значения в пикселях или rem отталкиваясь от переданных пределов значений и ширины экрана
 //min_value - минимальное значение в писелях
 //min_win_width - минимальная ширина жкрана при которой значение равно min_value
 //max_value - максимально допустимое значение при ширине wax_win_width
@@ -373,12 +373,12 @@ function adaptiv_size(min_value, min_win_width, max_value = false, wax_win_width
     if (!max_value) max_value = (wax_win_width * min_value) / min_win_width;
 
     let residual = rem(wax_win_width) - rem(min_win_width),
-        result = rem(min_value) + rem(max_value - min_value) * ((GDS.win.width_rem + rem(GDS.scroll.custom_scrollbar_width) - rem(min_win_width)) / residual);
+        result = rem(min_value) + rem(max_value - min_value) * ((GDS.win.width_rem + rem(GDS.scroll.custom_page_scrollbar_width) - rem(min_win_width)) / residual);
 
-    //(GDS.win.width_rem + rem(GDS.scroll.custom_scrollbar_width) - это ширина окна браузера с учётом скролбара в rem
+    //(GDS.win.width_rem + rem(GDS.scroll.custom_page_scrollbar_width) - это ширина окна браузера с учётом скролбара в rem
 
     return return_in_px ? result * GDS.win.default_font_size : result;
 }
-//функция получает значения в пикселях или rem отталкиваясь от переданных пределов значений и ширины экрана
+//функция возвращает значения в пикселях или rem отталкиваясь от переданных пределов значений и ширины экрана
 
 export { wait, request_to_server, show, hide, set_localStorage, anime, get_translate, rem, rem_to_px, px_to_px, adaptiv_size };

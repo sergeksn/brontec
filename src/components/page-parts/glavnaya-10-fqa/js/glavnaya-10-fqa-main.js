@@ -22,7 +22,7 @@ qsa('.glavnaya-10__fqa-wrap>div').forEach(spoilers_wrap => {
             },
             fade_controller = spoiler_content.ksn_fade,
             fade_params = {
-                duration: 100,
+                duration: 350,
                 tf: 'ease-out',
             };
 
@@ -103,10 +103,10 @@ qsa('.glavnaya-10__fqa-wrap>div').forEach(spoilers_wrap => {
         {},
         {
             permission_directions: {
-                top: true,
-                right: false,
+                top: false,
+                right: true,
                 bottom: false,
-                left: false,
+                left: true,
             }, //направления в которых нужно учитывать свайп
             mouse_swipe: false,
             min_px_dist_x: 50, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп

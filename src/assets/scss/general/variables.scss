@@ -49,7 +49,7 @@
     --button-min-height: #{rem(50)}; //минимальняа высота кнопок
 
     --standart-container-margin-lr: #{adaptiv_rem_size(20, 320, 30, 640)}; //боковые внешние отступы стандартного контейнера
-    --standart-container-width: calc(100% - var(--standart-container-margin-lr) * 2); //ширина стандартного контейнера
+    --standart-container-width: calc(100vw - var(--standart-container-margin-lr) * 2); //ширина стандартного контейнера
     --standart-container-max-width: #{rem(1180)}; //максимальная ширина стандартного контейнера
 
     --fast-anim: 0s ease-in-out;
@@ -58,7 +58,11 @@
     --border-width: #{rem(1)}; //стандартная тощина бордера для большинства элементов
     --border-width-bold: #{rem(2)}; //более толстая граница для элементов
     --border-radius: #{rem(10)}; //бордер радиус
-    --scroll-width: #{rem(6)}; //ширина скролбара
+
+    --scroll-width: #{rem(12)}; //ширина скролбара для внутрених блоков с контентом
+    --scroll-border-radius: #{rem(12)}; //для скролбара внутрених блоков с контентом
+    --scroll-page-width: #{rem(12)}; //ширина скролбара для страницы
+    --scroll-page-border-radius: #{rem(12)}; //для скролбара страницы
 
     //bottons size
     --min-interactive-elements-width: #{rem(50)};
@@ -92,7 +96,7 @@
     @media (min-width: rem(1240)) {
         //30+1180+30
         --standart-container-margin-lr: auto; //боковые внешние отступы стандартного контейнера
-        --standart-container-width: 100%; //ширина стандартного контейнера
+        --standart-container-width: 100vw; //ширина стандартного контейнера
     }
 
     @media (min-width: rem(1920)) {
@@ -126,6 +130,10 @@
         --border-width: #{adaptiv_rem_size(1, $start_w)};
         --border-width-bold: #{adaptiv_rem_size(2, $start_w)};
         --border-radius: #{adaptiv_rem_size(10, $start_w)};
-        --scroll-width: #{adaptiv_rem_size(6, $start_w)};
+
+        --scroll-width: #{adaptiv_rem_size(12, $start_w)}; //ширина скролбара для внутрених блоков с контентом
+        --scroll-border-radius: #{adaptiv_rem_size(12, $start_w)}; //для скролбара внутрених блоков с контентом
+        --scroll-page-width: #{adaptiv_rem_size(12, $start_w)}; //ширина скролбара для страницы
+        --scroll-page-border-radius: #{adaptiv_rem_size(12, $start_w)}; //для скролбара страницы
     }
 }

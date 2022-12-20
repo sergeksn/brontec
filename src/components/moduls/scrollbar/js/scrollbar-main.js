@@ -20,7 +20,7 @@ body.scrollbar = {
     },
     //добавляем пространство имитирующее скролбар
     show_scrollbar_space: () => {
-        body.style.marginRight = GDS.scroll.custom_scrollbar_width + 'px';
+        body.style.marginRight = GDS.scroll.custom_page_scrollbar_width + 'px';
     },
 };
 
@@ -36,6 +36,6 @@ header.scrollbar = {
         header.style.paddingRight = '0px';
     },
     show_scrollbar_space: () => {
-        header.style.paddingRight = GDS.scroll.custom_scrollbar_width + 'px';
+        header.style.paddingRight = GDS.scroll.custom_page_scrollbar_width + 'px';
     },
 };
