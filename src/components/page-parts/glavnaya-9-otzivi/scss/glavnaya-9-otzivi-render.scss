@@ -123,14 +123,17 @@
 
                 @media (min-width: rem(1240)) {
                     margin-bottom: rem(40);
+                    height: rem(21);
                     font-size: rem(21);
                     grid-template-columns: repeat(5, rem(21));
                 }
 
                 @media (min-width: rem(1920)) {
+                    height: adaptiv_rem_size(21, 1920);
                     margin-bottom: adaptiv_rem_size(40, 1920);
                     font-size: adaptiv_rem_size(21, 1920);
                     grid-template-columns: repeat(5, adaptiv_rem_size(21, 1920));
+                    grid-gap: adaptiv_rem_size(5, 1920);
                 }
 
                 &-disabled {

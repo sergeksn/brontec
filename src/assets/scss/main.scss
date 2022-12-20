@@ -29,9 +29,13 @@
 @import "@glavnaya-8-blue-block-interaction-scss";
 @import "@glavnaya-9-otzivi-interaction-scss";
 @import "@header-interaction-scss";
+@import "@komplekt-1-full-kit-interaction-scss";
+@import "@komplekt-2-select-kit-composition-interaction-scss";
+@import "@komplekt-3-abaut-kit-interaction-scss";
+@import "@komplekt-4-gallery-interaction-scss";
+@import "@komplekt-5-video-instruction-interaction-scss";
 //@dinamic node import fils
 
 // import Swiper styles
 @import 'swiper/scss';
-@import 'swiper/scss/navigation';
 @import 'swiper/scss/autoplay';

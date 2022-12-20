@@ -20,6 +20,8 @@ let header = qs('header'),
                 poster_height = Header.get_header_h({ header_poster: true }), //высота блока банера
                 header_background = d.getElementById('header-background'); //фон хедера
 
+            Header.lock = true; //блокируем сворачивание хедера чтоб не скрылся при закрытии банера
+
             if (Header_Search.status === 'open' || Header.get_header_h({ header_poster: true, header_visible: true, header_hidden: true }) >= GDS.win.height) header.style.height = GDS.win.height + poster_height + 'px'; //если открыт блок поиска или если скрытый блок открыт и его размер на всю высоту окна увеличиваем высоту хедера чтоб не появлялось пустое место снизу
             //GDS.win.height используем т.к. высота хедера в этих случаях будет высотой окна браузера
 
@@ -37,7 +39,7 @@ let header = qs('header'),
                     Header_Cart.status !== 'hide'
                         ? anime({
                               //поднимаем корзину если она открыта
-                              targets: Header_Cart.cart,
+                              targets: qs('.cart'),
                               top: '-=' + poster_height,
                           }).finished
                         : null,
@@ -45,7 +47,7 @@ let header = qs('header'),
                     Header_Cart.status !== 'hide'
                         ? anime({
                               //поднимаем подложку корзины если она открыта
-                              targets: Header_Cart.overlay,
+                              targets: qs('#cart-overlay'),
                               top: '-=' + poster_height,
                           }).finished
                         : null;
@@ -77,6 +79,10 @@ let header = qs('header'),
             await Promise.all([wait(() => qs('.header-poster'), null), wait(() => qs('#header-poster__script'), null)]); //дожидаемся пока элементы удаляться из DOM
 
             Header.has_header_poster = false; //помечаем что банера в хедере больше нет
+
+            setTimeout(() => {
+                Header.lock = false;//разблокируем прокрутку хедера с задержкой чтоб он не скрывался от события скрола вызванного уменьшением высоты документа после сужения подложки хедера, да-да знаю это костыль с таймаутом)
+            }, 200);
         },
         //скрываем банер
 
