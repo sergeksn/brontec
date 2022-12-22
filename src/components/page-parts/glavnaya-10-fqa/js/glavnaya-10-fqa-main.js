@@ -88,11 +88,11 @@ qsa('.glavnaya-10__fqa-wrap>div').forEach(spoilers_wrap => {
     //открываем/закрываем спойлеры по клику
 
     //меняем цвет обводки пре перемещении указатиеля
-    title_block._on('pointerenter', () => {
+    title_block._on('mouseenter', () => {
         if (w.matchMedia('(any-hover: hover)').matches) spoilers_wrap.classList.add('glavnaya-10__fqa-wrap-spoiler--can-click');
     });
 
-    title_block._on('pointerleave', () => {
+    title_block._on('mouseleave', () => {
         spoilers_wrap.classList.remove('glavnaya-10__fqa-wrap-spoiler--can-click');
     });
     //меняем цвет обводки пре перемещении указатиеля

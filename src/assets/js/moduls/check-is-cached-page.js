@@ -14,4 +14,4 @@ d.cookie = 'Is-cached-page=; max-age=-1'; //ВАЖНО: не забыть ДОБ
 
 GDS.is_cached_page = is_cached_page; /*записываем кешированная версия страницы или скачанная с сервера*/
 
-if (is_cached_page) qs('#common-style').innerHTML += `.image .loader {opacity:0;display:none;}`; /*если траница из кеша скрываем лоадеры у картинок, если вдруг картинка будет грузится дольше чем минимально допустимое время GDS.media.img.loader_delay_time то лоадер снова покажем*/
+if (is_cached_page) qs('#common-style').innerHTML += `[data-img-type]~.loader {opacity:0;display:none;}`; /*если траница из кеша скрываем лоадеры у картинок, если вдруг картинка будет грузится дольше чем минимально допустимое время GDS.media.img.loader_delay_time то лоадер снова покажем*/

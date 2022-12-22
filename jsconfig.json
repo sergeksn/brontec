@@ -872,6 +872,186 @@
             ],
             "@header-img/*": [
                 "@components\\page-parts\\header\\img/*"
+            ],
+            "@komplekt-1-full-kit": [
+                "@components\\page-parts\\komplekt-1-full-kit"
+            ],
+            "@komplekt-1-full-kit/*": [
+                "@components\\page-parts\\komplekt-1-full-kit/*"
+            ],
+            "@komplekt-1-full-kit-main-js": [
+                "@components\\page-parts\\komplekt-1-full-kit\\js\\komplekt-1-full-kit-main.js"
+            ],
+            "@komplekt-1-full-kit-main-js/*": [
+                "@components\\page-parts\\komplekt-1-full-kit\\js\\komplekt-1-full-kit-main.js/*"
+            ],
+            "@komplekt-1-full-kit-render-scss": [
+                "@components\\page-parts\\komplekt-1-full-kit\\scss\\komplekt-1-full-kit-render.scss"
+            ],
+            "@komplekt-1-full-kit-render-scss/*": [
+                "@components\\page-parts\\komplekt-1-full-kit\\scss\\komplekt-1-full-kit-render.scss/*"
+            ],
+            "@komplekt-1-full-kit-interaction-scss": [
+                "@components\\page-parts\\komplekt-1-full-kit\\scss\\komplekt-1-full-kit-interaction.scss"
+            ],
+            "@komplekt-1-full-kit-interaction-scss/*": [
+                "@components\\page-parts\\komplekt-1-full-kit\\scss\\komplekt-1-full-kit-interaction.scss/*"
+            ],
+            "@komplekt-1-full-kit-fonts": [
+                "@components\\page-parts\\komplekt-1-full-kit\\fonts"
+            ],
+            "@komplekt-1-full-kit-fonts/*": [
+                "@components\\page-parts\\komplekt-1-full-kit\\fonts/*"
+            ],
+            "@komplekt-1-full-kit-img": [
+                "@components\\page-parts\\komplekt-1-full-kit\\img"
+            ],
+            "@komplekt-1-full-kit-img/*": [
+                "@components\\page-parts\\komplekt-1-full-kit\\img/*"
+            ],
+            "@komplekt-2-select-kit-composition": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition"
+            ],
+            "@komplekt-2-select-kit-composition/*": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition/*"
+            ],
+            "@komplekt-2-select-kit-composition-main-js": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition\\js\\komplekt-2-select-kit-composition-main.js"
+            ],
+            "@komplekt-2-select-kit-composition-main-js/*": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition\\js\\komplekt-2-select-kit-composition-main.js/*"
+            ],
+            "@komplekt-2-select-kit-composition-render-scss": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition\\scss\\komplekt-2-select-kit-composition-render.scss"
+            ],
+            "@komplekt-2-select-kit-composition-render-scss/*": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition\\scss\\komplekt-2-select-kit-composition-render.scss/*"
+            ],
+            "@komplekt-2-select-kit-composition-interaction-scss": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition\\scss\\komplekt-2-select-kit-composition-interaction.scss"
+            ],
+            "@komplekt-2-select-kit-composition-interaction-scss/*": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition\\scss\\komplekt-2-select-kit-composition-interaction.scss/*"
+            ],
+            "@komplekt-2-select-kit-composition-fonts": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition\\fonts"
+            ],
+            "@komplekt-2-select-kit-composition-fonts/*": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition\\fonts/*"
+            ],
+            "@komplekt-2-select-kit-composition-img": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition\\img"
+            ],
+            "@komplekt-2-select-kit-composition-img/*": [
+                "@components\\page-parts\\komplekt-2-select-kit-composition\\img/*"
+            ],
+            "@komplekt-3-abaut-kit": [
+                "@components\\page-parts\\komplekt-3-abaut-kit"
+            ],
+            "@komplekt-3-abaut-kit/*": [
+                "@components\\page-parts\\komplekt-3-abaut-kit/*"
+            ],
+            "@komplekt-3-abaut-kit-main-js": [
+                "@components\\page-parts\\komplekt-3-abaut-kit\\js\\komplekt-3-abaut-kit-main.js"
+            ],
+            "@komplekt-3-abaut-kit-main-js/*": [
+                "@components\\page-parts\\komplekt-3-abaut-kit\\js\\komplekt-3-abaut-kit-main.js/*"
+            ],
+            "@komplekt-3-abaut-kit-render-scss": [
+                "@components\\page-parts\\komplekt-3-abaut-kit\\scss\\komplekt-3-abaut-kit-render.scss"
+            ],
+            "@komplekt-3-abaut-kit-render-scss/*": [
+                "@components\\page-parts\\komplekt-3-abaut-kit\\scss\\komplekt-3-abaut-kit-render.scss/*"
+            ],
+            "@komplekt-3-abaut-kit-interaction-scss": [
+                "@components\\page-parts\\komplekt-3-abaut-kit\\scss\\komplekt-3-abaut-kit-interaction.scss"
+            ],
+            "@komplekt-3-abaut-kit-interaction-scss/*": [
+                "@components\\page-parts\\komplekt-3-abaut-kit\\scss\\komplekt-3-abaut-kit-interaction.scss/*"
+            ],
+            "@komplekt-3-abaut-kit-fonts": [
+                "@components\\page-parts\\komplekt-3-abaut-kit\\fonts"
+            ],
+            "@komplekt-3-abaut-kit-fonts/*": [
+                "@components\\page-parts\\komplekt-3-abaut-kit\\fonts/*"
+            ],
+            "@komplekt-3-abaut-kit-img": [
+                "@components\\page-parts\\komplekt-3-abaut-kit\\img"
+            ],
+            "@komplekt-3-abaut-kit-img/*": [
+                "@components\\page-parts\\komplekt-3-abaut-kit\\img/*"
+            ],
+            "@komplekt-4-gallery": [
+                "@components\\page-parts\\komplekt-4-gallery"
+            ],
+            "@komplekt-4-gallery/*": [
+                "@components\\page-parts\\komplekt-4-gallery/*"
+            ],
+            "@komplekt-4-gallery-main-js": [
+                "@components\\page-parts\\komplekt-4-gallery\\js\\komplekt-4-gallery-main.js"
+            ],
+            "@komplekt-4-gallery-main-js/*": [
+                "@components\\page-parts\\komplekt-4-gallery\\js\\komplekt-4-gallery-main.js/*"
+            ],
+            "@komplekt-4-gallery-render-scss": [
+                "@components\\page-parts\\komplekt-4-gallery\\scss\\komplekt-4-gallery-render.scss"
+            ],
+            "@komplekt-4-gallery-render-scss/*": [
+                "@components\\page-parts\\komplekt-4-gallery\\scss\\komplekt-4-gallery-render.scss/*"
+            ],
+            "@komplekt-4-gallery-interaction-scss": [
+                "@components\\page-parts\\komplekt-4-gallery\\scss\\komplekt-4-gallery-interaction.scss"
+            ],
+            "@komplekt-4-gallery-interaction-scss/*": [
+                "@components\\page-parts\\komplekt-4-gallery\\scss\\komplekt-4-gallery-interaction.scss/*"
+            ],
+            "@komplekt-4-gallery-fonts": [
+                "@components\\page-parts\\komplekt-4-gallery\\fonts"
+            ],
+            "@komplekt-4-gallery-fonts/*": [
+                "@components\\page-parts\\komplekt-4-gallery\\fonts/*"
+            ],
+            "@komplekt-4-gallery-img": [
+                "@components\\page-parts\\komplekt-4-gallery\\img"
+            ],
+            "@komplekt-4-gallery-img/*": [
+                "@components\\page-parts\\komplekt-4-gallery\\img/*"
+            ],
+            "@komplekt-5-video-instruction": [
+                "@components\\page-parts\\komplekt-5-video-instruction"
+            ],
+            "@komplekt-5-video-instruction/*": [
+                "@components\\page-parts\\komplekt-5-video-instruction/*"
+            ],
+            "@komplekt-5-video-instruction-main-js": [
+                "@components\\page-parts\\komplekt-5-video-instruction\\js\\komplekt-5-video-instruction-main.js"
+            ],
+            "@komplekt-5-video-instruction-main-js/*": [
+                "@components\\page-parts\\komplekt-5-video-instruction\\js\\komplekt-5-video-instruction-main.js/*"
+            ],
+            "@komplekt-5-video-instruction-render-scss": [
+                "@components\\page-parts\\komplekt-5-video-instruction\\scss\\komplekt-5-video-instruction-render.scss"
+            ],
+            "@komplekt-5-video-instruction-render-scss/*": [
+                "@components\\page-parts\\komplekt-5-video-instruction\\scss\\komplekt-5-video-instruction-render.scss/*"
+            ],
+            "@komplekt-5-video-instruction-interaction-scss": [
+                "@components\\page-parts\\komplekt-5-video-instruction\\scss\\komplekt-5-video-instruction-interaction.scss"
+            ],
+            "@komplekt-5-video-instruction-interaction-scss/*": [
+                "@components\\page-parts\\komplekt-5-video-instruction\\scss\\komplekt-5-video-instruction-interaction.scss/*"
+            ],
+            "@komplekt-5-video-instruction-fonts": [
+                "@components\\page-parts\\komplekt-5-video-instruction\\fonts"
+            ],
+            "@komplekt-5-video-instruction-fonts/*": [
+                "@components\\page-parts\\komplekt-5-video-instruction\\fonts/*"
+            ],
+            "@komplekt-5-video-instruction-img": [
+                "@components\\page-parts\\komplekt-5-video-instruction\\img"
+            ],
+            "@komplekt-5-video-instruction-img/*": [
+                "@components\\page-parts\\komplekt-5-video-instruction\\img/*"
             ]
         }
     },

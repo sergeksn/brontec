@@ -70,6 +70,8 @@ let slider = qs('.glavnaya-9__wrap-slider>.swiper'), //элемент слайд
         //функция определяет нужное растояние между слайдами с учётом шрифта по умолчанию и ширины окна
 
         init: function () {
+            if (!slider) return;//завершаем инициализацию если на странице не данного слайдера
+            
             //создаём наблюдатель за видимостью элементов на экране
             this.visible_observer = new IntersectionObserver(entries => {
                 entries.forEach(entrie => {

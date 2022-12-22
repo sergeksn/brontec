@@ -1,0 +1,173 @@
+.komplekt-3 {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: var(--big-gap);
+    background: linear-gradient(var(--light), transparent var(--border-width-bold)), linear-gradient(90deg, var(--light), transparent var(--border-width-bold));
+    background-size: 19px 19px; //привязываемся именно к пикселям что сетка всегда выглядела одинаково, не смотря на размер шрифта
+
+    @media (min-width: rem(1920)) {
+        background-size: adaptiv_px_size(19, 1920) adaptiv_px_size(19, 1920);
+    }
+
+    h2 {
+        grid-column: 1/-1;
+        margin-bottom: var(--medium-gap);
+    }
+
+    &__kit-data {
+        margin-top: var(--medium-gap);
+        margin-bottom: var(--big-gap);
+        order: 1;
+
+        @media (min-width: rem(780)) {
+            order: 0;
+            margin-top: 0;
+        }
+
+        &-text {
+            grid-column: 1/-1;
+            order: 1;
+
+            @media (min-width: rem(780)) {
+                grid-column: 1/7;
+                order: 0;
+            }
+
+            @media (min-width: rem(960)) {
+                grid-column: 1/6;
+            }
+
+            p:first-child {
+                margin-top: 0;
+            }
+
+            p:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        &-template-interactiv-img {
+            grid-column: 1/-1;
+            position: relative;
+            margin-bottom: var(--medium-gap);
+
+            @media (min-width: rem(780)) {
+                grid-column: 7/-1;
+                margin-bottom: 0;
+            }
+
+            &-wrap {
+                position: relative;
+                width: 100%;
+
+                .image {
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                &-plusik {
+                    position: absolute;
+                    top: 10%;
+                    left: 10%;
+
+                    &-icon {
+                        background-color: var(--blue);
+                        border-radius: 50%;
+                        width: rem(32);
+                        height: rem(32);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: rem(14);
+                        color: var(--white);
+                        transition: opacity var(--standart-anim);
+                        opacity: 0;
+
+                        @media (any-hover: hover) {
+                            &:hover {
+                                background-color: var(--blue-hover);
+                            }
+                        }
+
+                        @media (min-width: rem(1920)) {
+                            width: adaptiv_px_size(32, 1920);
+                            height: adaptiv_px_size(32, 1920);
+                            font-size: adaptiv_px_size(14, 1920);
+                        }
+
+                        &.active {
+                            background-color: var(--blue-hover);
+                        }
+                    }
+
+                    &-pop-up {
+                        position: absolute;
+                        max-width: rem(280);
+                        width: max-content;
+                        padding: var(--gap-10) rem(24);
+                        background-color: var(--white);
+                        border-radius: var(--border-radius);
+                        box-shadow: 0px 0px rem(8) rgba(0, 0, 0, 0.25);
+                        color: var(--blue);
+                        text-decoration: underline;
+                        opacity: 0;
+                        pointer-events: none;
+
+                        @media (min-width: rem(1920)) {
+                            max-width: adaptiv_px_size(280, 1920);
+                            padding: var(--gap-10) adaptiv_px_size(24, 1920);
+                            box-shadow: 0px 0px adaptiv_px_size(8, 1920) rgba(0, 0, 0, 0.25);
+                        }
+
+                        &.into-right {
+                            left: calc(100% + var(--gap-10));
+                        }
+
+                        &.into-top {
+                        }
+
+                        &.active {
+                            pointer-events: auto;
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+
+            .template-upload [class*='-plusik-icon'] {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__wrap-img-complekt {
+        width: adaptiv_rem_size(300, 320, 610, 640);
+        height: adaptiv_rem_size(245, 320, 505, 640);
+        margin-left: auto;
+
+        @media (min-width: rem(640)) {
+            width: adaptiv_rem_size(610, 640, 1210, 1240);
+            height: adaptiv_rem_size(505, 640, 780.645, 1240);
+        }
+
+        @media (min-width: rem(1240)) {
+            width: adaptiv_rem_size(1210, 1240, 1550, 1920);
+            height: adaptiv_rem_size(780.645, 1240, 1000, 1920);
+        }
+
+        @media (min-width: rem(1920)) {
+            width: adaptiv_rem_size(1550, 1920);
+            height: adaptiv_rem_size(1000, 1920);
+        }
+
+        .image {
+            height: 100%;
+
+            div {
+                background-position-x: left;
+            }
+        }
+    }
+}

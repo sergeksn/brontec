@@ -15,7 +15,7 @@ module.exports = {
     devtool: "source-map",
     devServer: {
         port: 3579,
-        open: "/pages/glavnaya.html",
+        open: "/pages/komplekt.html",
         hot: true,
         compress: true, //включит сжатие gzip
     },

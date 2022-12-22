@@ -5,8 +5,8 @@
     > div:first-child,
     > img,
     > [data-img-type='kit'],
-    > [data-img-type='overlay-img'],
-    > [data-img-type='overlay-bg'],
+    > [data-img-type='img-overlay'],
+    > [data-img-type='bg-overlay'],
     > .svg-kit-wrap {
         position: absolute;
         inset: 0;

@@ -83,13 +83,17 @@ function img_upload_manager(img) {
     //'bg' - для обычных блоков div с одной картинкой вставленной через css background-image
     if (dit === 'img' || dit === 'bg') common_img_render(img, dit); //инициализируем загрузку и отображение картинки
 
-    //'overlay-img' - для обычных блоков img с одной картинкой вставленной через тег img
-    //'overlay-bg' - для обычных блоков div с одной картинкой вставленной через css background-image
-    if (dit === 'overlay-img' || dit === 'overlay-bg') overlay_img_render(img, dit); //инициализируем загрузку и отображение картинки которая является наложением для другой
+    //'img-overlay' - для обычных блоков img с одной картинкой вставленной через тег img
+    //'bg-overlay' - для обычных блоков div с одной картинкой вставленной через css background-image
+    if (dit === 'img-overlay' || dit === 'bg-overlay') overlay_img_render(img, dit); //инициализируем загрузку и отображение картинки которая является наложением для другой
 
     //'img-swiper-loop' - для обычных блоков img с одной картинкой вставленной через тег img которые являются сладйами сладера swiper с включённым циклом бесконечной прокрутки
     //'bg-swiper-loop' - для обычных блоков div с одной картинкой вставленной через css background-image которые являются сладйами сладера swiper с включённым циклом бесконечной прокрутки
     if (dit === 'img-swiper-loop' || dit === 'bg-swiper-loop') swiper_looped_img_render(img, dit); //инициализируем загрузку и отображение картинки которая являются слайдом сладера swiper с включённым циклом бесконечной прокрутки
+
+    //'img-template' - для обычных блоков img с одной картинкой вставленной через тег img
+    //'bg-template' - для обычных блоков div с одной картинкой вставленной через css background-image
+    if (dit === 'img-template' || dit === 'bg-template') template_img_render(img, dit); //инициализируем загрузку и отображение картинки которая является шаблонной схемой на страницах комплекта и отдельной детали, на этом шаблоне помеченны плюсиком или галочкой активные зоны деталей
 
     //'kit' - svg картинка предстваляющая из себя набор svg блоков к которым можно получить доступ по id
     if (dit === 'kit') svg_kit_render(img); //инициализируем загрузку и отображение картинки
@@ -291,7 +295,7 @@ async function common_img_render(img, type) {
 async function overlay_img_render(img, type) {
     await common_img_loader(img)
         .then(async url => {
-            type === 'overlay-bg' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url); //вставляем картинку
+            type === 'bg-overlay' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url); //вставляем картинку
 
             await wait(() => qs('[data-main]', img.parentNode).classList.contains('uploaded'), true); //ждём пока не загрузится основная картинка
 
@@ -373,5 +377,22 @@ async function svg_kit_render(img) {
         .catch(e => error_img_load(e)); //обрабатываем ошибки произошедшие в ходе загрузки картинки
 }
 //встваяет svg картинки из svg набора в документ
+
+//инициализируем загрузку и отображение картинки которая является шаблонной схемой на страницах комплекта и отдельной детали, на этом шаблоне помеченны плюсиком или галочкой активные зоны деталей
+async function template_img_render(img, type) {
+    await common_img_loader(img)
+        .then(async url => {
+            await img.parentNode.ksn_loader.hide_and_remove(); //скрываем и удаляем лоадер если он есть
+
+            type === 'bg-template' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url); //вставляем картинку
+
+            img.style.opacity = '1'; //показываем картинку
+
+
+            img.parentNode.parentNode.classList.add('template-upload');//помечаем в оболочке что картинка шаблона загружена
+        })
+        .catch(e => error_img_load(e)); //обрабатываем ошибки произошедшие в ходе загрузки картинки
+}
+//инициализируем загрузку и отображение картинки которая является шаблонной схемой на страницах комплекта и отдельной детали, на этом шаблоне помеченны плюсиком или галочкой активные зоны деталей
 
 export { add_in_observe, dellete_from_observe, forced_download };

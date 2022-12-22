@@ -95,6 +95,8 @@ let slider = qs('.glavnaya-1__second-part-marki-slider-swiper'), //элемен�
         //останавливает автопрокрутку и запускает ее с задержкой
 
         init: function () {
+            if (!slider) return;//завершаем инициализацию если на странице не данного слайдера
+
             this.visible_observer = new IntersectionObserver(entries => {
                 entries.forEach(entrie => {
                     //если слайдер есть на экране

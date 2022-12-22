@@ -5,14 +5,14 @@ let loader_html = data.loader ? include('./../../blocks/loader/loader.ejs') : nu
     style_pt = data.pt ? `style="padding-top:${data.pt}%;"` : null;
 %>
 
-<% if(data.type === "img" || data.type === "img-swiper-loop"){ %>
+<% if(data.type === "img" || data.type === "img-swiper-loop" ||  data.type === "img-template"){ %>
 <div class="image" <%-style_pt%>>
   <img data-img-type="<%-data.type%>" data-src="<%-data.url%>" <%-original_w%> <%-original_h%> alt="">
   <%-loader_html%>
 </div>
 <% } %>
 
-<% if(data.type === "bg" || data.type === "bg-swiper-loop"){ %>
+<% if(data.type === "bg" || data.type === "bg-swiper-loop" || data.type === "bg-template"){ %>
 <div class="image" <%-style_pt%>>
   <div data-img-type="<%-data.type%>" data-src="<%-data.url%>" <%-original_w%> <%-original_h%>></div>
   <%-loader_html%>
