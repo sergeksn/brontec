@@ -34,7 +34,7 @@ import { custom_events_list } from './custom-events.js';
         //options_event - сюда нужно передать объект с обциями для данного слушателя
         //custom_settings - настрйоки которые будт переданы в кастомные события созданые пользователем такие как swipe
         on: function (events, callback, options_event = {}, custom_settings) {
-            if (this instanceof HTMLElement || this === w) return toggle_listener_events_func(this, events, callback, options_event, custom_settings, true); //если одиночный элемент
+            if (this instanceof HTMLElement || this === w || this === d) return toggle_listener_events_func(this, events, callback, options_event, custom_settings, true); //если одиночный элемент
             //ПРИМЕЧАНИЕ: нужно обязательно преобразовать this в массив, т.к. HTMLCollection к примеру не имеет метода forEach
             [...this].forEach(elem => toggle_listener_events_func(elem, events, callback, options_event, custom_settings, true)); //для каждого элемента ищем элементы по методу поиска func и записываем подходящих в результат
         },
@@ -46,7 +46,7 @@ import { custom_events_list } from './custom-events.js';
         //options_event - сюда нужно передать объект с обциями для данного слушателя
         //custom_settings - настрйоки которые будт переданы в кастомные события созданые пользователем такие как swipe
         off: function (events, callback, options_event = {}, custom_settings) {
-            if (this instanceof HTMLElement || this === w) return toggle_listener_events_func(this, events, callback, options_event, custom_settings, false); //если одиночный элемент
+            if (this instanceof HTMLElement || this === w || this === d) return toggle_listener_events_func(this, events, callback, options_event, custom_settings, false); //если одиночный элемент
             //ПРИМЕЧАНИЕ: нужно обязательно преобразовать this в массив, т.к. HTMLCollection к примеру не имеет метода forEach
             [...this].forEach(elem => toggle_listener_events_func(elem, events, callback, options_event, custom_settings, false)); //для каждого элемента ищем элементы по методу поиска func и записываем подходящих в результат
         },
@@ -65,4 +65,6 @@ import { custom_events_list } from './custom-events.js';
 
     w._on = dom_added_func.on;
     w._off = dom_added_func.off;
+    d._on = dom_added_func.on;
+    d._off = dom_added_func.off;
 })();

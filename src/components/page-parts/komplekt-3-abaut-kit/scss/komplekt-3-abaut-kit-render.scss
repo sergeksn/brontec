@@ -4,6 +4,7 @@
     padding-top: var(--big-gap);
     background: linear-gradient(var(--light), transparent var(--border-width-bold)), linear-gradient(90deg, var(--light), transparent var(--border-width-bold));
     background-size: 19px 19px; //привязываемся именно к пикселям что сетка всегда выглядела одинаково, не смотря на размер шрифта
+    overflow: hidden; //нужно для того чтоб пока скрипт не распределит окна с подсказками как нужно, не было горизонтальной прокрутки
 
     @media (min-width: rem(1920)) {
         background-size: adaptiv_px_size(19, 1920) adaptiv_px_size(19, 1920);
@@ -85,20 +86,10 @@
                         transition: opacity var(--standart-anim);
                         opacity: 0;
 
-                        @media (any-hover: hover) {
-                            &:hover {
-                                background-color: var(--blue-hover);
-                            }
-                        }
-
                         @media (min-width: rem(1920)) {
                             width: adaptiv_px_size(32, 1920);
                             height: adaptiv_px_size(32, 1920);
                             font-size: adaptiv_px_size(14, 1920);
-                        }
-
-                        &.active {
-                            background-color: var(--blue-hover);
                         }
                     }
 
@@ -121,22 +112,44 @@
                             box-shadow: 0px 0px adaptiv_px_size(8, 1920) rgba(0, 0, 0, 0.25);
                         }
 
-                        &.into-right {
-                            left: calc(100% + var(--gap-10));
+                        @media (any-hover: hover) {
+                            &:hover {
+                                color: var(--blue-hover);
+                            }
                         }
 
-                        &.into-top {
-                        }
-
-                        &.active {
-                            pointer-events: auto;
-                            opacity: 1;
+                        &:focus {
+                            color: var(--blue-hover);
                         }
                     }
                 }
             }
 
             .template-upload [class*='-plusik-icon'] {
+                opacity: 1;
+            }
+
+            @media (any-hover: hover) {
+                .hovered [class*='-plusik-icon'] {
+                    background-color: var(--blue-hover);
+                }
+
+                .hovered [class*='-plusik-pop-up'] {
+                    pointer-events: auto;
+                    opacity: 1;
+                }
+            }
+
+            .touched [class*='-plusik-icon'] {
+                background-color: var(--blue-hover);
+                
+                &:before{
+                    transform: rotate(45deg);
+                }
+            }
+
+            .touched [class*='-plusik-pop-up'] {
+                pointer-events: auto;
                 opacity: 1;
             }
         }
