@@ -53,4 +53,10 @@
             transform: rotate(180deg);
         }
     }
+
+    &__pop-up{
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+    }
 }

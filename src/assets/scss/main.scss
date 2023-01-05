@@ -38,4 +38,5 @@
 
 // import Swiper styles
 @import 'swiper/scss';
+@import 'swiper/scss/navigation';//нужно добавить чтоб скрывались элементы навигации если в слайдере не хватает слайдов
 @import 'swiper/scss/autoplay';
