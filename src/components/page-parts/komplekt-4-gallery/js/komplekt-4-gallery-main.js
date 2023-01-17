@@ -8,9 +8,9 @@ import { forced_download } from '@images-main-js';
 
 let slider = qs('.komplekt-4__slider-wrap>.swiper'), //элемент слайдера
     slides_amount,
-    CONTROLLER = {
+    GALERY_SLIDER = {
         gap: 20, //растояние между слайдами в пикселях
-        animation_speed: 200, //время анимации перехода между слайдами
+        animation_speed: 1000, //время анимации перехода между слайдами
         autoplay_delay: 500, //пауза между автопереключениями слайдера
 
         //инициализируем объект слайдера
@@ -26,6 +26,9 @@ let slider = qs('.komplekt-4__slider-wrap>.swiper'), //элемент слайд
                         this.slides.forEach(el => add_in_observe([qs('[data-img-type]', el)])); //все картинки в слайдере добавляем на отслеживание, т.к. при цикличной прокрутке создаются дубликаты которые тоже нужно отслеживать
 
                         this.el.classList.remove('wait-init-slider-swiper'); //убираем класс скрывающий слайдер до его инициализации
+                    },
+                    click: function (_, e) {
+                        console.log(e.composedPath());
                     },
                 },
                 grabCursor: true,
@@ -61,7 +64,7 @@ let slider = qs('.komplekt-4__slider-wrap>.swiper'), //элемент слайд
                     this.swiper.loopDestroy();
                     this.swiper.update();
                     this.swiper.disable();
-                  //  this.swiper.autoplay.stop();
+                    //  this.swiper.autoplay.stop();
                 };
 
             if (GDS.win.width_rem >= rem(640)) {
@@ -121,8 +124,10 @@ let slider = qs('.komplekt-4__slider-wrap>.swiper'), //элемент слайд
                 //если свайпер уже инициализирован
             });
         },
-    };
+    },
+    GALERY_POP_UP = {},
+    GALERY_POP_UP_SLIDER = {};
 
-CONTROLLER.init(); //выполянем действия необходимые при загрузке модуля
-
-export default CONTROLLER;
+GALERY_SLIDER.init(); //выполянем действия необходимые при загрузке модуля
+GALERY_POP_UP.init();
+GALERY_POP_UP_SLIDER.init();
