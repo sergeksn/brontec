@@ -181,3 +181,10 @@ input {
     visibility: hidden;
 }
 //нужно для того чтоб слайдер был скрыт и недоступен для действий пока не загрузится
+
+//блоки для того чтоб получать значения переменных в js
+.test-div {
+    visibility: hidden;
+    height: 0;
+    pointer-events: none;
+}

@@ -1,12 +1,21 @@
 import Swiper, { Navigation, Autoplay } from 'swiper';
+import Overlay from '@overlays-main-js';
+import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
 import { add_in_observe } from '@images-main-js';
-import { px_to_px, adaptiv_size, rem, show, hide } from '@js-libs/func-kit';
+import { px_to_px, adaptiv_size, rem } from '@js-libs/func-kit';
 import { forced_download } from '@images-main-js';
 //slideReset - этот метод сбрасывает позицию слайдер к ближайшему активному слайду, можно использовать для прерывания долгого свайпа
 
 //не забыть менять размеры зазоров и смещений слайдов при ресайзе
 
-let slider = qs('.komplekt-4__slider-wrap>.swiper'), //элемент слайдера
+let body = qs('body'),
+    header = qs('header'),
+    slider = qs('.komplekt-4__slider-wrap>.swiper'), //элемент слайдера
+    pop_up_body = qs('.komplekt-4__pop-up'),
+    pop_up_overlay = qs('#overlay-galery-pop-up'),
+    pop_up_close_buttton = qs('.komplekt-4__pop-up-close-button'),
+    pop_up_control_butttons = qs('.komplekt-4__pop-up-control-buttons'),
+    slider_pop_up = qs('.komplekt-4__pop-up-slider-wrap>.swiper'), //элемент слайдера попап
     slides_amount,
     GALERY_SLIDER = {
         gap: 20, //растояние между слайдами в пикселях
@@ -28,7 +37,8 @@ let slider = qs('.komplekt-4__slider-wrap>.swiper'), //элемент слайд
                         this.el.classList.remove('wait-init-slider-swiper'); //убираем класс скрывающий слайдер до его инициализации
                     },
                     click: function (_, e) {
-                        console.log(e.composedPath());
+                        // console.log(e.composedPath());
+                        GALERY_POP_UP.show();
                     },
                 },
                 grabCursor: true,
@@ -125,9 +135,180 @@ let slider = qs('.komplekt-4__slider-wrap>.swiper'), //элемент слайд
             });
         },
     },
-    GALERY_POP_UP = {},
-    GALERY_POP_UP_SLIDER = {};
+    GALERY_POP_UP = {
+        status: 'hide',
+        Overlay: new Overlay({ el: pop_up_overlay }), //создаём экземпляр подложки
+
+        //показываем поап окно галереи
+        show: async function () {
+            if (this.status !== 'hide') return;
+
+            this.size_recalculate(); //расчитываем размеры и позицию элементов в окне попапа
+
+            if (!GALERY_POP_UP_SLIDER.initialized) GALERY_POP_UP_SLIDER.init(); //если слайдер галереи ещё не создан создаём его
+
+            this.status = 'pending to show';
+
+            body.scrollbar.lock(); //блокируем прокуртку документа
+            body.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
+            header.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
+
+            await Promise.all([this.Overlay.show(), Scroll_To_Top_Button.hide()]);
+
+            Scroll_To_Top_Button.lock = true; //блокируем кнопку скролла вверх
+
+            pop_up_body.classList.add('show');
+
+            this.status = 'show';
+        },
+        //показываем поап окно галереи
+
+        //скрываем поап окно галереи
+        hide: async function () {
+            if (this.status !== 'show') return;
+
+            this.status = 'pending to hide';
+
+            pop_up_body.classList.remove('show');
+
+            body.scrollbar.unlock(); //разблокируем прокуртку документа
+            body.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
+            header.scrollbar.hide_scrollbar_space(); //убираем пространство имитирующее скролбар
+
+            Scroll_To_Top_Button.lock = false; //разблокируем кнопку скролла вверх
+
+            await Promise.all([this.Overlay.hide(), Scroll_To_Top_Button.toggle_show_button()]);
+
+            this.status = 'hide';
+        },
+        //скрываем поап окно галереи
+
+        //расчитываем размеры и позицию элементов в окне попапа
+        size_recalculate: function () {
+            let img = qs('[data-img-type]', slider_pop_up),
+                ls_img = w.getComputedStyle(img),
+                img_w = parseFloat(ls_img.width),
+                img_h = parseFloat(ls_img.height),
+                ls_pop_up_body = w.getComputedStyle(pop_up_body),
+                max_width_pop_up_body = GDS.vars.standart_container_max_width,
+                pt_pop_up_body = parseFloat(ls_pop_up_body.paddingTop),
+                nead_width = ((GDS.win.height - pt_pop_up_body * 2) * img_w) / img_h,
+                nead_height,
+                text_data_base_pt = (() => {
+                    //верхни отступ при условии что текст разположен под картинкой
+                    if (GDS.win.width_rem >= rem(1920)) {
+                        return adaptiv_size(20, 1920);
+                    } else if (GDS.win.width_rem >= rem(960)) {
+                        return adaptiv_size(10, 960, 20, 1920);
+                    } else {
+                        return px_to_px(10);
+                    }
+                })(),
+                max_text,
+                max_text_length = 0,
+                expected_max_text_height;
+
+            //получаем наибольшую строку
+            qsa('.text-data', pop_up_body).forEach(el => {
+                let t = el.textContent;
+                if (t.length > max_text_length) {
+                    max_text_length = t.length;
+                    max_text = t;
+                }
+            });
+            //получаем наибольшую строку
+
+            nead_width = nead_width >= max_width_pop_up_body ? max_width_pop_up_body : nead_width; //ширина не должна превывать 1180, т.е. ширину осеновного контейнера
+
+            nead_width = nead_width + GDS.vars.standart_container_margin_lr * 2 >= GDS.win.width ? GDS.win.width - GDS.vars.standart_container_margin_lr * 2 : nead_width;
+
+            nead_height = (nead_width * img_h) / img_w;
+
+            //получаем высоту которую займёт самый длинный текст при необходмой ширине картинки
+            let test_div = d.createElement('div');
+            test_div.innerText = max_text;
+            test_div.style.position = 'absolute';
+            test_div.style.visibility = 'hidden';
+            test_div.style.pointerEvents = 'none';
+            d.body.append(test_div);
+            test_div.style.width = nead_width + 'px';
+            expected_max_text_height = parseFloat(w.getComputedStyle(test_div).height);
+            test_div.remove();
+            //получаем высоту которую займёт самый длинный текст при необходмой ширине картинки
+
+            pop_up_body.style.width = nead_width + 'px';
+
+            //применяем разные стили в зависимости от того влазит текст снизу или нет
+            if (expected_max_text_height + pt_pop_up_body * 2 + nead_height + text_data_base_pt <= GDS.win.height) {
+                pop_up_body.classList.remove('overlay-version');
+            } else {
+                pop_up_body.classList.add('overlay-version');
+            }
+        },
+        //расчитываем размеры и позицию элементов в окне попапа
+
+        init: function () {
+            w._on('resize_throttle', () => {
+                if (this.status !== 'show') return; //пересчитываем размеры только если окно открыто
+                this.size_recalculate();
+            });
+
+            [pop_up_close_buttton, pop_up_overlay].forEach(el => el._on('click', this.hide.bind(this))); //закрываем попап при клике на кнопку закрытия или на подложку попапа
+        },
+    },
+    GALERY_POP_UP_SLIDER = {
+        //инициализируем объект слайдера
+        init_swiper: function () {
+            this.swiper = new Swiper(slider_pop_up, {
+                modules: [Navigation, Autoplay],
+                navigation: {
+                    nextEl: '.komplekt-4__pop-up-control-buttons-button-next',
+                    prevEl: '.komplekt-4__pop-up-control-buttons-button-prev',
+                },
+                on: {
+                    afterInit: function () {
+                        this.slides.forEach(el => add_in_observe([qs('[data-img-type]', el)])); //все картинки в слайдере добавляем на отслеживание, т.к. при цикличной прокрутке создаются дубликаты которые тоже нужно отслеживать
+
+                        this.el.classList.remove('wait-init-slider-swiper'); //убираем класс скрывающий слайдер до его инициализации
+                    },
+                    click: function (_, e) {
+                        console.log(e.composedPath());
+                    },
+                },
+                grabCursor: true,
+                loop: true,
+                // autoplay: {
+                //     delay: this.autoplay_delay,
+                // },
+                //speed: this.animation_speed ?? GDS.anim.time, //скорость переходов слайдера, если не задана то берём по умолчанию скорость анимационных переходов
+                slidesPerView: 1,
+            });
+        },
+        //инициализируем объект слайдера
+
+        init: function () {
+            if (!slider_pop_up) return; //завершаем инициализацию если на странице не данного слайдера
+
+            this.init_swiper(); //инициализируем объект слайдера
+
+            //создаём наблюдатель за видимостью элементов на экране
+            this.visible_observer = new IntersectionObserver(entries => {
+                entries.forEach(entrie => {
+                    //если картинка есть на экране
+                    if (entrie.isIntersecting) {
+                        !entrie.target.classList.contains('uploaded') && forced_download(entrie.target); //если картинка видна и ещё не загружена принудительно её загружаем
+
+                        this.visible_observer.unobserve(entrie.target); //после того как картинка обнаружена удаляем её с отслеживания в этом обозревателе
+                    } //если картинка есть на экране
+                });
+            });
+            //создаём наблюдатель за видимостью элементов на экране
+
+            qsa('[data-img-type]', slider_pop_up).forEach(img => this.visible_observer.observe(img)); //добавляем все картинки в сладере на отслеживание видимости, это нужно т.к. стандартно картинки обнаруживаются если виден определённый кусок картинки на экране, ну а тут нам нужно чтоб картинка загружалась если виден даже 1 пиксель
+
+            // w._on('resize_optimize', () => {});
+        },
+    };
 
 GALERY_SLIDER.init(); //выполянем действия необходимые при загрузке модуля
 GALERY_POP_UP.init();
-GALERY_POP_UP_SLIDER.init();

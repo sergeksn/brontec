@@ -6,6 +6,27 @@ window.GDS = {}; /*global data site  тут будут хранится все �
 
 GDS.ajax_url = 'http://verstkaksn.com/ajax.php'; //путь для ajax запросов
 
+//получаем и обновляем часто используемые переменные
+w.addEventListener('DOMContentLoaded', () => {
+    let test_div = d.createElement('div');
+    test_div.classList.add('standart-container', 'test-div');
+    d.body.append(test_div);
+
+    function update_vars() {
+        let sl = w.getComputedStyle(test_div);
+        GDS.vars.standart_container_margin_lr = parseFloat(sl.marginLeft);
+        GDS.vars.standart_container_width = parseFloat(sl.width);
+        GDS.vars.standart_container_max_width = parseFloat(sl.maxWidth);
+    }
+
+    update_vars();
+    w.addEventListener('resize_optimize', update_vars);
+});
+//получаем и обновляем часто используемые переменные
+
+//часто используемые переменные
+GDS.vars = {};
+
 //параметры окна браузера
 GDS.win = {
     default_font_size: parseFloat(w.getComputedStyle(d.documentElement).fontSize),

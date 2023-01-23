@@ -1,6 +1,8 @@
 .komplekt-4 {
     padding: var(--big-gap) 0;
     background-color: var(--light);
+    display: flex;
+    justify-content: center;
 
     h2 {
         margin-bottom: rem(40);
@@ -16,7 +18,7 @@
         }
     }
 
-    &__slider-wrap{
+    &__slider-wrap {
         grid-column: 1/-1;
     }
 
@@ -54,9 +56,142 @@
         }
     }
 
-    &__pop-up{
+    &__pop-up {
+        width: var(--standart-container-width);
+        max-height: 100vh;
+        padding: rem(20) 0;
         opacity: 0;
         pointer-events: none;
-        position: absolute;
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 12;
+
+        @media (min-width: rem(1920)) {
+            padding: adaptiv_rem_size(20, 1920) 0;
+        }
+
+        &-slider-wrap {
+            width: 100%;
+
+            .swiper {
+                .text-data {
+                    font: var(--small);
+                    padding-top: rem(10);
+                    width: 100%;
+
+                    @media (min-width: rem(960)) {
+                        font: var(--default);
+                        padding-top: adaptiv_rem_size(10, 960, 20, 1920);
+                    }
+
+                    @media (min-width: rem(1920)) {
+                        padding-top: adaptiv_rem_size(20, 1920);
+                    }
+                }
+            }
+        }
+
+        &-close-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            font-size: rem(30);
+
+            @media (min-width: rem(1920)) {
+                font-size: adaptiv_rem_size(30, 1920);
+            }
+        }
+
+        &-control-buttons {
+            position: absolute;
+            width: 100%;
+            z-index: 1;
+            top: 100px;
+
+            &-button-prev {
+                position: absolute;
+                left: 0;
+                transform: rotate(180deg) translateY(50%);
+            }
+
+            &-button-next {
+                position: absolute;
+                right: 0;
+                transform: translateY(-50%);
+            }
+        }
+
+        &-control-buttons.inner-arrows {
+            button {
+                width: var(--min-interactive-elements-width);
+                height: var(--min-interactive-elements-height);
+                border-radius: 50%;
+                background-color: var(--black-disabled);
+                color: var(--white-disabled);
+                font-size: rem(15);
+                margin: 0 var(--gap-10);
+
+                @media (any-hover: hover) {
+                    &:hover {
+                        background-color: var(--black-hover);
+                        color: var(--white-hover);
+                    }
+                }
+
+                @media (min-width: rem(1920)) {
+                    font-size: adaptiv_rem_size(15, 1920);
+                }
+            }
+        }
+
+        &-control-buttons.outer-arrows {
+            button {
+                padding-left: var(--gap);
+                color: var(--blue-transparent);
+                font-size: rem(20);
+
+                @media (any-hover: hover) {
+                    &:hover {
+                        color: var(--blue-hover);
+                    }
+                }
+
+                @media (min-width: rem(1920)) {
+                    font-size: adaptiv_rem_size(20, 1920);
+                }
+            }
+
+            .komplekt-4__pop-up-control-buttons-button-prev {
+                transform: rotate(180deg) translate(100%, 50%);
+            }
+
+            .komplekt-4__pop-up-control-buttons-button-next {
+                transform: translate(100%, -50%);
+            }
+        }
     }
+
+    &__pop-up.overlay-version {
+        .text-data {
+            padding: rem(10) !important;
+            position: absolute;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.75);
+
+            @media (min-width: rem(1920)) {
+                padding: adaptiv_rem_size(10, 1920) !important;
+            }
+        }
+    }
+
+    &__pop-up.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+#overlay-galery-pop-up {
+    z-index: 11;
 }
