@@ -1,0 +1,26 @@
+.khlebnyye-kroshki {
+    padding: var(--small-gap) 0;
+
+    &__body {
+        grid-column: 1/-1;
+        display: flex;
+        flex-wrap: wrap;
+        font: var(--small);
+
+        span {
+            width: rem(20);
+            height: rem(20);
+            font-size: rem(10);
+            color:var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            @media (min-width: rem(1920)) {
+                width: adaptiv_px_size(20, 1920);
+                height: adaptiv_px_size(20, 1920);
+                font-size: adaptiv_px_size(10, 1920);
+            }
+        }
+    }
+}

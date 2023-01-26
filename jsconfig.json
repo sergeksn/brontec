@@ -153,6 +153,42 @@
             "@images-img/*": [
                 "@components\\blocks\\images\\img/*"
             ],
+            "@khlebnyye-kroshki": [
+                "@components\\blocks\\khlebnyye-kroshki"
+            ],
+            "@khlebnyye-kroshki/*": [
+                "@components\\blocks\\khlebnyye-kroshki/*"
+            ],
+            "@khlebnyye-kroshki-main-js": [
+                "@components\\blocks\\khlebnyye-kroshki\\js\\khlebnyye-kroshki-main.js"
+            ],
+            "@khlebnyye-kroshki-main-js/*": [
+                "@components\\blocks\\khlebnyye-kroshki\\js\\khlebnyye-kroshki-main.js/*"
+            ],
+            "@khlebnyye-kroshki-render-scss": [
+                "@components\\blocks\\khlebnyye-kroshki\\scss\\khlebnyye-kroshki-render.scss"
+            ],
+            "@khlebnyye-kroshki-render-scss/*": [
+                "@components\\blocks\\khlebnyye-kroshki\\scss\\khlebnyye-kroshki-render.scss/*"
+            ],
+            "@khlebnyye-kroshki-interaction-scss": [
+                "@components\\blocks\\khlebnyye-kroshki\\scss\\khlebnyye-kroshki-interaction.scss"
+            ],
+            "@khlebnyye-kroshki-interaction-scss/*": [
+                "@components\\blocks\\khlebnyye-kroshki\\scss\\khlebnyye-kroshki-interaction.scss/*"
+            ],
+            "@khlebnyye-kroshki-fonts": [
+                "@components\\blocks\\khlebnyye-kroshki\\fonts"
+            ],
+            "@khlebnyye-kroshki-fonts/*": [
+                "@components\\blocks\\khlebnyye-kroshki\\fonts/*"
+            ],
+            "@khlebnyye-kroshki-img": [
+                "@components\\blocks\\khlebnyye-kroshki\\img"
+            ],
+            "@khlebnyye-kroshki-img/*": [
+                "@components\\blocks\\khlebnyye-kroshki\\img/*"
+            ],
             "@loader": [
                 "@components\\blocks\\loader"
             ],

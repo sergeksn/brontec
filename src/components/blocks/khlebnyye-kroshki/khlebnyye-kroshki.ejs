@@ -1,0 +1,18 @@
+<div class="khlebnyye-kroshki">
+  <div class="standart-container">
+    <div class="khlebnyye-kroshki__body">
+      <%
+        let result_html='';
+
+        data.forEach((el, i)=>{
+            if(i < data.length - 1){
+             result_html += '\<a href="#" class="link-default">'+el+'\</a>\<span class="icon--arrow">\</span>';
+            }else {
+                result_html +='\<div>'+el+'\</div>';
+            }
+        });
+        %>
+      <%-result_html%>
+    </div>
+  </div>
+</div>

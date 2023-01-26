@@ -32,6 +32,7 @@ import '@js-libs/dom-add-func.js';
 //@dinamic node import fils
 import "@iframe-youtube-main-js";
 import "@images-main-js";
+import "@khlebnyye-kroshki-main-js";
 import "@loader-main-js";
 import "@overlays-main-js";
 import "@pop-up-messages-main-js";

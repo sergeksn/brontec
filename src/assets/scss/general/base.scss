@@ -17,10 +17,31 @@
     box-sizing: border-box;
 }
 
+* {
+    color: var(--black);
+}
+
 a[title='Вы тут!'] {
     color: var(--gray);
     cursor: default;
 }
+
+//дефолтная сссылка, к которой нужно применить цвета и курсор
+.link-default{
+    color: var(--link);
+    cursor: pointer;//на всякий случай когда применяем не к ссылке
+
+    @media (any-hover: hover) {
+        &:hover {
+            color: var(--link-hover);
+        }
+    }
+
+    &:visited {
+        color: var(--link-visited);
+    }
+}
+//дефолтная сссылка, к которой нужно применить цвета и курсор
 
 h1 {
     font: var(--h1);
@@ -57,7 +78,7 @@ button {
     }
 }
 
-.button-maket-size{
+.button-maket-size {
     min-width: var(--button-maket-size);
     min-height: var(--button-maket-size);
 }
@@ -191,5 +212,5 @@ input {
     visibility: hidden;
     height: var(--big-gap);
     pointer-events: none;
-    padding:var(--gap) var(--gap-10) var(--small-gap) var(--medium-gap);
+    padding: var(--gap) var(--gap-10) var(--small-gap) var(--medium-gap);
 }
