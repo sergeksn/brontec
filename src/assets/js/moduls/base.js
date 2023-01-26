@@ -6,23 +6,30 @@ window.GDS = {}; /*global data site  тут будут хранится все �
 
 GDS.ajax_url = 'http://verstkaksn.com/ajax.php'; //путь для ajax запросов
 
-//получаем и обновляем часто используемые переменные
+//получаем и обновляем часто используемые переменные css
 w.addEventListener('DOMContentLoaded', () => {
-    let test_div = d.createElement('div');
-    test_div.classList.add('standart-container', 'test-div');
-    d.body.append(test_div);
-
     function update_vars() {
-        let sl = w.getComputedStyle(test_div);
+        let test_div = d.createElement('div'),
+            sl = w.getComputedStyle(test_div);
+            
+        test_div.classList.add('standart-container', 'test-div');
+        d.body.append(test_div);
+
         GDS.vars.standart_container_margin_lr = parseFloat(sl.marginLeft);
         GDS.vars.standart_container_width = parseFloat(sl.width);
         GDS.vars.standart_container_max_width = parseFloat(sl.maxWidth);
+        GDS.vars.gap = parseFloat(sl.paddingTop);
+        GDS.vars.gap_10 = parseFloat(sl.paddingRight);
+        GDS.vars.small_gap = parseFloat(sl.paddingBottom);
+        GDS.vars.medium_gap = parseFloat(sl.paddingLeft);
+        GDS.vars.big_gap = parseFloat(sl.height);
+        test_div.remove();
     }
 
     update_vars();
     w.addEventListener('resize_optimize', update_vars);
 });
-//получаем и обновляем часто используемые переменные
+//получаем и обновляем часто используемые переменные css
 
 //часто используемые переменные
 GDS.vars = {};

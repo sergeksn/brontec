@@ -47,6 +47,7 @@
     --button-min-width: auto; //ширина кнопок
     --button-max-width: none; //ширина кнопок
     --button-min-height: #{rem(50)}; //минимальняа высота кнопок
+    --button-maket-size:#{rem(30)}; //высота и ширина кнопок в мекете, не текстовых!
 
     --standart-container-margin-lr: #{adaptiv_rem_size(20, 320, 30, 640)}; //боковые внешние отступы стандартного контейнера
     --standart-container-width: calc(100vw - var(--standart-container-margin-lr) * 2); //ширина стандартного контейнера
@@ -124,6 +125,7 @@
         --button-min-width: #{adaptiv_rem_size(280, $start_w)}; //ширина кнопок
         --button-max-width: #{adaptiv_rem_size(280, $start_w)}; //ширина кнопок
         --button-min-height: #{adaptiv_rem_size(60, $start_w)}; //минимальняа высота кнопок
+        --button-maket-size: #{adaptiv_rem_size(30, $start_w)}; //высота и ширина кнопок в мекете, не текстовых!
 
         --standart-container-max-width: #{adaptiv_rem_size(1180, 1920)}; //максимальная ширина стандартного контейнера
 

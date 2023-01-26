@@ -23,6 +23,16 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon--magnifying-glass {
+  &:before {
+    content: $icon--magnifying-glass; 
+  }
+}
+.icon--add-fill {
+  &:before {
+    content: $icon--add-fill; 
+  }
+}
 .icon--star-outline {
   &:before {
     content: $icon--star-outline; 
