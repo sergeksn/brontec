@@ -17,19 +17,15 @@
     box-sizing: border-box;
 }
 
-* {
-    color: var(--black);
-}
-
 a[title='Вы тут!'] {
     color: var(--gray);
     cursor: default;
 }
 
 //дефолтная сссылка, к которой нужно применить цвета и курсор
-.link-default{
+.link-default {
     color: var(--link);
-    cursor: pointer;//на всякий случай когда применяем не к ссылке
+    cursor: pointer; //на всякий случай когда применяем не к ссылке
 
     @media (any-hover: hover) {
         &:hover {
@@ -206,6 +202,37 @@ input {
     visibility: hidden;
 }
 //нужно для того чтоб слайдер был скрыт и недоступен для действий пока не загрузится
+
+.custom-checbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(40);
+    height: rem(40);
+    font-size: rem(14);
+    border: var(--border-width-bold) solid var(--gray);
+    border-radius: var(--border-radius);
+
+    @media (min-width: rem(1920)) {
+        width: adaptiv_px_size(40, 1920);
+        height: adaptiv_px_size(40, 1920);
+        font-size: adaptiv_px_size(14, 1920);
+    }
+
+    div {
+        display: none;
+        color: var(--white);
+    }
+}
+
+.custom-checbox.active {
+    background-color: var(--blue);
+    border: none;
+
+    div {
+        display: block;
+    }
+}
 
 //блоки для того чтоб получать значения переменных в js
 .test-div {

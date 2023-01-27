@@ -24,11 +24,11 @@
             margin-bottom: rem(10);
 
             @media (min-width: rem(960)) {
-                margin-bottom: adaptiv_rem_size(10, 960, 40, 1920);
+                margin-bottom: adaptiv_rem_size(10, 960, 20, 1920);
             }
 
             @media (min-width: rem(1920)) {
-                margin-bottom: var(--small-gap);
+                margin-bottom: var(--gap);
             }
         }
 
@@ -40,7 +40,7 @@
         }
     }
 
-    a{
+    a {
         grid-column: 1/-1;
 
         @media (min-width: rem(640)) {

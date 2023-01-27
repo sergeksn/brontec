@@ -70,9 +70,8 @@
 
                 &-plusik {
                     position: absolute;
-                    top: 10%;
-                    left: 10%;
-
+                    transform: translate(-25%, -25%);
+                    
                     &-icon {
                         background-color: var(--blue);
                         border-radius: 50%;
@@ -125,7 +124,7 @@
                 }
             }
 
-            .template-upload [class*='-plusik-icon'] {
+            .template-upload [class*='-icon'] {
                 opacity: 1;
             }
 
@@ -142,8 +141,8 @@
 
             .touched [class*='-plusik-icon'] {
                 background-color: var(--blue-hover);
-                
-                &:before{
+
+                &:before {
                     transform: rotate(45deg);
                 }
             }

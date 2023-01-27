@@ -441,6 +441,150 @@
             "@scrollbar-img/*": [
                 "@components\\moduls\\scrollbar\\img/*"
             ],
+            "@detal-1-add-to-kit": [
+                "@components\\page-parts\\detal-1-add-to-kit"
+            ],
+            "@detal-1-add-to-kit/*": [
+                "@components\\page-parts\\detal-1-add-to-kit/*"
+            ],
+            "@detal-1-add-to-kit-main-js": [
+                "@components\\page-parts\\detal-1-add-to-kit\\js\\detal-1-add-to-kit-main.js"
+            ],
+            "@detal-1-add-to-kit-main-js/*": [
+                "@components\\page-parts\\detal-1-add-to-kit\\js\\detal-1-add-to-kit-main.js/*"
+            ],
+            "@detal-1-add-to-kit-render-scss": [
+                "@components\\page-parts\\detal-1-add-to-kit\\scss\\detal-1-add-to-kit-render.scss"
+            ],
+            "@detal-1-add-to-kit-render-scss/*": [
+                "@components\\page-parts\\detal-1-add-to-kit\\scss\\detal-1-add-to-kit-render.scss/*"
+            ],
+            "@detal-1-add-to-kit-interaction-scss": [
+                "@components\\page-parts\\detal-1-add-to-kit\\scss\\detal-1-add-to-kit-interaction.scss"
+            ],
+            "@detal-1-add-to-kit-interaction-scss/*": [
+                "@components\\page-parts\\detal-1-add-to-kit\\scss\\detal-1-add-to-kit-interaction.scss/*"
+            ],
+            "@detal-1-add-to-kit-fonts": [
+                "@components\\page-parts\\detal-1-add-to-kit\\fonts"
+            ],
+            "@detal-1-add-to-kit-fonts/*": [
+                "@components\\page-parts\\detal-1-add-to-kit\\fonts/*"
+            ],
+            "@detal-1-add-to-kit-img": [
+                "@components\\page-parts\\detal-1-add-to-kit\\img"
+            ],
+            "@detal-1-add-to-kit-img/*": [
+                "@components\\page-parts\\detal-1-add-to-kit\\img/*"
+            ],
+            "@detal-2-about": [
+                "@components\\page-parts\\detal-2-about"
+            ],
+            "@detal-2-about/*": [
+                "@components\\page-parts\\detal-2-about/*"
+            ],
+            "@detal-2-about-main-js": [
+                "@components\\page-parts\\detal-2-about\\js\\detal-2-about-main.js"
+            ],
+            "@detal-2-about-main-js/*": [
+                "@components\\page-parts\\detal-2-about\\js\\detal-2-about-main.js/*"
+            ],
+            "@detal-2-about-render-scss": [
+                "@components\\page-parts\\detal-2-about\\scss\\detal-2-about-render.scss"
+            ],
+            "@detal-2-about-render-scss/*": [
+                "@components\\page-parts\\detal-2-about\\scss\\detal-2-about-render.scss/*"
+            ],
+            "@detal-2-about-interaction-scss": [
+                "@components\\page-parts\\detal-2-about\\scss\\detal-2-about-interaction.scss"
+            ],
+            "@detal-2-about-interaction-scss/*": [
+                "@components\\page-parts\\detal-2-about\\scss\\detal-2-about-interaction.scss/*"
+            ],
+            "@detal-2-about-fonts": [
+                "@components\\page-parts\\detal-2-about\\fonts"
+            ],
+            "@detal-2-about-fonts/*": [
+                "@components\\page-parts\\detal-2-about\\fonts/*"
+            ],
+            "@detal-2-about-img": [
+                "@components\\page-parts\\detal-2-about\\img"
+            ],
+            "@detal-2-about-img/*": [
+                "@components\\page-parts\\detal-2-about\\img/*"
+            ],
+            "@detal-3-video-instruction": [
+                "@components\\page-parts\\detal-3-video-instruction"
+            ],
+            "@detal-3-video-instruction/*": [
+                "@components\\page-parts\\detal-3-video-instruction/*"
+            ],
+            "@detal-3-video-instruction-main-js": [
+                "@components\\page-parts\\detal-3-video-instruction\\js\\detal-3-video-instruction-main.js"
+            ],
+            "@detal-3-video-instruction-main-js/*": [
+                "@components\\page-parts\\detal-3-video-instruction\\js\\detal-3-video-instruction-main.js/*"
+            ],
+            "@detal-3-video-instruction-render-scss": [
+                "@components\\page-parts\\detal-3-video-instruction\\scss\\detal-3-video-instruction-render.scss"
+            ],
+            "@detal-3-video-instruction-render-scss/*": [
+                "@components\\page-parts\\detal-3-video-instruction\\scss\\detal-3-video-instruction-render.scss/*"
+            ],
+            "@detal-3-video-instruction-interaction-scss": [
+                "@components\\page-parts\\detal-3-video-instruction\\scss\\detal-3-video-instruction-interaction.scss"
+            ],
+            "@detal-3-video-instruction-interaction-scss/*": [
+                "@components\\page-parts\\detal-3-video-instruction\\scss\\detal-3-video-instruction-interaction.scss/*"
+            ],
+            "@detal-3-video-instruction-fonts": [
+                "@components\\page-parts\\detal-3-video-instruction\\fonts"
+            ],
+            "@detal-3-video-instruction-fonts/*": [
+                "@components\\page-parts\\detal-3-video-instruction\\fonts/*"
+            ],
+            "@detal-3-video-instruction-img": [
+                "@components\\page-parts\\detal-3-video-instruction\\img"
+            ],
+            "@detal-3-video-instruction-img/*": [
+                "@components\\page-parts\\detal-3-video-instruction\\img/*"
+            ],
+            "@detal-4-move-to-kit": [
+                "@components\\page-parts\\detal-4-move-to-kit"
+            ],
+            "@detal-4-move-to-kit/*": [
+                "@components\\page-parts\\detal-4-move-to-kit/*"
+            ],
+            "@detal-4-move-to-kit-main-js": [
+                "@components\\page-parts\\detal-4-move-to-kit\\js\\detal-4-move-to-kit-main.js"
+            ],
+            "@detal-4-move-to-kit-main-js/*": [
+                "@components\\page-parts\\detal-4-move-to-kit\\js\\detal-4-move-to-kit-main.js/*"
+            ],
+            "@detal-4-move-to-kit-render-scss": [
+                "@components\\page-parts\\detal-4-move-to-kit\\scss\\detal-4-move-to-kit-render.scss"
+            ],
+            "@detal-4-move-to-kit-render-scss/*": [
+                "@components\\page-parts\\detal-4-move-to-kit\\scss\\detal-4-move-to-kit-render.scss/*"
+            ],
+            "@detal-4-move-to-kit-interaction-scss": [
+                "@components\\page-parts\\detal-4-move-to-kit\\scss\\detal-4-move-to-kit-interaction.scss"
+            ],
+            "@detal-4-move-to-kit-interaction-scss/*": [
+                "@components\\page-parts\\detal-4-move-to-kit\\scss\\detal-4-move-to-kit-interaction.scss/*"
+            ],
+            "@detal-4-move-to-kit-fonts": [
+                "@components\\page-parts\\detal-4-move-to-kit\\fonts"
+            ],
+            "@detal-4-move-to-kit-fonts/*": [
+                "@components\\page-parts\\detal-4-move-to-kit\\fonts/*"
+            ],
+            "@detal-4-move-to-kit-img": [
+                "@components\\page-parts\\detal-4-move-to-kit\\img"
+            ],
+            "@detal-4-move-to-kit-img/*": [
+                "@components\\page-parts\\detal-4-move-to-kit\\img/*"
+            ],
             "@footer": [
                 "@components\\page-parts\\footer"
             ],
