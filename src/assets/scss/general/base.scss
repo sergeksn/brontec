@@ -17,6 +17,34 @@
     box-sizing: border-box;
 }
 
+* {
+    color: var(--black);
+}
+
+//разные типы блоков по цвету
+.light-block {
+    background-color: var(--light);
+}
+
+.dark-block {
+    color: var(--white);
+    background-color: var(--black);
+}
+
+.dark-block * {
+    color: var(--white);
+}
+
+.blue-block {
+    color: var(--white);
+    background-color: var(--blue);
+}
+
+.blue-block * {
+    color: var(--white);
+}
+//разные типы блоков по цвету
+
 a[title='Вы тут!'] {
     color: var(--gray);
     cursor: default;
@@ -41,10 +69,12 @@ a[title='Вы тут!'] {
 
 h1 {
     font: var(--h1);
+    grid-column: 1/-1;
 }
 
 h2 {
     font: var(--h2);
+    grid-column: 1/-1;
 }
 
 body {
@@ -136,6 +166,7 @@ input {
     }
 }
 
+//стандартная кнопка на сайте
 .button-main {
     display: flex;
     align-items: center;
@@ -164,6 +195,7 @@ input {
 
     &--black {
         background-color: var(--black);
+        color: var(--white);
 
         @media (any-hover: hover) {
             &:hover {
@@ -179,6 +211,18 @@ input {
         @media (any-hover: hover) {
             &:hover {
                 background-color: var(--white-hover);
+            }
+        }
+    }
+    
+    &--disabled{
+        background-color: var(--gray);
+        color: var(--white);
+        cursor: not-allowed;
+
+        @media (any-hover: hover) {
+            &:hover {
+                background-color: var(--gray);
             }
         }
     }
@@ -203,6 +247,7 @@ input {
 }
 //нужно для того чтоб слайдер был скрыт и недоступен для действий пока не загрузится
 
+//кастомный чекбокс используемый в конфигураторе и т.д.
 .custom-checbox {
     display: flex;
     align-items: center;
@@ -233,6 +278,7 @@ input {
         display: block;
     }
 }
+//кастомный чекбокс используемый в конфигураторе и т.д.
 
 //блоки для того чтоб получать значения переменных в js
 .test-div {

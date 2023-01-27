@@ -1,3 +1,7 @@
+.scroll-to-top-button * {
+    color: var(--white);
+}
+
 .scroll-to-top-button {
     position: fixed;
     display: flex;
@@ -12,7 +16,6 @@
     bottom: rem(40);
     left: rem(30);
     font-size: rem(25);
-    color: var(--white);
     z-index: map-get($z-index, scroll-to-top-button);
     cursor: pointer;
     pointer-events: none;

@@ -2,7 +2,6 @@
     padding-bottom: var(--medium-gap);
 
     h1 {
-        grid-column: 1/-1;
         margin-bottom: var(--medium-gap);
     }
 
@@ -51,6 +50,7 @@
 
         &-add-to {
             display: flex;
+            align-items: center;
             margin-bottom: rem(40);
 
             @media (min-width: rem(1920)) {
@@ -62,32 +62,6 @@
 
                 @media (min-width: rem(1920)) {
                     margin-right: adaptiv_px_size(35, 1920);
-                }
-            }
-
-            &-data {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                flex-wrap: wrap;
-
-                &-title {
-                    width: 100%;
-
-                    @media (min-width: rem(960)) {
-                        width: auto;
-                    }
-                }
-
-                &-price {
-                    width: 100%;
-                    color: var(--gray);
-                    font: var(--small);
-
-                    @media (min-width: rem(960)) {
-                        width: auto;
-                    }
                 }
             }
         }

@@ -9,7 +9,6 @@
 }
 
 .glavnaya-1 {
-    background-color: var(--blue);
     padding: var(--medium-gap) 0;
 
     &__first-part {
@@ -85,7 +84,6 @@
 
         h1 {
             margin-bottom: rem(30);
-            grid-column: 1/-1;
         }
 
         &-text {

@@ -1,5 +1,4 @@
 .glavnaya-8 {
-    background-color: var(--blue);
 
     &__img-wrap {
         grid-column: 1/-1;
@@ -13,7 +12,6 @@
 
     &__text-wrap {
         grid-column: 1/-1;
-        color: var(--white);
         margin-bottom: var(--big-gap);
 
         @media (min-width: rem(640)) {

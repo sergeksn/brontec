@@ -1,12 +1,10 @@
 .komplekt-4 {
     padding: var(--big-gap) 0;
-    background-color: var(--light);
     display: flex;
     justify-content: center;
 
     h2 {
         margin-bottom: rem(40);
-        grid-column: 1/-1;
 
         @media (min-width: rem(640)) {
             margin-bottom: adaptiv_px_size(40, 640, 60, 1920);

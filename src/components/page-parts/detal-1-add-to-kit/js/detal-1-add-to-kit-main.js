@@ -1,11 +1,10 @@
-let detal_checkbox = qs('.detal-1-add-to-kit__data-add-to-checbox .custom-checbox');
+let detal_checkbox = qs('.detal-1-add-to-kit__data-add-to-checbox');
 
 //меняем GET запос всех ссылок перехода на страницу комплекта
 if (detal_checkbox) {
     let checkbox_detal = detal_checkbox.getAttribute('data-item'),
-        link_to_kit = qs('.detal-1-add-to-kit__data a'),
-        base_kit_url = link_to_kit.getAttribute('href').split('?')[0],
-        all_links_to_kit = qsa('.detal-link-to-kit');
+        all_links_to_kit = qsa('.detal-link-to-kit'),
+        base_kit_url = all_links_to_kit[0].getAttribute('href').split('?')[0];
 
     detal_checkbox._on('click', _ => {
         detal_checkbox.classList.toggle('active');
