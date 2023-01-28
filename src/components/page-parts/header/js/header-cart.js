@@ -139,7 +139,7 @@ let cart = qs('.cart'),
         //пересчитываем верхний отступ корзины пре ресайзе
 
         init: function () {
-            [
+            [   
                 qs('.header-visible__cart-button'), //кнопка корзины в хедере
                 overlay, //положка корзины на сайте
                 close_button, //кнопка закрытия корзины
