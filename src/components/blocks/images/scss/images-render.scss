@@ -7,7 +7,7 @@
     > [data-img-type='kit'],
     > [data-img-type='img-overlay'],
     > [data-img-type='bg-overlay'],
-    > .svg-kit-wrap {
+    > [data-img-type='svg-kit-items'] {
         position: absolute;
         inset: 0;
         width: 100%;
@@ -17,11 +17,15 @@
         background: center / cover no-repeat border-box;
     }
 
+    [data-img-type='svg-kit-items'] > svg[data-status='active'] {
+        fill: var(--blue-transparent);
+    }
+
+    object,
     svg {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
-        fill:none;
     }
 }

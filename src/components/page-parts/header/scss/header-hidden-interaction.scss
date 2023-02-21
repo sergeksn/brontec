@@ -28,6 +28,10 @@
         ul {
             display: grid;
             grid-row-gap: rem(10);
+
+            a{
+                width: max-content;
+            }
         }
     }
 

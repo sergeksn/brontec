@@ -95,8 +95,8 @@ function img_upload_manager(img) {
     //'bg-template' - для обычных блоков div с одной картинкой вставленной через css background-image
     if (dit === 'img-template' || dit === 'bg-template') template_img_render(img, dit); //инициализируем загрузку и отображение картинки которая является шаблонной схемой на страницах комплекта и отдельной детали, на этом шаблоне помеченны плюсиком или галочкой активные зоны деталей
 
-    //'kit' - svg картинка предстваляющая из себя набор svg блоков к которым можно получить доступ по id
-    if (dit === 'kit') svg_kit_render(img); //инициализируем загрузку и отображение картинки
+    //'svg-kit-items' - div в котором находятся object с картинками svg деталей комплекта
+    if (dit === 'svg-kit-items') svg_kit_items_render(img); //инициализируем загрузку и отображение картинки
 
     delete img.start_intersecting_timeout_id; //удаляем свойство за ненадобностью
 }
@@ -337,46 +337,39 @@ async function swiper_looped_img_render(img, type) {
 }
 //функция для загрузки картинок из блоков где всего одна картинка, вставленная через css background-image или через тег img в сладйере swiper с бесконечным циклом прокрутки
 
-//встваяет svg картинки из svg набора в документ
-async function svg_kit_render(img) {
-    await common_img_loader(img)
-        .then(async url => {
-            let svg_wrap = d.createElement('div'),
-                nead_id = img.getAttribute('data-kit-nead-id').split(/\s+/); //нужные к выводу части комплекта
+//загружает все svg картинки из object и вставляет их в виде svg DOM элементов
+async function svg_kit_items_render(wrap) {
+    let all_obj = qsa('object', wrap), //находим все object внутри оболочки
+        obj_load_promice = []; //содержить промисы на загрузку
 
-            svg_wrap.classList.add('svg-kit-wrap');
+    //загружаем все object и ждём завершения их загрузки
+    all_obj.forEach(obj => {
+        let prom = new Promise(resolve => {
+            obj._on('load', () => resolve());
+            obj.setAttribute('data', obj.getAttribute('data-src'));
+        });
 
-            img.getAttribute('data-kit-all-id')
-                .split(/\s+/) //в качестве разделителя берём пробел, который может повторятся от 1 до сколько угодно раз, на случай если мы случайно поставили 2-3 пробеда вместо одного
-                .forEach(id => {
-                    let svgNS = 'http://www.w3.org/2000/svg',
-                        svg = d.createElementNS(svgNS, 'svg'),
-                        use = d.createElementNS(svgNS, 'use');
+        obj_load_promice.push(prom);
+    });
+    //загружаем все object и ждём завершения их загрузки
 
-                    svg.append(use);
-                    svg.setAttribute('data-id', id);
+    await Promise.all(obj_load_promice); //загружаем все object и ждём завершения их загрузки
 
-                    nead_id.forEach(data_id => {
-                        if (data_id === id) svg.style.fill = 'rgba(0, 73, 255, .5)'; //выделяем нужные svg блоки
-                    });
+    all_obj.forEach(obj => {
+        let svg = [...obj.contentDocument.childNodes].find(el => el.tagName === 'svg'); //находим именно svg т.к. если загружена грязная svg в ней могут быть лишние элементы
 
-                    use.setAttribute('href', url + '#' + id);
-                    svg_wrap.append(svg);
-                });
+        svg.setAttribute('data-status', obj.getAttribute('data-status'));//переносим data-status
+        svg.setAttribute('id', obj.getAttribute('id'));//переносим id
 
-            img.parentNode.appendChild(svg_wrap); //вставляем набор нужных svg картинок
+        obj.remove(); //удаляем сам объект
+        wrap.append(svg);//добавлям svg в нашу оболочку wrap
+    });
 
-            let sl = w.getComputedStyle(svg_wrap);
+    await wait(() => qs('[data-main]', wrap.parentNode).classList.contains('uploaded'), true); //ждём пока не загрузится основная картинка
 
-            await wait(() => sl.display === 'block', true); //ждём пока все динамичсески вставленные svg добавятся в документ т.к. есть микроскопическая задержка
-
-            await wait(() => qs('[data-main]', img.parentNode).classList.contains('uploaded'), true); //ждём пока не загрузится основная картинка
-
-            svg_wrap.style.opacity = '1'; //отображаем набор
-        })
-        .catch(e => error_img_load(e)); //обрабатываем ошибки произошедшие в ходе загрузки картинки
+    wrap.style.opacity = '1';//показываем нашу оболочку с содержимыми svg
 }
-//встваяет svg картинки из svg набора в документ
+//загружает все svg картинки из object и вставляет их в виде svg DOM элементов
 
 //инициализируем загрузку и отображение картинки которая является шаблонной схемой на страницах комплекта и отдельной детали, на этом шаблоне помеченны плюсиком или галочкой активные зоны деталей
 async function template_img_render(img, type) {
@@ -388,8 +381,7 @@ async function template_img_render(img, type) {
 
             img.style.opacity = '1'; //показываем картинку
 
-
-            img.parentNode.parentNode.classList.add('template-upload');//помечаем в оболочке что картинка шаблона загружена
+            img.parentNode.parentNode.classList.add('template-upload'); //помечаем в оболочке что картинка шаблона загружена
         })
         .catch(e => error_img_load(e)); //обрабатываем ошибки произошедшие в ходе загрузки картинки
 }

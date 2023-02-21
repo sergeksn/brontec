@@ -11,7 +11,7 @@ w.addEventListener('DOMContentLoaded', () => {
     function update_vars() {
         let test_div = d.createElement('div'),
             sl = w.getComputedStyle(test_div);
-            
+
         test_div.classList.add('standart-container', 'test-div');
         d.body.append(test_div);
 
@@ -24,6 +24,22 @@ w.addEventListener('DOMContentLoaded', () => {
         GDS.vars.medium_gap = parseFloat(sl.paddingLeft);
         GDS.vars.big_gap = parseFloat(sl.height);
         test_div.remove();
+
+        //получаем размеры скролбаров
+        let tb = d.createElement('div'),
+            itb = document.createElement('div');
+        tb.style.visibility = 'hidden';
+        tb.style.overflow = 'scroll';
+        qs('body').appendChild(tb);
+        tb.appendChild(itb);
+        GDS.scroll.standart_scrollbar_width = tb.offsetWidth - itb.offsetWidth;
+        tb.classList.add('custom-page-scrollbar');
+        GDS.scroll.custom_page_scrollbar_width = tb.offsetWidth - itb.offsetWidth;
+        tb.classList.remove('custom-page-scrollbar');
+        tb.classList.add('custom-scrollbar');
+        GDS.scroll.custom_scrollbar_width = tb.offsetWidth - itb.offsetWidth;
+        tb.parentNode.removeChild(tb);
+        //получаем размеры скролбаров
     }
 
     update_vars();

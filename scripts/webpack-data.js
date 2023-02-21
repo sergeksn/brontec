@@ -140,6 +140,11 @@ function Get_Rules() {
                                     attribute: 'data-src',
                                     type: 'src',
                                 },
+                                {
+                                    tag: 'object',
+                                    attribute: 'data-src',
+                                    type: 'src',
+                                },
                             ],
                         },
                     },

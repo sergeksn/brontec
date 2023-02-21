@@ -16,35 +16,6 @@
 </head>
 
 <body class="custom-page-scrollbar">
-  <script>
-    /*скрипт определяет и записывает ширину стандартного скролбара и ширину кастомного скролбара, а так же создаёт css переменную для взаимодествия с таблицами стилей*/
-    (() => {
-      let tb = d.createElement('div'),
-        itb = document.createElement('div');
-
-      tb.style.visibility = 'hidden';
-      tb.style.overflow = 'scroll';
-      qs('body').appendChild(tb);
-
-      tb.appendChild(itb);
-
-      GDS.scroll.standart_scrollbar_width = tb.offsetWidth - itb.offsetWidth;
-
-      tb.classList.add('custom-page-scrollbar');
-
-      GDS.scroll.custom_page_scrollbar_width = tb.offsetWidth - itb.offsetWidth;
-
-      tb.classList.remove('custom-page-scrollbar');
-      tb.classList.add('custom-scrollbar');
-
-      GDS.scroll.custom_scrollbar_width = tb.offsetWidth - itb.offsetWidth;
-
-      /*qs('#common-style').innerHTML += `:root{--custom-scrollbar-width: ${csbw}px;}`;*/
-      /*пока не исполюзуется эта переменная в css*/
-
-      tb.parentNode.removeChild(tb);
-    })();
-  </script>
   <header class="custom-page-scrollbar">
     <%- include('./header-poster')%>
     <%- include('./header-visible')%>

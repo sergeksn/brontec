@@ -140,6 +140,8 @@ let cart = qs('.cart'),
 
         init: function () {
             [   
+                qs('.header-hidden__menu-cart-button'),//кнопка корзины в мобильном меню
+                qs('.footer__menu-cart-button'),//кнопка корзины в меню футера
                 qs('.header-visible__cart-button'), //кнопка корзины в хедере
                 overlay, //положка корзины на сайте
                 close_button, //кнопка закрытия корзины
