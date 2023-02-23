@@ -140,7 +140,7 @@ function set_localStorage(key, value) {
 //проверяем доступность локального хранилища и записываем данные
 
 //позволяет отправлять запросы на сервер и обрабатывать ответ и ошибки
-//request_data - все данные для запроса включая мотод, заголовки, тели запроса и другое
+//request_data - все данные для запроса включая мотод, заголовки, тело запроса и другое
 //url - адрес для запроса
 async function request_to_server(request_data, url = GDS.ajax_url) {
     return new Promise((resolve, reject) => {

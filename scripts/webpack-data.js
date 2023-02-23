@@ -65,6 +65,8 @@ function Get_Pages() {
         'detal',
         'oformit_zakaz',
         'ostavit_otziv',
+        'politika_konfidenczialnosti',
+        'o_nas',
     ];
     return pages;
 }

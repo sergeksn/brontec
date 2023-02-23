@@ -1,0 +1,78 @@
+.vybrat-komplekt-3 {
+    padding: var(--big-gap) 0;
+
+    h2 {
+        grid-column: 1/-1;
+        margin-bottom: var(--medium-gap);
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+        }
+
+        @media (min-width: rem(1280)) {
+            grid-column: 1/-1;
+        }
+    }
+
+    &__forma {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+        }
+
+        @media (min-width: rem(1280)) {
+            grid-column: 1/5;
+        }
+
+        &-title {
+            margin-bottom: var(--gap-10);
+            font: var(--small);
+            display: block;
+
+            &:before {
+                content: '* ';
+                color: red;
+            }
+        }
+
+        &-polici-konf {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--small-gap);
+            margin-top: rem(40);
+
+            @media (min-width: rem(640)) {
+                margin-top: 0;
+            }
+
+            &-title {
+                margin-left: var(--gap);
+                font: var(--small);
+
+                div {
+                    @media (min-width: rem(1280)) {
+                        width: max-content;
+                    }
+                }
+
+                div:before {
+                    content: '* ';
+                    color: red;
+                }
+            }
+        }
+    }
+
+    &__description {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 7/-1;
+        }
+
+        @media (min-width: rem(1280)) {
+            grid-column: 7/11;
+        }
+    }
+}

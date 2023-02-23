@@ -113,11 +113,6 @@ input {
     width: 100%;
     border: none;
     outline: none; //иногда пользовательские таблицы стилей делают обводку нам это нужно запретить
-
-    //если у пользователя нет ни какого указательно устройства, мы не должны убирать обводку чтоб когда пользователь сфокусируется на инпуте , через таб например, он выделился
-    @media not (any-pointer: none) {
-        outline: none;
-    }
 }
 
 .ruble-price {
@@ -187,9 +182,18 @@ input {
         max-width: none;
     }
 
+    &:disabled{
+        background-color: var(--gray);
+    }
+
     @media (any-hover: hover) {
         &:hover {
             background-color: var(--blue-hover);
+
+            &:disabled{
+                background-color: var(--gray);
+                cursor: not-allowed;
+            }
         }
     }
 
@@ -214,8 +218,8 @@ input {
             }
         }
     }
-    
-    &--disabled{
+
+    &--disabled {
         background-color: var(--gray);
         color: var(--white);
         cursor: not-allowed;
@@ -249,36 +253,131 @@ input {
 
 //кастомный чекбокс используемый в конфигураторе и т.д.
 .custom-checbox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: rem(40);
-    height: rem(40);
-    font-size: rem(14);
-    border: var(--border-width-bold) solid var(--gray);
-    border-radius: var(--border-radius);
+    position: relative;
 
-    @media (min-width: rem(1920)) {
-        width: adaptiv_px_size(40, 1920);
-        height: adaptiv_px_size(40, 1920);
-        font-size: adaptiv_px_size(14, 1920);
+    input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+        bottom: 0;
     }
 
-    div {
-        display: none;
-        color: var(--white);
+    label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: rem(40); //тут нужно в пикселях
+        height: rem(40);
+        font-size: rem(16);
+        border: var(--border-width-bold) solid var(--gray);
+        border-radius: var(--border-radius);
+        cursor: pointer;
+
+        @media (min-width: rem(1920)) {
+            width: adaptiv_rem_size(40, 1920);
+            height: adaptiv_rem_size(40, 1920);
+            font-size: adaptiv_rem_size(16, 1920);
+        }
+
+        &:before {
+            display: none;
+        }
     }
-}
 
-.custom-checbox.active {
-    background-color: var(--blue);
-    border: none;
-
-    div {
+    input:checked + label:before {
         display: block;
     }
+
+    //чекбокс для страниц комплекта и детали с синей заливкой и белой галочкой
+    &--blue {
+        label {
+            font-size: rem(14);
+            color: var(--white);
+            @media (min-width: rem(1920)) {
+                font-size: adaptiv_rem_size(14, 1920);
+            }
+        }
+
+        input:checked + label {
+            background-color: var(--blue);
+            border: none;
+        }
+    }
+    //чекбокс для страниц комплекта и детали с синей заливкой и белой галочкой
 }
 //кастомный чекбокс используемый в конфигураторе и т.д.
+
+//кастомные инпуты
+input.custom-text-input {
+    margin-bottom: var(--small-gap);
+    border: var(--border-width) solid var(--gray);
+    border-radius: var(--border-radius);
+    padding: rem(15) rem(20);
+    height: rem(50);
+    width: 100%;
+    outline: none; //иногда пользовательские таблицы стилей делают обводку нам это нужно запретить
+
+    @media (min-width: rem(1280)) {
+        height: rem(60);
+    }
+
+    @media (min-width: rem(1920)) {
+        height: adaptiv_rem_size(60, 1920);
+        padding: adaptiv_rem_size(15, 1920) adaptiv_rem_size(20, 1920);
+    }
+}
+
+//кастомные инпуты
+
+//кастомные текстовые поля
+.custom-textarea {
+    margin-bottom: var(--small-gap);
+    border: var(--border-width) solid var(--gray);
+    border-radius: var(--border-radius);
+    padding: rem(15) rem(20);
+    position: relative;
+    display: flex;
+
+    @media (min-width: rem(1920)) {
+        padding: adaptiv_rem_size(15, 1920) adaptiv_rem_size(20, 1920);
+    }
+
+    &__resizer {
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAxNSAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iNiIgeT0iNiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgZmlsbD0iIzI2MjYyNiIvPgo8cmVjdCB4PSIxMiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgZmlsbD0iIzI2MjYyNiIvPgo8cmVjdCB4PSIxNSIgeT0iNiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMTUgNikiIGZpbGw9IiMyNjI2MjYiLz4KPHJlY3QgeT0iMTIiIHdpZHRoPSIzIiBoZWlnaHQ9IjMiIGZpbGw9IiMyNjI2MjYiLz4KPHJlY3QgeD0iMTUiIHk9IjEyIiB3aWR0aD0iMyIgaGVpZ2h0PSIzIiB0cmFuc2Zvcm09InJvdGF0ZSg5MCAxNSAxMikiIGZpbGw9IiMyNjI2MjYiLz4KPHJlY3QgeD0iOSIgeT0iMTIiIHdpZHRoPSIzIiBoZWlnaHQ9IjMiIHRyYW5zZm9ybT0icm90YXRlKDkwIDkgMTIpIiBmaWxsPSIjMjYyNjI2Ii8+Cjwvc3ZnPgo='); //тут закодирована картинка
+        background-size: cover;
+        height: rem(15);
+        width: rem(15);
+        position: absolute;
+        bottom: rem(15);
+        right: rem(20);
+        pointer-events: none;
+
+        @media (min-width: rem(1920)) {
+            height: adaptiv_rem_size(15, 1920);
+            width: adaptiv_rem_size(15, 1920);
+            bottom: adaptiv_rem_size(15, 1920);
+            right: adaptiv_rem_size(20, 1920);
+        }
+    }
+
+    textarea {
+        border: none;
+        width: 100%;
+        resize: vertical;
+        outline: none; //иногда пользовательские таблицы стилей делают обводку нам это нужно запретить
+
+        &::-webkit-resizer {
+            height: rem(15);
+            width: rem(15);
+
+            @media (min-width: rem(1920)) {
+                height: adaptiv_rem_size(15, 1920);
+                width: adaptiv_rem_size(15, 1920);
+            }
+        }
+    }
+}
+//кастомные текстовые поля
 
 //блоки для того чтоб получать значения переменных в js
 .test-div {

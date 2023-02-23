@@ -22,6 +22,7 @@
 
     &__content-wrap {
         padding: rem(5) adaptiv_rem_size(25, 320, 100, 1920) rem(60) adaptiv_rem_size(25, 320, 100, 1920);
+        width: 100%;
 
         @media (min-width: rem(1920)) {
             padding: adaptiv_rem_size(5, 1920) adaptiv_rem_size(100, 1920) adaptiv_rem_size(60, 1920) adaptiv_rem_size(100, 1920);

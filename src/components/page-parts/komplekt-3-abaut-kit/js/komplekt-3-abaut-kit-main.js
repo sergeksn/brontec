@@ -9,6 +9,7 @@ let wrap = qs('.komplekt-3__kit-data-template-interactiv-img-wrap'),
         //скрывает все всплывающие подсказки и переводит плюсик в исходное состояние
         hide_all_pop_up: function () {
             all_plusiki.forEach(el => el.classList.remove('hovered', 'touched'));
+            d._off('click', this.check_outside_ckick_function);
         },
         //скрывает все всплывающие подсказки и переводит плюсик в исходное состояние
 
@@ -20,6 +21,8 @@ let wrap = qs('.komplekt-3__kit-data-template-interactiv-img-wrap'),
                 this.hide_all_pop_up(); //закрываем все подсказки если вдруг были открыты
 
                 el.classList.add('hovered'); //показываем подсказку
+
+                d._on('click', this.check_outside_ckick_function); //если клик был вне плюсиков и подсказок закрываем, все подсказки
             });
             //при наведении мыши на элемент
 
@@ -28,6 +31,7 @@ let wrap = qs('.komplekt-3__kit-data-template-interactiv-img-wrap'),
                 //скрываем данную подсказку через интервал времени
                 this.hide_timer = setTimeout(() => {
                     el.classList.remove('hovered');
+                    d._off('click', this.check_outside_ckick_function); //если клик был вне плюсиков и подсказок закрываем, все подсказки
                 }, this.visible_time);
                 //скрываем данную подсказку через интервал времени
             });
@@ -39,10 +43,19 @@ let wrap = qs('.komplekt-3__kit-data-template-interactiv-img-wrap'),
         touched_init: function (el) {
             qs('.komplekt-3__kit-data-template-interactiv-img-wrap-plusik-icon', el)._on('touchend', () => {
                 let is_touched = el.classList.contains('touched'); //записываем видна ли кликнутая подсказка
-
+                
                 this.hide_all_pop_up(); //закрываем все подсказки если вдруг были открыты
 
-                is_touched ? el.classList.remove('touched') : el.classList.add('touched'); //показываем или скрываем подсказку в зависимости от того видна она в данны момен или нет
+                //показываем или скрываем подсказку в зависимости от того видна она в данны момен или нет
+                if(is_touched){
+                    el.classList.remove('touched');
+                } else{
+                    el.classList.add('touched');
+                    d._on('click', this.check_outside_ckick_function);
+                }
+                //показываем или скрываем подсказку в зависимости от того видна она в данны момен или нет
+
+                
             });
         },
         //инициализирует событи для сенсорных экранов
@@ -98,6 +111,20 @@ let wrap = qs('.komplekt-3__kit-data-template-interactiv-img-wrap'),
         },
         //функция задаёт позицию для окна подсказок в зависмости от размеров экрана, сверху или справа они будут позиционироваться
 
+        //если клик был вне плюсиков и подсказок закрываем, все подсказки
+        check_if_click_outside_plusik: function (e) {
+            let path_elems = e.composedPath();
+
+            (() => {
+                for (let i = 0; i < all_plusiki.length; i++) {
+                    if (path_elems.indexOf(all_plusiki[i]) !== -1) return false; //клик был хотябы по одному плюсику или его потомку
+                }
+
+                return true; //можно закрывать клик был вне наших плюсиков и подсказок
+            })() && this.hide_all_pop_up(); //закрываем все подсказки
+        },
+        //если клик был вне плюсиков и подсказок закрываем, все подсказки
+
         init: function () {
             if (!wrap) return; //если на этой странице нет такого модуля
 
@@ -113,19 +140,7 @@ let wrap = qs('.komplekt-3__kit-data-template-interactiv-img-wrap'),
             });
             //иницализируем все необходимые события
 
-            //если клик был вне плюсиков и подсказок закрываем, все подсказки
-            d._on('click', e => {
-                let path_elems = e.composedPath();
-
-                (() => {
-                    for (let i = 0; i < all_plusiki.length; i++) {
-                        if (path_elems.indexOf(all_plusiki[i]) !== -1) return false; //клик был хотябы по одному плюсику или его потомку
-                    }
-
-                    return true; //можно закрывать клик был вне наших плюсиков и подсказок
-                })() && this.hide_all_pop_up(); //закрываем все подсказки
-            });
-            //если клик был вне плюсиков и подсказок закрываем, все подсказки
+            this.check_outside_ckick_function = this.check_if_click_outside_plusik.bind(this); //записывае в свойства объекта ссылку на функцию проверки кликов вне плюсиков чтоб можно было её отменять
         },
     };
 

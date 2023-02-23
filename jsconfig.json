@@ -585,6 +585,42 @@
             "@detal-4-move-to-kit-img/*": [
                 "@components\\page-parts\\detal-4-move-to-kit\\img/*"
             ],
+            "@dostavka-i-oplata": [
+                "@components\\page-parts\\dostavka-i-oplata"
+            ],
+            "@dostavka-i-oplata/*": [
+                "@components\\page-parts\\dostavka-i-oplata/*"
+            ],
+            "@dostavka-i-oplata-main-js": [
+                "@components\\page-parts\\dostavka-i-oplata\\js\\dostavka-i-oplata-main.js"
+            ],
+            "@dostavka-i-oplata-main-js/*": [
+                "@components\\page-parts\\dostavka-i-oplata\\js\\dostavka-i-oplata-main.js/*"
+            ],
+            "@dostavka-i-oplata-render-scss": [
+                "@components\\page-parts\\dostavka-i-oplata\\scss\\dostavka-i-oplata-render.scss"
+            ],
+            "@dostavka-i-oplata-render-scss/*": [
+                "@components\\page-parts\\dostavka-i-oplata\\scss\\dostavka-i-oplata-render.scss/*"
+            ],
+            "@dostavka-i-oplata-interaction-scss": [
+                "@components\\page-parts\\dostavka-i-oplata\\scss\\dostavka-i-oplata-interaction.scss"
+            ],
+            "@dostavka-i-oplata-interaction-scss/*": [
+                "@components\\page-parts\\dostavka-i-oplata\\scss\\dostavka-i-oplata-interaction.scss/*"
+            ],
+            "@dostavka-i-oplata-fonts": [
+                "@components\\page-parts\\dostavka-i-oplata\\fonts"
+            ],
+            "@dostavka-i-oplata-fonts/*": [
+                "@components\\page-parts\\dostavka-i-oplata\\fonts/*"
+            ],
+            "@dostavka-i-oplata-img": [
+                "@components\\page-parts\\dostavka-i-oplata\\img"
+            ],
+            "@dostavka-i-oplata-img/*": [
+                "@components\\page-parts\\dostavka-i-oplata\\img/*"
+            ],
             "@footer": [
                 "@components\\page-parts\\footer"
             ],
@@ -1053,6 +1089,114 @@
             "@header-img/*": [
                 "@components\\page-parts\\header\\img/*"
             ],
+            "@instrukczii-1-selector": [
+                "@components\\page-parts\\instrukczii-1-selector"
+            ],
+            "@instrukczii-1-selector/*": [
+                "@components\\page-parts\\instrukczii-1-selector/*"
+            ],
+            "@instrukczii-1-selector-main-js": [
+                "@components\\page-parts\\instrukczii-1-selector\\js\\instrukczii-1-selector-main.js"
+            ],
+            "@instrukczii-1-selector-main-js/*": [
+                "@components\\page-parts\\instrukczii-1-selector\\js\\instrukczii-1-selector-main.js/*"
+            ],
+            "@instrukczii-1-selector-render-scss": [
+                "@components\\page-parts\\instrukczii-1-selector\\scss\\instrukczii-1-selector-render.scss"
+            ],
+            "@instrukczii-1-selector-render-scss/*": [
+                "@components\\page-parts\\instrukczii-1-selector\\scss\\instrukczii-1-selector-render.scss/*"
+            ],
+            "@instrukczii-1-selector-interaction-scss": [
+                "@components\\page-parts\\instrukczii-1-selector\\scss\\instrukczii-1-selector-interaction.scss"
+            ],
+            "@instrukczii-1-selector-interaction-scss/*": [
+                "@components\\page-parts\\instrukczii-1-selector\\scss\\instrukczii-1-selector-interaction.scss/*"
+            ],
+            "@instrukczii-1-selector-fonts": [
+                "@components\\page-parts\\instrukczii-1-selector\\fonts"
+            ],
+            "@instrukczii-1-selector-fonts/*": [
+                "@components\\page-parts\\instrukczii-1-selector\\fonts/*"
+            ],
+            "@instrukczii-1-selector-img": [
+                "@components\\page-parts\\instrukczii-1-selector\\img"
+            ],
+            "@instrukczii-1-selector-img/*": [
+                "@components\\page-parts\\instrukczii-1-selector\\img/*"
+            ],
+            "@instrukczii-2-videos": [
+                "@components\\page-parts\\instrukczii-2-videos"
+            ],
+            "@instrukczii-2-videos/*": [
+                "@components\\page-parts\\instrukczii-2-videos/*"
+            ],
+            "@instrukczii-2-videos-main-js": [
+                "@components\\page-parts\\instrukczii-2-videos\\js\\instrukczii-2-videos-main.js"
+            ],
+            "@instrukczii-2-videos-main-js/*": [
+                "@components\\page-parts\\instrukczii-2-videos\\js\\instrukczii-2-videos-main.js/*"
+            ],
+            "@instrukczii-2-videos-render-scss": [
+                "@components\\page-parts\\instrukczii-2-videos\\scss\\instrukczii-2-videos-render.scss"
+            ],
+            "@instrukczii-2-videos-render-scss/*": [
+                "@components\\page-parts\\instrukczii-2-videos\\scss\\instrukczii-2-videos-render.scss/*"
+            ],
+            "@instrukczii-2-videos-interaction-scss": [
+                "@components\\page-parts\\instrukczii-2-videos\\scss\\instrukczii-2-videos-interaction.scss"
+            ],
+            "@instrukczii-2-videos-interaction-scss/*": [
+                "@components\\page-parts\\instrukczii-2-videos\\scss\\instrukczii-2-videos-interaction.scss/*"
+            ],
+            "@instrukczii-2-videos-fonts": [
+                "@components\\page-parts\\instrukczii-2-videos\\fonts"
+            ],
+            "@instrukczii-2-videos-fonts/*": [
+                "@components\\page-parts\\instrukczii-2-videos\\fonts/*"
+            ],
+            "@instrukczii-2-videos-img": [
+                "@components\\page-parts\\instrukczii-2-videos\\img"
+            ],
+            "@instrukczii-2-videos-img/*": [
+                "@components\\page-parts\\instrukczii-2-videos\\img/*"
+            ],
+            "@instrukczii-3-partners": [
+                "@components\\page-parts\\instrukczii-3-partners"
+            ],
+            "@instrukczii-3-partners/*": [
+                "@components\\page-parts\\instrukczii-3-partners/*"
+            ],
+            "@instrukczii-3-partners-main-js": [
+                "@components\\page-parts\\instrukczii-3-partners\\js\\instrukczii-3-partners-main.js"
+            ],
+            "@instrukczii-3-partners-main-js/*": [
+                "@components\\page-parts\\instrukczii-3-partners\\js\\instrukczii-3-partners-main.js/*"
+            ],
+            "@instrukczii-3-partners-render-scss": [
+                "@components\\page-parts\\instrukczii-3-partners\\scss\\instrukczii-3-partners-render.scss"
+            ],
+            "@instrukczii-3-partners-render-scss/*": [
+                "@components\\page-parts\\instrukczii-3-partners\\scss\\instrukczii-3-partners-render.scss/*"
+            ],
+            "@instrukczii-3-partners-interaction-scss": [
+                "@components\\page-parts\\instrukczii-3-partners\\scss\\instrukczii-3-partners-interaction.scss"
+            ],
+            "@instrukczii-3-partners-interaction-scss/*": [
+                "@components\\page-parts\\instrukczii-3-partners\\scss\\instrukczii-3-partners-interaction.scss/*"
+            ],
+            "@instrukczii-3-partners-fonts": [
+                "@components\\page-parts\\instrukczii-3-partners\\fonts"
+            ],
+            "@instrukczii-3-partners-fonts/*": [
+                "@components\\page-parts\\instrukczii-3-partners\\fonts/*"
+            ],
+            "@instrukczii-3-partners-img": [
+                "@components\\page-parts\\instrukczii-3-partners\\img"
+            ],
+            "@instrukczii-3-partners-img/*": [
+                "@components\\page-parts\\instrukczii-3-partners\\img/*"
+            ],
             "@komplekt-1-full-kit": [
                 "@components\\page-parts\\komplekt-1-full-kit"
             ],
@@ -1232,6 +1376,258 @@
             ],
             "@komplekt-5-video-instruction-img/*": [
                 "@components\\page-parts\\komplekt-5-video-instruction\\img/*"
+            ],
+            "@o-nas-1-top-img": [
+                "@components\\page-parts\\o-nas-1-top-img"
+            ],
+            "@o-nas-1-top-img/*": [
+                "@components\\page-parts\\o-nas-1-top-img/*"
+            ],
+            "@o-nas-1-top-img-main-js": [
+                "@components\\page-parts\\o-nas-1-top-img\\js\\o-nas-1-top-img-main.js"
+            ],
+            "@o-nas-1-top-img-main-js/*": [
+                "@components\\page-parts\\o-nas-1-top-img\\js\\o-nas-1-top-img-main.js/*"
+            ],
+            "@o-nas-1-top-img-render-scss": [
+                "@components\\page-parts\\o-nas-1-top-img\\scss\\o-nas-1-top-img-render.scss"
+            ],
+            "@o-nas-1-top-img-render-scss/*": [
+                "@components\\page-parts\\o-nas-1-top-img\\scss\\o-nas-1-top-img-render.scss/*"
+            ],
+            "@o-nas-1-top-img-interaction-scss": [
+                "@components\\page-parts\\o-nas-1-top-img\\scss\\o-nas-1-top-img-interaction.scss"
+            ],
+            "@o-nas-1-top-img-interaction-scss/*": [
+                "@components\\page-parts\\o-nas-1-top-img\\scss\\o-nas-1-top-img-interaction.scss/*"
+            ],
+            "@o-nas-1-top-img-fonts": [
+                "@components\\page-parts\\o-nas-1-top-img\\fonts"
+            ],
+            "@o-nas-1-top-img-fonts/*": [
+                "@components\\page-parts\\o-nas-1-top-img\\fonts/*"
+            ],
+            "@o-nas-1-top-img-img": [
+                "@components\\page-parts\\o-nas-1-top-img\\img"
+            ],
+            "@o-nas-1-top-img-img/*": [
+                "@components\\page-parts\\o-nas-1-top-img\\img/*"
+            ],
+            "@o-nas-2-content": [
+                "@components\\page-parts\\o-nas-2-content"
+            ],
+            "@o-nas-2-content/*": [
+                "@components\\page-parts\\o-nas-2-content/*"
+            ],
+            "@o-nas-2-content-main-js": [
+                "@components\\page-parts\\o-nas-2-content\\js\\o-nas-2-content-main.js"
+            ],
+            "@o-nas-2-content-main-js/*": [
+                "@components\\page-parts\\o-nas-2-content\\js\\o-nas-2-content-main.js/*"
+            ],
+            "@o-nas-2-content-render-scss": [
+                "@components\\page-parts\\o-nas-2-content\\scss\\o-nas-2-content-render.scss"
+            ],
+            "@o-nas-2-content-render-scss/*": [
+                "@components\\page-parts\\o-nas-2-content\\scss\\o-nas-2-content-render.scss/*"
+            ],
+            "@o-nas-2-content-interaction-scss": [
+                "@components\\page-parts\\o-nas-2-content\\scss\\o-nas-2-content-interaction.scss"
+            ],
+            "@o-nas-2-content-interaction-scss/*": [
+                "@components\\page-parts\\o-nas-2-content\\scss\\o-nas-2-content-interaction.scss/*"
+            ],
+            "@o-nas-2-content-fonts": [
+                "@components\\page-parts\\o-nas-2-content\\fonts"
+            ],
+            "@o-nas-2-content-fonts/*": [
+                "@components\\page-parts\\o-nas-2-content\\fonts/*"
+            ],
+            "@o-nas-2-content-img": [
+                "@components\\page-parts\\o-nas-2-content\\img"
+            ],
+            "@o-nas-2-content-img/*": [
+                "@components\\page-parts\\o-nas-2-content\\img/*"
+            ],
+            "@politika-konfidenczialnosti": [
+                "@components\\page-parts\\politika-konfidenczialnosti"
+            ],
+            "@politika-konfidenczialnosti/*": [
+                "@components\\page-parts\\politika-konfidenczialnosti/*"
+            ],
+            "@politika-konfidenczialnosti-main-js": [
+                "@components\\page-parts\\politika-konfidenczialnosti\\js\\politika-konfidenczialnosti-main.js"
+            ],
+            "@politika-konfidenczialnosti-main-js/*": [
+                "@components\\page-parts\\politika-konfidenczialnosti\\js\\politika-konfidenczialnosti-main.js/*"
+            ],
+            "@politika-konfidenczialnosti-render-scss": [
+                "@components\\page-parts\\politika-konfidenczialnosti\\scss\\politika-konfidenczialnosti-render.scss"
+            ],
+            "@politika-konfidenczialnosti-render-scss/*": [
+                "@components\\page-parts\\politika-konfidenczialnosti\\scss\\politika-konfidenczialnosti-render.scss/*"
+            ],
+            "@politika-konfidenczialnosti-interaction-scss": [
+                "@components\\page-parts\\politika-konfidenczialnosti\\scss\\politika-konfidenczialnosti-interaction.scss"
+            ],
+            "@politika-konfidenczialnosti-interaction-scss/*": [
+                "@components\\page-parts\\politika-konfidenczialnosti\\scss\\politika-konfidenczialnosti-interaction.scss/*"
+            ],
+            "@politika-konfidenczialnosti-fonts": [
+                "@components\\page-parts\\politika-konfidenczialnosti\\fonts"
+            ],
+            "@politika-konfidenczialnosti-fonts/*": [
+                "@components\\page-parts\\politika-konfidenczialnosti\\fonts/*"
+            ],
+            "@politika-konfidenczialnosti-img": [
+                "@components\\page-parts\\politika-konfidenczialnosti\\img"
+            ],
+            "@politika-konfidenczialnosti-img/*": [
+                "@components\\page-parts\\politika-konfidenczialnosti\\img/*"
+            ],
+            "@vybrat-komplekt-1-selector": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector"
+            ],
+            "@vybrat-komplekt-1-selector/*": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector/*"
+            ],
+            "@vybrat-komplekt-1-selector-main-js": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector\\js\\vybrat-komplekt-1-selector-main.js"
+            ],
+            "@vybrat-komplekt-1-selector-main-js/*": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector\\js\\vybrat-komplekt-1-selector-main.js/*"
+            ],
+            "@vybrat-komplekt-1-selector-render-scss": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector\\scss\\vybrat-komplekt-1-selector-render.scss"
+            ],
+            "@vybrat-komplekt-1-selector-render-scss/*": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector\\scss\\vybrat-komplekt-1-selector-render.scss/*"
+            ],
+            "@vybrat-komplekt-1-selector-interaction-scss": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector\\scss\\vybrat-komplekt-1-selector-interaction.scss"
+            ],
+            "@vybrat-komplekt-1-selector-interaction-scss/*": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector\\scss\\vybrat-komplekt-1-selector-interaction.scss/*"
+            ],
+            "@vybrat-komplekt-1-selector-fonts": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector\\fonts"
+            ],
+            "@vybrat-komplekt-1-selector-fonts/*": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector\\fonts/*"
+            ],
+            "@vybrat-komplekt-1-selector-img": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector\\img"
+            ],
+            "@vybrat-komplekt-1-selector-img/*": [
+                "@components\\page-parts\\vybrat-komplekt-1-selector\\img/*"
+            ],
+            "@vybrat-komplekt-2-catalog": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog"
+            ],
+            "@vybrat-komplekt-2-catalog/*": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog/*"
+            ],
+            "@vybrat-komplekt-2-catalog-main-js": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog\\js\\vybrat-komplekt-2-catalog-main.js"
+            ],
+            "@vybrat-komplekt-2-catalog-main-js/*": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog\\js\\vybrat-komplekt-2-catalog-main.js/*"
+            ],
+            "@vybrat-komplekt-2-catalog-render-scss": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog\\scss\\vybrat-komplekt-2-catalog-render.scss"
+            ],
+            "@vybrat-komplekt-2-catalog-render-scss/*": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog\\scss\\vybrat-komplekt-2-catalog-render.scss/*"
+            ],
+            "@vybrat-komplekt-2-catalog-interaction-scss": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog\\scss\\vybrat-komplekt-2-catalog-interaction.scss"
+            ],
+            "@vybrat-komplekt-2-catalog-interaction-scss/*": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog\\scss\\vybrat-komplekt-2-catalog-interaction.scss/*"
+            ],
+            "@vybrat-komplekt-2-catalog-fonts": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog\\fonts"
+            ],
+            "@vybrat-komplekt-2-catalog-fonts/*": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog\\fonts/*"
+            ],
+            "@vybrat-komplekt-2-catalog-img": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog\\img"
+            ],
+            "@vybrat-komplekt-2-catalog-img/*": [
+                "@components\\page-parts\\vybrat-komplekt-2-catalog\\img/*"
+            ],
+            "@vybrat-komplekt-3-send-message": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message"
+            ],
+            "@vybrat-komplekt-3-send-message/*": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message/*"
+            ],
+            "@vybrat-komplekt-3-send-message-main-js": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message\\js\\vybrat-komplekt-3-send-message-main.js"
+            ],
+            "@vybrat-komplekt-3-send-message-main-js/*": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message\\js\\vybrat-komplekt-3-send-message-main.js/*"
+            ],
+            "@vybrat-komplekt-3-send-message-render-scss": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message\\scss\\vybrat-komplekt-3-send-message-render.scss"
+            ],
+            "@vybrat-komplekt-3-send-message-render-scss/*": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message\\scss\\vybrat-komplekt-3-send-message-render.scss/*"
+            ],
+            "@vybrat-komplekt-3-send-message-interaction-scss": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message\\scss\\vybrat-komplekt-3-send-message-interaction.scss"
+            ],
+            "@vybrat-komplekt-3-send-message-interaction-scss/*": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message\\scss\\vybrat-komplekt-3-send-message-interaction.scss/*"
+            ],
+            "@vybrat-komplekt-3-send-message-fonts": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message\\fonts"
+            ],
+            "@vybrat-komplekt-3-send-message-fonts/*": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message\\fonts/*"
+            ],
+            "@vybrat-komplekt-3-send-message-img": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message\\img"
+            ],
+            "@vybrat-komplekt-3-send-message-img/*": [
+                "@components\\page-parts\\vybrat-komplekt-3-send-message\\img/*"
+            ],
+            "@vybrat-komplekt-4-car-svg": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg"
+            ],
+            "@vybrat-komplekt-4-car-svg/*": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg/*"
+            ],
+            "@vybrat-komplekt-4-car-svg-main-js": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg\\js\\vybrat-komplekt-4-car-svg-main.js"
+            ],
+            "@vybrat-komplekt-4-car-svg-main-js/*": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg\\js\\vybrat-komplekt-4-car-svg-main.js/*"
+            ],
+            "@vybrat-komplekt-4-car-svg-render-scss": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg\\scss\\vybrat-komplekt-4-car-svg-render.scss"
+            ],
+            "@vybrat-komplekt-4-car-svg-render-scss/*": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg\\scss\\vybrat-komplekt-4-car-svg-render.scss/*"
+            ],
+            "@vybrat-komplekt-4-car-svg-interaction-scss": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg\\scss\\vybrat-komplekt-4-car-svg-interaction.scss"
+            ],
+            "@vybrat-komplekt-4-car-svg-interaction-scss/*": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg\\scss\\vybrat-komplekt-4-car-svg-interaction.scss/*"
+            ],
+            "@vybrat-komplekt-4-car-svg-fonts": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg\\fonts"
+            ],
+            "@vybrat-komplekt-4-car-svg-fonts/*": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg\\fonts/*"
+            ],
+            "@vybrat-komplekt-4-car-svg-img": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg\\img"
+            ],
+            "@vybrat-komplekt-4-car-svg-img/*": [
+                "@components\\page-parts\\vybrat-komplekt-4-car-svg\\img/*"
             ]
         }
     },
