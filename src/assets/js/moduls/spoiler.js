@@ -1,29 +1,29 @@
 import { wait } from '@js-libs/func-kit';
 
-//ПРИМЕЧАНИЕ: по умолчанию закрытые блоки спойледа должны быть скрыты с помощью атрибута hidden, если изначально блок должен быть открыт то атрибут hidden ставить не нужно, ВАЖНО!!! не нужно использовать dispaly: none
+//ПРИМЕЧАНИЕ: по умолчанию закрытые блоки спойледа должны быть скрыты с помощью класса spoiler-hidden, если изначально блок должен быть открыт то класс spoiler-hidden ставить не нужно
 export default class {
     constructor(el) {
         this.el = el; //записываем элемент который будем скрывать/показывать
 
-        this.status = this.el.hidden ? 'hide' : 'show'; //устанавливаемс статус видимости в зависимости от того скрыт элемент атрибутом hidden или нет
+        this.status = this.el.classList.contains('spoiler-hidden') ? 'hide' : 'show'; //устанавливаемс статус видимости в зависимости от того скрыт элемент или нет
 
         this.block_height = this.get_block_height(this.el); //в самом начале записываем высоту открытого блока спойлера
 
         this.el.ksn_spoiler = this; //записываем экземпляр объекта управления данным спройлером в его свойства
 
-        w._on('resize_throttle', () => (this.block_height = this.get_block_height(this.el)));//при ресайзе обязательно пересчитываем высоту открытого блока
+        w._on('resize_throttle', () => (this.block_height = this.get_block_height(this.el))); //при ресайзе обязательно пересчитываем высоту открытого блока
     }
 
     //получает высоту полностью раскрытого блока для el
     get_block_height() {
-        let block_was_hiddenly = this.el.hidden, //проверяем скрыт ли блок атрибутом hidden
+        let block_was_hiddenly = this.el.classList.contains('spoiler-hidden'), //проверяем скрыт ли блок
             result;
 
-        if (block_was_hiddenly) this.el.hidden = false; //если блок был скрыт, снимаем сокрытие чтоб получить нужные знаения
+        if (block_was_hiddenly) this.el.classList.remove('spoiler-hidden'); //если блок был скрыт, снимаем сокрытие чтоб получить нужные знаения
 
         result = this.el.offsetHeight; //получаем высоту полностью раскрытого блока
 
-        if (block_was_hiddenly) this.el.hidden = true; //если блок был скрыт, после получения нужных значение скрываем его снова
+        if (block_was_hiddenly) this.el.classList.add('spoiler-hidden'); //если блок был скрыт, после получения нужных значение скрываем его снова
 
         return result;
     }
@@ -77,7 +77,7 @@ export default class {
 
                 this.status = 'pending to show'; //помечаем что блок в процессе появления
 
-                el.style.overflow = 'hidden'; //нужно добавить чтоб когда покажем блок убрав hidden атрибут, текс в блоке не вылез и не отобразился за его пределами
+                el.style.overflow = 'hidden'; //нужно добавить чтоб когда покажем блок убрав spoiler-hidden класс, текс в блоке не вылез и не отобразился за его пределами
                 el.style.height = el.offsetHeight + 'px'; //текущее значение высоты, если блок был скрыт то тут ноль, если же был скрыт не полностью, т.е. мы кликнули в момент закрывания, тот тут будет текщая высота блока
 
                 //делаем все внешние и внутренние отступы блока нулевыми
@@ -86,7 +86,7 @@ export default class {
                 el.style.marginTop = 0;
                 el.style.marginBottom = 0;
 
-                el.hidden = false; //делаем блок видимым
+                el.classList.remove('spoiler-hidden'); //делаем блок видимым
 
                 el.offsetHeight; //делаем данный вызов для того чтоб убедится что новое значение высоты применилось к блоку
 
@@ -186,7 +186,7 @@ export default class {
                 //дожидаемся сокрытия блока
                 await this.pending_to_hide_promise
                     .then(() => {
-                        el.hidden = true; //делаем блок скрытым
+                        el.classList.add('spoiler-hidden'); //делаем блок скрытым
 
                         //чистим стили
                         el.style.height = '';

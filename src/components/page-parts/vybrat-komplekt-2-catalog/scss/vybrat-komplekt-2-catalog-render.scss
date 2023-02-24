@@ -1,0 +1,29 @@
+.catalog-marka-group {
+    padding-top: var(--medium-gap);
+    grid-column: 1/-1;
+
+    &__title {
+        font: var(--h2);
+        margin-bottom: var(--small-gap);
+    }
+
+    &__models {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: var(--gap);
+
+        @media (min-width: rem(640)) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        &-item {
+            &--hide {
+                display: none;
+            }
+        }
+    }
+
+    &--hide {
+        display: none;
+    }
+}

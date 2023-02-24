@@ -1,0 +1,107 @@
+.dostavka-i-oplata {
+    margin-bottom: var(--big-gap);
+
+    h1 {
+        margin-bottom: var(--medium-gap);
+    }
+
+    &__razdel {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        align-items: start;
+
+        @media (min-width: rem(960)) {
+            margin-bottom: var(--medium-gap);
+        }
+
+        .spoiler-hidden {
+            @media (min-width: rem(640)) {
+                display: block;
+            }
+        }
+
+        &:after {
+            content: '';
+            border-bottom: var(--border-width-bold) solid var(--gray);
+            margin: var(--small-gap) 0;
+            grid-column: 1/-1;
+
+            @media (min-width: rem(960)) {
+                display: none;
+            }
+        }
+
+        &-title {
+            grid-column: 1/-1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            @media (min-width: rem(960)) {
+                margin-bottom: 0;
+                grid-column: 1/5;
+            }
+
+            &-spoiler-toggle-icon {
+                font-size: rem(20);
+                transform: rotate(45deg);
+                transition: transform 0.3s ease-out;
+                justify-content: center;
+
+                @media (min-width: rem(640)) {
+                    display: none;
+                }
+
+                &--open {
+                    transform: rotate(0);
+                }
+            }
+        }
+
+        &-content-wrap {
+            grid-column: 1/-1;
+            margin-top: var(--small-gap);
+
+            @media (min-width: rem(960)) {
+                grid-column: 5/-1;
+                margin-top: 0;
+            }
+
+            &-content {
+                opacity: 0;
+
+                @media (min-width: rem(640)) {
+                    opacity: 1 !important; //нужно чтоб переопределить прозрачнось при закрытом спойлере
+                }
+
+                & p:first-child{
+                    margin-top: 0;
+                }
+
+                & p:last-child{
+                    margin-bottom: 0;
+                }
+                
+                & p:only-child{
+                    margin-top: 0;
+                    margin-bottom: 0;
+                }
+
+                &-img-collect {
+                    display: flex;
+                    flex-wrap: wrap;
+
+                    & > div {
+                        width: rem(80);
+                        margin-right: var(--small-gap);
+
+                        @media (min-width: rem(1920)) {
+                            width: adaptiv_rem_size(80, 1920);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

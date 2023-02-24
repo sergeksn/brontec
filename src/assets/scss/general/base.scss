@@ -182,7 +182,7 @@ input {
         max-width: none;
     }
 
-    &:disabled{
+    &:disabled {
         background-color: var(--gray);
     }
 
@@ -190,7 +190,7 @@ input {
         &:hover {
             background-color: var(--blue-hover);
 
-            &:disabled{
+            &:disabled {
                 background-color: var(--gray);
                 cursor: not-allowed;
             }
@@ -378,6 +378,12 @@ input.custom-text-input {
     }
 }
 //кастомные текстовые поля
+
+//для скрытия спойлера
+.spoiler-hidden {
+    display: none;
+}
+//для скрытия спойлера
 
 //блоки для того чтоб получать значения переменных в js
 .test-div {

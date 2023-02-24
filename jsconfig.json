@@ -369,6 +369,78 @@
             "@scroll-to-top-button-img/*": [
                 "@components\\blocks\\scroll-to-top-button\\img/*"
             ],
+            "@selector-marka-model": [
+                "@components\\blocks\\selector-marka-model"
+            ],
+            "@selector-marka-model/*": [
+                "@components\\blocks\\selector-marka-model/*"
+            ],
+            "@selector-marka-model-main-js": [
+                "@components\\blocks\\selector-marka-model\\js\\selector-marka-model-main.js"
+            ],
+            "@selector-marka-model-main-js/*": [
+                "@components\\blocks\\selector-marka-model\\js\\selector-marka-model-main.js/*"
+            ],
+            "@selector-marka-model-render-scss": [
+                "@components\\blocks\\selector-marka-model\\scss\\selector-marka-model-render.scss"
+            ],
+            "@selector-marka-model-render-scss/*": [
+                "@components\\blocks\\selector-marka-model\\scss\\selector-marka-model-render.scss/*"
+            ],
+            "@selector-marka-model-interaction-scss": [
+                "@components\\blocks\\selector-marka-model\\scss\\selector-marka-model-interaction.scss"
+            ],
+            "@selector-marka-model-interaction-scss/*": [
+                "@components\\blocks\\selector-marka-model\\scss\\selector-marka-model-interaction.scss/*"
+            ],
+            "@selector-marka-model-fonts": [
+                "@components\\blocks\\selector-marka-model\\fonts"
+            ],
+            "@selector-marka-model-fonts/*": [
+                "@components\\blocks\\selector-marka-model\\fonts/*"
+            ],
+            "@selector-marka-model-img": [
+                "@components\\blocks\\selector-marka-model\\img"
+            ],
+            "@selector-marka-model-img/*": [
+                "@components\\blocks\\selector-marka-model\\img/*"
+            ],
+            "@standart-video-block": [
+                "@components\\blocks\\standart-video-block"
+            ],
+            "@standart-video-block/*": [
+                "@components\\blocks\\standart-video-block/*"
+            ],
+            "@standart-video-block-main-js": [
+                "@components\\blocks\\standart-video-block\\js\\standart-video-block-main.js"
+            ],
+            "@standart-video-block-main-js/*": [
+                "@components\\blocks\\standart-video-block\\js\\standart-video-block-main.js/*"
+            ],
+            "@standart-video-block-render-scss": [
+                "@components\\blocks\\standart-video-block\\scss\\standart-video-block-render.scss"
+            ],
+            "@standart-video-block-render-scss/*": [
+                "@components\\blocks\\standart-video-block\\scss\\standart-video-block-render.scss/*"
+            ],
+            "@standart-video-block-interaction-scss": [
+                "@components\\blocks\\standart-video-block\\scss\\standart-video-block-interaction.scss"
+            ],
+            "@standart-video-block-interaction-scss/*": [
+                "@components\\blocks\\standart-video-block\\scss\\standart-video-block-interaction.scss/*"
+            ],
+            "@standart-video-block-fonts": [
+                "@components\\blocks\\standart-video-block\\fonts"
+            ],
+            "@standart-video-block-fonts/*": [
+                "@components\\blocks\\standart-video-block\\fonts/*"
+            ],
+            "@standart-video-block-img": [
+                "@components\\blocks\\standart-video-block\\img"
+            ],
+            "@standart-video-block-img/*": [
+                "@components\\blocks\\standart-video-block\\img/*"
+            ],
             "@block-showed-on-scroll": [
                 "@components\\moduls\\block-showed-on-scroll"
             ],

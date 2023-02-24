@@ -244,7 +244,7 @@ let header = qs('header'),
 
                     if (check_abort_render()) return; //проверяем нужно ли продолжать рендер
 
-                    show({ el: results_any_links, display: 'grid' }); //плавно показываем блок со ссылками
+                    show({ el: results_any_links, display: 'flex' }); //плавно показываем блок со ссылками
 
                     add_in_observe(qsa('[data-img-type]', results_data)); //добавляем отслеживание видимости картинок в окне поиска
 

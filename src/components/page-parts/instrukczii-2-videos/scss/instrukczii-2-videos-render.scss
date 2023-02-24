@@ -1,0 +1,48 @@
+.instrukczii-2 {
+    padding: var(--medium-gap) 0 var(--big-gap) 0;
+
+    &__wrap {
+        grid-column: 1/-1;
+        display: grid;
+        grid-gap: var(--medium-gap);
+
+        &-playlist {
+            display: none;
+
+            &[data-common-instruction] {
+                display: block;
+            }
+
+            &--show {
+                display: block;
+            }
+
+            &--hide[data-common-instruction] {
+                display: none;
+            }
+
+            &-title {
+                font: var(--h2);
+                margin-bottom: var(--small-gap);
+            }
+
+            &-video {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-gap: rem(40) var(--gap);
+
+                @media (min-width: rem(640)) {
+                    grid-template-columns: 1fr 1fr;
+                }
+
+                @media (min-width: rem(960)) {
+                    grid-template-columns: 1fr 1fr 1fr;
+                }
+
+                @media (min-width: rem(1920)) {
+                    grid-gap: adaptiv_rem_size(40, 1920) var(--gap);
+                }
+            }
+        }
+    }
+}

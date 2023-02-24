@@ -358,16 +358,20 @@ async function svg_kit_items_render(wrap) {
     all_obj.forEach(obj => {
         let svg = [...obj.contentDocument.childNodes].find(el => el.tagName === 'svg'); //находим именно svg т.к. если загружена грязная svg в ней могут быть лишние элементы
 
-        svg.setAttribute('data-status', obj.getAttribute('data-status'));//переносим data-status
-        svg.setAttribute('id', obj.getAttribute('id'));//переносим id
+        let id = obj.getAttribute('id'),
+            data_status = obj.getAttribute('data-status') ?? 'active'; // если не указан по умолчанию активен
+
+        if (id) svg.setAttribute('id', id); //переносим id если он есть
+
+        svg.setAttribute('data-status', data_status); //переносим data-status
 
         obj.remove(); //удаляем сам объект
-        wrap.append(svg);//добавлям svg в нашу оболочку wrap
+        wrap.append(svg); //добавлям svg в нашу оболочку wrap
     });
 
     await wait(() => qs('[data-main]', wrap.parentNode).classList.contains('uploaded'), true); //ждём пока не загрузится основная картинка
 
-    wrap.style.opacity = '1';//показываем нашу оболочку с содержимыми svg
+    wrap.style.opacity = '1'; //показываем нашу оболочку с содержимыми svg
 }
 //загружает все svg картинки из object и вставляет их в виде svg DOM элементов
 

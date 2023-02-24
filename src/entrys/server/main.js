@@ -11,9 +11,15 @@ import '@pages/ostavit_otziv.ejs';
 import '@js/main.js';
 import '@scss/main.scss';
 
-import '@product-small-info-block-img/search.jpg';
+import '@product-small-info-block-img/front.jpg';
 import '@product-small-info-block-img/instruction.jpg';
-import '@product-small-info-block-img/kit.svg';
+import '@product-small-info-block-img/bagazhnik.svg';
+import '@product-small-info-block-img/fary.svg';
+import '@product-small-info-block-img/kapot.svg';
+import '@product-small-info-block-img/krylya.svg';
+import '@product-small-info-block-img/krysha.svg';
+import '@product-small-info-block-img/peredniye-stoyki.svg';
+import '@product-small-info-block-img/ruchki.svg';
 
 // import '@img/media-test/test.svg';
 

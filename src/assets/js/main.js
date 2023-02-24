@@ -39,6 +39,7 @@ import "@pop-up-messages-main-js";
 import "@product-small-info-block-main-js";
 import "@scroll-to-top-button-main-js";
 import "@selector-marka-model-main-js";
+import "@standart-video-block-main-js";
 import "@block-showed-on-scroll-main-js";
 import "@scrollbar-main-js";
 import "@detal-1-add-to-kit-main-js";
