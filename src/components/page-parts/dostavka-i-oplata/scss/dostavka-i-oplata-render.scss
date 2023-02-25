@@ -75,30 +75,26 @@
                     opacity: 1 !important; //нужно чтоб переопределить прозрачнось при закрытом спойлере
                 }
 
-                & p:first-child{
+                & p:first-child {
                     margin-top: 0;
                 }
 
-                & p:last-child{
+                & p:last-child {
                     margin-bottom: 0;
                 }
-                
-                & p:only-child{
+
+                & p:only-child {
                     margin-top: 0;
                     margin-bottom: 0;
                 }
 
                 &-img-collect {
-                    display: flex;
-                    flex-wrap: wrap;
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, rem(80));
+                    grid-gap: var(--small-gap);
 
-                    & > div {
-                        width: rem(80);
-                        margin-right: var(--small-gap);
-
-                        @media (min-width: rem(1920)) {
-                            width: adaptiv_rem_size(80, 1920);
-                        }
+                    @media (min-width: rem(1920)) {
+                        grid-template-columns: repeat(auto-fill, adaptiv_rem_size(80, 1920));
                     }
                 }
             }

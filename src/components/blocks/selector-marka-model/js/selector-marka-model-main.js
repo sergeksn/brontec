@@ -66,8 +66,8 @@ let CUSTOM_SELECTOR_CONTROLER = {
         let el = e.currentTarget, //элемент marka_option_items по которому кликнули
             marka_text = el.textContent; //записываем название марки
 
-        //если мы выбрали пункт 'Все марки' для показа всех марок
-        if (marka_text === 'Все марки') {
+        //если мы выбрали пункт 'Все марки' или 'Общие инструкции' для показа всех марок
+        if (el.hasAttribute('data-all-marki-option-item')) {
             this.marka_select_set_default(); //очищает селектор марки устанавливая его по умолчанию в "Марка"
 
             this.model_select_set_default(); //очищает селектор модели устанавливая его по умолчанию в "Модель"
