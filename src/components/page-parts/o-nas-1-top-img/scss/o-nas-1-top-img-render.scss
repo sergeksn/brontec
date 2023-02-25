@@ -1,0 +1,64 @@
+.o-nas-1 {
+    position: relative;
+    margin-bottom: rem(100);
+
+    @media (min-width: rem(640)) {
+        margin-bottom: rem(50);
+    }
+
+    @media (min-width: rem(1240)) {
+        margin-bottom: 0;
+    }
+
+    &_hlebnie-kroshki {
+        display: none;
+
+        @media (min-width: rem(960)) {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+
+            * {
+                color: var(--white);
+            }
+
+            a {
+                @media (any-hover: hover) {
+                    &:hover {
+                        color: var(--light);
+                    }
+                }
+            }
+        }
+    }
+
+    &_text-wrap {
+       
+        font: var(--h3);
+
+        @media (min-width: rem(960)) {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @media (min-width: rem(1240)) {
+            bottom: rem(30);
+        }
+
+        @media (min-width: rem(1920)) {
+            bottom: adaptiv_rem_size(30, 1920);
+        }
+
+        &-content {
+            grid-column: 1/-1;
+
+            @media (min-width: rem(1240)) {
+                width: 45%;
+            }
+        }
+    }
+}

@@ -1485,41 +1485,77 @@
             "@o-nas-1-top-img-img/*": [
                 "@components\\page-parts\\o-nas-1-top-img\\img/*"
             ],
-            "@o-nas-2-content": [
-                "@components\\page-parts\\o-nas-2-content"
+            "@o-nas-2-thri-img-text": [
+                "@components\\page-parts\\o-nas-2-thri-img-text"
             ],
-            "@o-nas-2-content/*": [
-                "@components\\page-parts\\o-nas-2-content/*"
+            "@o-nas-2-thri-img-text/*": [
+                "@components\\page-parts\\o-nas-2-thri-img-text/*"
             ],
-            "@o-nas-2-content-main-js": [
-                "@components\\page-parts\\o-nas-2-content\\js\\o-nas-2-content-main.js"
+            "@o-nas-2-thri-img-text-main-js": [
+                "@components\\page-parts\\o-nas-2-thri-img-text\\js\\o-nas-2-thri-img-text-main.js"
             ],
-            "@o-nas-2-content-main-js/*": [
-                "@components\\page-parts\\o-nas-2-content\\js\\o-nas-2-content-main.js/*"
+            "@o-nas-2-thri-img-text-main-js/*": [
+                "@components\\page-parts\\o-nas-2-thri-img-text\\js\\o-nas-2-thri-img-text-main.js/*"
             ],
-            "@o-nas-2-content-render-scss": [
-                "@components\\page-parts\\o-nas-2-content\\scss\\o-nas-2-content-render.scss"
+            "@o-nas-2-thri-img-text-render-scss": [
+                "@components\\page-parts\\o-nas-2-thri-img-text\\scss\\o-nas-2-thri-img-text-render.scss"
             ],
-            "@o-nas-2-content-render-scss/*": [
-                "@components\\page-parts\\o-nas-2-content\\scss\\o-nas-2-content-render.scss/*"
+            "@o-nas-2-thri-img-text-render-scss/*": [
+                "@components\\page-parts\\o-nas-2-thri-img-text\\scss\\o-nas-2-thri-img-text-render.scss/*"
             ],
-            "@o-nas-2-content-interaction-scss": [
-                "@components\\page-parts\\o-nas-2-content\\scss\\o-nas-2-content-interaction.scss"
+            "@o-nas-2-thri-img-text-interaction-scss": [
+                "@components\\page-parts\\o-nas-2-thri-img-text\\scss\\o-nas-2-thri-img-text-interaction.scss"
             ],
-            "@o-nas-2-content-interaction-scss/*": [
-                "@components\\page-parts\\o-nas-2-content\\scss\\o-nas-2-content-interaction.scss/*"
+            "@o-nas-2-thri-img-text-interaction-scss/*": [
+                "@components\\page-parts\\o-nas-2-thri-img-text\\scss\\o-nas-2-thri-img-text-interaction.scss/*"
             ],
-            "@o-nas-2-content-fonts": [
-                "@components\\page-parts\\o-nas-2-content\\fonts"
+            "@o-nas-2-thri-img-text-fonts": [
+                "@components\\page-parts\\o-nas-2-thri-img-text\\fonts"
             ],
-            "@o-nas-2-content-fonts/*": [
-                "@components\\page-parts\\o-nas-2-content\\fonts/*"
+            "@o-nas-2-thri-img-text-fonts/*": [
+                "@components\\page-parts\\o-nas-2-thri-img-text\\fonts/*"
             ],
-            "@o-nas-2-content-img": [
-                "@components\\page-parts\\o-nas-2-content\\img"
+            "@o-nas-2-thri-img-text-img": [
+                "@components\\page-parts\\o-nas-2-thri-img-text\\img"
             ],
-            "@o-nas-2-content-img/*": [
-                "@components\\page-parts\\o-nas-2-content\\img/*"
+            "@o-nas-2-thri-img-text-img/*": [
+                "@components\\page-parts\\o-nas-2-thri-img-text\\img/*"
+            ],
+            "@o-nas-3-bottom-img-text": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text"
+            ],
+            "@o-nas-3-bottom-img-text/*": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text/*"
+            ],
+            "@o-nas-3-bottom-img-text-main-js": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text\\js\\o-nas-3-bottom-img-text-main.js"
+            ],
+            "@o-nas-3-bottom-img-text-main-js/*": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text\\js\\o-nas-3-bottom-img-text-main.js/*"
+            ],
+            "@o-nas-3-bottom-img-text-render-scss": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text\\scss\\o-nas-3-bottom-img-text-render.scss"
+            ],
+            "@o-nas-3-bottom-img-text-render-scss/*": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text\\scss\\o-nas-3-bottom-img-text-render.scss/*"
+            ],
+            "@o-nas-3-bottom-img-text-interaction-scss": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text\\scss\\o-nas-3-bottom-img-text-interaction.scss"
+            ],
+            "@o-nas-3-bottom-img-text-interaction-scss/*": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text\\scss\\o-nas-3-bottom-img-text-interaction.scss/*"
+            ],
+            "@o-nas-3-bottom-img-text-fonts": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text\\fonts"
+            ],
+            "@o-nas-3-bottom-img-text-fonts/*": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text\\fonts/*"
+            ],
+            "@o-nas-3-bottom-img-text-img": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text\\img"
+            ],
+            "@o-nas-3-bottom-img-text-img/*": [
+                "@components\\page-parts\\o-nas-3-bottom-img-text\\img/*"
             ],
             "@politika-konfidenczialnosti": [
                 "@components\\page-parts\\politika-konfidenczialnosti"

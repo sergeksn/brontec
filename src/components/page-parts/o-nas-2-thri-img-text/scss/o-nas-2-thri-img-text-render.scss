@@ -1,0 +1,87 @@
+.o-nas-2 {
+    position: relative;
+
+    &__first-block {
+        grid-row-gap: rem(10);
+        padding-bottom: var(--medium-gap);
+
+        @media (min-width: rem(640)) {
+            padding-bottom: adaptiv_rem_size(152, 640, 330, 1920);
+        }
+
+        @media (min-width: rem(1920)) {
+            padding-bottom: adaptiv_rem_size(330, 1920);
+        }
+
+        &-text {
+            grid-column: 3/-1;
+            order: 1;
+            margin-bottom: var(--medium-gap);
+
+            @media (min-width: rem(640)) {
+                grid-column: 1/7;
+                order: 0;
+                margin-top: adaptiv_rem_size(114, 640, 210, 1920);
+                margin-bottom: 0;
+            }
+
+            @media (min-width: rem(1240)) {
+                grid-column: 1/5;
+            }
+
+            @media (min-width: rem(1920)) {
+                margin-top: adaptiv_rem_size(210, 1920);
+            }
+        }
+
+        &-img {
+            grid-column: 3/-1;
+
+            @media (min-width: rem(640)) {
+                grid-column: 8/-1;
+            }
+
+            .image {
+                @media (min-width: rem(1240)) {
+                    padding-top: 125% !important;
+                }
+            }
+        }
+
+        &-overlay-img {
+            order: 2;
+            grid-column: 1/-1;
+
+            @media (min-width: rem(640)) {
+                grid-column: 1/9;
+                width: 100%;
+                position: absolute;
+                bottom: adaptiv_rem_size(40, 640, 100, 1920);
+            }
+
+            @media (min-width: rem(1920)) {
+                bottom: adaptiv_rem_size(100, 1920);
+            }
+        }
+    }
+
+    &__second-block{
+        margin-bottom: rem(100);
+
+        @media (min-width: rem(640)) {
+            margin-bottom: adaptiv_rem_size(100, 640, 320, 1920);
+        }
+
+        @media (min-width: rem(1920)) {
+            margin-bottom: adaptiv_rem_size(320, 1920);
+        }
+
+        &-img{
+            grid-column: 1/-1;
+
+            @media (min-width: rem(640)) {
+                grid-column: 5/-1;
+            }
+        }
+    }
+}

@@ -1,0 +1,122 @@
+.o-nas-3 {
+    margin-bottom: rem(100);
+
+    @media (min-width: rem(640)) {
+        margin-bottom: adaptiv_rem_size(100, 640, 286, 1920);
+    }
+
+    @media (min-width: rem(1920)) {
+        margin-bottom: adaptiv_rem_size(286, 1920);
+    }
+
+    &__left-part {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 1/6;
+        }
+
+        &-title {
+            font: var(--h2);
+            margin-bottom: rem(40);
+
+            @media (min-width: rem(640)) {
+                margin-bottom: adaptiv_rem_size(40, 640, 100, 1920);
+            }
+
+            @media (min-width: rem(1920)) {
+                margin-bottom: adaptiv_rem_size(100, 1920);
+            }
+        }
+
+        &-text-1 {
+            margin-bottom: rem(20);
+
+            @media (min-width: rem(640)) {
+                margin-bottom: adaptiv_rem_size(20, 640, 30, 1920);
+            }
+
+            @media (min-width: rem(960)) {
+                width: 80%;
+            }
+
+            @media (min-width: rem(1920)) {
+                margin-bottom: adaptiv_rem_size(30, 1920);
+            }
+        }
+
+        &-line {
+            display: none;
+
+            @media (min-width: rem(960)) {
+                position: relative;
+                display: block;
+                width: calc(140% + var(--gap) * 2);
+                z-index: 1;
+                border-bottom: var(--border-width-bold) solid var(--blue);
+                margin-bottom: var(--gap);
+            }
+        }
+
+        &-text-2 {
+            margin-bottom: rem(40);
+
+            @media (min-width: rem(640)) {
+                margin-bottom: 0;
+            }
+
+            @media (min-width: rem(960)) {
+                width: 80%;
+            }
+        }
+    }
+
+    &__right-part {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 7/-1;
+        }
+
+        .image {
+            @media (min-width: rem(960)) {
+                padding-top: 84.4828% !important;
+            }
+        }
+    }
+
+    &__bottom-part {
+        grid-column: 1/-1;
+        margin-top: rem(20);
+        font: var(--h3);
+
+        @media (min-width: rem(640)) {
+            margin-top: adaptiv_rem_size(100, 640, 144, 1920);
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 1/9;
+        }
+
+        @media (min-width: rem(1920)) {
+            margin-top: adaptiv_rem_size(144, 1920);
+        }
+
+        &-email {
+            margin-top: rem(20);
+            display: inline-block;
+
+            @media (min-width: rem(640)) {
+                margin-top: adaptiv_rem_size(20, 640, 50, 1920);
+            }
+
+            @media (min-width: rem(1920)) {
+                margin-top: adaptiv_rem_size(50, 1920);
+            }
+        }
+    }
+}
