@@ -2,9 +2,8 @@
     position: relative;
     width: 100%;
 
-    > div:first-child,
-    > img,
-    > [data-img-type='kit'],
+    > [data-img-type='img'],
+    > [data-img-type='bg'],
     > [data-img-type='img-overlay'],
     > [data-img-type='bg-overlay'],
     > [data-img-type='svg-kit-items'] {

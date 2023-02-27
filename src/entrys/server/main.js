@@ -12,6 +12,8 @@ import '@js/main.js';
 import '@scss/main.scss';
 
 import '@product-small-info-block-img/front.jpg';
+import '@product-small-info-block-img/back.jpg';
+import '@product-small-info-block-img/search-overlay.jpg';
 import '@product-small-info-block-img/instruction.jpg';
 import '@product-small-info-block-img/bagazhnik.svg';
 import '@product-small-info-block-img/fary.svg';

@@ -116,6 +116,18 @@
             width: adaptiv_rem_size(280, 1920);
             right: adaptiv_rem_size(20, 1920);
         }
+
+        &-instruction-img {
+            position: absolute;
+            top: 0;
+            height: 100%;
+
+            [data-img-type='bg'] {
+                background-size: contain;
+                width: 59%;
+                margin: auto;
+            }
+        }
     }
 
     &__gradient-fon {

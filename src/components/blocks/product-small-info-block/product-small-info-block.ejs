@@ -3,25 +3,61 @@ let block_type = type === "header-search" ? "product-info--header-search" : null
 %>
 <a href="#test">
   <div class="product-info <%-block_type%>">
-    <div class="product-info__description">
-      <div class="product-info__title">Комплект <span class="product-info__searched-text">NIS</span>san элементов салона для Nissan Murano</div>
-      <div class="product-info__small-description">краткое описание продукта в несколько слов</div>
-      <div class="product-info__price-block">
-        <div class="product-info__old-price old-price">15000</div>
-        <div class="product-info__current-price ruble-price">11000</div>
-        <div class="product-info__discont discont-price">15</div>
+      <div class="product-info__description">
+          <div class="product-info__title">Комплект <span class="product-info__searched-text">NIS</span>san элементов салона для Nissan Murano</div>
+          <div class="product-info__small-description">краткое описание продукта в несколько слов</div>
+          <div class="product-info__price-block">
+              <div class="product-info__old-price old-price ruble-price">15000</div>
+              <div class="product-info__current-price ruble-price">11000</div>
+              <div class="product-info__discont discont-price">15</div>
+          </div>
       </div>
-    </div>
-    <div class="product-info__img-wrap">
-      <div class="product-info__gradient-fon"></div>
-      <div class="image" style="padding-top:66.6667%;">
-        <img data-img-type="img" data-main data-src="~@product-small-info-block-img/search.jpg" data-original-w="2145" data-original-h="1430">
-        <div data-img-type="kit" data-src="~@product-small-info-block-img/kit.svg" data-kit-all-id="dvernie-ruchki fary kapot krylya krysha perednie-stoyki" data-kit-nead-id="dvernie-ruchki fary kapot krylya krysha perednie-stoyki"></div>
-        <div class="loader">
-          <div class="loader__circle"></div>
-        </div>
+      <div class="product-info__img-wrap">
+          <div class="product-info__gradient-fon"></div>
+          <div class="image" style="padding-top: 66.6667%">
+              <img data-img-type="img" data-main data-src="~@product-small-info-block-img/front.jpg" data-original-w="2145" data-original-h="1430" />
+              <div data-img-type="svg-kit-items">
+                  <object data-src="~@product-small-info-block-img/fary.svg"></object>
+                  <object data-src="~@product-small-info-block-img/kapot.svg"></object>
+                  <object data-src="~@product-small-info-block-img/krylya.svg"></object>
+                  <object data-src="~@product-small-info-block-img/krysha.svg"></object>
+                  <object data-src="~@product-small-info-block-img/peredniye-stoyki.svg"></object>
+                  <object data-src="~@product-small-info-block-img/ruchki.svg"></object>
+              </div>
+              <div class="loader">
+                  <div class="loader__circle"></div>
+              </div>
+          </div>
       </div>
-    </div>
-    <div class="product-info__arrow icon--arrow-middle"></div>
+      <div class="product-info__arrow icon--arrow-middle"></div>
   </div>
 </a>
+<a href="#test">
+    <div class="product-info <%-block_type%>">
+        <div class="product-info__description">
+            <div class="product-info__title">Инструкция по монтажу Nissan Murano</div>
+            <div class="product-info__small-description">краткое описание продукта в несколько слов</div>
+        </div>
+        <div class="product-info__img-wrap">
+            <div class="product-info__gradient-fon"></div>
+            <div class="image" style="padding-top: 66.6667%">
+                <img data-img-type="img" data-main data-src="~@product-small-info-block-img/front.jpg" data-original-w="2145" data-original-h="1430" />
+                <div data-img-type="svg-kit-items">
+                    <object data-src="~@product-small-info-block-img/fary.svg"></object>
+                    <object data-src="~@product-small-info-block-img/kapot.svg"></object>
+                    <object data-src="~@product-small-info-block-img/krylya.svg"></object>
+                    <object data-src="~@product-small-info-block-img/krysha.svg"></object>
+                    <object data-src="~@product-small-info-block-img/peredniye-stoyki.svg"></object>
+                    <object data-src="~@product-small-info-block-img/ruchki.svg"></object>
+                </div>
+                <div class="image product-info__img-wrap-instruction-img">
+                    <div data-img-type="bg" data-src="~@product-small-info-block-img/search-overlay.jpg" data-original-w="1160" data-original-h="720"></div>
+                </div>
+                <div class="loader">
+                    <div class="loader__circle"></div>
+                </div>
+            </div>
+        </div>
+        <div class="product-info__arrow icon--arrow-middle"></div>
+    </div>
+  </a>

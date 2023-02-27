@@ -30,6 +30,10 @@
                         color: var(--light);
                     }
                 }
+
+                &:visited {
+                    color: var(--white);
+                }
             }
         }
     }

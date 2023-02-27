@@ -46,6 +46,8 @@ let CUSTOM_SELECTOR_CONTROLER = {
 
         current_sected_marka.classList.add('option-item--selected'); //выделяем выбраную марку
 
+        this.model_select_enable(); //делаем выбор модели доступным для взаимодействия
+
         return true;
     },
     //устанавливает значение марки и делает активный выбраных пункт
@@ -80,8 +82,6 @@ let CUSTOM_SELECTOR_CONTROLER = {
         //если мы выбрали пункт 'Все марки' для показа всех марок
 
         this.marka_select_set_value(marka_text); //устанавливает значение марки и делает активный выбраных пункт
-
-        this.model_select_enable(); //делаем выбор модели доступным для взаимодействия
 
         this.selector_wrap.dispatchEvent(this.select_chenge_event); //запускаем кастомоное событие смены марки или модели
     },
@@ -252,9 +252,7 @@ let CUSTOM_SELECTOR_CONTROLER = {
 
             //если передана модель
             if (model) {
-                let set_model = this.model_select_set_value(model); //выбираем модель если есть
-
-                if (set_model) this.model_select_enable(); //если нашли модель и выбрали то снимаем блокировку с селектора моделей
+                this.model_select_set_value(model); //выбираем модель если есть
             }
             //если передана модель
 

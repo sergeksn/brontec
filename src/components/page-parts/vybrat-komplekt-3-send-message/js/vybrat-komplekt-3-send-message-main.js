@@ -10,7 +10,6 @@ if (form) {
             e.preventDefault();
 
             let button = qs('button[type="submit"]', form),
-                ajax_url = 'http://shop.loc/wp-content/plugins/ksn_shop/ksn_ajax.php',
                 button_text = button.innerText,
                 email = qs('input', form),
                 message = qs('textarea', form),
@@ -30,7 +29,7 @@ if (form) {
             button.innerText = 'Ожидайте ...';
 
             //отправляем запрос на сервер что отправить сообщение и выводим соответсвующие всплывающие окна
-            await fetch(ajax_url, request_data)
+            await fetch(GDS.ajax_url, request_data)
                 .then(response => response.json()) //считываем переданные данные
                 .then(result => {
                     if (result.success) {
