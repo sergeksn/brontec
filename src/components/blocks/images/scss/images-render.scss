@@ -4,8 +4,12 @@
 
     > [data-img-type='img'],
     > [data-img-type='bg'],
+    > [data-img-type='img-swiper-loop'],
+    > [data-img-type='bg-swiper-loop'],
     > [data-img-type='img-overlay'],
     > [data-img-type='bg-overlay'],
+    > [data-img-type='img-template'],
+    > [data-img-type='bg-template'],
     > [data-img-type='svg-kit-items'] {
         position: absolute;
         inset: 0;
@@ -16,7 +20,8 @@
         background: center / cover no-repeat border-box;
     }
 
-    [data-img-type='svg-kit-items'] > svg[data-status='active'] {
+    [data-img-type='svg-kit-items'] > svg[data-active],
+    [data-img-type='svg-kit-items'][data-all-active] > svg {
         fill: var(--blue-transparent);
     }
 

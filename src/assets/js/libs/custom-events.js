@@ -83,6 +83,12 @@ const custom_events_list = {
         event: new CustomEvent('swipe'),
         initiator: params => new Swipe(params), //ВАЖНО: на одном элементе может быть только одно событие свайпа для корректной работы!
     },
+    img_first_loaded:{
+        event: new CustomEvent('img-first-loaded'),//событие сигнализирующие о том что картинка загружена первый раз, т.е. первая из её миниатюр
+    },
+    svg_kit_loaded: {
+        event: new CustomEvent('svg-kit-loaded'),//сработает когда загружены все svg картинки из набора svg в накладках на картинку машины
+    },
     resize_optimize: {
         event: new CustomEvent('resize_optimize'),
         initiator: add_custom_events_optimaze_and_throttle,

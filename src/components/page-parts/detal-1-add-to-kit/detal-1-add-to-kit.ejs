@@ -3,9 +3,16 @@
     <h1>Защита передних фар Brontero® для Nissan Qashqai</h1>
     <div class="detal-1-add-to-kit__img-wrap">
       <div class="detal-1-add-to-kit__img-wrap-title">Добавить в комплект</div>
-      <div class="image" style="padding-top:66.6667%;">
-        <img data-img-type="img" data-main data-src="~@detal-1-add-to-kit-img/car.jpg" data-original-w="2145" data-original-h="1430">
-        <div data-img-type="kit" data-src="~@detal-1-add-to-kit-img/kit.svg" data-kit-all-id="dvernie-ruchki fary kapot krylya krysha perednie-stoyki" data-kit-nead-id="fary"></div>
+      <div class="image" data-front style="padding-top:66.6667%;">
+        <img data-img-type="img" data-main data-src="~@komplekt-1-full-kit-img/front.jpg" data-original-w="2145" data-original-h="1430">
+        <div data-img-type="svg-kit-items">
+          <object id="ruchki" data-src="~@komplekt-1-full-kit-img/ruchki.svg"></object>
+          <object id="fary" data-src="~@komplekt-1-full-kit-img/fary.svg"></object>
+          <object id="peredniye-stoyki" data-src="~@komplekt-1-full-kit-img/peredniye-stoyki.svg"></object>
+          <object id="kapot" data-src="~@komplekt-1-full-kit-img/kapot.svg"></object>
+          <object id="krylya" data-src="~@komplekt-1-full-kit-img/krylya.svg"></object>
+          <object id="krysha" data-src="~@komplekt-1-full-kit-img/krysha.svg"></object>
+        </div>
         <div class="loader">
           <div class="loader__circle"></div>
         </div>
@@ -16,14 +23,32 @@
       <div class="detal-1-add-to-kit__data-add-to">
         <div class="detal-1-add-to-kit__data-add-to-checbox">
           <div class="custom-checbox custom-checbox--blue">
-            <input id="fary" type="checkbox" checked>
-            <label for="fary" class="icon--check-mark"></label>
+            <input id="fary-checkbox" type="checkbox" disabled data-position="front">
+            <label for="fary-checkbox" class="icon--check-mark"></label>
           </div>
         </div>
         <div>Передние фары</div>
       </div>
       <div class="detal-1-add-to-kit__data-price ruble-price">1 250</div>
-      <a href="http://localhost:3579/pages/komplekt.html?kit-composition-add=fary" class="button-main button-main--not-minmax-width detal-link-to-kit">← На страницу комплекта</a>
+      <a href="http://localhost:3579/pages/komplekt.html" class="button-main button-main--not-minmax-width detal-link-to-kit">← На страницу комплекта</a>
     </div>
   </div>
 </div>
+<script>
+  (() => {
+    GDS.product = {
+      kit_ms_id: '6854d8d2-9f1b-11ed-0a80-0b390027f9f8',
+      detal: 'fary'
+    }
+
+    let detal_info = JSON.parse(localStorage.getItem('kits-composition-info'))?.[GDS.product.kit_ms_id].includes(GDS.product.detal); /*пытаемся получить состяние данной детали из комплекта*/
+
+    if (detal_info) {
+      let target_input = qs('#' + GDS.product.detal + '-checkbox'),
+        target_obj = qs('#' + GDS.product.detal);
+
+      if (target_input) target_input.checked = true;
+      if (target_obj) target_obj.setAttribute('data-active', '');
+    }
+  })();
+</script>

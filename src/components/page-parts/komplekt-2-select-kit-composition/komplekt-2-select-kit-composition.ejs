@@ -2,24 +2,24 @@
   <div class="komplekt-configurator__full-wrap standart-container">
     <div class="komplekt-configurator__full-wrap-images-wrap" data-showed-on-scroll>
       <div class="komplekt-configurator__full-wrap-images-wrap-mobile-title">Защита отдельных элементов</div>
-      <div class="image" style="padding-top:66.6667%;">
+      <div class="image" data-front style="padding-top:66.6667%;">
         <img data-img-type="img" data-main data-src="~@komplekt-1-full-kit-img/front.jpg" data-original-w="2145" data-original-h="1430">
         <div data-img-type="svg-kit-items">
-          <object id="ruchki" data-status="active" data-src="~@komplekt-1-full-kit-img/ruchki.svg"></object>
-          <object id="fary" data-status="disabled" data-src="~@komplekt-1-full-kit-img/fary.svg"></object>
-          <object id="peredniye-stoyki" data-status="disabled" data-src="~@komplekt-1-full-kit-img/peredniye-stoyki.svg"></object>
-          <object id="kapot" data-status="disabled" data-src="~@komplekt-1-full-kit-img/kapot.svg"></object>
-          <object id="krylya" data-status="disabled" data-src="~@komplekt-1-full-kit-img/krylya.svg"></object>
-          <object id="krysha" data-status="disabled" data-src="~@komplekt-1-full-kit-img/krysha.svg"></object>
+          <object id="ruchki" data-src="~@komplekt-1-full-kit-img/ruchki.svg"></object>
+          <object id="fary" data-active data-src="~@komplekt-1-full-kit-img/fary.svg"></object>
+          <object id="peredniye-stoyki" data-src="~@komplekt-1-full-kit-img/peredniye-stoyki.svg"></object>
+          <object id="kapot" data-src="~@komplekt-1-full-kit-img/kapot.svg"></object>
+          <object id="krylya" data-src="~@komplekt-1-full-kit-img/krylya.svg"></object>
+          <object id="krysha" data-src="~@komplekt-1-full-kit-img/krysha.svg"></object>
         </div>
         <div class="loader">
           <div class="loader__circle"></div>
         </div>
       </div>
-      <div class="image" style="padding-top:66.6667%;">
+      <div class="image" data-back style="padding-top:66.6667%;">
         <img data-img-type="img" data-main data-src="~@komplekt-1-full-kit-img/back.jpg" data-original-w="2145" data-original-h="1430">
         <div data-img-type="svg-kit-items">
-          <object id="bagazhnik" data-status="disabled" data-src="~@komplekt-1-full-kit-img/bagazhnik.svg"></object>
+          <object id="bagazhnik" data-src="~@komplekt-1-full-kit-img/bagazhnik.svg"></object>
         </div>
         <div class="loader">
           <div class="loader__circle"></div>
@@ -31,8 +31,9 @@
       <ul class="komplekt-configurator__full-wrap-composition-detals komplekt-configurator__full-wrap-composition-detals--configurator-version">
         <li>
           <div class="komplekt-configurator__full-wrap-composition-detals-checbox">
-            <div class="custom-checbox active" data-item="fary">
-              <div class="icon--check-mark"></div>
+            <div class="custom-checbox custom-checbox--blue">
+              <input id="fary-checkbox" type="checkbox" disabled data-position="front" checked>
+              <label for="fary-checkbox" class="icon--check-mark"></label>
             </div>
           </div>
           <div class="komplekt-configurator__full-wrap-composition-detals-data">
@@ -42,8 +43,9 @@
         </li>
         <li>
           <div class="komplekt-configurator__full-wrap-composition-detals-checbox">
-            <div class="custom-checbox active" data-item="fary">
-              <div class="icon--check-mark"></div>
+            <div class="custom-checbox custom-checbox--blue">
+              <input id="kapot-checkbox" type="checkbox" disabled data-position="front">
+              <label for="kapot-checkbox" class="icon--check-mark"></label>
             </div>
           </div>
           <div class="komplekt-configurator__full-wrap-composition-detals-data">
@@ -53,8 +55,9 @@
         </li>
         <li>
           <div class="komplekt-configurator__full-wrap-composition-detals-checbox">
-            <div class="custom-checbox active" data-item="fary">
-              <div class="icon--check-mark"></div>
+            <div class="custom-checbox custom-checbox--blue">
+              <input id="krylya-checkbox" type="checkbox" disabled data-position="front">
+              <label for="krylya-checkbox" class="icon--check-mark"></label>
             </div>
           </div>
           <div class="komplekt-configurator__full-wrap-composition-detals-data">
@@ -64,8 +67,9 @@
         </li>
         <li>
           <div class="komplekt-configurator__full-wrap-composition-detals-checbox">
-            <div class="custom-checbox active" data-item="fary">
-              <div class="icon--check-mark"></div>
+            <div class="custom-checbox custom-checbox--blue">
+              <input id="krysha-checkbox" type="checkbox" disabled data-position="front">
+              <label for="krysha-checkbox" class="icon--check-mark"></label>
             </div>
           </div>
           <div class="komplekt-configurator__full-wrap-composition-detals-data">
@@ -75,8 +79,9 @@
         </li>
         <li>
           <div class="komplekt-configurator__full-wrap-composition-detals-checbox">
-            <div class="custom-checbox active" data-item="fary">
-              <div class="icon--check-mark"></div>
+            <div class="custom-checbox custom-checbox--blue">
+              <input id="peredniye-stoyki-checkbox" type="checkbox" disabled data-position="front">
+              <label for="peredniye-stoyki-checkbox" class="icon--check-mark"></label>
             </div>
           </div>
           <div class="komplekt-configurator__full-wrap-composition-detals-data">
@@ -86,8 +91,9 @@
         </li>
         <li>
           <div class="komplekt-configurator__full-wrap-composition-detals-checbox">
-            <div class="custom-checbox active" data-item="fary">
-              <div class="icon--check-mark"></div>
+            <div class="custom-checbox custom-checbox--blue">
+              <input id="bagazhnik-checkbox" type="checkbox" disabled data-position="back">
+              <label for="bagazhnik-checkbox" class="icon--check-mark"></label>
             </div>
           </div>
           <div class="komplekt-configurator__full-wrap-composition-detals-data">
@@ -97,8 +103,9 @@
         </li>
         <li>
           <div class="komplekt-configurator__full-wrap-composition-detals-checbox">
-            <div class="custom-checbox active" data-item="fary">
-              <div class="icon--check-mark"></div>
+            <div class="custom-checbox custom-checbox--blue">
+              <input id="ruchki-checkbox" type="checkbox" disabled data-position="front">
+              <label for="ruchki-checkbox" class="icon--check-mark"></label>
             </div>
           </div>
           <div class="komplekt-configurator__full-wrap-composition-detals-data">
@@ -108,8 +115,9 @@
         </li>
         <li>
           <div class="komplekt-configurator__full-wrap-composition-detals-checbox">
-            <div class="custom-checbox active" data-item="fary">
-              <div class="icon--check-mark"></div>
+            <div class="custom-checbox custom-checbox--blue">
+              <input id="tools-checkbox" type="checkbox" disabled checked>
+              <label for="tools-checkbox" class="icon--check-mark"></label>
             </div>
           </div>
           <div class="komplekt-configurator__full-wrap-composition-detals-data">
@@ -128,3 +136,66 @@
     </div>
   </div>
 </div>
+<script>
+  (() => {
+    GDS.product = {
+      kit_ms_id: '6854d8d2-9f1b-11ed-0a80-0b390027f9f8',
+      price: 16000,
+      full_price: 19080,
+      discont: 16,
+      composition: {
+        'ruchki': {
+          ms_id: '684cae08-9f1b-11ed-0a80-0b390027f9f4',
+          price: 340,
+        },
+        'fary': {
+          ms_id: '687b9853-9f1b-11ed-0a80-0b390027fa0a',
+          price: 1500,
+        },
+        'peredniye-stoyki': {
+          ms_id: '6865a0a9-9f1b-11ed-0a80-0b390027fa00',
+          price: 1490,
+        },
+        'kapot': {
+          ms_id: '68737828-9f1b-11ed-0a80-0b390027fa06',
+          price: 7590,
+        },
+        'krylya': {
+          ms_id: '688bc297-9f1b-11ed-0a80-0b390027fa12',
+          price: 990,
+        },
+        'krysha': {
+          ms_id: '689348f4-9f1b-11ed-0a80-0b390027fa16',
+          price: 1990,
+        },
+        'bagazhnik': {
+          ms_id: '68838dc4-9f1b-11ed-0a80-0b390027fa0e',
+          price: 1190,
+        },
+        'tools': {
+          ms_id: '6633b90e-9f1b-11ed-0a80-0b390027f908',
+          price: 2100,
+        },
+      }
+    }
+
+    let kit_composition_info = JSON.parse(localStorage.getItem('kits-composition-info'))?.[GDS.product.kit_ms_id]; /*пытаемся получить состяние активных деталей для данного комплекта*/
+
+    if (kit_composition_info) {
+      let komplekt_configurator = qs('.komplekt-2-select-kit-composition'); /*блок с конфигуратором на странице комплекта*/
+
+      qsa('input', komplekt_configurator).forEach(input => (input.checked = false)); /*убираем выделение у всех инпутов*/
+      qsa('object', komplekt_configurator).forEach(obj => obj.removeAttribute('data-active')); /*убираем выделение у всех svg*/
+
+      /*для каждой активной детали мы выделяем инпут и svg*/
+      kit_composition_info.forEach(item => {
+        let target_input = qs('#' + item + '-checkbox'),
+          target_obj = qs('#' + item);
+
+        if (target_input) target_input.checked = true;
+        if (target_obj) target_obj.setAttribute('data-active', '');
+      });
+
+    }
+  })();
+</script>

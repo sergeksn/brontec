@@ -20,23 +20,23 @@ export default class {
             oh: main_img.original_height,
         };
 
-        this.svg_parts_html = '';
+        this.svg_parts_html = type === 'kit' ? '<div data-img-type="svg-kit-items" data-all-active>' : '<div data-img-type="svg-kit-items">';
 
         svg_parts.forEach(img => {
             let status = '';
 
-            if (type === 'kit') {
-                status = 'data-status="active"';
-            } else if (type === img.type) {
-                status = 'data-status="active"';
+            if (type === img.type && type !== 'kit') {
+                status = 'data-active';
             }
 
             this.svg_parts_html += `<object ${status} data-src="${GDS.wp_img_url_prefix + img.url}"></object>`;
         });
 
-        instruction_img = JSON.parse(instruction_img);
+        this.svg_parts_html += '</div>';
 
         if (instruction_img) {
+            instruction_img = JSON.parse(instruction_img);
+
             this.instruction_img = {
                 url: GDS.wp_img_url_prefix + instruction_img.url,
                 ow: instruction_img.original_width,
@@ -72,9 +72,7 @@ export default class {
             <div class="product-info__gradient-fon"></div>
               <div class="image" style="padding-top: ${this.main_img.pt}%">
                 <img data-img-type="img" data-main data-src="${this.main_img.url}" data-original-w="${this.main_img.ow}" data-original-h="${this.main_img.oh}" />
-                <div data-img-type="svg-kit-items">
-                  ${this.svg_parts_html}
-                </div>
+                ${this.svg_parts_html}
                 <div class="loader">
                     <div class="loader__circle"></div>
                 </div>
@@ -98,9 +96,7 @@ export default class {
                 <div class="product-info__gradient-fon"></div>
                 <div class="image" style="padding-top: ${this.main_img.pt}%">
                   <img data-img-type="img" data-main data-src="${this.main_img.url}" data-original-w="${this.main_img.ow}" data-original-h="${this.main_img.oh}" />
-                  <div data-img-type="svg-kit-items">
-                    ${this.svg_parts_html}
-                  </div>
+                  ${this.svg_parts_html}
                   <div class="image product-info__img-wrap-instruction-img">
                     <div data-img-type="bg" data-src="${this.instruction_img.url}" data-original-w="${this.instruction_img.ow}" data-original-h="${this.instruction_img.oh}"></div>
                   </div>

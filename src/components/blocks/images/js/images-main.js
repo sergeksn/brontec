@@ -1,5 +1,6 @@
 import { wait } from '@js-libs/func-kit';
 import Loader from '@loader-main-js';
+import { custom_events_list } from '@js-libs/custom-events.js';
 
 let img_visible_observer = new IntersectionObserver(check_img_visibility, {
         threshold: GDS.media.img.percent_img_show_to_load / 100, //показываем только когда элемент виден минимум на n процентов от своего размера
@@ -24,7 +25,7 @@ w._on('orientation_chenge', () => {
 
 //данная функция добавит в отслеживание элементы которые ещё не
 function update_observer_images() {
-    add_in_observe(qsa('[data-img-type]:not(.original-size)'));
+    add_in_observe(qsa('[data-img-type]:not(.original-size):not(.svg-kit-init):not(.svg-kit-uploaded)'));
 }
 //данная функция добавит в отслеживание элементы которые ещё не
 
@@ -220,7 +221,10 @@ async function common_img_loader(img) {
 
     await download_img_tracker(img, url); //ждём завершения загрузки картинки по url
 
-    if (!img.classList.contains('uploaded')) img.classList.add('uploaded'); //если ещё нет пометки о том что картинка загружена помечаем что как минимум одна миниатюра картинки загружена
+    if (!img.classList.contains('uploaded')) {
+        img.classList.add('uploaded'); //если ещё нет пометки о том что картинка загружена помечаем что как минимум одна миниатюра картинки загружена
+        img.dispatchEvent(custom_events_list.img_first_loaded.event); //запускаем событие сигнализирующие о том что картинка загружена первый раз, т.е. первая из её миниатюр
+    }
 
     if (!img.getAttribute('src')) return url; //если у картинки ещё не установлен src просто записываем туда текущий url
 
@@ -297,7 +301,17 @@ async function overlay_img_render(img, type) {
         .then(async url => {
             type === 'bg-overlay' ? (img.style.backgroundImage = `url(${url})`) : (img.src = url); //вставляем картинку
 
-            await wait(() => qs('[data-main]', img.parentNode).classList.contains('uploaded'), true); //ждём пока не загрузится основная картинка
+            let main_img = qs('[data-main]', img.parentNode); //основная картинка
+
+            //если не загружена то мы ждём пока не загрузится основная картинка
+            if (!main_img.classList.contains('uploaded')) {
+                await new Promise(resolve => {
+                    main_img._on('img-first-loaded', () => {
+                        resolve();
+                    });
+                });
+            }
+            //если не загружена то мы ждём пока не загрузится основная картинка
 
             img.style.opacity = '1'; //показываем картинку
         })
@@ -339,6 +353,10 @@ async function swiper_looped_img_render(img, type) {
 
 //загружает все svg картинки из object и вставляет их в виде svg DOM элементов
 async function svg_kit_items_render(wrap) {
+    img_visible_observer.unobserve(wrap); //удаляем данные набор из обсервера видимости
+
+    wrap.classList.add('svg-kit-init'); //помечаем что данный набор svg инициализирован и его больше не нужно пытаться загружать
+
     let all_obj = qsa('object', wrap), //находим все object внутри оболочки
         obj_load_promice = []; //содержить промисы на загрузку
 
@@ -359,17 +377,32 @@ async function svg_kit_items_render(wrap) {
         let svg = [...obj.contentDocument.childNodes].find(el => el.tagName === 'svg'); //находим именно svg т.к. если загружена грязная svg в ней могут быть лишние элементы
 
         let id = obj.getAttribute('id'),
-            data_status = obj.getAttribute('data-status') ?? 'active'; // если не указан по умолчанию активен
+            data_status = obj.hasAttribute('data-active'); // если нужно выделить деталь
 
         if (id) svg.setAttribute('id', id); //переносим id если он есть
 
-        svg.setAttribute('data-status', data_status); //переносим data-status
+        if (data_status) svg.setAttribute('data-active', ''); //переносим data-active если нужно выделить деталь
 
         obj.remove(); //удаляем сам объект
         wrap.append(svg); //добавлям svg в нашу оболочку wrap
     });
 
-    await wait(() => qs('[data-main]', wrap.parentNode).classList.contains('uploaded'), true); //ждём пока не загрузится основная картинка
+    let main_img = qs('[data-main]', wrap.parentNode); //главная картинка машины
+
+    wrap.classList.remove('svg-kit-init');
+    wrap.classList.add('svg-kit-uploaded'); //помечаем что набор загружен
+
+    wrap.dispatchEvent(custom_events_list.svg_kit_loaded.event); //запускаем событие загрузки всех svg в данном наборе
+
+    //если картинка не загружена то мы начинаем ждать её загрузки чтоб показать все svg
+    if (!main_img.classList.contains('uploaded')) {
+        await new Promise(resolve => {
+            main_img._on('img-first-loaded', () => {
+                resolve();
+            });
+        });
+    }
+    //если картинка не загружена то мы начинаем ждать её загрузки чтоб показать все svg
 
     wrap.style.opacity = '1'; //показываем нашу оболочку с содержимыми svg
 }
