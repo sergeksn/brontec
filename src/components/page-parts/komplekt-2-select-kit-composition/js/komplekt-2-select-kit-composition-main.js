@@ -1,4 +1,5 @@
 import { set_localStorage } from '@js-libs/func-kit';
+//ПРИМЕЧАНИЕ: разделитель вида @@ между маркой и моделью сделан что точно отделить марку от модели т.к. марака или модель может состоять из двух слов, а не одного, а так мы точно их разделим
 
 let CONFIGURATOR_CONTROLLER = {
     //функция проверяет все инпуты и опираясь на их активность подсвечивает соответствующие детали
@@ -81,6 +82,7 @@ let CONFIGURATOR_CONTROLLER = {
     konfigurator_input_state_chenge: function (input) {
         this.local_starage_write_data(); //записывает/обновляет данные в локальном хранилище для отображения активными тех или иных чекбоксов
         this.toggle_svg_active_status(input); //меняет заливку svg детали связанной с данным инпутом
+        this.check_selected_all_kit_detals(); //проверяет если все детали комплекта выбраны то нужно показать скидку и полную цену
     },
     //срабатываем при клике на чекбокс, т.е. при смене его состояния включен/выключен
 
@@ -90,6 +92,44 @@ let CONFIGURATOR_CONTROLLER = {
         this.toggle_svg_active_status(input); //меняет заливку svg детали связанной с данным инпутом
     },
     //срабатываем при клике на чекбокс, т.е. при смене его состояния включен/выключен на странице детали
+
+    //проверяет если все детали комплекта выбраны то нужно показать скидку и полную цену
+    check_selected_all_kit_detals: function () {
+        //убираем классы если они были
+        this.configurator.classList.remove('komplekt-2-select-kit-composition--selected-all-kit');
+        this.configurator.classList.remove('komplekt-2-select-kit-composition--nothing-selected');
+
+        //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
+        if ([...this.all_inputs].every(input => input.checked)) {
+            this.configurator.classList.add('komplekt-2-select-kit-composition--selected-all-kit');
+            this.price_area.textContent = GDS.product.price.toLocaleString('ru');
+        }
+        //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
+
+        //если не отмечен ни один инпут то делаем кнопку неактивной ВИЗУАЛЬНО меняем цвета чекбоксов, выводим предупреждающий текст и ставим цену в 0 руб
+        else if ([...this.all_inputs].every(input => !input.checked)) {
+            this.configurator.classList.add('komplekt-2-select-kit-composition--nothing-selected');
+            this.price_area.textContent = 0;
+        }
+        //если не отмечен ни один инпут то делаем кнопку неактивной ВИЗУАЛЬНО меняем цвета чекбоксов, выводим предупреждающий текст и ставим цену в 0 руб
+
+        //если просто отмечены какие-то инпуты, но не все
+        else {
+            let result_price = 0;
+
+            //получаем цену для каждой активныой детали и формируем из их суммы цены для текущей конфигурации комплекта
+            this.all_inputs.forEach(input => {
+                if (input.checked) {
+                    let id = input.id.replace('-checkbox', '');
+                    result_price += GDS.product.composition[id];
+                }
+            });
+
+            this.price_area.textContent = result_price.toLocaleString('ru');
+        }
+        //если просто отмечены какие-то инпуты, но не все
+    },
+    //проверяет если все детали комплекта выбраны то нужно показать скидку и полную цену
 
     //меняет заливку svg детали связанной с данным инпутом
     toggle_svg_active_status: function (input) {
@@ -124,9 +164,9 @@ let CONFIGURATOR_CONTROLLER = {
             data = kits_composition_info;
 
             //если есть запись для данного комплекта
-            if (data[GDS.product.kit_ms_id]) {
+            if (data[GDS.product.marka_model]) {
                 let searched_index, //сюда будет записан индекс найденого элемента
-                    searched = data[GDS.product.kit_ms_id].find((el, index) => {
+                    searched = data[GDS.product.marka_model].find((el, index) => {
                         if (el === id) {
                             searched_index = index;
                             return true;
@@ -135,13 +175,13 @@ let CONFIGURATOR_CONTROLLER = {
 
                 //если нашли
                 if (searched) {
-                    if (!input.checked) data[GDS.product.kit_ms_id].splice(searched_index, 1); //если нашли но инпут не активен то удаляем данную деталь из данных комплекта в хранилище
+                    if (!input.checked) data[GDS.product.marka_model].splice(searched_index, 1); //если нашли но инпут не активен то удаляем данную деталь из данных комплекта в хранилище
                 }
                 //если нашли
 
                 //если не нашли
                 else {
-                    if (input.checked) data[GDS.product.kit_ms_id].push(id); //если инпут активен записываем его
+                    if (input.checked) data[GDS.product.marka_model].push(id); //если инпут активен записываем его
                 }
                 //если не нашли
             }
@@ -149,18 +189,18 @@ let CONFIGURATOR_CONTROLLER = {
 
             //если для данного комплекта ещё нет записей
             else {
-                if (input.checked) data[GDS.product.kit_ms_id] = [id]; //создаём свойство с ms-id нашего комплекта и записью id нашей детали если она была отмечена
+                if (input.checked) data[GDS.product.marka_model] = [id, 'tools']; //создаём свойство с ms-id нашего комплекта и записью id нашей детали если она была отмечена, так же по умолчанию отмечаем ещё и инструмент
             }
             //если для данного комплекта ещё нет записей
         }
         //если есть какие-то записи о состоянии комплектов
 
-        //если не никаких данных
+        //если нет никаких данных
         else {
             data = {};
-            if (input.checked) data[GDS.product.kit_ms_id] = [id]; //создаём свойство с ms-id нашего комплекта и записью id нашей детали если она была отмечена
+            if (input.checked) data[GDS.product.marka_model] = [id, 'tools']; //создаём свойство с ms-id нашего комплекта и записью id нашей детали если она была отмечена, так же по умолчанию отмечаем ещё и инструмент
         }
-        //если не никаких данных
+        //если нет никаких данных
 
         set_localStorage('kits-composition-info', JSON.stringify(data)); //записываем данные в локальное хранилище
     },
@@ -169,8 +209,21 @@ let CONFIGURATOR_CONTROLLER = {
     //записывает/обновляет данные в локальном хранилище для отображения активными тех или иных чекбоксов
     local_starage_write_data: function () {
         let kits_composition_info = JSON.parse(localStorage.getItem('kits-composition-info')), //пытаемся получить данные из локально хранилища с данными о выбраных пользователем составах комплектов
-            data = kits_composition_info && Object.keys(kits_composition_info).length != 0 ? kits_composition_info : {}, //если были какие-то данные о составе комплектов то используем, если нет то используем пустой объект как основу
+            data,
             active_checkboxes = [];
+
+        //если были какие-то данные о составе комплектов
+        if (kits_composition_info && Object.keys(kits_composition_info).length != 0) {
+            data = kits_composition_info; //берём данные из хранилища
+        }
+        //если были какие-то данные о составе комплектов
+
+        //если ещё ничего не записано
+        else {
+            data = {}; //создаём новый пустой объект для того чтоб записать в него первые данные
+            set_localStorage('kits-composition-last-update', new Date().getTime()); //записываем текущее время как дату последнего обновления
+        }
+        //если ещё ничего не записано
 
         //перебираем все инпуты и те которые активные записываем в массив их id без постфикса -checkbox
         this.all_inputs.forEach(input => {
@@ -180,13 +233,55 @@ let CONFIGURATOR_CONTROLLER = {
 
         //ПРИМЕЧАНИЕ: тут я могу использовать просто типы активных деталей т.к. тут не критично уникальный ms-id, даже если мы вдруг удалим деталь фар а потом создадим их то мы так же оставим их тут выделеными, а вот для корзины уже важно наличие уникального  ms-id
 
-        data[GDS.product.kit_ms_id] = active_checkboxes;
+        data[GDS.product.marka_model] = active_checkboxes; //записываем для данного комплекта активные детали
 
-        set_localStorage('kits-composition-info', JSON.stringify(data));
-
-        // console.log(data);
+        set_localStorage('kits-composition-info', JSON.stringify(data)); //записываем обновлённые данные в хранилище
     },
     //записывает/обновляет данные в локальном хранилище для отображения активными тех или иных чекбоксов
+
+    //отправляет запрос на сервер каждый понедельник для проверки актуальности выделенных чекбоксов для каждого комплекта, на случай если буду удаляться или обновлятсяся составы комплектов и чтоб у пользователя не оставалось в локальном хранилище не нужно инфы по удалённым комплектам
+    // send_data_on_server_for_check: async function () {
+    //     let interval = 10 * 24 * 60 * 60 * 1000, //временной интервал в милисекундах длительностью 10 дней
+    //         time_is_now = new Date().getTime(), //текущее время
+    //         last_check = localStorage.getItem('kits-composition-last-update'); //дата последнего обновления
+
+    //     if (time_is_now - last_check < interval) return; //если с последнего обновления ещё не прошло 10 дней прерываем запрос на проверку актуальности данных
+
+    //     let request_data = {
+    //         //запрос на сервер
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    //         body: JSON.stringify({
+    //             action: 'check_actual_kits_composition_checkbox_info',
+    //             data: localStorage.getItem('kits-composition-info'),
+    //         }),
+    //     };
+
+    //     //отправляем запрос на сервер что отправить сообщение и выводим соответсвующие всплывающие окна
+    //     await fetch(GDS.ajax_url, request_data)
+    //         .then(response => response.json()) //считываем переданные данные
+    //         .then(result => {
+    //             //если переданы какие-то комплекты для обновления
+    //             if (result.length > 0) {
+    //                 let current_data = JSON.parse(localStorage.getItem('kits-composition-info')); //получаем текущие данные активныех деталей комплектов
+
+    //                 //перебираем все комплекты которые нужно обновить
+    //                 result.forEach(item => {
+    //                     for (let marka_model in item) {
+    //                         current_data[marka_model] = item[marka_model]; //обнволяем для текущего комплекта его активные детали которые есть в базе
+    //                     }
+    //                 });
+    //                 //перебираем все комплекты которые нужно обновить
+
+    //                 set_localStorage('kits-composition-info', JSON.stringify(current_data)); //обновляем данные
+    //             }
+    //             //если переданы какие-то комплекты для обновления
+
+    //             set_localStorage('kits-composition-last-update', new Date().getTime()); //записываем текущее время как дату последнего обновления
+    //         })
+    //         .catch(e => {});
+    // },
+    //отправляет запрос на сервер каждый понедельник для проверки актуальности выделенных чекбоксов для каждого комплекта, на случай если буду удаляться или обновлятсяся составы комплектов и чтоб у пользователя не оставалось в локальном хранилище не нужно инфы по удалённым комплектам
 
     init: async function () {
         let kit_komplekt_configurator = qs('.komplekt-2-select-kit-composition'),
@@ -210,6 +305,8 @@ let CONFIGURATOR_CONTROLLER = {
                 input.disabled = false; //делаем инпут доступным для взаимодействия, т.к. мы его отключали до момента загрузки скрипта чтоб была активна синхронизация с локальным хранилищем
             });
 
+            this.price_area = qs('.komplekt-configurator__full-wrap-composition-price-current', configurator); //блок с ценой комплекта
+
             this.local_starage_write_data(); //записывает/обновляет данные в локальном хранилище для отображения активными тех или иных чекбоксов
         }
         //если мы на странице комплекта
@@ -223,6 +320,9 @@ let CONFIGURATOR_CONTROLLER = {
             input.disabled = false; //делаем инпут доступным для взаимодействия, т.к. мы его отключали до момента загрузки скрипта чтоб была активна синхронизация с локальным хранилищем
         }
         //если мы на странице детали
+
+        //пока отложу тут нужно переписывать скрипт на сервере чтоб учитывал в случае если такого комплекта для марки и модели вообще нет, а не только его деталей
+        //this.send_data_on_server_for_check(); //отправляет запрос на сервер каждый понедельник для проверки актуальности выделенных чекбоксов для каждого комплекта, на случай если буду удаляться или обновлятсяся составы комплектов и чтоб у пользователя не оставалось в локальном хранилище не нужно инфы по удалённым комплектам
     },
 };
 

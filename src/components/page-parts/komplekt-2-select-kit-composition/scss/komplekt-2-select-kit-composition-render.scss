@@ -71,6 +71,7 @@
 
             &-warning-add-anyone-item {
                 display: none;
+                position: absolute;
                 margin-top: var(--gap);
                 color: var(--error);
             }
@@ -82,12 +83,29 @@
     margin-bottom: var(--big-gap);
 }
 
-.komplekt-configurator-warning-add-anyone-item{
-    .komplekt-configurator__full-wrap-composition-warning-add-anyone-item{
-        display: block;
+.komplekt-2-select-kit-composition {
+    &--selected-all-kit {
+        .old-price {
+            visibility: visible;
+        }
+
+        .discont-price {
+            visibility: visible;
+        }
     }
 
-    .custom-checbox{
-        border-color: var(--error);
+    &--nothing-selected {
+        .komplekt-configurator__full-wrap-composition-warning-add-anyone-item {
+            display: block;
+        }
+
+        .custom-checbox label {
+            border-color: var(--error);
+        }
+
+        .komplekt-configurator__full-wrap-composition-button {
+            background-color: var(--gray) !important;
+            cursor: not-allowed;
+        }
     }
 }

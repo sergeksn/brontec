@@ -87,7 +87,7 @@
         }
 
         //для переноса меню
-        @media (min-width: rem(1050)) {
+        @media (min-width: rem(1150)) {
             width: auto;
             display: block; //нужно менять иначе в фаерфоксе поочему-то едет меню
             order: 0;
@@ -109,7 +109,7 @@
             }
 
             //для переноса меню
-            @media (min-width: rem(1050)) {
+            @media (min-width: rem(1150)) {
                 grid-column: span 12;
             }
             //для переноса меню
@@ -132,7 +132,7 @@
         @media (min-width: rem(640)) {
             display: flex;
             color: var(--blue);
-            margin-right: adaptiv_rem_size(50, 640, 60, 1920);
+            margin-right: rem(50)
         }
 
         @media (min-width: rem(1920)) {

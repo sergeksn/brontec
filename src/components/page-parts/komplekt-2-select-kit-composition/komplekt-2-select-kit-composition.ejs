@@ -127,64 +127,44 @@
         </li>
       </ul>
       <div class="komplekt-configurator__full-wrap-composition-price">
-        <div class="komplekt-configurator__full-wrap-composition-price-old komplekt-configurator__full-wrap-composition-price-old--configurator-version ruble-price old-price">13 990</div>
-        <div class="komplekt-configurator__full-wrap-composition-price-current ruble-price">11 990</div>
-        <div class="komplekt-configurator__full-wrap-composition-price-discont komplekt-configurator__full-wrap-composition-price-discont--configurator-version discont-price">17</div>
+        <div class="komplekt-configurator__full-wrap-composition-price-old komplekt-configurator__full-wrap-composition-price-old--configurator-version ruble-price old-price">19 080</div>
+        <div class="komplekt-configurator__full-wrap-composition-price-current ruble-price"></div>
+        <div class="komplekt-configurator__full-wrap-composition-price-discont komplekt-configurator__full-wrap-composition-price-discont--configurator-version discont-price">16</div>
       </div>
       <button class="komplekt-configurator__full-wrap-composition-button button-main button-main--not-minmax-width">Добавить в корзину</button>
-      <div class="komplekt-configurator__full-wrap-composition-warning-add-anyone-item">Выберите хотя бы одну деталь</div>
+      <div class="komplekt-configurator__full-wrap-composition-warning-add-anyone-item">Выберите хотя бы одну деталь или инструмент</div>
     </div>
   </div>
 </div>
 <script>
   (() => {
     GDS.product = {
-      kit_ms_id: '6854d8d2-9f1b-11ed-0a80-0b390027f9f8',
+      marka_model: 'Geely@@Coolray',
       price: 16000,
       full_price: 19080,
       discont: 16,
       composition: {
-        'ruchki': {
-          ms_id: '684cae08-9f1b-11ed-0a80-0b390027f9f4',
-          price: 340,
-        },
-        'fary': {
-          ms_id: '687b9853-9f1b-11ed-0a80-0b390027fa0a',
-          price: 1500,
-        },
-        'peredniye-stoyki': {
-          ms_id: '6865a0a9-9f1b-11ed-0a80-0b390027fa00',
-          price: 1490,
-        },
-        'kapot': {
-          ms_id: '68737828-9f1b-11ed-0a80-0b390027fa06',
-          price: 7590,
-        },
-        'krylya': {
-          ms_id: '688bc297-9f1b-11ed-0a80-0b390027fa12',
-          price: 990,
-        },
-        'krysha': {
-          ms_id: '689348f4-9f1b-11ed-0a80-0b390027fa16',
-          price: 1990,
-        },
-        'bagazhnik': {
-          ms_id: '68838dc4-9f1b-11ed-0a80-0b390027fa0e',
-          price: 1190,
-        },
-        'tools': {
-          ms_id: '6633b90e-9f1b-11ed-0a80-0b390027f908',
-          price: 2100,
-        },
+        'ruchki': 340,
+        'fary': 1500,
+        'peredniye-stoyki': 1490,
+        'kapot': 7590,
+        'krylya': 990,
+        'krysha': 1990,
+        'bagazhnik': 1190,
+        'tools': 2100,
       }
     }
 
-    let kit_composition_info = JSON.parse(localStorage.getItem('kits-composition-info'))?.[GDS.product.kit_ms_id]; /*пытаемся получить состяние активных деталей для данного комплекта*/
+    let kit_composition_info = JSON.parse(localStorage.getItem('kits-composition-info'))?.[GDS.product.marka_model]; /*пытаемся получить состяние активных деталей для данного комплекта*/
 
     if (kit_composition_info) {
-      let komplekt_configurator = qs('.komplekt-2-select-kit-composition'); /*блок с конфигуратором на странице комплекта*/
 
-      qsa('input', komplekt_configurator).forEach(input => (input.checked = false)); /*убираем выделение у всех инпутов*/
+      let komplekt_configurator = qs('.komplekt-2-select-kit-composition'),
+        /*блок с конфигуратором на странице комплекта*/
+        price_area = qs('.komplekt-configurator__full-wrap-composition-price-current', komplekt_configurator),
+        all_inputs = qsa('input', komplekt_configurator);
+
+      all_inputs.forEach(input => (input.checked = false)); /*убираем выделение у всех инпутов*/
       qsa('object', komplekt_configurator).forEach(obj => obj.removeAttribute('data-active')); /*убираем выделение у всех svg*/
 
       /*для каждой активной детали мы выделяем инпут и svg*/
@@ -195,6 +175,26 @@
         if (target_input) target_input.checked = true;
         if (target_obj) target_obj.setAttribute('data-active', '');
       });
+
+      /*првоеряем полностью ли выделен или не выделено ни одного чекбокса а так же записываем цену для текущей конфигурации*/
+      if ([...all_inputs].every(input => input.checked)) {
+        komplekt_configurator.classList.add('komplekt-2-select-kit-composition--selected-all-kit');
+        price_area.textContent = GDS.product.price.toLocaleString('ru');
+      } else if ([...all_inputs].every(input => !input.checked)) {
+        komplekt_configurator.classList.add('komplekt-2-select-kit-composition--nothing-selected');
+        price_area.textContent = 0;
+      } else {
+        let result_price = 0;
+
+        all_inputs.forEach(input => {
+          if (input.checked) {
+            let id = input.id.replace('-checkbox', '');
+            result_price += GDS.product.composition[id];
+          }
+        });
+
+        price_area.textContent = result_price.toLocaleString('ru');
+      }
 
     }
   })();

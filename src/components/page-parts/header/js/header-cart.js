@@ -2,6 +2,8 @@ import { show, hide } from '@js-libs/func-kit';
 import Overlay from '@overlays-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
 import { Header, Header_Hidden } from '@header-main-js';
+import Pop_Up_Message from '@pop-up-messages-main-js';
+import Spoiler from '@js-moduls/spoiler';
 
 let cart = qs('.cart'),
     header_visible = qs('.header-visible'),
@@ -18,6 +20,8 @@ let cart = qs('.cart'),
         toggle_cart: async function () {
             if (Header.active_elements.status_lock) return; //если в данный момент активные элементы в хедере заблокированны то значит происходят какие-то трансформации которым не нужно мешать
 
+            if (this.lock) return; //прерываем возможность показывать/скрывать корзину если она заблокированна
+
             Header.active_elements.lock();
 
             if (this.status === 'hide') {
@@ -29,35 +33,6 @@ let cart = qs('.cart'),
             Header.active_elements.unlock();
         },
         //открываем/закрываем корзину
-
-        //скрываем корзину при свайпе
-        swipe_cart: function () {
-            cart._on(
-                'swipe',
-                () => this.toggle_cart(),
-                {},
-                {
-                    permission_directions: {
-                        top: false,
-                        right: true,
-                        bottom: false,
-                        left: false,
-                    }, //направления в которых нужно учитывать свайп
-                    mouse_swipe: false,
-                    min_px_dist_x: 50, //минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп в % от ширины экрана
-                    max_time: 500, //максимальное время, за которое должен быть совершен свайп (ms)
-
-                    //НЕ ЗАБЫТЬ ДОБАВИТЬ В ИСКЛЮЧЕНИЯ все октивные элементы в корзине
-                    exceptions_el: [
-                        close_button, //кнопка закрытия корзины
-                        qs('.cart__footer-promocod>input'), //блок с промокодом т.к. там инпут
-                        qs('.cart__footer-design-order'), //кнопка оформленяи заказа
-                        qs('.cart__body'), //тело корзины т.к. там нужен нормальный скрол
-                    ], //не вызываем свайп если нажали на кнопку закрытия
-                },
-            );
-        },
-        //скрываем корзину при свайпе
 
         //выпоялняем все действия для открытия корзины
         open: async function () {
@@ -138,10 +113,78 @@ let cart = qs('.cart'),
         },
         //пересчитываем верхний отступ корзины пре ресайзе
 
+        //срабатывает когда мы вводим промокод в инпуте
+        // inputed_promocode: function (e) {
+        //     this.promocode_button.style.display = e.target.value.length > 0 ? 'flex' : 'none';
+        // },
+        //срабатывает когда мы вводим промокод в инпуте
+
+        //срабатывает при клике на кнопку применения промокода и запускает проверку правильности промокода, а так же если промокод верен тот применяет скидку к итоговой сумме
+        // run_promocode: async function () {
+        //     if (this.promocode_input.disabled) return; //если инпут заблокирован ничего не делаем т.к. сейчас судя по всему обрабатывается промокод введённые ранее
+        //     let promocod = this.promocode_input.value; //записываем сам промокод
+
+        //     //блокируем инпут промокода
+        //     this.promocode_input.classList.add('wait-handle-promocode');
+        //     this.promocode_input.disabled = true;
+        //     //блокируем инпут промокода
+
+        //     //блокируем кнопку проверки промокода
+        //     this.promocode_button.classList.add('button-main--disabled');
+        //     this.promocode_button.textContent = 'Проверяем промокод ...';
+        //     //блокируем кнопку проверки промокода
+
+        //     //блокируем кнопку оформленяи заказа
+        //     this.order_button.classList.add('button-main--disabled');
+        //     this.order_button.onclick = e => e.preventDefault(); //блокирыем переход на страницу оформленяи заказа через кнопку
+        //     //блокируем кнопку оформленяи заказа
+
+        //     let request_data = {
+        //         //запрос на сервер
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json;charset=utf-8' },
+        //         body: JSON.stringify({
+        //             action: 'check_promocod_and_get_new_prises',
+        //             data: promocod,
+        //         }),
+        //     };
+
+        //     //отправляем запрос на сервер что отправить сообщение и выводим соответсвующие всплывающие окна
+        //     await fetch(GDS.ajax_url, request_data)
+        //         .then(response => response.json()) //считываем переданные данные
+        //         .then(result => {
+        //             //тут бдуем обрабатывать полученные данные
+
+        //         })
+        //         .catch(e => {
+        //             new Pop_Up_Message({
+        //                 title: 'Ошибка',
+        //                 message: 'Не удалось проверить промокод попробуйте позже =(',
+        //                 type: 'error',
+        //             });
+        //             console.error(e);
+        //         });
+
+        //     //разблокируем кнопку отвормления заказа
+        //     this.order_button.classList.remove('button-main--disabled');
+        //     this.order_button.onclick = null;
+        //     //разблокируем кнопку отвормления заказа
+
+        //     //разблокируем инпут промокода
+        //     this.promocode_input.classList.remove('wait-handle-promocode');
+        //     this.promocode_input.disabled = false;
+        //     //разблокируем инпут промокода
+        // },
+        //срабатывает при клике на кнопку применения промокода и запускает проверку правильности промокода, а так же если промокод верен тот применяет скидку к итоговой сумме
+
+        render_cart: function(){
+//сравнимать массивы приводя их в строковый вид и стравнивать равны ли их строковые версии и если равны то это одинаковые комплектации товара для даннйо марки и модели
+        },
+
         init: function () {
-            [   
-                qs('.header-hidden__menu-cart-button'),//кнопка корзины в мобильном меню
-                qs('.footer__menu-cart-button'),//кнопка корзины в меню футера
+            [
+                qs('.header-hidden__menu-cart-button'), //кнопка корзины в мобильном меню
+                qs('.footer__menu-cart-button'), //кнопка корзины в меню футера
                 qs('.header-visible__cart-button'), //кнопка корзины в хедере
                 overlay, //положка корзины на сайте
                 close_button, //кнопка закрытия корзины
@@ -149,7 +192,16 @@ let cart = qs('.cart'),
 
             w._on('resize_throttle load', _ => this.size_recalculate()); //пересчитываем верхний отступ корзины пре ресайзе и при первой загрузке
 
-            this.swipe_cart();
+            // this.cart_footer = qs('.cart__footer'); //низ корзины
+            // this.promocode_input = qs('.cart__footer-promocod-input input'); //инпут для ввода промокода
+            // this.promocode_button = qs('.cart__footer-promocod-button'); //кнопка для приминения промокода
+            // this.order_button = qs('.cart__footer-design-order'); //кнопка для перехода на страницу оформления заказа
+
+            // this.promocode_input._on('input', this.inputed_promocode.bind(this)); //срабатывает когда мы вводим промокод в инпуте
+
+            // this.promocode_button._on('click', this.run_promocode.bind(this)); //срабатывает при клике на кнопку применения промокода и запускает проверку правильности промокода, а так же если промокод верен тот применяет скидку к итоговой сумме
+
+            this.render_cart();//функция проверяет локальное хранилище и если там что-то записано для корзины то ренедерт эти товары
         },
     };
 

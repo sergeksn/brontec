@@ -60,7 +60,7 @@
     --border-width-bold: #{rem(2)}; //более толстая граница для элементов
     --border-radius: #{rem(10)}; //бордер радиус
 
-    --scroll-width: #{rem(6)}; //ширина скролбара для внутрених блоков с контентом
+    --scroll-width: #{rem(8)}; //ширина скролбара для внутрених блоков с контентом
     --scroll-border-radius: #{rem(12)}; //для скролбара внутрених блоков с контентом
     --scroll-page-width: #{rem(12)}; //ширина скролбара для страницы
     --scroll-page-border-radius: #{rem(12)}; //для скролбара страницы
@@ -133,7 +133,7 @@
         --border-width-bold: #{adaptiv_rem_size(2, $start_w)};
         --border-radius: #{adaptiv_rem_size(10, $start_w)};
 
-        --scroll-width: #{adaptiv_rem_size(6, $start_w)}; //ширина скролбара для внутрених блоков с контентом
+        --scroll-width: #{adaptiv_rem_size(8, $start_w)}; //ширина скролбара для внутрених блоков с контентом
         --scroll-border-radius: #{adaptiv_rem_size(12, $start_w)}; //для скролбара внутрених блоков с контентом
         --scroll-page-width: #{adaptiv_rem_size(12, $start_w)}; //ширина скролбара для страницы
         --scroll-page-border-radius: #{adaptiv_rem_size(12, $start_w)}; //для скролбара страницы

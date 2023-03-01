@@ -6,72 +6,43 @@
       <div class="cart__header-counter">2</div>
       <button class="cart__header-close-button icon--close"></button>
     </div>
-    <div class="cart__body custom-scrollbar">
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
-      <div>wegwg</div>
+    <div class="cart__body cart-grid custom-scrollbar">
+
+      <div class="cart__body-nothing">
+        <div class="cart__body-nothing-title">Ваша корзина пуста</div>
+        <a href="#" class="cart__body-nothing-button button-main">Выбрать комплект</a>
+      </div>
+      <!-- data-cart-id - это id данного товара в массиве товаров для данной марки-модели предстваляет из себя метку времени unix в момент создания данного товара в корзине, чтоб было удобно им управлять -->
+      <div class="cart__body-product cart__body-product--single cart__body-product--full-kit cart-grid" data-marka-model="Geely@@Coolray" data-cart-id="0">
+        <div class="cart__body-product-title">Nissan Qashqa</div>
+        <div class="cart__body-product-change-quantity">
+          <button data-decrease></button>
+          <button data-increase class="icon--plus"></button>
+        </div>
+        <div class="cart__body-product-quantity">1</div>
+        <div class="cart__body-product-prices">
+          <div class="cart__body-product-prices-old-price ruble-price old-price">1400</div>
+          <div class="cart__body-product-prices-kit ruble-price">1000</div>
+          <div class="cart__body-product-prices-parts ruble-price">1400</div>
+        </div>
+
+
+        <div class="cart__body-product-spoiler-wrap spoiler-hidden">
+          <div class="cart__body-product-spoiler-wrap-content">
+
+          </div>
+        </div>
+
+      </div>
+
     </div>
     <div class="cart__footer cart-grid">
-      <div class="cart__footer-promocod">
-        <div class="cart__footer-promocod-title">Промокод</div>
-        <input class="cart__footer-promocod-input">
-      </div>
       <div class="cart__footer-final-price">
-        <div class="cart__footer-final-price-title">Итого</div>
+        <div class="cart__footer-final-price-title">Итого:</div>
         <div class="cart__footer-final-price-value ruble-price">35000</div>
       </div>
-      <div class="cart__footer-design-order">
-        <a href="#"><button class="button-main">Оформить заказ</button></a>
-      </div>
+      <a href="#" class="cart__footer-design-order button-main">Оформить заказ</a>
     </div>
-    <div class="cart__empty"></div>
   </div>
 </div>
 <div id="cart-overlay" class="overlay"></div>

@@ -37,11 +37,11 @@
 <script>
   (() => {
     GDS.product = {
-      kit_ms_id: '6854d8d2-9f1b-11ed-0a80-0b390027f9f8',
+      marka_model: 'Geely@@Coolray',
       detal: 'fary'
     }
 
-    let detal_info = JSON.parse(localStorage.getItem('kits-composition-info'))?.[GDS.product.kit_ms_id].includes(GDS.product.detal); /*пытаемся получить состяние данной детали из комплекта*/
+    let detal_info = JSON.parse(localStorage.getItem('kits-composition-info'))?.[GDS.product.marka_model].includes(GDS.product.detal); /*пытаемся получить состяние данной детали из комплекта*/
 
     if (detal_info) {
       let target_input = qs('#' + GDS.product.detal + '-checkbox'),

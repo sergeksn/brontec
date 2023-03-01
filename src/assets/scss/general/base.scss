@@ -169,6 +169,7 @@ input {
     border-radius: var(--border-radius);
     font: var(--default);
     cursor: pointer;
+    user-select: none;
     color: var(--white);
     width: 100%;
     min-height: var(--button-min-height);
@@ -215,6 +216,18 @@ input {
         @media (any-hover: hover) {
             &:hover {
                 background-color: var(--white-hover);
+            }
+        }
+    }
+
+    &--transparent {
+        background-color: transparent;
+        color: var(--black);
+        border: var(--border-width) solid var(--blue);
+
+        @media (any-hover: hover) {
+            &:hover {
+                background-color: var(--light);
             }
         }
     }
