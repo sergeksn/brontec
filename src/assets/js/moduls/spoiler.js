@@ -1,7 +1,7 @@
 import { wait } from '@js-libs/func-kit';
 
 //ПРИМЕЧАНИЕ: по умолчанию закрытые блоки спойледа должны быть скрыты с помощью класса spoiler-hidden, если изначально блок должен быть открыт то класс spoiler-hidden ставить не нужно
-export default class {
+class Spoiler {
     constructor(el) {
         this.el = el; //записываем элемент который будем скрывать/показывать
 
@@ -222,3 +222,10 @@ export default class {
     }
     //функйция запускает spoiler_hide или spoiler_show в зависимости от статуса блока
 }
+
+//стандартный спойлер в котором скрывается/показывается контент прозрачностью и плано скрывается/раскрывается спойлер при нажатии
+function base_spoiler_fade(){
+
+}
+
+export {Spoiler, base_spoiler_fade}

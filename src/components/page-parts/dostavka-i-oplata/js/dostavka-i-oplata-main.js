@@ -1,4 +1,4 @@
-import Spoiler from '@js-moduls/spoiler';
+import {Spoiler} from '@js-moduls/spoiler';
 import Fade from '@js-moduls/fade';
 
 let dostavka_i_oplata = qs('.dostavka-i-oplata');

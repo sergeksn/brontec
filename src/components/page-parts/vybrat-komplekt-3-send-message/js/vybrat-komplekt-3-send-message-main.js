@@ -54,7 +54,7 @@ if (form) {
                     if (e.message === 'Failed to fetch') {
                         new Pop_Up_Message({
                             title: 'Ошибка подключения',
-                            message: 'Не удалось подключиться к ' + ajax_url,
+                            message: 'Не удалось подключиться к ' + GDS.ajax_url,
                             type: 'error',
                         });
                         return;

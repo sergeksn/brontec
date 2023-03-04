@@ -1,4 +1,4 @@
-import Spoiler from '@js-moduls/spoiler';
+import {Spoiler} from '@js-moduls/spoiler';
 import Fade from '@js-moduls/fade';
 
 qsa('.glavnaya-10__fqa-wrap>div').forEach(spoilers_wrap => {

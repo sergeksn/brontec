@@ -54,6 +54,7 @@
     &__header {
         display: flex;
         justify-content: space-between;
+        grid-column-gap: 0 !important;
 
         @media (min-width: rem(640)) {
             justify-content: flex-end;
@@ -77,11 +78,11 @@
 
             @media (min-width: rem(640)) {
                 display: block;
-                font-size: rem(30);
+                font-size: rem(22);
             }
 
             @media (min-width: rem(1920)) {
-                font-size: adaptiv_rem_size(30, 1920);
+                font-size: adaptiv_rem_size(22, 1920);
             }
         }
 
@@ -107,7 +108,6 @@
 
             @media (min-width: rem(960)) {
                 font: var(--default);
-                margin-left: 0;
             }
 
             @media (min-width: rem(1920)) {
@@ -115,6 +115,7 @@
                 height: adaptiv_rem_size(30, 1920);
                 padding: 0 adaptiv_rem_size(5, 1920);
                 margin-right: adaptiv_rem_size(25, 1920);
+                margin-left: adaptiv_rem_size(4, 1920);
             }
         }
 
@@ -133,6 +134,7 @@
         height: auto;
         padding-right: adaptiv_rem_size(12, 320, 22, 640);
         align-items: start;
+        align-content: start;
 
         @media (min-width: rem(640)) {
             padding-right: rem(42);
@@ -166,18 +168,28 @@
 
         &-product {
             grid-column: 1/-1;
-            padding: 0 !important;
 
             &-title {
                 grid-column: 1/-1;
                 font: var(--h3);
+                margin-bottom: var(--gap);
 
                 &:before {
                     content: 'Комплект частичной защиты Brontero® ';
                 }
             }
 
+            &-quantity-price-wrap {
+                grid-column: 1/-1;
+                display: flex;
+                align-items: center;
+            }
+
             &-change-quantity {
+                display: grid;
+                grid-gap: var(--gap-10);
+                grid-template-columns: 1fr 1fr;
+
                 button {
                     width: rem(36);
                     height: rem(36);
@@ -220,17 +232,110 @@
             }
 
             &-quantity {
+                font: var(--h3);
+                margin-left: rem(22);
+
+                @media (min-width: rem(640)) {
+                    font: var(--default);
+                }
+
                 &:after {
                     content: ' шт';
                 }
             }
 
             &-prices {
+                margin-left: auto;
+
+                @media (min-width: rem(640)) {
+                    display: flex;
+                }
+
                 &-old-price {
                     display: none;
+                    color: var(--gray);
+
+                    @media (min-width: rem(640)) {
+                        margin-right: rem(50);
+                    }
+
+                    @media (min-width: rem(1920)) {
+                        grid-gap: adaptiv_rem_size(50, 1920);
+                    }
                 }
                 &-kit {
                     display: none;
+                }
+            }
+
+            &-toggle-composition {
+                color: var(--blue);
+                margin-top: var(--gap);
+
+                &:after {
+                    content: '\e90c';
+                    font-family: 'icon-font';
+                    speak: never;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    font-size: rem(12);
+                    transform: rotate(90deg);
+                    display: inline-block;
+                    margin-left: var(--gap);
+                    transition: transform var(--standart-anim);
+
+                    @media (min-width: rem(1920)) {
+                        font-size: adaptiv_rem_size(12, 1920);
+                    }
+                }
+
+                &--open{
+                    &:after{
+                        transform: rotate(-90deg);
+                    }
+                }
+            }
+
+            &-spoiler-wrap{
+                &-content{
+                    display: grid;
+                    grid-gap: var(--gap-10);
+                    padding-top: var(--gap);
+                    opacity: 0;
+
+
+                    &-item{
+                        display: flex;
+                        align-items: center;
+
+                        &-title{
+                            margin-left: var(--gap);
+                        }
+                    }
+                }
+            }
+
+            &:before {
+                content: '';
+                border-top: var(--border-width-bold) solid var(--light);
+                display: block;
+                margin: rem(40) 0;
+
+                @media (min-width: rem(1920)) {
+                    margin: adaptiv_rem_size(40, 1920) 0;
+                }
+            }
+
+            &:last-child {
+                margin-bottom: var(--gap);
+            }
+
+            &:nth-child(2) {
+                margin-top: 20px;
+                &:before {
+                    content: none;
                 }
             }
 

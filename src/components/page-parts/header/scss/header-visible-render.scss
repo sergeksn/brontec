@@ -148,11 +148,11 @@
         }
 
         @media (min-width: rem(960)) {
-            font-size: rem(30);
+            font-size: rem(22);
         }
 
         @media (min-width: rem(1920)) {
-            font-size: adaptiv_rem_size(30, 1920);
+            font-size: adaptiv_rem_size(22, 1920);
         }
 
         .icon--cart-bold {
@@ -191,13 +191,13 @@
 
         @media (min-width: rem(960)) {
             font: var(--default);
-            margin-left: 0;
         }
 
         @media (min-width: rem(1920)) {
             min-width: adaptiv_rem_size(30, 1920);
             height: adaptiv_rem_size(30, 1920);
             padding: 0 adaptiv_rem_size(5, 1920);
+            margin-left: adaptiv_rem_size(4, 1920);
         }
     }
 

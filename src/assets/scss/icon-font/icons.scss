@@ -23,6 +23,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon--cart {
+  &:before {
+    content: $icon--cart; 
+  }
+}
 .icon--magnifying-glass {
   &:before {
     content: $icon--magnifying-glass; 
@@ -61,11 +66,6 @@
 .icon--arrow-big {
   &:before {
     content: $icon--arrow-big; 
-  }
-}
-.icon--cart {
-  &:before {
-    content: $icon--cart; 
   }
 }
 .icon--cart-bold {

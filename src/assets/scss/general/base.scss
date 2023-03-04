@@ -279,17 +279,23 @@ input {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: rem(40); //тут нужно в пикселях
-        height: rem(40);
-        font-size: rem(16);
+        width: rem(30);
+        height: rem(30);
+        font-size: rem(12);
         border: var(--border-width-bold) solid var(--gray);
         border-radius: var(--border-radius);
         cursor: pointer;
 
         @media (min-width: rem(1920)) {
-            width: adaptiv_rem_size(40, 1920);
-            height: adaptiv_rem_size(40, 1920);
-            font-size: adaptiv_rem_size(16, 1920);
+            width: adaptiv_rem_size(30, 1920);
+            height: adaptiv_rem_size(30, 1920);
+            font-size: adaptiv_rem_size(12, 1920);
+        }
+
+        @media (any-hover: none) and (any-pointer: coarse) {
+            font-size: var(--gap);
+            width: var(--min-interactive-elements-width);
+            height: var(--min-interactive-elements-height);
         }
 
         &:before {
@@ -306,8 +312,18 @@ input {
         label {
             font-size: rem(14);
             color: var(--white);
+            width: rem(40);
+            height: rem(40);
+
             @media (min-width: rem(1920)) {
+                width: adaptiv_rem_size(40, 1920);
+                height: adaptiv_rem_size(40, 1920);
                 font-size: adaptiv_rem_size(14, 1920);
+            }
+
+            @media (any-hover: none) and (any-pointer: coarse) {
+                width: var(--min-interactive-elements-width);
+                height: var(--min-interactive-elements-height);
             }
         }
 
