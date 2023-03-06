@@ -177,6 +177,7 @@
         background: var(--blue);
         border-radius: 50%;
         display: flex;
+        opacity: 0;
         align-items: center;
         justify-content: center;
         color: var(--white);
@@ -198,6 +199,10 @@
             height: adaptiv_rem_size(30, 1920);
             padding: 0 adaptiv_rem_size(5, 1920);
             margin-left: adaptiv_rem_size(4, 1920);
+        }
+
+        &--has-products{
+            opacity: 1;
         }
     }
 

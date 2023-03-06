@@ -3,8 +3,7 @@ import Overlay from '@overlays-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
 import { Header, Header_Hidden } from '@header-main-js';
 import Pop_Up_Message from '@pop-up-messages-main-js';
-import {Spoiler, base_spoiler_fade} from '@js-moduls/spoiler';
-import Fade from '@js-moduls/fade';
+import { base_spoiler_fade } from '@js-moduls/spoiler';
 
 let cart = qs('.cart'),
     header_visible = qs('.header-visible'),
@@ -204,100 +203,61 @@ let cart = qs('.cart'),
 
             this.render_cart(); //функция проверяет локальное хранилище и если там что-то записано для корзины то ренедерт эти товары
 
-            qsa('.cart__body-product').forEach(spoilers_wrap => {
-                let spoiler_content_wrap = qs('.cart__body-product-spoiler-wrap', spoilers_wrap),
-                    spoiler_content = qs('.cart__body-product-spoiler-wrap-content', spoilers_wrap),
-                    title_block = qs('.cart__body-product-toggle-composition', spoilers_wrap);
+            qsa('.cart__body-product').forEach(product_item => {
+                let spoiler_title_block = qs('.cart__body-product-toggle-composition', product_item),
+                    rotate_arrow = () => spoiler_title_block.classList.toggle('cart__body-product-toggle-composition--open'); //при скрытии/показе спойлера переключаем класс, чтоб менялся поворот стрелочки
 
-                //создаём для каждого блока объекты для управления нужными переходами
-                new Spoiler(spoiler_content_wrap);
-                new Fade(spoiler_content);
-
-                base_spoiler_fade();
-
-                //функция управляет открытием и закрытием спойлера в зависимости от его состояния
-                function toggle_spoiler() {
-                    let rotate_cross = () => title_block.classList.toggle('cart__body-product-toggle-composition--open'); //при скрытии/показе спойлера переключаем класс, чтоб менялся поворот крестика
-
-                    let spoiler_controller = spoiler_content_wrap.ksn_spoiler,
-                        spoiler_params = {
-                            duration: 300,
-                            tf: 'ease-out',
-                        },
-                        fade_controller = spoiler_content.ksn_fade,
-                        fade_params = {
-                            duration: 350,
-                            tf: 'ease-out',
-                        };
-
-                    //если спройлер закрыт или в процессе закрытия
-                    if (spoiler_controller.status === 'hide' || spoiler_controller.status === 'pending to hide') {
-                        rotate_cross(); //поворачиваем крестик
-
-                        title_block.textContent = 'Свернуть';
-
-                        spoiler_controller
-                            .spoiler_show(spoiler_params) //ждём открытия спойлера
-                            .then(() => {
-                                fade_controller
-                                    .fade_show(fade_params) //ждём показа содержимого
-                                    .catch(() => {});
-                            })
-                            .catch(() => {});
-                    }
-                    //если спройлер закрыт или в процессе закрытия
-
-                    //если спройлер открыт
-                    else if (spoiler_controller.status === 'show') {
-                        //если контент скрыт или в процесе скрытия
-                        if (fade_controller.status === 'hide' || fade_controller.status === 'pending to hide') {
-                            title_block.textContent = 'Свернуть';
-
-                            fade_controller
-                                .fade_show(fade_params) //ждём показа контента
-                                .catch(() => {});
-                        }
-                        //если контент скрыт или в процесе скрытия
-
-                        //если контент виден или в процессе появления
-                        else if (fade_controller.status === 'show' || fade_controller.status === 'pending to show') {
-                            title_block.textContent = 'Состав комплекта';
-
-                            fade_controller
-                                .fade_hide(fade_params) //ждём сокрытия контента
-                                .then(() => {
-                                    rotate_cross(); //поворачиваем крестик
-
-                                    spoiler_controller
-                                        .spoiler_hide(spoiler_params) //закрываем спойлер
-                                        .catch(() => {});
-                                })
-                                .catch(() => {});
-                        }
-                        //если контент виден или в процессе появления
-                    }
-                    //если спройлер открыт
-
-                    //если спройлер в процессе открытия
-                    else if (spoiler_controller.status === 'pending to show') {
-                        rotate_cross(); //поворачиваем крестик
-
-                        title_block.textContent = 'Состав комплекта';
-
-                        spoiler_controller
-                            .spoiler_hide(spoiler_params) //закрываем спойлер
-                            .catch(() => {});
-                    }
-                    //если спройлер в процессе открытия
-                }
-                //функция управляет открытием и закрытием спойлера в зависимости от его состояния
-
-                //открываем/закрываем спойлеры по клику
-                title_block._on('click keydown', async e => {
-                    if (e.type === 'keydown' && e.keyCode !== 13) return; //если мы выбрали спойлер через таб то мы его открываем только при нажатом энтере
-                    toggle_spoiler();
+                //создайм спойлер с прозрачный появленяием контента
+                base_spoiler_fade({
+                    spoiler_content_wrap: qs('.cart__body-product-spoiler-wrap', product_item),
+                    spoiler_content: qs('.cart__body-product-spoiler-wrap-content', product_item),
+                    spoiler_toggle_button: spoiler_title_block,
+                    open_start_func: () => {
+                        rotate_arrow();
+                        spoiler_title_block.textContent = 'Свернуть';
+                    },
+                    close_start_func: () => {
+                        rotate_arrow();
+                        spoiler_title_block.textContent = 'Состав комплекта';
+                    },
                 });
-                //открываем/закрываем спойлеры по клику
+                //создайм спойлер с прозрачный появленяием контента
+
+                let all_inputs = qsa('input', product_item);
+
+                all_inputs.forEach(input =>
+                    input._on('change', function () {
+                        //убираем классы если они были
+                        product_item.classList.remove('cart__body-product--full-kit');
+
+                        //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
+                        if ([...all_inputs].every(input => input.checked)) {
+                            product_item.classList.add('cart__body-product--full-kit');
+                        }
+                        //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
+
+                        //если не отмечен ни один инпут то делаем кнопку неактивной ВИЗУАЛЬНО меняем цвета чекбоксов, выводим предупреждающий текст и ставим цену в 0 руб
+                        else if ([...all_inputs].every(input => !input.checked)) {
+                            qs('.cart__body-product-prices-parts', product_item).textContent = 0;
+                        }
+                        //если не отмечен ни один инпут то делаем кнопку неактивной ВИЗУАЛЬНО меняем цвета чекбоксов, выводим предупреждающий текст и ставим цену в 0 руб
+
+                        //если просто отмечены какие-то инпуты, но не все
+                        else {
+                            let result_price = 0;
+
+                            //получаем цену для каждой активныой детали и формируем из их суммы цены для текущей конфигурации комплекта
+                            all_inputs.forEach(input => {
+                                if (input.checked) {
+                                    result_price += +input.parentNode.getAttribute('data-price');
+                                }
+                            });
+
+                            qs('.cart__body-product-prices-parts', product_item).textContent = result_price.toLocaleString('ru');
+                        }
+                        //если просто отмечены какие-то инпуты, но не все
+                    }),
+                );
             });
         },
     };

@@ -283,6 +283,18 @@ let CONFIGURATOR_CONTROLLER = {
     // },
     //отправляет запрос на сервер каждый понедельник для проверки актуальности выделенных чекбоксов для каждого комплекта, на случай если буду удаляться или обновлятсяся составы комплектов и чтоб у пользователя не оставалось в локальном хранилище не нужно инфы по удалённым комплектам
 
+    //меяняет значение счётчиков корзины в хедере и в самой корзине
+    chenge_cart_counters: function(){
+        let cart_data = localStorage.getItem('cart');
+    },
+    //меяняет значение счётчиков корзины в хедере и в самой корзине
+
+    //срабатывает при клике на кнопку кобавить полный комплект
+    add_full_kit_in_cart: function(){
+        this.chenge_cart_counters();
+    },
+    //срабатывает при клике на кнопку кобавить полный комплект
+
     init: async function () {
         let kit_komplekt_configurator = qs('.komplekt-2-select-kit-composition'),
             detal_komplekt_configurator = qs('.detal-1-add-to-kit'), //блок с конфигуратором на странице комплекта или на странице отдельной детали
@@ -308,6 +320,13 @@ let CONFIGURATOR_CONTROLLER = {
             this.price_area = qs('.komplekt-configurator__full-wrap-composition-price-current', configurator); //блок с ценой комплекта
 
             this.local_starage_write_data(); //записывает/обновляет данные в локальном хранилище для отображения активными тех или иных чекбоксов
+
+            this.button_add_full_kit = qs('.komplekt-1-full-kit .komplekt-configurator__full-wrap-composition-button');//кнопка для добавления комплекта полностью
+            this.button_add_configuration_kit = qs('.komplekt-2-select-kit-composition .komplekt-configurator__full-wrap-composition-button');//кнопка для добавленяи в корзину сконфигурированного из частей комплекта
+            this.header_cart_counter = qs('.header-visible__cart-counter');//счётчик корзины в хедере
+            this.inner_cart_counter = qs('.cart .cart__header-counter');//счётчик корзины в самой корзине
+
+            //this.button_add_full_kit._on('click')
         }
         //если мы на странице комплекта
 
