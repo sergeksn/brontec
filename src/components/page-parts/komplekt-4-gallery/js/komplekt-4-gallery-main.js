@@ -113,7 +113,7 @@ let body = qs('body'),
         click_on_slide_swiper_disabled: function (e) {
             slider_pop_up_nead_open_id = e
                 .composedPath()
-                .find(el => el?.classList.contains('swiper-slide'))
+                .find(el => el?.classList?.contains('swiper-slide'))
                 .getAttribute('data-popup-id'); //получаем порядковый номер кликнутого слайда что сопоставить его со слайдом в попапе
             GALERY_POP_UP.show();
         },
@@ -123,7 +123,7 @@ let body = qs('body'),
         click_on_slide_swiper_enabled: function (_, e) {
             slider_pop_up_nead_open_id = e
                 .composedPath()
-                .find(el => el?.classList.contains('swiper-slide'))
+                .find(el => el?.classList?.contains('swiper-slide'))
                 .getAttribute('data-popup-id'); //получаем порядковый номер кликнутого слайда что сопоставить его со слайдом в попапе
             GALERY_POP_UP.show();
         },

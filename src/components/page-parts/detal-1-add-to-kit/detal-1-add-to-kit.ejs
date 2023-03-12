@@ -35,20 +35,9 @@
   </div>
 </div>
 <script>
-  (() => {
-    GDS.product = {
-      marka_model: 'Geely@@Coolray',
-      detal: 'fary'
-    }
-
-    let detal_info = JSON.parse(localStorage.getItem('kits-composition-info'))?.[GDS.product.marka_model].includes(GDS.product.detal); /*пытаемся получить состяние данной детали из комплекта*/
-
-    if (detal_info) {
-      let target_input = qs('#' + GDS.product.detal + '-checkbox'),
-        target_obj = qs('#' + GDS.product.detal);
-
-      if (target_input) target_input.checked = true;
-      if (target_obj) target_obj.setAttribute('data-active', '');
-    }
-  })();
+  GDS.product = {
+    marka_model: 'Geely@@Coolray',
+    detal: 'fary'
+  }
+  ksn_product_configurator_func.chenge_single_detal_checkbox_and_svg();
 </script>

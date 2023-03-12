@@ -131,71 +131,28 @@
         <div class="komplekt-configurator__full-wrap-composition-price-current ruble-price"></div>
         <div class="komplekt-configurator__full-wrap-composition-price-discont komplekt-configurator__full-wrap-composition-price-discont--configurator-version discont-price">16</div>
       </div>
-      <button class="komplekt-configurator__full-wrap-composition-button button-main button-main--not-minmax-width">Добавить в корзину</button>
+      <button class="komplekt-configurator__full-wrap-composition-button button-main button-main--add-in-cart button-main--not-minmax-width"></button>
       <div class="komplekt-configurator__full-wrap-composition-warning-add-anyone-item">Выберите хотя бы одну деталь или инструмент</div>
     </div>
   </div>
 </div>
 <script>
-  (() => {
-    GDS.product = {
-      marka_model: 'Geely@@Coolray',
-      price: 16000,
-      full_price: 19080,
-      discont: 16,
-      composition: {
-        'ruchki': 340,
-        'fary': 1500,
-        'peredniye-stoyki': 1490,
-        'kapot': 7590,
-        'krylya': 990,
-        'krysha': 1990,
-        'bagazhnik': 1190,
-        'tools': 2100,
-      }
+  GDS.product = {
+    marka_model: 'Geely@@Coolray',
+    price: 16000,
+    full_price: 19080,
+    discont: 16,
+    composition: {
+      'ruchki': 340,
+      'fary': 1500,
+      'peredniye-stoyki': 1490,
+      'kapot': 7590,
+      'krylya': 990,
+      'krysha': 1990,
+      'bagazhnik': 1190,
+      'tools': 2100,
     }
+  }
 
-    let kit_composition_info = JSON.parse(localStorage.getItem('kits-composition-info'))?.[GDS.product.marka_model]; /*пытаемся получить состяние активных деталей для данного комплекта*/
-
-    if (kit_composition_info) {
-
-      let komplekt_configurator = qs('.komplekt-2-select-kit-composition'),
-        /*блок с конфигуратором на странице комплекта*/
-        price_area = qs('.komplekt-configurator__full-wrap-composition-price-current', komplekt_configurator),
-        all_inputs = qsa('input', komplekt_configurator);
-
-      all_inputs.forEach(input => (input.checked = false)); /*убираем выделение у всех инпутов*/
-      qsa('object', komplekt_configurator).forEach(obj => obj.removeAttribute('data-active')); /*убираем выделение у всех svg*/
-
-      /*для каждой активной детали мы выделяем инпут и svg*/
-      kit_composition_info.forEach(item => {
-        let target_input = qs('#' + item + '-checkbox'),
-          target_obj = qs('#' + item);
-
-        if (target_input) target_input.checked = true;
-        if (target_obj) target_obj.setAttribute('data-active', '');
-      });
-
-      /*првоеряем полностью ли выделен или не выделено ни одного чекбокса а так же записываем цену для текущей конфигурации*/
-      if ([...all_inputs].every(input => input.checked)) {
-        komplekt_configurator.classList.add('komplekt-2-select-kit-composition--selected-all-kit');
-        price_area.textContent = GDS.product.price.toLocaleString('ru');
-      } else if ([...all_inputs].every(input => !input.checked)) {
-        komplekt_configurator.classList.add('komplekt-2-select-kit-composition--nothing-selected');
-        price_area.textContent = 0;
-      } else {
-        let result_price = 0;
-
-        all_inputs.forEach(input => {
-          if (input.checked) {
-            let id = input.id.replace('-checkbox', '');
-            result_price += GDS.product.composition[id];
-          }
-        });
-
-        price_area.textContent = result_price.toLocaleString('ru');
-      }
-
-    }
-  })();
+  ksn_product_configurator_func.init_configurator_fom_saved_settings();
 </script>

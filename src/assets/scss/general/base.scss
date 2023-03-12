@@ -243,6 +243,16 @@ input {
             }
         }
     }
+
+    &--add-in-cart{
+        &:before {
+            content: 'Добавить в корзину';
+        }
+
+        &[data-in-cart="yes"]:before {
+            content: 'Комплект в корзине. Перейти →';
+        }
+    }
 }
 
 //ширина основных блоков не стандартная так что задаём её отлельно от сетки
@@ -305,6 +315,10 @@ input {
 
     input:checked ~ label:before {
         display: block;
+    }
+
+    input:disabled ~ label {
+       cursor: not-allowed;
     }
 
     //чекбокс для страниц комплекта и детали с синей заливкой и белой галочкой

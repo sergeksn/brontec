@@ -97,6 +97,7 @@
             justify-content: center;
             color: var(--white);
             font: var(--small);
+            opacity: 0;
 
             @media (min-width: rem(640)) {
                 display: flex;
@@ -316,7 +317,7 @@
                 }
             }
 
-            &:before {
+            &:after {
                 content: '';
                 border-top: var(--border-width-bold) solid var(--light);
                 display: block;
@@ -329,13 +330,13 @@
 
             &:last-child {
                 margin-bottom: var(--gap);
+                &:after {
+                    content: none;
+                }
             }
 
             &:nth-child(2) {
                 margin-top: 20px;
-                &:before {
-                    content: none;
-                }
             }
 
             &--full-kit {
@@ -430,5 +431,3 @@
 #cart-overlay {
     z-index: 19;
 }
-
-

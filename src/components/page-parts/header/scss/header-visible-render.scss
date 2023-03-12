@@ -4,7 +4,7 @@
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
-    grid-column-gap: 0;//нужно для переопределения стилей standart-container
+    grid-column-gap: 0; //нужно для переопределения стилей standart-container
     min-height: rem(60);
     position: relative;
     background-color: var(--white);
@@ -103,7 +103,7 @@
             @media (min-width: rem(640)) {
                 grid-column: 2 / span 10;
                 display: grid;
-                grid-template-columns: repeat(4, max-content);//4 - количество пунктов меню
+                grid-template-columns: repeat(4, max-content); //4 - количество пунктов меню
                 grid-gap: adaptiv_rem_size(30, 640, 40, 1920);
                 justify-content: space-between;
             }
@@ -132,7 +132,7 @@
         @media (min-width: rem(640)) {
             display: flex;
             color: var(--blue);
-            margin-right: rem(50)
+            margin-right: rem(50);
         }
 
         @media (min-width: rem(1920)) {
@@ -183,6 +183,7 @@
         color: var(--white);
         font: var(--small);
         margin-left: rem(1);
+        transition: opacity var(--standart-anim);
 
         @media (min-width: rem(640)) {
             min-width: adaptiv_rem_size(24, 640, 30, 1920);
@@ -200,9 +201,26 @@
             padding: 0 adaptiv_rem_size(5, 1920);
             margin-left: adaptiv_rem_size(4, 1920);
         }
+    }
 
-        &--has-products{
-            opacity: 1;
+    &__animation-cart-increase {
+        font: var(--h3);
+        position: absolute;
+        right: 0;
+        top: 100%;
+        padding-right: rem(10);
+        opacity: 0;
+
+        @media (min-width: rem(640)) {
+            top: 200%;
+        }
+
+        @media (min-width: rem(1920)) {
+            padding-right: adaptiv_rem_size(10, 1920);
+        }
+
+        &[data-init-anim] {
+            animation: linear 1s increase_cart_counter;
         }
     }
 
@@ -244,5 +262,37 @@
 
     &__line-4 {
         bottom: rem(4);
+    }
+}
+
+@keyframes increase_cart_counter {
+    40% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+        top: 40%;
+    }
+}
+
+@media (min-width: rem(640)) {
+    @keyframes increase_cart_counter {
+        40% {
+            opacity: 1;
+        }
+
+        80% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 0;
+            top: 0;
+        }
     }
 }
