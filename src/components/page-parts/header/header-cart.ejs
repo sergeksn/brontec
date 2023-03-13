@@ -6,7 +6,7 @@
       <div class="cart__header-counter"></div>
       <button class="cart__header-close-button icon--close"></button>
     </div>
-    <div class="cart__body cart-grid custom-scrollbar">
+    <div class="cart__body cart__body--empty-cart cart-grid custom-scrollbar">
 
       <div class="cart__body-nothing">
         <div class="cart__body-nothing-title">Ваша корзина пуста</div>
@@ -21,9 +21,9 @@
     <div class="cart__footer cart-grid">
       <div class="cart__footer-final-price">
         <div class="cart__footer-final-price-title">Итого:</div>
-        <div class="cart__footer-final-price-value ruble-price"></div>
+        <div class="cart__footer-final-price-value ruble-price">0</div>
       </div>
-      <a href="#" class="cart__footer-design-order button-main">Оформить заказ</a>
+      <button data-href="#" class="cart__footer-design-order button-main" disabled>Оформить заказ</button>
     </div>
   </div>
 </div>
@@ -45,7 +45,7 @@
     "ruchki": "\u0420\u0443\u0447\u043a\u0438",
     "krylya": "\u041a\u0440\u044b\u043b\u044c\u044f"
   };
-  
+
   /*если в корзине что-то есть то показываем счётчик*/
   let cart_count = localStorage.getItem('cart-count');
   if (cart_count && cart_count > 0) {

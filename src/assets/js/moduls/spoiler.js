@@ -8,15 +8,15 @@ class Spoiler {
 
         this.status = this.el.classList.contains('spoiler-hidden') ? 'hide' : 'show'; //устанавливаемс статус видимости в зависимости от того скрыт элемент или нет
 
-        this.block_height = this.get_block_height(this.el); //в самом начале записываем высоту открытого блока спойлера
+        this.set_block_height(); //в самом начале записываем высоту открытого блока спойлера
 
         this.el.ksn_spoiler = this; //записываем экземпляр объекта управления данным спройлером в его свойства
 
-        w._on('resize_throttle', () => (this.block_height = this.get_block_height(this.el))); //при ресайзе обязательно пересчитываем высоту открытого блока
+        w._on('resize_throttle', this.set_block_height.bind(this)); //при ресайзе обязательно пересчитываем высоту открытого блока
     }
 
     //получает высоту полностью раскрытого блока для el
-    get_block_height() {
+    set_block_height() {
         let block_was_hiddenly = this.el.classList.contains('spoiler-hidden'), //проверяем скрыт ли блок
             result;
 
@@ -26,7 +26,7 @@ class Spoiler {
 
         if (block_was_hiddenly) this.el.classList.add('spoiler-hidden'); //если блок был скрыт, после получения нужных значение скрываем его снова
 
-        return result;
+        this.block_height = result; // записываем высоту открытого блока спойлера
     }
     //получает высоту полностью раскрытого блока для el
 
@@ -326,7 +326,7 @@ function base_spoiler_fade({ spoiler_content_wrap, spoiler_content, spoiler_togg
     });
     //открываем/закрываем спойлеры по клику или нажатию кнопки энтера
 
-    spoiler_content_wrap.ksn_spoiler.toggle_spoiler = toggle_spoiler;//в объект настройек и состояния спойлера обавляем функцияю котрая должна показывать/скрывать спойлер
+    spoiler_content_wrap.ksn_spoiler.toggle_spoiler = toggle_spoiler; //в объект настройек и состояния спойлера обавляем функцияю котрая должна показывать/скрывать спойлер
 }
 //стандартный спойлер в котором скрывается/показывается контент прозрачностью и плано скрывается/раскрывается спойлер при нажатии
 

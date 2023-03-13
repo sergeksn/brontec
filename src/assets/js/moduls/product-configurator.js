@@ -114,23 +114,41 @@ w.ksn_product_configurator_func = {
                 return result.slice(0, -1); //удаляет запятую после последней детали
             },
             full_kit_searched_cart_data = `{"marka_model":"${GDS.product.marka_model}","price":${GDS.product.price},"full_price":${GDS.product.full_price},"composition":{${generate_kit_composition(true)}}}`, //строка для поиска полного комплекта в корзине
-            configurator_kit_searched_cart_data = `{"marka_model":"${GDS.product.marka_model}","price":${GDS.product.price},"full_price":${GDS.product.full_price},"composition":{${generate_kit_composition(false)}}}`; //строка для поиска комплектации из конфигуратора в корзине
+            configurator_kit_searched_cart_data = `{"marka_model":"${GDS.product.marka_model}","price":${GDS.product.price},"full_price":${GDS.product.full_price},"composition":{${generate_kit_composition(false)}}}`, //строка для поиска комплектации из конфигуратора в корзине
+            searched_fo_configuration = false, //указывает нашли ли мы совпадение конфигуратора с товаром в корзине
+            searched_fo_full_kit = false; //указывает нашли ли мы совпадение полного комплекта с товаром в корзине
 
         //перебираем все товары в корзине
         for (let item in cart_data) {
+            let carent_string = JSON.stringify(cart_data[item]).replace(/"amount":\d+,/, ''); //получаем строку очещеную от количества чтоб корректно стравнить
+
             //если текущий товар полностью соответствует полному комплекту на данную машину то мы меняем функцию кнопки
-            if (JSON.stringify(cart_data[item]) === full_kit_searched_cart_data) {
+            if (carent_string === full_kit_searched_cart_data) {
                 button_add_full_kit.dataset.inCart = 'yes';
                 button_add_full_kit.dataset.productCartId = item; //пометка какой комплект фокусировать после открытия корзины
+                searched_fo_full_kit = true;
             }
 
             //если текущий товар полностью соответствует конфигурации комплекта из конфигуратора то меняем функцию кнопки
-            if (JSON.stringify(cart_data[item]) === configurator_kit_searched_cart_data) {
+            if (carent_string === configurator_kit_searched_cart_data) {
                 button_add_configuration_kit.dataset.inCart = 'yes';
                 button_add_configuration_kit.dataset.productCartId = item; //пометка какой комплект фокусировать после открытия корзины
+                searched_fo_configuration = true;
             }
         }
         //перебираем все товары в корзине
+
+        //проверяем если не нашли совпаденйи то меняем функции соответствующих кнопок
+        if (!searched_fo_configuration) {
+            button_add_configuration_kit.removeAttribute('data-in-cart');
+            button_add_configuration_kit.removeAttribute('data-product-cart-id');
+        }
+
+        if (!searched_fo_full_kit) {
+            button_add_full_kit.removeAttribute('data-in-cart');
+            button_add_full_kit.removeAttribute('data-product-cart-id');
+        }
+        //проверяем если не нашли совпаденйи то меняем функции соответствующих кнопок
     },
     //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
 };

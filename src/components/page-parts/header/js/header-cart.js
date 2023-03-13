@@ -153,6 +153,7 @@ let cart = qs('.cart'),
 
             //дописываем в данные товаров в корзине новый товар
             let data = {
+                amount: 1,
                 marka_model: GDS.product.marka_model,
                 price: GDS.product.price,
                 full_price: GDS.product.full_price,
@@ -167,6 +168,8 @@ let cart = qs('.cart'),
             if (this.was_first_render) {
                 cart_body.append(this.render_cart_product_item(timestamp, data)); //вставляем новый товар в html корзины
                 this.recalculate_common_price_in_cart(); //функция высчитывает общую сумму товаров в корзине
+
+                qs('.cart__body-product-spoiler-wrap', cart_body.lastChild).ksn_spoiler.set_block_height(); //во вреям рендера товаров у них не определялась высота т.к. они были все документа так что сейчас пересчитываем высоту чтоб корректно работал спойлер
             }
             //если уже был выполнен первый рендер корзины то мы должны все следующие добавленяи в корзину рендерить и добавлять без глобального перерендера корзины
         },
@@ -174,11 +177,13 @@ let cart = qs('.cart'),
 
         //рендерит html корзины
         render_cart: function () {
-            //сравнимать массивы приводя их в строковый вид и стравнивать равны ли их строковые версии и если равны то это одинаковые комплектации товара для даннйо марки и модели
+            //сравнимать массивы приводя их в строковый вид и стравнивать равны ли их строковые версии и если равны то это одинаковые комплектации товара для данной марки и модели
             let wrap = d.createDocumentFragment(), //оболочка в которую будем добавлять все товары перед вставков в корзину дял увеличеняи производительности
                 cart_data = JSON.parse(localStorage.getItem('cart-data')); //пытаемся получить данные для корзины
 
-            if (!cart_data) return (qs('.cart__body-nothing').style.display = 'block'); //если нет данных то отображаем блок с ссобщением что корзина пуста
+            if (!cart_data || JSON.stringify(cart_data) == '{}') return; //если нет данных в корзине прерываем
+
+            cart_body.classList.remove('cart__body--empty-cart'); //скрываем блок сообщения что корзина пуста
 
             //рендерим кадждый товар
             for (let item_id in cart_data) {
@@ -188,7 +193,11 @@ let cart = qs('.cart'),
 
             cart_body.append(wrap); //вставляем результат в корзину
 
-            this.recalculate_common_price_in_cart();
+            this.recalculate_common_price_in_cart(); //функция высчитывает общую сумму товаров в корзине
+
+            [...qsa('.cart__body-product-spoiler-wrap', cart_body)].forEach(el => el.ksn_spoiler.set_block_height()); //во вреям рендера товаров у них не определялась высота т.к. они были все документа так что сейчас пересчитываем высоту чтоб корректно работал спойлер
+
+            cart_order_button.disabled = [...qsa('input', cart_body)].find(input => input.checked) ? false : true; //если все чекбоксы не активны то блокируем кнопку оформления заказа
         },
         //рендерит html корзины
 
@@ -201,6 +210,7 @@ let cart = qs('.cart'),
                     }
                     return true;
                 })(),
+                amount = data.amount,
                 marka_model = data.marka_model,
                 price = data.price,
                 full_price = data.full_price,
@@ -216,18 +226,22 @@ let cart = qs('.cart'),
 
             product_body.classList.add('cart__body-product');
             if (is_full_kit) product_body.classList.add('cart__body-product--full-kit');
-            product_body.classList.add('cart__body-product--single');
+            if (amount === 1) product_body.classList.add('cart__body-product--single');
             product_body.dataset.markaModel = marka_model;
             product_body.dataset.productCartId = id;
 
             let content = `
         <div class="cart__body-product-title">${marka_model.replace('@@', ' ')}</div>
+        <div class="cart__body-product-delete">
+            <div class="cart__body-product-delete-timer"></div>
+            <button class="cart__body-product-delete-abort-button">Отменить удаление</button>
+        </div>
         <div class="cart__body-product-quantity-price-wrap">
           <div class="cart__body-product-change-quantity">
             <button data-decrease></button>
             <button data-increase class="icon--plus"></button>
           </div>
-          <div class="cart__body-product-quantity">1</div>
+          <div class="cart__body-product-quantity">${amount}</div>
           <div class="cart__body-product-prices">
             <div class="cart__body-product-prices-old-price ruble-price old-price">${full_price.toLocaleString('ru')}</div>
             <div class="cart__body-product-prices-kit ruble-price">${price.toLocaleString('ru')}</div>
@@ -259,6 +273,7 @@ let cart = qs('.cart'),
 
             let button_decrease = qs('button[data-decrease]', product_body), //кнопка уменьшить количества товаров
                 button_increase = qs('button[data-increase]', product_body), //кнопка увеличить количества товаров
+                delete_abort_button = qs('.cart__body-product-delete-abort-button', product_body), //кнопка прерывания удаленяи товара из корзины
                 all_current_inputs = qsa('input', product_body), //все инпуты для данного товара
                 spoiler_content = qs('.cart__body-product-spoiler-wrap-content', product_body), //контент спойлера
                 spoiler_title_block = qs('.cart__body-product-toggle-composition', product_body), //кнопка для открытия/закрытия спойлера
@@ -282,45 +297,240 @@ let cart = qs('.cart'),
 
             spoiler_content.ksn_fade.status = 'hide'; //вручную меняем статус ksn_fade т.к. сейчас элемент не вставлен в документ и у него не могут быть определены стили через getComputedStyle
 
+            button_increase._on('click', this.increase_amount.bind(this, product_body)); //увеличивает количество единиц товара в корзине
+            button_decrease._on('click', this.decrease_amount.bind(this, product_body)); //уменьшаем количество единиц товара в корзине
+            delete_abort_button._on('click', this.abort_delete_product.bind(this, product_body)); //прерывает удаление товара из корзины
+
             all_current_inputs.forEach(input =>
                 input._on('change', () => {
-                    //убираем классы если они были
-                    product_body.classList.remove('cart__body-product--full-kit');
-
-                    //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
-                    if ([...all_current_inputs].every(input => input.checked)) {
-                        product_body.classList.add('cart__body-product--full-kit');
-                    }
-                    //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
-
-                    //если не отмечен ни один инпут то делаем кнопку неактивной ВИЗУАЛЬНО меняем цвета чекбоксов, выводим предупреждающий текст и ставим цену в 0 руб
-                    else if ([...all_current_inputs].every(input => !input.checked)) {
-                        qs('.cart__body-product-prices-parts', product_body).textContent = 0;
-                    }
-                    //если не отмечен ни один инпут то делаем кнопку неактивной ВИЗУАЛЬНО меняем цвета чекбоксов, выводим предупреждающий текст и ставим цену в 0 руб
-
-                    //если просто отмечены какие-то инпуты, но не все
-                    else {
-                        let result_price = 0;
-
-                        //получаем цену для каждой активныой детали и формируем из их суммы цены для текущей конфигурации комплекта
-                        all_current_inputs.forEach(input => {
-                            if (input.checked) {
-                                result_price += +input.parentNode.getAttribute('data-price').replace('\u00A0', '');
-                            }
-                        });
-
-                        qs('.cart__body-product-prices-parts', product_body).textContent = result_price.toLocaleString('ru');
-                    }
-                    //если просто отмечены какие-то инпуты, но не все
-
-                    this.recalculate_common_price_in_cart(); //при каждом изменении чекбокса детали комплекта в корзине пересчитываем итоговую сумму
+                    this.cart_input_chenge(all_current_inputs, product_body); //срабатывает при взаимодействии с инпутами в корзине
                 }),
             );
 
             return product_body;
         },
         //рендерить html отдельного товара
+
+        //увеличивает количество единиц товара в корзине
+        increase_amount: function (product_body) {
+            let amount_el = qs('.cart__body-product-quantity', product_body),
+                new_cart_count = +localStorage.getItem('cart-count') + 1; //обновлённое количество товаров в корзине
+            amount_el.textContent = +amount_el.textContent + 1;
+
+            //обновляем значения в счётчиках
+            inner_cart_counter.textContent = new_cart_count;
+            header_cart_counter.textContent = new_cart_count;
+            set_localStorage('cart-count', new_cart_count); //записываем количество в хранилище
+
+            product_body.classList.remove('cart__body-product--single'); //убираем пометку о том что товар один
+            this.update_cart_localStorage_data(); //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
+            this.recalculate_common_price_in_cart(); //при каждом изменении количества товаров в корзине пересчитываем итоговую сумму
+        },
+        //увеличивает количество единиц товара в корзине
+
+        //уменьшаем количество единиц товара в корзине
+        decrease_amount: function (product_body) {
+            let amount_el = qs('.cart__body-product-quantity', product_body),
+                amount = amount_el.textContent,
+                new_amount = +amount - 1,
+                update_cart_count = () => {
+                    //обновляем счётчики и значение в хранилище о количестве товаров в корзине
+                    let new_cart_count = +localStorage.getItem('cart-count') - 1; //обновлённое количество товаров в корзине
+
+                    //если мы удалили последний товар в корзине
+                    if (new_cart_count == 0) {
+                        //скрываем счётчики
+                        inner_cart_counter.style.opacity = '0';
+                        header_cart_counter.style.opacity = '0';
+                    }
+                    //если мы удалили последний товар в корзине
+                    else {
+                        //обновляем значения в счётчиках
+                        inner_cart_counter.textContent = new_cart_count;
+                        header_cart_counter.textContent = new_cart_count;
+                    }
+
+                    set_localStorage('cart-count', new_cart_count); //записываем количество в хранилище
+                };
+
+            if (new_amount > 1) {
+                amount_el.textContent = new_amount;
+                update_cart_count(); //обновляем счётчики и значение в хранилище о количестве товаров в корзине
+            } else if (new_amount == 1) {
+                amount_el.textContent = new_amount;
+                product_body.classList.add('cart__body-product--single'); //добавляем пометку о том что товар один
+                update_cart_count(); //обновляем счётчики и значение в хранилище о количестве товаров в корзине
+            } else {
+                product_body.classList.add('cart__body-product--wait-fo-delete'); //показываем интерфейс удаленяи скрывая всё лишнее
+
+                let cart_detete_timer_counter = qs('.cart__body-product-delete-timer', product_body); //счётчик секунд до удаления
+                cart_detete_timer_counter.textContent = 5; //ставим 5 сек по умолчанию
+
+                //с интервалом секунду уменьшаем таймер секунд
+                product_body.cart_detete_timer = setInterval(() => {
+                    cart_detete_timer_counter.textContent = +cart_detete_timer_counter.textContent - 1;
+                }, 1000);
+                //с интервалом секунду уменьшаем таймер секунд
+
+                //создаём таймаут после которого товар будет удалён
+                product_body.cart_detete_timeout = setTimeout(async () => {
+                    await this.delete_product(product_body); //дожидаемся уждаяени товара из корзины
+                    this.recalculate_common_price_in_cart(); //при каждом изменении количества товаров в корзине пересчитываем итоговую сумму
+                    update_cart_count(); //обновляем счётчики и значение в хранилище о количестве товаров в корзине
+                    this.update_cart_localStorage_data(); //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
+
+                    if (localStorage.getItem('cart-count') == 0) {
+                        let cart_body_nothing = qs('.cart__body-nothing', cart_body);
+                        cart_body_nothing.style.opacity = '0';
+                        cart_body.classList.add('cart__body--empty-cart'); //показываем блок сообщения что корзина пуста
+                        cart_order_button.disabled = true; //блокируем кнопку оформления заказа
+
+                        await anime({
+                            targets: cart_body_nothing,
+                            opacity: 1,
+                        }).finished; //дожидаемся показа сообщения что корзина пуста
+                    }
+                }, 2000);
+                //создаём таймаут после которого товар будет удалён
+                
+                return;//прерываем дальнейшие выполнение
+
+
+
+
+
+
+//при удалении нескольких товаров происходит ошибка что в локальное хранииже записывается фигурная скобка всесто данных
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+            this.update_cart_localStorage_data(); //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
+            this.recalculate_common_price_in_cart(); //при каждом изменении количества товаров в корзине пересчитываем итоговую сумму
+        },
+        //уменьшаем количество единиц товара в корзине
+
+        //прерывает удаление товара из корзины
+        abort_delete_product: function (product_body) {
+            clearTimeout(product_body.cart_detete_timeout); //удаляем таймаут для удаляени товара
+            clearInterval(product_body.cart_detete_timer); //удаляем функцию интервала обратного отсчёта до удаления
+            product_body.classList.remove('cart__body-product--wait-fo-delete'); //скрываем интерфейс удаления и показываем всё остальное
+        },
+        //прерывает удаление товара из корзины
+
+        //полностью удлаяет товар из корзины и хранилища корзины
+        delete_product: async function (product_body) {
+            clearInterval(product_body.cart_detete_timer); //удаляем функцию интервала обратного отсчёта до удаления
+            product_body.style.pointerEvents = 'none'; //делаем чтоб нельзя было взаимодействовать и нажать кнопку отмены удаления
+
+            let id = product_body.dataset.productCartId, //идентификатор товара в корзине
+                cart_data = JSON.parse(localStorage.getItem('cart-data'));
+
+            await anime({
+                targets: product_body,
+                opacity: 0,
+            }).finished; //дожидаемся скрытия товара
+
+            await anime({
+                targets: product_body,
+                height: 0,
+            }).finished; //дожидаемся сворачивания товара
+
+            product_body.remove(); //удаляем данный товар из корзины
+
+            delete cart_data[id]; //удаляем данные этого товара из хранилища корзины
+
+            set_localStorage('cart-data', JSON.stringify(cart_data)); //записываем обновлённые данные в хранилище
+        },
+        //полностью удлаяет товар из корзины и хранилища корзины
+
+        //срабатывает при взаимодействии с инпутами в корзине
+        cart_input_chenge: function (all_current_inputs, product_body) {
+            //убираем классы если они были
+            product_body.classList.remove('cart__body-product--full-kit');
+
+            //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
+            if ([...all_current_inputs].every(input => input.checked)) {
+                product_body.classList.add('cart__body-product--full-kit');
+            }
+            //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
+
+            //если не отмечен ни один инпут то делаем кнопку неактивной ВИЗУАЛЬНО меняем цвета чекбоксов, выводим предупреждающий текст и ставим цену в 0 руб
+            else if ([...all_current_inputs].every(input => !input.checked)) {
+                qs('.cart__body-product-prices-parts', product_body).textContent = 0;
+            }
+            //если не отмечен ни один инпут то делаем кнопку неактивной ВИЗУАЛЬНО меняем цвета чекбоксов, выводим предупреждающий текст и ставим цену в 0 руб
+
+            //если просто отмечены какие-то инпуты, но не все
+            else {
+                let result_price = 0;
+
+                //получаем цену для каждой активныой детали и формируем из их суммы цены для текущей конфигурации комплекта
+                all_current_inputs.forEach(input => {
+                    if (input.checked) {
+                        result_price += +input.parentNode.getAttribute('data-price').replace('\u00A0', '');
+                    }
+                });
+
+                qs('.cart__body-product-prices-parts', product_body).textContent = result_price.toLocaleString('ru');
+            }
+            //если просто отмечены какие-то инпуты, но не все
+
+            this.recalculate_common_price_in_cart(); //при каждом изменении чекбокса детали комплекта в корзине пересчитываем итоговую сумму
+
+            cart_order_button.disabled = [...qsa('input', cart_body)].find(input => input.checked) ? false : true; //если все чекбоксы не активны то блокируем кнопку оформления заказа
+
+            this.update_cart_localStorage_data(); //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
+
+            ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
+        },
+        //срабатывает при взаимодействии с инпутами в корзине
+
+        //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
+        update_cart_localStorage_data: function () {
+            let add_product_in_cart = qsa('.cart__body-product', cart_body),
+                result = '{';
+
+            add_product_in_cart.forEach(product => {
+                let id = product.dataset.productCartId,
+                    amount = qs('.cart__body-product-quantity', product).textContent,
+                    marka_model = product.dataset.markaModel,
+                    price = qs('.cart__body-product-prices-kit', product).textContent.replace('\u00A0', ''),
+                    full_price = qs('.cart__body-product-prices-old-price', product).textContent.replace('\u00A0', ''),
+                    composition = (() => {
+                        let all_inputs = qsa('input', product),
+                            composition_text = '';
+                        all_inputs.forEach(input => {
+                            let detal = input.id.replace('cart-' + id + '-', '').replace('-checkbox', ''),
+                                price = input.parentNode.dataset.price.replace('\u00A0', ''),
+                                add = input.checked;
+
+                            composition_text += `"${detal}":{"price":${price},"add":${add}},`;
+                        });
+                        return composition_text.slice(0, -1); //удаляет запятую после последней детали;
+                    })();
+
+                result += `"${id}":{"amount":${amount},"marka_model":"${marka_model}","price":${price},"full_price":${full_price},"composition":{${composition}}},`;
+            });
+
+            result = result.slice(0, -1) + '}'; //удаляет запятую после последней детали;
+
+            set_localStorage('cart-data', result); //записываем обновлённые данные в хранилище
+        },
+        //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
 
         //функция получает id товара до которого нужно достролить чтоб он был в фокусе
         scroll_to_the_traget_product: async function (id) {
@@ -336,19 +546,24 @@ let cart = qs('.cart'),
 
         //функция высчитывает общую сумму товаров в корзине
         recalculate_common_price_in_cart: function () {
-            let value = 0,
+            let result = 0,
                 final_price = qs('.cart__footer-final-price-value'),
                 all_products = qsa('.cart__body-product', cart_body);
 
             all_products.forEach(el => {
+                let value,
+                    amount = +qs('.cart__body-product-quantity', el).textContent; //количество штук данного товара
+
                 if (el.classList.contains('cart__body-product--full-kit')) {
-                    value += +qs('.cart__body-product-prices-kit', el).textContent.replace('\u00A0', ''); // \u00A0 - это неразрывный проблел который получается после toLocaleString('ru')
+                    value = +qs('.cart__body-product-prices-kit', el).textContent.replace('\u00A0', ''); // \u00A0 - это неразрывный проблел который получается после toLocaleString('ru')
                 } else {
-                    value += +qs('.cart__body-product-prices-parts', el).textContent.replace('\u00A0', '');
+                    value = +qs('.cart__body-product-prices-parts', el).textContent.replace('\u00A0', '');
                 }
+
+                result += value * amount;
             });
 
-            final_price.textContent = value.toLocaleString('ru');
+            final_price.textContent = result.toLocaleString('ru');
         },
         //функция высчитывает общую сумму товаров в корзине
 
@@ -394,6 +609,8 @@ let cart = qs('.cart'),
         add_to_cart: function (full_kit) {
             this.chenge_cart_counters(); //меяняет значение счётчиков корзины в хедере и в самой корзине
             this.add_in_cart_localStorage_data(full_kit); //добавляет товар в локальное хранилище корзины и в саму корзину
+            cart_body.classList.remove('cart__body--empty-cart'); //скрываем блок сообщения что корзина пуста
+            cart_order_button.disabled = false; //разблокируем кнопку оформления заказа
         },
         //добавляет товар в корзину
 

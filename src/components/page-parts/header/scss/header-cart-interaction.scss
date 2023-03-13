@@ -98,6 +98,7 @@
             color: var(--white);
             font: var(--small);
             opacity: 0;
+            transition: opacity var(--standart-anim);
 
             @media (min-width: rem(640)) {
                 display: flex;
@@ -149,8 +150,8 @@
         &-nothing {
             display: none; //по умолчанию показан
             grid-column: 1/-1;
-            align-self: center;
             justify-self: center;
+            transition: opacity var(--standart-anim);
 
             &-title {
                 font: var(--h3);
@@ -177,6 +178,26 @@
 
                 &:before {
                     content: 'Комплект частичной защиты Brontero® ';
+                }
+            }
+
+            &-delete {
+                display: none;
+                align-items: center;
+
+                &-timer {
+                    margin-right: var(--gap);
+                    border-radius: 50%;
+                    border: var(--border-width) solid var(--error);
+                    width: rem(36);
+                    height: rem(36);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                &-abort-button {
+                    color: var(--blue);
                 }
             }
 
@@ -368,11 +389,39 @@
                         font-size: adaptiv_rem_size(14, 1920);
                     }
 
+                    @media (any-hover: hover) {
+                        &:hover {
+                            background-color: var(--error);
+                            color: var(--white);
+                            border: none;
+                        }
+                    }
+
                     &:after {
                         content: '\e910';
                         transform: rotate(45deg);
                     }
                 }
+            }
+
+            &--wait-fo-delete {
+                .cart__body-product-delete {
+                    display: flex;
+                }
+
+                .cart__body-product-quantity-price-wrap,
+                .cart__body-product-toggle-composition,
+                .cart__body-product-spoiler-wrap{
+                    display: none;
+                }
+            }
+        }
+
+        &--empty-cart {
+            align-content: center;
+
+            .cart__body-nothing {
+                display: block;
             }
         }
     }
