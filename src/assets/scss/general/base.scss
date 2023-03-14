@@ -96,7 +96,6 @@ button {
     align-items: center;
     justify-content: center;
     position: relative;
-    transition: opacity var(--standart-anim);
 
     @media (any-hover: none) and (any-pointer: coarse) {
         min-width: var(--min-interactive-elements-width);
@@ -177,6 +176,7 @@ input {
     max-width: var(--button-max-width);
     background-color: var(--blue);
     padding: var(--gap-10) var(--gap);
+    transition: opacity var(--standart-anim), background-color var(--standart-anim);
 
     &--not-minmax-width {
         min-width: auto;
@@ -244,12 +244,12 @@ input {
         }
     }
 
-    &--add-in-cart{
+    &--add-in-cart {
         &:before {
             content: 'Добавить в корзину';
         }
 
-        &[data-in-cart="yes"]:before {
+        &[data-in-cart='yes']:before {
             content: 'Комплект в корзине. Перейти →';
         }
     }
@@ -318,7 +318,7 @@ input {
     }
 
     input:disabled ~ label {
-       cursor: not-allowed;
+        cursor: not-allowed;
     }
 
     //чекбокс для страниц комплекта и детали с синей заливкой и белой галочкой
@@ -348,11 +348,11 @@ input {
     }
     //чекбокс для страниц комплекта и детали с синей заливкой и белой галочкой
 
-    &--cart{
-        display: flex;//нужно для того чтоб нормально отображался внутри чекбокса текст отписания чекбокса, если нужно менять стилди описания при смене активности чекбокса
+    &--cart {
+        display: flex; //нужно для того чтоб нормально отображался внутри чекбокса текст отписания чекбокса, если нужно менять стилди описания при смене активности чекбокса
         align-items: center;
 
-        input:checked ~ label{
+        input:checked ~ label {
             border-color: #000;
 
             @media (any-hover: hover) {
@@ -362,11 +362,11 @@ input {
             }
         }
 
-        div[class*="title"]{
+        div[class*='title'] {
             color: var(--gray);
         }
 
-        input:checked ~ div[class*="title"]{
+        input:checked ~ div[class*='title'] {
             color: #000;
         }
     }

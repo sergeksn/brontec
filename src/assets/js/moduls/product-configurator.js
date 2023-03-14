@@ -22,6 +22,7 @@ w.ksn_product_configurator_func = {
                 result_price += GDS.product.composition[id];
             }
         });
+
         this.price_area.textContent = result_price.toLocaleString('ru');
     },
     //функция полчует и записывает сумму всех отмеченых чекбоксов
@@ -86,9 +87,14 @@ w.ksn_product_configurator_func = {
     //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
     //данная функция должна вызываться при каждом нажатии на кнопки добавить в корзину и смене чекбоксов, она проверяет текущкю комплектацию и уже существующие комплектации в корзине, если находит совпадения то меняет состояние кнопки и кнопка будет сразу перекидыватьв  корзину на данный комплект
     check_cart_composition_and_edit_buttons_action: function () {
-        let cart_data = JSON.parse(localStorage.getItem('cart-data')); //пытаемся получить данные комплектов в корзине
+        let cart_data = localStorage.getItem('cart-data'); //пытаемся получить данные комплектов в корзине
 
-        if (!cart_data) return; //если данные корзины пустые прерываем проверки
+        //ВАЖНО: || cart_data === '{}' не использовать тут так как нам нужно выполять функцию и при пустой корзине чтоб менять кнопки так что главное условие чтоб корзина просто существовала в хранилище
+        if (!cart_data) return; //если данные корзины несуществуют прерываем проверки
+
+        cart_data = JSON.parse(cart_data); //превращаяем в объект
+
+        if (!this.button_add_full_kit) return; //так же прерываем если мы не на странице полного комплекта
 
         let button_add_full_kit = this.button_add_full_kit,
             button_add_configuration_kit = this.button_add_configuration_kit,
@@ -120,7 +126,9 @@ w.ksn_product_configurator_func = {
 
         //перебираем все товары в корзине
         for (let item in cart_data) {
-            let carent_string = JSON.stringify(cart_data[item]).replace(/"amount":\d+,/, ''); //получаем строку очещеную от количества чтоб корректно стравнить
+            let carent_string = JSON.stringify(cart_data[item])
+                .replace(/"amount":\d+,/, '')
+                .replace(/"spoiler_hide":[^,]+,/, ''); //получаем строку очещеную от количества и статуса спойлер состава чтоб корректно стравнить
 
             //если текущий товар полностью соответствует полному комплекту на данную машину то мы меняем функцию кнопки
             if (carent_string === full_kit_searched_cart_data) {
@@ -138,7 +146,7 @@ w.ksn_product_configurator_func = {
         }
         //перебираем все товары в корзине
 
-        //проверяем если не нашли совпаденйи то меняем функции соответствующих кнопок
+        //проверяем если не нашли совпадений то меняем функции соответствующих кнопок
         if (!searched_fo_configuration) {
             button_add_configuration_kit.removeAttribute('data-in-cart');
             button_add_configuration_kit.removeAttribute('data-product-cart-id');
@@ -148,7 +156,7 @@ w.ksn_product_configurator_func = {
             button_add_full_kit.removeAttribute('data-in-cart');
             button_add_full_kit.removeAttribute('data-product-cart-id');
         }
-        //проверяем если не нашли совпаденйи то меняем функции соответствующих кнопок
+        //проверяем если не нашли совпадений то меняем функции соответствующих кнопок
     },
     //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
 };

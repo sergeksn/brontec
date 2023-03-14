@@ -33,7 +33,7 @@ export default class {
     //params.duration - продолжительность перехода
     //params.delay - задержка перед началом перехода
     //params.tf - как по времени будет менться скорость анимации перехода, в css параметре
-    fade_show(params) {
+    fade_show(params = {}) {
         return new Promise((resolve, reject) => {
             //выполянем с задержкой если такая есть
             setTimeout(async _ => {
@@ -88,9 +88,13 @@ export default class {
 
                         this.status = 'show'; //помечаем что блок виден
 
+                        delete this.pending_to_show_promise; //удаляем уже отработаный промис
+
                         return resolve(); //завершаем промис успехом, после успешного завершения перехода
                     })
                     .catch(() => {
+                        delete this.pending_to_show_promise; //удаляем уже отработаный промис
+
                         return reject('block in process hiding'); //если начали скрывать блк до окончания показа возвращаем отклонённый промис с сообщением
                     });
                 //дожидаемся показа блока
@@ -104,7 +108,7 @@ export default class {
     //params.duration - продолжительность перехода
     //params.delay - задержка перед началом перехода
     //params.tf - как по времени будет менться скорость анимации перехода, в css параметре
-    fade_hide(params) {
+    fade_hide(params = {}) {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 let el = this.el,
@@ -157,9 +161,13 @@ export default class {
 
                         this.status = 'hide'; //помечаем что блок скрыт
 
+                        delete this.pending_to_hide_promise; //удаляем уже отработаный промис
+
                         return resolve(); //завершаем промис успехом, после успешного завершения перехода
                     })
                     .catch(() => {
+                        delete this.pending_to_hide_promise; //удаляем уже отработаный промис
+
                         return reject('block in process showed');
                     });
                 //дожидаемся скрытия блока
@@ -169,7 +177,7 @@ export default class {
     //фнукция скрывает элемент путём уменшения его прозрачности
 
     //функйция запускает fade_show или fade_hide в зависимости от статуса блока
-    fade_toggle(params) {
+    fade_toggle(params = {}) {
         if (this.status === 'hide' || this.status === 'pending to hide') {
             return this.fade_show(params);
         } else if (this.status === 'show' || this.status === 'pending to show') {

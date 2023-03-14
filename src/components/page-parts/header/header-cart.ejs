@@ -7,16 +7,10 @@
       <button class="cart__header-close-button icon--close"></button>
     </div>
     <div class="cart__body cart__body--empty-cart cart-grid custom-scrollbar">
-
       <div class="cart__body-nothing">
         <div class="cart__body-nothing-title">Ваша корзина пуста</div>
         <a href="/vybrat-komplekt/" class="cart__body-nothing-button button-main">Выбрать комплект</a>
       </div>
-      <!-- data-cart-id - это id данного товара в массиве товаров для данной марки-модели предстваляет из себя метку времени unix в момент создания данного товара в корзине, чтоб было удобно им управлять -->
-
-
-
-
     </div>
     <div class="cart__footer cart-grid">
       <div class="cart__footer-final-price">
@@ -46,12 +40,17 @@
     "krylya": "\u041a\u0440\u044b\u043b\u044c\u044f"
   };
 
-  /*если в корзине что-то есть то показываем счётчик*/
-  let cart_count = localStorage.getItem('cart-count');
-  if (cart_count && cart_count > 0) {
-    [qs('.cart__header-counter'), qs('.header-visible__cart-counter')].forEach(el => {
-      el.textContent = cart_count;
-      el.style.opacity = '1';
-    });
-  }
+  (() => {
+    /*если в корзине что-то есть то показываем счётчик*/
+    let cart_data = localStorage.getItem('cart-data');
+    /*проверяем чтоб корзина не была пуста*/
+    if (cart_data && cart_data !== '{}') {
+      cart_data = JSON.parse(cart_data);
+      let count = Object.keys(cart_data).length; /*получаем количество товаров в корзине*/
+      [qs('.cart__header-counter'), qs('.header-visible__cart-counter')].forEach(el => {
+        el.textContent = count;
+        el.style.opacity = '1';
+      });
+    }
+  })();
 </script>

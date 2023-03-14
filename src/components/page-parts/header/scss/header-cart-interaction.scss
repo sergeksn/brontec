@@ -98,7 +98,7 @@
             color: var(--white);
             font: var(--small);
             opacity: 0;
-            transition: opacity var(--standart-anim);
+            
 
             @media (min-width: rem(640)) {
                 display: flex;

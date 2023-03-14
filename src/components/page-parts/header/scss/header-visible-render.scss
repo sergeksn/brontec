@@ -183,7 +183,6 @@
         color: var(--white);
         font: var(--small);
         margin-left: rem(1);
-        transition: opacity var(--standart-anim);
 
         @media (min-width: rem(640)) {
             min-width: adaptiv_rem_size(24, 640, 30, 1920);

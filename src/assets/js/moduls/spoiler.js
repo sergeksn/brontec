@@ -45,7 +45,7 @@ class Spoiler {
     //params.duration - продолжительность перехода
     //params.delay - задержка перед началом перехода
     //params.tf - как по времени будет менться скорость анимации перехода, в css параметре
-    spoiler_show(params) {
+    spoiler_show(params = {}) {
         return new Promise((resolve, reject) => {
             //выполянем с задержкой если такая есть
             setTimeout(async _ => {
@@ -119,9 +119,13 @@ class Spoiler {
 
                         this.status = 'show'; //помечаем что блок виден
 
+                        delete this.pending_to_show_promise; //удаляем уже отработаный промис
+
                         return resolve(); //завершаем промис успехом, после успешного завершения перехода
                     })
                     .catch(() => {
+                        delete this.pending_to_show_promise; //удаляем уже отработаный промис
+
                         return reject('block in process hiding'); //если начали скрывать блк до окончания показа возвращаем отклонённый промис с сообщением
                     });
                 //дожидаемся показа блока
@@ -134,7 +138,7 @@ class Spoiler {
     //params.duration - продолжительность перехода
     //params.delay - задержка перед началом перехода
     //params.tf - как по времени будет менться скорость анимации перехода, в css параметре
-    spoiler_hide(params) {
+    spoiler_hide(params = {}) {
         return new Promise((resolve, reject) => {
             setTimeout(async () => {
                 let el = this.el,
@@ -202,9 +206,13 @@ class Spoiler {
 
                         this.status = 'hide'; //помечаем что блок скрыт
 
+                        delete this.pending_to_hide_promise; //удаляем уже отработаный промис
+
                         return resolve(); //завершаем промис успехом, после успешного завершения перехода
                     })
                     .catch(() => {
+                        delete this.pending_to_hide_promise; //удаляем уже отработаный промис
+
                         return reject('block in process showed'); //если блок начали открывать не дождавщись сокрытия, то отклоняем промис с сообщением
                     });
                 //дожидаемся сокрытия блока
@@ -214,7 +222,7 @@ class Spoiler {
     //фнукция скрывает элемент путём сворачивания его по высоте
 
     //функйция запускает spoiler_hide или spoiler_show в зависимости от статуса блока
-    spoiler_toggle(params) {
+    spoiler_toggle(params = {}) {
         if (this.status === 'hide' || this.status === 'pending to hide') {
             return this.spoiler_show(params);
         } else if (this.status === 'show' || this.status === 'pending to show') {
