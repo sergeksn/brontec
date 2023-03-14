@@ -31,13 +31,14 @@ w.ksn_product_configurator_func = {
     init_configurator_fom_saved_settings: function () {
         this.kit_composition_info = JSON.parse(localStorage.getItem('kits-composition-info'))?.[GDS.product.marka_model]; /*пытаемся получить состяние активных деталей для данного комплекта*/
 
-        if (!this.kit_composition_info) return this.get_checked_inputs_sum_price(); //если для данного товара ещё нет никаких данных о выдилении, т.е. данная страница товар открыта впрервые и этого товара так же не может быть в корзине, так что мы просто высчитываем и записываем сумму по умолчанию выденых чекбоксов
-
-        this.configurator = qs('.komplekt-2-select-kit-composition'); //блок с конфигуратором на странице комплекта
+        //они должны быть тут чтоб при вызове функций при изначально пустой корзине они были определены
         this.price_area = qs('.komplekt-2-select-kit-composition .komplekt-configurator__full-wrap-composition-price-current');
         this.all_inputs = qsa('.komplekt-2-select-kit-composition input'); //все инпуты в конфигураторе
+        this.configurator = qs('.komplekt-2-select-kit-composition'); //блок с конфигуратором на странице комплекта
         this.button_add_full_kit = qs('.komplekt-1-full-kit .komplekt-configurator__full-wrap-composition-button'); //кнопка для добавления комплекта полностью
         this.button_add_configuration_kit = qs('.komplekt-2-select-kit-composition .komplekt-configurator__full-wrap-composition-button'); //кнопка для добавленяи в корзину сконфигурированного из частей комплекта
+
+        if (!this.kit_composition_info) return this.get_checked_inputs_sum_price(); //если для данного товара ещё нет никаких данных о выдилении, т.е. данная страница товар открыта впрервые и этого товара так же не может быть в корзине, так что мы просто высчитываем и записываем сумму по умолчанию выденых чекбоксов
 
         this.active_neaded_svg_and_checkbox(); //отмечаем нужные svg и чекбокс
         this.set_configurator_price_and_status(); //функция задёт цену для текущей конфигурации и если ничего не выделено блокирыет кнопку конфигуроатора
@@ -98,63 +99,79 @@ w.ksn_product_configurator_func = {
 
         let button_add_full_kit = this.button_add_full_kit,
             button_add_configuration_kit = this.button_add_configuration_kit,
-            composition = GDS.product.composition, //состав текущего комплекта
-            check_add_status = (detal, full_kit) => {
-                //функция помечает какие делали в конфигурации данного комплекта выбраны
-                if (full_kit) return true; //если это полный комплект то выбраны все детали комплекта
+            //функция проверяет есть ли полный комплект данного товара или текущая конфигурация в корзине
+            searched = full_kit => {
+                //перебираем все товары в хранилище корзины
+                for (let item in cart_data) {
+                    let data = cart_data[item], //данные товара
+                        composition = data.composition; //состав товара
 
-                let target_input = [...this.all_inputs].find(el => el.id === detal + '-checkbox'); //проверяем соответсвующие чекбоксы деталей и если они активны то помечаем что данная деталь добавлена
+                    //если данный товар соответствует марке комплекта на текущей странице комплекта
+                    if (data.marka_model == GDS.product.marka_model) {
+                        let detected = true; //пометка отвечающая был ли онарущен пльностью подходящий товар
 
-                return target_input.checked;
-            },
-            generate_kit_composition = full_kit => {
-                //функция генерирует строку с текущей конфигурацией комплекта на основе чекбоксов или пометки полного комплекта
-                let result = '';
+                        //перебираем все детали данного найденого в хранилище корзины товара
+                        for (let detal in composition) {
+                            let target_input = [...this.all_inputs].find(el => el.id === detal + '-checkbox'), //проверяем соответсвующие чекбоксы деталей и если они активны то помечаем что данная деталь добавлена
+                                checked_status = full_kit ? true : target_input.checked; //какой статус у инпутов сейчас
 
-                //перебираем все детали комплекта
-                for (let detal in composition) {
-                    result += `"${detal}":{"price":${composition[detal]},"add":${check_add_status(detal, full_kit)}},`;
+                            //если хоть один инпут не соответствует данным товара из корзины то мы его прекращаем проверять помечая что он не подошёл
+                            if (checked_status !== composition[detal].add) {
+                                detected = false;
+                                break;
+                            }
+                            //если хоть один инпут не соответствует данным товара из корзины то мы его прекращаем проверять помечая что он не подошёл
+                        }
+                        //перебираем все детали данного найденого в хранилище корзины товара
+
+                        //если мы обнаружили совпадение помечаем для чего именно нашли совпадение и завершаем проверку
+                        if (detected) {
+                            if (full_kit) {
+                                searched_fo_full_kit = detected;
+                            } else {
+                                searched_fo_configuration = detected;
+                            }
+                            return item; //возвращаем функцией id найденого товара для текущего типа поиска
+                        }
+                        //если мы обнаружили совпадение помечаем для чего именно нашли совпадение и завершаем проверку
+                    }
+                    //если данный товар соответствует марке комплекта на текущей странице комплекта
                 }
-                //перебираем все детали комплекта
+                //перебираем все товары в хранилище корзины
 
-                return result.slice(0, -1); //удаляет запятую после последней детали
+                return false; //если него не нашли
             },
-            full_kit_searched_cart_data = `{"marka_model":"${GDS.product.marka_model}","price":${GDS.product.price},"full_price":${GDS.product.full_price},"composition":{${generate_kit_composition(true)}}}`, //строка для поиска полного комплекта в корзине
-            configurator_kit_searched_cart_data = `{"marka_model":"${GDS.product.marka_model}","price":${GDS.product.price},"full_price":${GDS.product.full_price},"composition":{${generate_kit_composition(false)}}}`, //строка для поиска комплектации из конфигуратора в корзине
+            //функция проверяет есть ли полный комплект данного товара или текущая конфигурация в корзине
             searched_fo_configuration = false, //указывает нашли ли мы совпадение конфигуратора с товаром в корзине
-            searched_fo_full_kit = false; //указывает нашли ли мы совпадение полного комплекта с товаром в корзине
+            searched_fo_full_kit = false, //указывает нашли ли мы совпадение полного комплекта с товаром в корзине
+            button_add_full_kit_product_id = searched(true), //id товара в хранилище корзины для полного комплекта
+            button_add_configuration_kit_product_id = searched(); //id товара в хранилище корзины для текущей конфигурации
 
-        //перебираем все товары в корзине
-        for (let item in cart_data) {
-            let carent_string = JSON.stringify(cart_data[item])
-                .replace(/"amount":\d+,/, '')
-                .replace(/"spoiler_hide":[^,]+,/, ''); //получаем строку очещеную от количества и статуса спойлер состава чтоб корректно стравнить
-
-            //если текущий товар полностью соответствует полному комплекту на данную машину то мы меняем функцию кнопки
-            if (carent_string === full_kit_searched_cart_data) {
-                button_add_full_kit.dataset.inCart = 'yes';
-                button_add_full_kit.dataset.productCartId = item; //пометка какой комплект фокусировать после открытия корзины
-                searched_fo_full_kit = true;
-            }
-
-            //если текущий товар полностью соответствует конфигурации комплекта из конфигуратора то меняем функцию кнопки
-            if (carent_string === configurator_kit_searched_cart_data) {
-                button_add_configuration_kit.dataset.inCart = 'yes';
-                button_add_configuration_kit.dataset.productCartId = item; //пометка какой комплект фокусировать после открытия корзины
-                searched_fo_configuration = true;
-            }
+        //если текущий товар полностью соответствует полному комплекту на данную машину то мы меняем функцию кнопки
+        if (searched_fo_full_kit) {
+            button_add_full_kit.dataset.inCart = 'yes';
+            button_add_full_kit.dataset.productCartId = button_add_full_kit_product_id; //пометка какой комплект фокусировать после открытия корзины
         }
-        //перебираем все товары в корзине
+        //если текущий товар полностью соответствует полному комплекту на данную машину то мы меняем функцию кнопки
 
         //проверяем если не нашли совпадений то меняем функции соответствующих кнопок
-        if (!searched_fo_configuration) {
-            button_add_configuration_kit.removeAttribute('data-in-cart');
-            button_add_configuration_kit.removeAttribute('data-product-cart-id');
-        }
-
-        if (!searched_fo_full_kit) {
+        else {
             button_add_full_kit.removeAttribute('data-in-cart');
             button_add_full_kit.removeAttribute('data-product-cart-id');
+        }
+        //проверяем если не нашли совпадений то меняем функции соответствующих кнопок
+
+        //если текущий товар полностью соответствует конфигурации комплекта из конфигуратора то меняем функцию кнопки
+        if (searched_fo_configuration) {
+            button_add_configuration_kit.dataset.inCart = 'yes';
+            button_add_configuration_kit.dataset.productCartId = button_add_configuration_kit_product_id; //пометка какой комплект фокусировать после открытия корзины
+        }
+        //если текущий товар полностью соответствует конфигурации комплекта из конфигуратора то меняем функцию кнопки
+
+        //проверяем если не нашли совпадений то меняем функции соответствующих кнопок
+        else {
+            button_add_configuration_kit.removeAttribute('data-in-cart');
+            button_add_configuration_kit.removeAttribute('data-product-cart-id');
         }
         //проверяем если не нашли совпадений то меняем функции соответствующих кнопок
     },

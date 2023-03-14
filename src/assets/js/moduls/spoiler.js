@@ -238,7 +238,7 @@ class Spoiler {
 //spoiler_toggle_button - элемент по нажатию на которйы будет откарываться/закрыватьяс спойлер
 //остальные параметры , название говорит само за себя
 function base_spoiler_fade({ spoiler_content_wrap, spoiler_content, spoiler_toggle_button, open_start_func, open_end_func, close_start_func, close_end_func, spoiler_open_settings, spoiler_close_settings, fade_show_settings, fade_hide_settings } = {}) {
-    if (!spoiler_content_wrap || !spoiler_content || !spoiler_toggle_button) return console.error('Для функции base_spoiler_fade не указаны обязательные параметры!'); //если не заданы основные параметры то прерываем выполнение и выводим в консоль ошибку
+    if (!spoiler_content_wrap || !spoiler_content) return console.error('Для функции base_spoiler_fade не указаны обязательные параметры!'); //если не заданы основные параметры то прерываем выполнение и выводим в консоль ошибку
 
     new Spoiler(spoiler_content_wrap);
     new Fade(spoiler_content);
@@ -254,84 +254,101 @@ function base_spoiler_fade({ spoiler_content_wrap, spoiler_content, spoiler_togg
     close_end_func = close_end_func ?? function () {};
     //задаём параметры по умолчанию если он не заданы
 
+    //получаем контролеры спойлера и сокрытия прозрачностью
+    let spoiler_controller = spoiler_content_wrap.ksn_spoiler,
+        fade_controller = spoiler_content.ksn_fade;
+
     function toggle_spoiler() {
-        //получаем контролеры спойлера и сокрытия прозрачностью
-        let spoiler_controller = spoiler_content_wrap.ksn_spoiler,
-            fade_controller = spoiler_content.ksn_fade;
-
-        //если спройлер закрыт или в процессе закрытия
-        if (spoiler_controller.status === 'hide' || spoiler_controller.status === 'pending to hide') {
-            open_start_func(); //калбек начало открытия спойлера
-
-            spoiler_controller
-                .spoiler_show(spoiler_open_settings) //ждём открытия спойлера
-                .then(() => {
-                    fade_controller
-                        .fade_show(fade_show_settings) //ждём показа содержимого
-                        .then(() => {
-                            open_end_func(); //калбек окончания открытия спойлера
-                        })
-                        .catch(() => {});
-                })
-                .catch(() => {});
-        }
-        //если спройлер закрыт или в процессе закрытия
-
-        //если спройлер открыт
-        else if (spoiler_controller.status === 'show') {
-            //если контент скрыт или в процесе скрытия
-            if (fade_controller.status === 'hide' || fade_controller.status === 'pending to hide') {
+        return new Promise((resolve, reject) => {
+            //если спройлер закрыт или в процессе закрытия
+            if (spoiler_controller.status === 'hide' || spoiler_controller.status === 'pending to hide') {
                 open_start_func(); //калбек начало открытия спойлера
 
-                fade_controller
-                    .fade_show(fade_show_settings) //ждём показа контента
+                spoiler_controller
+                    .spoiler_show(spoiler_open_settings) //ждём открытия спойлера
                     .then(() => {
-                        open_end_func(); //калбек окончания открытия спойлера
+                        fade_controller
+                            .fade_show(fade_show_settings) //ждём показа содержимого
+                            .then(() => {
+                                open_end_func(); //калбек окончания открытия спойлера
+                                resolve(); //завенршаем промис успехом
+                            })
+                            .catch(() => reject()); //промис завершён неудачей
                     })
-                    .catch(() => {});
+                    .catch(() => reject()); //промис завершён неудачей
             }
-            //если контент скрыт или в процесе скрытия
+            //если спройлер закрыт или в процессе закрытия
 
-            //если контент виден или в процессе появления
-            else if (fade_controller.status === 'show' || fade_controller.status === 'pending to show') {
+            //если спройлер открыт
+            else if (spoiler_controller.status === 'show') {
+                //если контент скрыт или в процесе скрытия
+                if (fade_controller.status === 'hide' || fade_controller.status === 'pending to hide') {
+                    open_start_func(); //калбек начало открытия спойлера
+
+                    fade_controller
+                        .fade_show(fade_show_settings) //ждём показа контента
+                        .then(() => {
+                            open_end_func(); //калбек окончания открытия спойлера
+                            resolve(); //завенршаем промис успехом
+                        })
+                        .catch(() => reject()); //промис завершён неудачей
+                }
+                //если контент скрыт или в процесе скрытия
+
+                //если контент виден или в процессе появления
+                else if (fade_controller.status === 'show' || fade_controller.status === 'pending to show') {
+                    close_start_func(); //калбек начала закрытия спойлера
+
+                    fade_controller
+                        .fade_hide(fade_hide_settings) //ждём сокрытия контента
+                        .then(() => {
+                            spoiler_controller
+                                .spoiler_hide(spoiler_close_settings) //закрываем спойлер
+                                .then(() => {
+                                    close_end_func(); //калбек окончания закрытия спойлера
+                                    resolve(); //завенршаем промис успехом
+                                })
+                                .catch(() => reject()); //промис завершён неудачей
+                        })
+                        .catch(() => reject()); //промис завершён неудачей
+                }
+                //если контент виден или в процессе появления
+            }
+            //если спройлер открыт
+
+            //если спройлер в процессе открытия
+            else if (spoiler_controller.status === 'pending to show') {
                 close_start_func(); //калбек начала закрытия спойлера
 
-                fade_controller
-                    .fade_hide(fade_hide_settings) //ждём сокрытия контента
+                spoiler_controller
+                    .spoiler_hide(spoiler_close_settings) //закрываем спойлер
                     .then(() => {
-                        spoiler_controller
-                            .spoiler_hide(spoiler_close_settings) //закрываем спойлер
-                            .then(() => {
-                                close_end_func(); //калбек окончания закрытия спойлера
-                            })
-                            .catch(() => {});
+                        close_end_func(); //калбек окончания закрытия спойлера
+                        resolve(); //завенршаем промис успехом
                     })
-                    .catch(() => {});
+                    .catch(() => reject()); //промис завершён неудачей
             }
-            //если контент виден или в процессе появления
-        }
-        //если спройлер открыт
-
-        //если спройлер в процессе открытия
-        else if (spoiler_controller.status === 'pending to show') {
-            close_start_func(); //калбек начала закрытия спойлера
-
-            spoiler_controller
-                .spoiler_hide(spoiler_close_settings) //закрываем спойлер
-                .then(() => {
-                    close_end_func(); //калбек окончания закрытия спойлера
-                })
-                .catch(() => {});
-        }
-        //если спройлер в процессе открытия
+            //если спройлер в процессе открытия
+        });
     }
     //функция управляет открытием и закрытием спойлера в зависимости от его состояния
 
+    //записываем в своства оболочки спойлера для удобства контроля програмныйм путём
+    spoiler_content_wrap.ksn_base_spoiler_fade = {
+        toggle_spoiler: toggle_spoiler,
+        spoiler_controller: spoiler_controller,
+        fade_controller: fade_controller,
+    };
+    //записываем в своства оболочки спойлера для удобства контроля програмныйм путём
+
     //открываем/закрываем спойлеры по клику или нажатию кнопки энтера
-    spoiler_toggle_button._on('click keydown', async e => {
-        if (e.type === 'keydown' && e.keyCode !== 13) return; //если мы выбрали спойлер через таб то мы его открываем только при нажатом энтере
-        toggle_spoiler();
-    });
+    if (spoiler_toggle_button) {
+        spoiler_toggle_button._on('click keydown', async e => {
+            if (e.type === 'keydown' && e.keyCode !== 13) return; //если мы выбрали спойлер через таб то мы его открываем только при нажатом энтере
+            toggle_spoiler().catch(() => {}); //catch нужно добавить чтоб в консоль не сыпались исключения когда открываем/закрываем не полностью открытый/закрытый спойлер
+        });
+    }
+
     //открываем/закрываем спойлеры по клику или нажатию кнопки энтера
 
     spoiler_content_wrap.ksn_spoiler.toggle_spoiler = toggle_spoiler; //в объект настройек и состояния спойлера обавляем функцияю котрая должна показывать/скрывать спойлер

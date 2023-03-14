@@ -2,8 +2,8 @@ import { anime, show, hide, set_localStorage, wait } from '@js-libs/func-kit';
 import Overlay from '@overlays-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
 import { Header, Header_Hidden } from '@header-main-js';
-import Pop_Up_Message from '@pop-up-messages-main-js';
-import { base_spoiler_fade } from '@js-moduls/spoiler';
+import { base_spoiler_fade, Spoiler } from '@js-moduls/spoiler';
+import Fade from '@js-moduls/fade';
 
 let cart = qs('.cart'),
     header_visible = qs('.header-visible'),
@@ -15,6 +15,7 @@ let cart = qs('.cart'),
     header_cart_counter = qs('.header-visible__cart-counter'), //счётчик корзины в хедере
     animation_cart_increase = qs('.header-visible__animation-cart-increase'), //анимационный блок +1 для счётчика корзины
     cart_body = qs('.cart__body'), //тело с товарами корзины
+    cart_loader = qs('.cart__wrap-update-loader'), //лоадер корзины
     cart_body_nothing = qs('.cart__body-nothing'), //блок отображаемый в пустой корзине с кнопкой перехода к выбору комплекта
     cart_order_button = qs('.cart__footer-design-order'), //кнопка для перехода на страницу оформления заказа
     cart_final_price = qs('.cart__footer-final-price-value'), //поле с финальной ценой в корзине
@@ -49,6 +50,7 @@ let cart = qs('.cart'),
             if (!this.was_first_render) {
                 this.render_cart(); //функция проверяет локальное хранилище и если там что-то записано для корзины то ренедерт эти товары
                 this.was_first_render = true; //помечаем что рендер выполнен
+                this.check_actual_cart_data(); //функция проверят данные в корзине на актуальнось данных в базе
             }
             //если ещё не было рендера
 
@@ -157,7 +159,19 @@ let cart = qs('.cart'),
             let wrap = d.createDocumentFragment(), //оболочка в которую будем добавлять все товары перед вставков в корзину дял увеличеняи производительности
                 cart_data = localStorage.getItem('cart-data'); //пытаемся получить данные для корзины
 
-            if (!cart_data || cart_data === '{}') return; //если нет данных в корзине прерываем
+            if (!cart_data) return; //если нет записи о корзине прерываем
+
+            this.clean_cart_html(); //чистим html код корзины от товаров
+
+            //если корзина пустая
+            if (cart_data === '{}') {
+                this.disable_cart_order_button(); //блокируем кнопку оформления заказа
+                this.show_empty_cart_block(); //показываем блок соощающий что корзина пуста
+                this.set_cart_counter(); //меняем счётчик корзины
+                this.calculate_common_price_in_cart(); //функция высчитывает общую сумму товаров в корзине
+                return;
+            }
+            //если корзина пустая
 
             cart_data = JSON.parse(cart_data); //превращаяем в объект
 
@@ -172,6 +186,8 @@ let cart = qs('.cart'),
             cart_body.append(wrap); //вставляем результат в корзину
 
             this.calculate_common_price_in_cart(); //функция высчитывает общую сумму товаров в корзине
+
+            this.set_cart_counter(); //меняем счётчик корзины
 
             [...qsa('.cart__body-product-spoiler-wrap', cart_body)].forEach(el => el.ksn_spoiler.set_block_height()); //во вреям рендера товаров у них не определялась высота т.к. они были вне документа так что сейчас пересчитываем высоту чтоб корректно работал спойлер
 
@@ -255,11 +271,13 @@ let cart = qs('.cart'),
 
             let button_decrease = qs('button[data-decrease]', product_body), //кнопка уменьшить количества товаров
                 button_increase = qs('button[data-increase]', product_body), //кнопка увеличить количества товаров
+                detete_block = qs('.cart__body-product-delete', product_body), //блок удаления товара
                 delete_abort_button = qs('.cart__body-product-delete-abort-button', product_body), //кнопка прерывания удаленяи товара из корзины
                 all_current_inputs = qsa('input', product_body), //все инпуты для данного товара
                 spoiler_content_wrap = qs('.cart__body-product-spoiler-wrap', product_body), //оболочка контента спойлера
                 spoiler_content = qs('.cart__body-product-spoiler-wrap-content', product_body), //контент спойлера
                 spoiler_title_block = qs('.cart__body-product-toggle-composition', product_body), //кнопка для открытия/закрытия спойлера
+                product_quantity_price_wrap = qs('.cart__body-product-quantity-price-wrap', product_body), //оболочка для блока цен и управленяи количеством
                 rotate_arrow = () => spoiler_title_block.classList.toggle('cart__body-product-toggle-composition--open'); //при скрытии/показе спойлера переключаем класс, чтоб менялся поворот стрелочки
 
             //создайм спойлер с прозрачный появленяием контента
@@ -280,9 +298,21 @@ let cart = qs('.cart'),
             });
             //создайм спойлер с прозрачный появленяием контента
 
+            //создаём контролеры прозрачности
+            new Fade(product_quantity_price_wrap);
+            new Fade(spoiler_title_block);
+            new Fade(detete_block);
+            //создаём контролеры прозрачности
+
             if (!spoiler_hide) rotate_arrow(); //переворачиваем стрелочку если спойлер нужно показать
+
             spoiler_content_wrap.ksn_spoiler.status = spoiler_hide ? 'hide' : 'show'; //задаём статус спойлера
-            spoiler_content.ksn_fade.status = spoiler_hide ? 'hide' : 'show'; //вручную меняем статус ksn_fade т.к. сейчас элемент не вставлен в документ и у него не могут быть определены стили через getComputedStyle
+
+            //вручную меняем статус ksn_fade т.к. сейчас элемент не вставлен в документ и у него не могут быть определены стили через getComputedStyle
+            spoiler_content.ksn_fade.status = spoiler_hide ? 'hide' : 'show';
+            product_quantity_price_wrap.ksn_fade.status = 'show';
+            spoiler_title_block.ksn_fade.status = 'show';
+            //вручную меняем статус ksn_fade т.к. сейчас элемент не вставлен в документ и у него не могут быть определены стили через getComputedStyle
 
             button_increase._on('click', this.increase_amount.bind(this, product_body)); //увеличивает количество единиц данного товара
             button_decrease._on('click', this.decrease_amount.bind(this, product_body)); //уменьшаем количество единиц данного товара
@@ -318,28 +348,29 @@ let cart = qs('.cart'),
                 amount_el.textContent = new_amount; //записываем новое количество
                 product_body.classList.add('cart__body-product--single'); //добавляем пометку о том что товар один
             } else {
-                let decrease_button = qs('[data-decrease]', product_body), //кнопка изменения количества штук товара
-                    increase_button = qs('[data-increase]', product_body), //кнопка изменения количества штук товара
-                    spoiler_wrap = qs('.cart__body-product-spoiler-wrap', product_body), //оболочка спойлера
+                let spoiler_wrap = qs('.cart__body-product-spoiler-wrap', product_body), //оболочка спойлера
                     spoiler_data = spoiler_wrap.ksn_spoiler, //контролер спойлера
                     fade_data = qs('.cart__body-product-spoiler-wrap-content', product_body).ksn_fade, //контролер сокрытия контента прозрачностью
-                    spoiler_toggle_button = qs('.cart__body-product-toggle-composition', product_body); //кнопка сворачивания/разворачивания спойлера
+                    spoiler_toggle_button = qs('.cart__body-product-toggle-composition', product_body), //кнопка сворачивания/разворачивания спойлера
+                    detete_block = qs('.cart__body-product-delete', product_body), //блок удаления товара
+                    cart_detete_timer_counter = qs('.cart__body-product-delete-timer', product_body), //счётчик секунд до удаления
+                    product_quantity_price_wrap = qs('.cart__body-product-quantity-price-wrap', product_body); //оболочка для блока цен и управленяи количеством
 
-                [decrease_button, increase_button].forEach(el => (el.disabled = true)); //блокируем обе кнопки пока не завершаться пробразования до уровня появленяи кнопки отмены удаления
+                [product_quantity_price_wrap, spoiler_toggle_button, spoiler_wrap].forEach(el => (el.style.pointerEvents = 'none')); //блокируем для взаимоействия все блоки которые могут помешать
 
                 //тут важно не сипользовать тригер клика т.к. если мы нажмём на удаление в момент сворачивания спойлера он просто раскроется но не начнёт удаление
                 spoiler_toggle_button.textContent = 'Состав комплекта'; //меняем текст
                 spoiler_toggle_button.classList.remove('cart__body-product-toggle-composition--open'); //переворачиваем стрелочку
 
-                [spoiler_toggle_button, spoiler_wrap].forEach(el => (el.style.pointerEvents = 'none')); //делаем блоки недоступными для взаимодействия чтоб пока они сворачиваются ничего нельзя было в них нажать
-
                 await fade_data.fade_hide(); //ждём окончания соркытия контента прозрачностью
                 await spoiler_data.spoiler_hide(); //ждём пока закроется спойлер
 
-                product_body.classList.add('cart__body-product--wait-fo-delete'); //показываем интерфейс удаленяи скрывая всё лишнее
+                await Promise.all([product_quantity_price_wrap.ksn_fade.fade_hide(), spoiler_toggle_button.ksn_fade.fade_hide()]); //ждём пока скорется кнопка открытия состава комплекта и блок с ценами и количеством товаров
 
-                let cart_detete_timer_counter = qs('.cart__body-product-delete-timer', product_body); //счётчик секунд до удаления
+                detete_block.style.pointerEvents = 'auto'; //разблокируем блок удаляения чтоб была доступна для взаимодействия кнопрка отмены удаления
                 cart_detete_timer_counter.textContent = 5; //ставим 5 сек по умолчанию
+
+                await detete_block.ksn_fade.fade_show(); //дожидаемся показа блока удаления
 
                 //с интервалом секунду уменьшаем таймер секунд
                 product_body.cart_detete_timer = setInterval(() => {
@@ -352,10 +383,8 @@ let cart = qs('.cart'),
                     await this.delete_product(product_body); //дожидаемся уждаяени товара из корзины
 
                     if (localStorage.getItem('cart-data') == '{}') this.show_empty_cart_block(true); //если в корзине больше нет товаров плавно показываем блок что корзина пуста
-                }, 2000);
+                }, 5000);
                 //создаём таймаут после которого товар будет удалён
-
-                [decrease_button, increase_button].forEach(el => (el.disabled = false)); //по окончанию подготовительных преобразования разблокируем кнопки
 
                 return; //прерываем дальнейшие выполнение
             }
@@ -366,13 +395,22 @@ let cart = qs('.cart'),
         //уменьшаем количество единиц товара в корзине
 
         //прерывает удаление товара из корзины
-        abort_delete_product: function (product_body) {
+        abort_delete_product: async function (product_body) {
             clearTimeout(product_body.cart_detete_timeout); //удаляем таймаут для удаляени товара
             clearInterval(product_body.cart_detete_timer); //удаляем функцию интервала обратного отсчёта до удаления
 
-            [qs('.cart__body-product-spoiler-wrap', product_body), qs('.cart__body-product-toggle-composition', product_body)].forEach(el => (el.style.pointerEvents = '')); //делаем элементы спойлера доступными для взаимодействия
+            let spoiler_wrap = qs('.cart__body-product-spoiler-wrap', product_body), //оболочка спойлера
+                spoiler_toggle_button = qs('.cart__body-product-toggle-composition', product_body), //кнопка сворачивания/разворачивания спойлера
+                detete_block = qs('.cart__body-product-delete', product_body), //блок удаления товара
+                product_quantity_price_wrap = qs('.cart__body-product-quantity-price-wrap', product_body); //оболочка для блока цен и управленяи количеством
 
-            product_body.classList.remove('cart__body-product--wait-fo-delete'); //скрываем интерфейс удаления и показываем всё остальное
+            detete_block.style.pointerEvents = ''; //блокируем кнопку отмены удаляения чтоб не мешала повторрными нажатиями
+
+            await detete_block.ksn_fade.fade_hide(); //дожидаемся сокрытия блока удаления
+
+            [product_quantity_price_wrap, spoiler_toggle_button, spoiler_wrap].forEach(el => (el.style.pointerEvents = '')); //разрешаем для взаимоействия все блоки которые ранее блокировали при подготовке к удалению товара
+
+            await Promise.all([product_quantity_price_wrap.ksn_fade.fade_show(), spoiler_toggle_button.ksn_fade.fade_show()]); //ждём пока появится кнопка открытия состава комплекта и блок с ценами и количеством товаров
         },
         //прерывает удаление товара из корзины
 
@@ -414,11 +452,11 @@ let cart = qs('.cart'),
         cart_input_chenge: function (all_current_inputs, product_body) {
             this.set_product_cart_price(all_current_inputs, product_body); //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара
 
+            this.update_cart_localStorage_data(); //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
+
             this.calculate_common_price_in_cart(); //при каждом изменении чекбокса детали комплекта в корзине пересчитываем итоговую сумму
 
             this.check_if_anyone_input_checked(); //проверяем активен ли хоть один чекбокс хоть у какого-то товара в корзине и в зависимости от результата выполянем разыне функциии
-
-            this.update_cart_localStorage_data(); //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
 
             ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
         },
@@ -462,6 +500,10 @@ let cart = qs('.cart'),
         add_single_product_to_cart: function (id, data) {
             this.add_in_cart_localStorage_data(id, data); //добавляет товар в локальное хранилище корзины
 
+            ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
+
+            this.set_cart_counter(); //задём значение счётчика корзины в хедере ив самой корзине
+
             //если уже был выполнен первый рендер корзины то мы должны все следующие добавленяи в корзину рендерить и добавлять без глобального перерендера корзины
             if (this.was_first_render) {
                 let product = this.render_cart_product_item(id, data); //получаем элемент для вставки товара в корзину
@@ -471,8 +513,6 @@ let cart = qs('.cart'),
                 qs('.cart__body-product-spoiler-wrap', cart_body.lastChild).ksn_spoiler.set_block_height(); //во вреям рендера товаров у них не определялась высота т.к. они были все документа так что сейчас пересчитываем высоту чтоб корректно работал спойлер
             }
             //если уже был выполнен первый рендер корзины то мы должны все следующие добавленяи в корзину рендерить и добавлять без глобального перерендера корзины
-
-            this.set_cart_counter(); //задём значение счётчика корзины в хедере ив самой корзине
 
             this.hide_empty_cart_block(); //функция скрывает блок сообщающий что корзина пуста
             this.enable_cart_order_button(); //делает активной кнопку оформления заказа в корзине
@@ -503,13 +543,18 @@ let cart = qs('.cart'),
             for (let id in cart_data) {
                 let product_data = cart_data[id], //даные текущего товара
                     composition = product_data.composition,
-                    procuct_price = 0;
+                    procuct_price = 0,
+                    is_full_kit = true; //полный комплект или набор отдельных деталей
 
                 for (let detal in composition) {
-                    if (composition[detal].add) procuct_price += composition[detal].price;
+                    if (composition[detal].add) {
+                        procuct_price += composition[detal].price;
+                    } else {
+                        is_full_kit = false; //если хоть одна деталь в комплектен не добавлена то мы помечаем что это не полный комплект
+                    }
                 }
 
-                result += procuct_price * product_data.amount;
+                result += is_full_kit ? +product_data.price * product_data.amount : procuct_price * product_data.amount;
             }
 
             cart_final_price.textContent = result.toLocaleString('ru');
@@ -520,22 +565,18 @@ let cart = qs('.cart'),
         //value - значение на которое нужно изменить значение счётчиков корзины
         //nead_anim - нужно ли запускать анимацию +1 под корзиной в хедере
         set_cart_counter: async function (nead_anim = true) {
+            let cart_data = localStorage.getItem('cart-data');
+
+            if (!cart_data) return; //если в хранилище нет данных корзины прерываем
+
             let old_value = +inner_cart_counter.textContent, //старое значение количества товаров, даже если там пустота мы преобразуем её в 0
-                new_value = Object.keys(JSON.parse(localStorage.getItem('cart-data'))).length; //берём текущее количество товаров в корзине чтоб избежать багов при синхронизации вкладок браузера
+                new_value = Object.keys(JSON.parse(cart_data)).length, //берём текущее количество товаров в корзине чтоб избежать багов при синхронизации вкладок браузера
+                inner_cart_counter_fade_controller = inner_cart_counter.ksn_fade, //контролер прозрачности
+                header_cart_counter_fade_controller = header_cart_counter.ksn_fade; //контролер прозрачности
 
-            if (old_value === 0) {
-                await anime({
-                    targets: inner_cart_counter,
-                    opacity: 1,
-                }).finished; //если до этого в корзине не было товаров то мы можем их только добавлять так что если прежние значение 0 то новое будет больше нуля и мы должны показать счётчик
-            }
+            if (old_value === 0 && new_value !== 0) await inner_cart_counter_fade_controller.fade_show(); //если до этого в корзине не было товаров то мы можем их только добавлять так что если прежние значение 0 то новое будет больше нуля и мы должны показать счётчик
 
-            if (new_value === 0) {
-                await anime({
-                    targets: inner_cart_counter,
-                    opacity: 0,
-                }).finished; //если новое значение количества товаров в корзине 0 то мы скрываем счётчик
-            }
+            if (new_value === 0) await inner_cart_counter_fade_controller.fade_hide(); //если новое значение количества товаров в корзине 0 то мы скрываем счётчик
 
             inner_cart_counter.textContent = new_value; //меняем значение счётчика в корзине
 
@@ -547,12 +588,7 @@ let cart = qs('.cart'),
                 let after_anim = () => {
                     header_cart_counter.textContent = new_value; //меняем значение счётчика в корзине
 
-                    if (old_value === 0) {
-                        anime({
-                            targets: header_cart_counter,
-                            opacity: 1,
-                        }).finished; //если до этого в корзине не было товаров то мы можем их только добавлять так что если прежние значение 0 то новое будет больше нуля и мы должны показать счётчик
-                    }
+                    if (old_value === 0) header_cart_counter_fade_controller.fade_show(); //если до этого в корзине не было товаров то мы можем их только добавлять так что если прежние значение 0 то новое будет больше нуля и мы должны показать счётчик
 
                     animation_cart_increase.removeAttribute('data-init-anim'); //убираем атрибут отвечающий за анимацию
                     animation_cart_increase._off('animationend', after_anim); //после анимации удаляем слушатель
@@ -566,19 +602,9 @@ let cart = qs('.cart'),
 
             //если количество товаров в корзине изменилось на другое значение или количество увеличилось на 1 но НЕ нужна анимация
             else {
-                if (old_value === 0) {
-                    await anime({
-                        targets: header_cart_counter,
-                        opacity: 1,
-                    }).finished; //если до этого в корзине не было товаров то мы можем их только добавлять так что если прежние значение 0 то новое будет больше нуля и мы должны показать счётчик
-                }
+                if (old_value === 0 && new_value !== 0) await header_cart_counter_fade_controller.fade_show(); //если до этого в корзине не было товаров то мы можем их только добавлять так что если прежние значение 0 то новое будет больше нуля и мы должны показать счётчик
 
-                if (new_value === 0) {
-                    await anime({
-                        targets: header_cart_counter,
-                        opacity: 0,
-                    }).finished; //если новое значение количества товаров в корзине 0 то мы скрываем счётчик
-                }
+                if (new_value === 0) await header_cart_counter_fade_controller.fade_hide(); //если новое значение количества товаров в корзине 0 то мы скрываем счётчик
 
                 header_cart_counter.textContent = new_value; //меняем значение счётчика в хедере
             }
@@ -685,25 +711,11 @@ let cart = qs('.cart'),
             if (e.key === 'cart-data') {
                 ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
 
-                this.set_cart_counter(); //меняем счётчик корзины
-
-                this.calculate_common_price_in_cart(); //при каждом изменении количества товаров в корзине пересчитываем итоговую сумму
-
-                //если корзина уже была отрендерина
                 if (this.was_first_render) {
-                    this.clean_cart_html(); //чистим html код корзины от товаров
-
-                    //если мы удалили последний товар
-                    if (e.newValue === '{}') {
-                        this.disable_cart_order_button(); //блокируем кнопку оформления заказа
-                        this.show_empty_cart_block(); //показываем блок соощающий что корзина пуста
-                    }
-                    //если мы удалили последний товар
-                    else {
-                        this.render_cart(); //рендерим корзину по новой
-                    }
+                    this.render_cart(); //если уже был первый рендер функция проверяет локальное хранилище и если там что-то записано для корзины то ренедерт эти товары
+                } else {
+                    this.set_cart_counter(); //просто меняем счётчик корзины если корзина ещё не рендерилась
                 }
-                //если корзина уже была отрендерина
             }
             //только если изменения касались корзины
         },
@@ -715,6 +727,66 @@ let cart = qs('.cart'),
         },
         //переводит нас на страницу оформления заказа
 
+        //функция проверят данные в корзине на актуальнось данных в базе
+        check_actual_cart_data: function () {
+            //ВАЖНО: пока сделаю проверку при каждом первом открытии корзины после перезагрузки страницы, если нагрузка на базу будет большая то сделать ограничение что проверка должна быть не чаще чем раз в час
+
+            let carrent_cart_data = localStorage.getItem('cart-data'), //записываем данные корзины до отправки чтоб если что-то поменяли за время выполнения запроса это не повлияло на исход проверки
+                request_data = {
+                    //запрос на сервер
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'check_actual_cart_data',
+                        data: localStorage.getItem('cart-data'),
+                    }),
+                };
+
+            //отправляем запрос на сервер что отправить сообщение и выводим соответсвующие всплывающие окна
+
+            fetch(GDS.ajax_url, request_data)
+                .then(response => response.text()) //считываем переданные данные
+                .then(result => {
+                    //если текущее содержимое корзины отличается от того что в базе то нужно обвновлять данные корзины
+                    if (carrent_cart_data !== result) {
+                        set_localStorage('cart-data', result); //обновляем данные
+
+                        ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
+
+                        if (this.was_first_render) {
+                            this.puls_cart_update_loader(); //покажет и сразу скроет лоадер корзины для того чтоб пользователь понял что-то что-то в корзине обновилось
+                            this.render_cart(); //если уже был первый рендер функция проверяет локальное хранилище и если там что-то записано для корзины то ренедерт эти товары
+                        } else {
+                            this.set_cart_counter(); //просто меняем счётчик корзины если корзина ещё не рендерилась
+                        }
+                    }
+                    //если текущее содержимое корзины отличается от того что в базе то нужно обвновлять данные корзины
+                })
+                .catch(e => console.error(e));
+        },
+        //функция проверят данные в корзине на актуальнось данных в базе
+
+        //покажет и сразу скроет лоадер корзины
+        puls_cart_update_loader: async function () {
+            await this.show_cart_update_loader(); //функция покажет лоадер корзины
+            await this.hide_cart_update_loader(); //функция скроет лоадер корзины
+        },
+        //покажет и сразу скроет лоадер корзины
+
+        //функция покажет лоадер корзины
+        show_cart_update_loader: async function () {
+            cart_loader.style.pointerEvents = 'auto'; //делаем лодаер кликабельным чтоб пока он на экране мы ни с чем не взаимодействовали
+            await cart_loader.ksn_fade.fade_show(); //ждём показа лоадера
+        },
+        //функция покажет лоадер корзины
+
+        //функция скроет лоадер корзины
+        hide_cart_update_loader: async function () {
+            await cart_loader.ksn_fade.fade_hide(); //ждём скрытия лоадера
+            cart_loader.style.pointerEvents = ''; //делаем лоадер снова некликабельным чтоб он не мешал пользовтаься корзиноу
+        },
+        //функция скроет лоадер корзины
+
         init: function () {
             [
                 qs('.header-hidden__menu-cart-button'), //кнопка корзины в мобильном меню
@@ -723,6 +795,12 @@ let cart = qs('.cart'),
                 overlay, //положка корзины на сайте
                 close_button, //кнопка закрытия корзины
             ].forEach(item => item._on('click', this.toggle_cart.bind(this))); //показываем/скрываем корзину при клике
+
+            //создаём контролеры прозрачности для счётчиков корзины и её лоадера
+            new Fade(inner_cart_counter);
+            new Fade(header_cart_counter);
+            new Fade(cart_loader);
+            //создаём контролеры прозрачности для счётчиков корзины и её лоадера
 
             w._on('resize_throttle load', this.size_recalculate.bind(this)); //пересчитываем верхний отступ корзины пре ресайзе и при первой загрузке
 

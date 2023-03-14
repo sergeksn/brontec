@@ -264,7 +264,6 @@ let configurator = qs('.komplekt-2-select-kit-composition') ?? qs('.detal-1-add-
                     data_from_cart = this.generate_poduct_data_object_from_cart(is_full_kit_button); //фнукция генерирует объект с данными для добавления товара в корзину
 
                 Header_Cart.add_single_product_to_cart(data_from_cart[0], data_from_cart[1]); //добавляет товар в корзину
-                ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
             }
             //добавляем данные комплекта только если у кнпки нет атрибута сообщающего нам о том что данная конфигурация или комплект уже был добавлен в корзину
 
