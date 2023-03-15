@@ -103,7 +103,7 @@ w.critical_scripts = {
 
         /*после загрузки всех необходимых полифилов можно загружать основыне скрипты для сайта*/
         let main_s = d.createElement('script');
-        main_s.src = KSN_DEV_MODE ? 'http://localhost:3579/main.js?v=1' : GDS.host_url + '/wp-content/themes/serge_produkt/assets/js/main.js?v=1';
+        main_s.src = KSN_DEV_MODE ? 'http://localhost:3579/main.js?v=2' : GDS.host_url + '/wp-content/themes/serge_produkt/assets/js/main.js?v=2';
 
         body.append(main_s);
     },

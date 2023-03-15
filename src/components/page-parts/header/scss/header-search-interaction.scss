@@ -149,7 +149,7 @@
             margin: adaptiv_rem_size(40, 1920) 0 adaptiv_rem_size(95, 1920) 0;
         }
 
-        a {
+        a,span[title="Вы тут!"] {
             width: 100%;
 
             @media (min-width: rem(640)) {

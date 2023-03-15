@@ -109,7 +109,7 @@
             grid-template-columns: repeat(6, 1fr);
         }
 
-        a {
+        a,span[title="Вы тут!"] {
             justify-items: center;
             min-width: auto;
         }

@@ -43,7 +43,7 @@
             }
         }
 
-        a {
+        a,span[title="Вы тут!"] {
             @media (min-width: rem(960)) {
                 grid-column: 1/-1;
             }

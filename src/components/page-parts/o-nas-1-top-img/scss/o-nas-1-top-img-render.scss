@@ -24,7 +24,7 @@
                 color: var(--white);
             }
 
-            a {
+            a,span[title="Вы тут!"] {
                 @media (any-hover: hover) {
                     &:hover {
                         color: var(--light);

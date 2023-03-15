@@ -112,8 +112,11 @@ w.ksn_product_configurator_func = {
 
                         //перебираем все детали данного найденого в хранилище корзины товара
                         for (let detal in composition) {
-                            let target_input = [...this.all_inputs].find(el => el.id === detal + '-checkbox'), //проверяем соответсвующие чекбоксы деталей и если они активны то помечаем что данная деталь добавлена
-                                checked_status = full_kit ? true : target_input.checked; //какой статус у инпутов сейчас
+                            let target_input = [...this.all_inputs].find(el => el.id === detal + '-checkbox'); //проверяем соответсвующие чекбоксы деталей и если они активны то помечаем что данная деталь добавлена
+
+                            if (!target_input) continue; //если не нали инпут для данной детали пропускаем её, такое может произойти если корзина толкьо что обновилась после синхронизации с базой но на странице её не обновлены чекбоксы
+                            
+                            let checked_status = full_kit ? true : target_input.checked; //какой статус у инпутов сейчас
 
                             //если хоть один инпут не соответствует данным товара из корзины то мы его прекращаем проверять помечая что он не подошёл
                             if (checked_status !== composition[detal].add) {
