@@ -73,32 +73,7 @@
   </div>
   <script>
     /*скрипт меняет высоту декорации футера в зависимости от размера экрана*/
-    (() => {
-      let recalkulate = () => {
-        let f = d.getElementsByTagName('footer')[0],
-          fd = f.querySelector('.footer__decoration'),
-          fm = f.querySelector('.footer__menu'),
-          fl = f.querySelector('.footer__logo');
-
-        if (d.documentElement.clientWidth / parseFloat(w.getComputedStyle(d.documentElement).fontSize) < 40) {
-          if (!fd.classList.contains('fd-small-height')) {
-            fd.style.height = parseFloat(w.getComputedStyle(f).paddingTop) + parseFloat(w.getComputedStyle(fm).height) + parseFloat(w.getComputedStyle(fl).marginTop) + parseFloat(w.getComputedStyle(fl).height) + parseFloat(w.getComputedStyle(fl).marginBottom) + 'px';
-
-            fd.classList.add('fd-small-height');
-            fd.classList.remove('fd-full-height');
-          }
-        } else {
-          if (!fd.classList.contains('fd-full-height')) {
-            fd.style.height = '100%';
-
-            fd.classList.remove('fd-small-height');
-            fd.classList.add('fd-full-height');
-          }
-        }
-      }
-      recalkulate();
-      w.addEventListener('resize', recalkulate);
-    })();
+    w.critical_scripts.footer_decoration_recalkulate();
   </script>
 </footer>
 <%- include('./../../blocks/scroll-to-top-button/scroll-to-top-button.ejs')%>
@@ -106,50 +81,7 @@
 <link href="http://localhost:3579/assets/css/main.css" rel="stylesheet">
 <script>
   /*подключаем при необходимости полифилы, а после их загрузки подключаем основной скрипт*/
-  (async () => {
-    /*данные о полифилах и их процессе загрузки*/
-    GDS.polyfills = [{
-        name: "IntersectionObserver",
-        /*имя файла скрипта полифила*/
-        nead_include: !('IntersectionObserver' in w) ||
-          !('IntersectionObserverEntry' in w) ||
-          !('intersectionRatio' in w.IntersectionObserverEntry.prototype) ||
-          !('isIntersecting' in w.IntersectionObserverEntry.prototype),
-        /*если условие true то полифил будет загружен*/
-      },
-      {
-        name: "AbortController",
-        nead_include: (typeof w.Request === 'function' && !w.Request.prototype.hasOwnProperty('signal')) || !w.AbortController,
-      }
-    ];
-
-    let load_promise_list = [],
-      /*будет сохранять примис загрузки для каждого нужного скрипта полифила и как только все промисы выполняться, т.е. все скрипты полифилов будут загружены мы начнём грузить основной скрипт*/
-      wrap = d.createDocumentFragment(),
-      body = d.body;
-
-    GDS.polyfills.forEach(item => {
-      if (!item.nead_include) return; /*если полифил не нужен*/
-
-      let s = d.createElement("script");
-
-      load_promise_list.push(new Promise(resolve => s.onload = () => resolve()));
-
-      s.src = `http://localhost:3579/${item.name}.js`;
-
-      wrap.append(s);
-    });
-
-    body.append(wrap);
-
-    await Promise.all(load_promise_list); /*ждём загрузки всех полифилов*/
-
-    /*после загрузки всех необходимых полифилов можно загружать основыне скрипты для сайта*/
-    let main_s = d.createElement("script");
-    main_s.src = "http://localhost:3579/main.js";
-
-    body.append(main_s);
-  })();
+  w.critical_scripts.include_neaded_polyfils_and_include_main_js_fill();
 </script>
 </body>
 

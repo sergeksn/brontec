@@ -4,18 +4,9 @@ window.qs = (s, ws = d) => ws.querySelector(s); //сокращённые зап�
 window.qsa = (s, ws = d) => ws.querySelectorAll(s); //сокращённые записи для поиска элементов
 window.GDS = {}; /*global data site  тут будут хранится все необходимые данные для работы фронтенда сайта, размеры блоков или какието-то данные для взаимодействия модулей*/
 
-
-
-
-
-
-
-//не забыть удалить http://shop.loc
-
-
-
-GDS.ajax_url = 'http://shop.loc/wp-content/plugins/ksn_shop/ksn_ajax.php'; //путь для ajax запросов
-GDS.wp_img_url_prefix = 'http://shop.loc/wp-content/uploads/';//префикс для путей картинок
+GDS.host_url = KSN_DEV_MODE ? 'http://shop.loc' : location.origin; //опредиляем исходный домен
+GDS.ajax_url = GDS.host_url + '/wp-content/plugins/ksn_shop/ksn_ajax.php'; //путь для ajax запросов
+GDS.wp_img_url_prefix = GDS.host_url + '/wp-content/uploads/'; //префикс для путей картинок
 
 //получаем и обновляем часто используемые переменные css
 w.addEventListener('DOMContentLoaded', () => {

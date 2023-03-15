@@ -2,10 +2,7 @@
   <a class="header-visible__logo set-min-interactive-size" href="/pages/glavnaya.html">
     <%- include('./../../blocks/images/images.ejs', {data:{type: "img", url:"~@header-img/logo.svg", pt:16.67,}})%>
   </a>
-  <button class="header-visible__search-button">
-    <div class="icon--search-bold"></div>
-    <div class="icon--search"></div>
-  </button>
+  <button class="header-visible__search-button icon--font"></button>
   <nav class="header-visible__menu">
     <ul>
       <li><a class="set-min-interactive-size" href="#">Выбрать комплект</a></li>
@@ -15,18 +12,16 @@
     </ul>
   </nav>
   <a class="header-visible__phone set-min-interactive-size" href="tel:+88000000000">8 800 000-00-00</a>
-  <button class="header-visible__cart-button">
-    <div class="icon--cart"></div>
-    <div class="icon--cart-bold"></div>
+  <div class="header-visible__cart-button set-min-interactive-size icon--font" tabindex="0">
     <div class="header-visible__cart-counter"></div>
     <div class="header-visible__animation-cart-increase">+1</div>
-  </button>
-  <button class="header-visible__burger-button burger">
+  </div>
+  <div class="header-visible__burger-button burger set-min-interactive-size" tabindex="0">
     <div class="burger__body">
       <div class="burger__line-1"></div>
       <div class="burger__line-2"></div>
       <div class="burger__line-3"></div>
       <div class="burger__line-4"></div>
     </div>
-  </button>
+  </div>
 </div>

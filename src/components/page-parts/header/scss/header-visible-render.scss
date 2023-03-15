@@ -61,17 +61,11 @@
             margin-right: adaptiv_rem_size(25, 1920);
         }
 
-        .icon--search-bold {
-            @media (min-width: rem(960)) {
-                display: none;
-            }
-        }
-
-        .icon--search {
-            display: none;
+        &:before {
+            content: '\e907';
 
             @media (min-width: rem(960)) {
-                display: flex;
+                content: '\e906';
             }
         }
     }
@@ -142,6 +136,7 @@
 
     &__cart-button {
         font-size: rem(30);
+        cursor: pointer;
 
         @media (min-width: rem(640)) {
             font-size: rem(25);
@@ -155,17 +150,11 @@
             font-size: adaptiv_rem_size(22, 1920);
         }
 
-        .icon--cart-bold {
-            @media (min-width: rem(960)) {
-                display: none;
-            }
-        }
-
-        .icon--cart {
-            display: none;
+        &:before {
+            content: '\e901';
 
             @media (min-width: rem(960)) {
-                display: block;
+                content: '\e900';
             }
         }
     }
@@ -233,6 +222,11 @@
 }
 
 .burger {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
     &__body {
         width: rem(30);
         height: rem(30);

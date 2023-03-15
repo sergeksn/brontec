@@ -16,9 +16,8 @@ let header = qs('header'),
             this.swipe_lock = true; //блокируем возможность свайпать
 
             let poster_id = header_poster.id,
-                poster_parent = header_poster.parentNode, //узел родительского элемента банера
                 poster_height = Header.get_header_h({ header_poster: true }), //высота блока банера
-                header_background = d.getElementById('header-background'); //фон хедера
+                header_background = qs('#header-background'); //фон хедера
 
             Header.lock = true; //блокируем сворачивание хедера чтоб не скрылся при закрытии банера
 
@@ -73,15 +72,12 @@ let header = qs('header'),
             Header_Search.size_recalculate(); //пересчитываем размеры хереда если результаты поиска открыты
             Header_Cart.size_recalculate(); //пересчитываем данные дял корзины
 
-            poster_parent.removeChild(header_poster); //удаляем из тела документа банер
-            poster_parent.removeChild(d.getElementById('header-poster__script')); //удаляем из тела документа скрипт банера
-
-            await Promise.all([wait(() => qs('.header-poster'), null), wait(() => qs('#header-poster__script'), null)]); //дожидаемся пока элементы удаляться из DOM
+            header_poster.remove(); //удаляем из тела документа банер
 
             Header.has_header_poster = false; //помечаем что банера в хедере больше нет
 
             setTimeout(() => {
-                Header.lock = false;//разблокируем прокрутку хедера с задержкой чтоб он не скрывался от события скрола вызванного уменьшением высоты документа после сужения подложки хедера, да-да знаю это костыль с таймаутом)
+                Header.lock = false; //разблокируем прокрутку хедера с задержкой чтоб он не скрывался от события скрола вызванного уменьшением высоты документа после сужения подложки хедера, да-да знаю это костыль с таймаутом)
             }, 200);
         },
         //скрываем банер

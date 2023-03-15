@@ -140,7 +140,7 @@ function get_img_size_url(img) {
 
     let data_miniatura_height = Math.round((original_h * miniatura_width) / original_w); //используя пропорцию получаем высоту запрашиваемой миниатюры
 
-    return img.getAttribute('data-src'); //для тестов пока нет миниатюр
+    if (KSN_DEV_MODE) return img.getAttribute('data-src'); //для тестов пока нет миниатюр
     //ПРИМЕЧАНИЕ: в режиме разработки original-size не будет добавляться т.к. мы принудительно выдаём не миниатюру а оригинал
 
     return url_bez_ext + '-' + miniatura_width + 'x' + data_miniatura_height + ext; //возвращаем расчитаный url для миниатюры wp-content/uploads/2021/03/1-2-2000x702.jpg к примеру
@@ -226,13 +226,15 @@ async function common_img_loader(img) {
         img.dispatchEvent(custom_events_list.img_first_loaded.event); //запускаем событие сигнализирующие о том что картинка загружена первый раз, т.е. первая из её миниатюр
     }
 
-    if (!img.getAttribute('src')) return url; //если у картинки ещё не установлен src просто записываем туда текущий url
+    let src = img.getAttribute('src');
 
-    if (img.getAttribute('src') === img.getAttribute('data-src')) throw { ksn_message: 'uploaded only on cache' }; //если в атрибуте src уже оригинал картинки, то эту картинку мы просто сохраняем в кеш без отображения
+    if (!src || src == 'data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=') return url; //если у картинки ещё не установлен src просто записываем туда текущий url
+
+    if (src === img.getAttribute('data-src')) throw { ksn_message: 'uploaded only on cache' }; //если в атрибуте src уже оригинал картинки, то эту картинку мы просто сохраняем в кеш без отображения
 
     if (url === img.getAttribute('data-src')) return url; //если загруженная картинка оригинал то мы заменяем ею любую миниатюру в src, т.к. оригинал в любом случае лучше лобой миниатюры
 
-    if (+url.match(/[^\.]+(?:-([0-9]+)x[0-9]+.)/)[1] > +img.getAttribute('src').match(/[^\.]+(?:-([0-9]+)x[0-9]+.)/)[1]) return url; //если загруженая картинка БОЛЬШЕ той что уже есть в src заменяем url на её
+    if (+url.match(/[^\.]+(?:-([0-9]+)x[0-9]+.)/)[1] > +src.match(/[^\.]+(?:-([0-9]+)x[0-9]+.)/)[1]) return url; //если загруженая картинка БОЛЬШЕ той что уже есть в src заменяем url на её
 
     throw { ksn_message: 'uploaded only on cache' }; //если загруженая картинка МЕНЬШЕ той что уже есть в src сохраняем в кеш без отображения
     //это значит что загрузилась картинка меньшего разрешения после того как уже отображена более качественная картинка, это могло произойти если картинка большего размера имеет гораздо меньший вес чем маленькая картинка, чтоб не вставлять более мелкую картинку вместо более качественной просто обрабратываем как исключение

@@ -9,27 +9,10 @@
     <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@header-img/banner.jpg", loader:true, ow:1920, oh:80, pt:4.1667,}})%>
   </div>
   <div class="header-poster__close standart-container">
-    <button>
-      <div class="icon--close"></div>
-      <div class="icon--close-bold"></div>
-    </button>
+    <button class="icon--font"></button>
   </div>
 </div>
-<script id="header-poster__script">
-  (() => {
-    try {
-      let header_poster = d.getElementsByClassName("header-poster")[0],
-        header_poster__script = d.getElementById("header-poster__script"),
-        header_poster_id = header_poster.getAttribute("id"),
-        storage_header_poster = JSON.parse(w.localStorage.getItem('advertising-posters')); /*пытаемся получить значение для данного рекламоного постера скрыт он или нет*/
-
-      if (storage_header_poster && storage_header_poster.header_poster && storage_header_poster.header_poster[header_poster_id] === 'hide') {
-        let poster_parent = header_poster.parentNode;
-        poster_parent.removeChild(header_poster);
-        poster_parent.removeChild(header_poster__script);
-      }
-    } catch (e) {
-      console.error(e); /*на случае если локально хранилище не доступно*/
-    }
-  })();
+<script>
+  /*првоеряем локальное хранилище и если нужно скрываем рекламный постер в хедере*/
+  w.critical_scripts.check_if_nead_remove_poster_data();
 </script>

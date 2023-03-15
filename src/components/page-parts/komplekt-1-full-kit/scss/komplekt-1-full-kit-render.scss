@@ -6,7 +6,17 @@
         li {
             display: flex;
 
-            div.icon--check-mark {
+            &:before {
+                content: '\e912';
+                font-family: 'icon-font';
+                speak: never;
+                font-style: normal;
+                font-weight: normal;
+                font-variant: normal;
+                text-transform: none;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+
                 margin-right: rem(53);
                 font-size: rem(14);
                 color: var(--gray);

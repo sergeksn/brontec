@@ -7,7 +7,7 @@ let loader_html = data.loader ? include('./../../blocks/loader/loader.ejs') : nu
 
 <% if(data.type === "img" || data.type === "img-swiper-loop" ||  data.type === "img-template"){ %>
 <div class="image" <%-style_pt%>>
-  <img data-img-type="<%-data.type%>" data-src="<%-data.url%>" <%-original_w%> <%-original_h%> alt="">
+  <img data-img-type="<%-data.type%>" src="data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=" data-src="<%-data.url%>" <%-original_w%> <%-original_h%> alt="">
   <%-loader_html%>
 </div>
 <% } %>

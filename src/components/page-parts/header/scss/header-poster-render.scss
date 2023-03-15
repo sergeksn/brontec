@@ -58,19 +58,13 @@
             @media (min-width: rem(1920)) {
                 font-size: adaptiv_rem_size(12, 1920);
             }
-        }
 
-        .icon--close {
-            @media (min-width: rem(960)) {
-                display: none;
-            }
-        }
+            &:before {
+                content: '\e902';
 
-        .icon--close-bold {
-            display: none;
-
-            @media (min-width: rem(960)) {
-                display: block;
+                @media (min-width: rem(960)) {
+                    content: '\e903';
+                }
             }
         }
     }

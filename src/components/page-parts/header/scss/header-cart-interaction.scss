@@ -163,6 +163,7 @@
             grid-column: 1/-1;
             justify-self: center;
             transition: opacity var(--standart-anim);
+            width: 100%;
 
             &-title {
                 font: var(--h3);
@@ -172,6 +173,7 @@
 
             &-button {
                 max-width: rem(300);
+                margin: 0 auto;
 
                 @media (min-width: rem(1920)) {
                     max-width: adaptiv_rem_size(300, 1920);

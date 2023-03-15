@@ -70,7 +70,7 @@
                 &-plusik {
                     position: absolute;
                     transform: translate(-25%, -25%);
-                    
+
                     &-icon {
                         background-color: var(--blue);
                         border-radius: 50%;
@@ -128,13 +128,17 @@
             }
 
             @media (any-hover: hover) {
-                .hovered [class*='-plusik-icon'] {
-                    background-color: var(--blue-hover);
-                }
+                .hovered {
+                    z-index: 1;
 
-                .hovered [class*='-plusik-pop-up'] {
-                    pointer-events: auto;
-                    opacity: 1;
+                    [class*='-plusik-icon'] {
+                        background-color: var(--blue-hover);
+                    }
+
+                    [class*='-plusik-pop-up'] {
+                        pointer-events: auto;
+                        opacity: 1;
+                    }
                 }
             }
 
