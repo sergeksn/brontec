@@ -28,6 +28,7 @@
     //эти размеры шрифта актуальны до самых малых размеров экрана, т.к. эти размеры не меняются
     --ff-regular: 'Manrope-Regular';
     --ff-bold: 'Manrope-Bold';
+    --icon: 'icon-font';
     --h1: #{rem(25)} / #{rem(30)} var(--ff-bold);
     --h2: #{rem(22)} / #{rem(30)} var(--ff-bold);
     --h3: #{rem(18)} / #{rem(25)} var(--ff-regular);
@@ -47,7 +48,7 @@
     --button-min-width: auto; //ширина кнопок
     --button-max-width: none; //ширина кнопок
     --button-min-height: #{rem(50)}; //минимальняа высота кнопок
-    --button-maket-size:#{rem(30)}; //высота и ширина кнопок в мекете, не текстовых!
+    --button-maket-size: #{rem(30)}; //высота и ширина кнопок в мекете, не текстовых!
 
     --standart-container-margin-lr: #{adaptiv_rem_size(20, 320, 30, 640)}; //боковые внешние отступы стандартного контейнера
     --standart-container-width: calc(100vw - var(--standart-container-margin-lr) * 2); //ширина стандартного контейнера

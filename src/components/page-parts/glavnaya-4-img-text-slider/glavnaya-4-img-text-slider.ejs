@@ -45,47 +45,7 @@
   <div class="standart-container">
     <div class="glavnaya-4__toggler">
       <script>
-        (() => {
-          /*скрипт задаёт высоту блокс с текстом от слайдов по высоте самого большого блока с текстом*/
-          function set_toggler_height() {
-            let sc_width = parseFloat(w.getComputedStyle(qs('.glavnaya-4>.standart-container')).width),
-              toggler = qs('.glavnaya-4__toggler'),
-              swiper_slides = qsa('.glavnaya-4__wrap-slider-swiper-wrap .swiper-slide'),
-              greatest_length = 0,
-              greatest_str,
-              div = d.createElement('div');
-
-            swiper_slides.forEach(el => {
-              let t = qs('.hide-text-data', el).innerText;
-              if (t.length > greatest_length) {
-                greatest_length = t.length;
-                greatest_str = t;
-              }
-            });
-
-            div.innerText = greatest_str;
-            div.style.position = 'absolute';
-            div.style.visibility = 'hidden';
-            div.style.pointerEvents = 'none';
-
-            d.body.append(div);
-
-            if (w.matchMedia('(min-width:40rem)').matches) {
-              div.style.width = sc_width / 2 + 'px';
-            } else {
-              div.style.width = sc_width + 'px';
-            }
-
-            toggler.style.height = w.getComputedStyle(div).height;
-
-            div.remove();
-          }
-
-          set_toggler_height();
-
-          w.addEventListener('resize', set_toggler_height);
-
-        })();
+        w.critical_scripts.set_slider_size_in_home_page(); /*скрипт задаёт высоту блокс с текстом для слайдов по высоте самого большого блока с текстом*/
       </script>
       <div class="glavnaya-4__toggler-text-wrap"></div>
     </div>

@@ -228,7 +228,7 @@ async function common_img_loader(img) {
 
     let src = img.getAttribute('src');
 
-    if (!src || src == 'data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=') return url; //если у картинки ещё не установлен src просто записываем туда текущий url
+    if (!src) return url; //если у картинки ещё не установлен src просто записываем туда текущий url
 
     if (src === img.getAttribute('data-src')) throw { ksn_message: 'uploaded only on cache' }; //если в атрибуте src уже оригинал картинки, то эту картинку мы просто сохраняем в кеш без отображения
 

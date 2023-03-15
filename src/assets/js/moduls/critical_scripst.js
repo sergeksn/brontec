@@ -1,5 +1,3 @@
-//в функции include_neaded_polyfils_and_include_main_js_fill поменять http://localhost:3579/
-
 //содержит все скрипты которые необходимы до полной загрузки страницы
 w.critical_scripts = {
     //фнукция проверяет есть ли в корзине товары и если есть то мы отображаем их количество в счётчиках корзины
@@ -105,10 +103,52 @@ w.critical_scripts = {
 
         /*после загрузки всех необходимых полифилов можно загружать основыне скрипты для сайта*/
         let main_s = d.createElement('script');
-        main_s.src = KSN_DEV_MODE ? 'http://localhost:3579/main.js' : GDS.host_url + '/wp-content/themes/serge_produkt/assets/js/main.js';
+        main_s.src = KSN_DEV_MODE ? 'http://localhost:3579/main.js?v=1' : GDS.host_url + '/wp-content/themes/serge_produkt/assets/js/main.js?v=1';
 
         body.append(main_s);
     },
     /*подключаем при необходимости полифилы, а после их загрузки подключаем основной скрипт*/
+
+    /*скрипт задаёт высоту блокс с текстом для слайдов по высоте самого большого блока с текстом*/
+    set_slider_size_in_home_page: function () {
+        function set_toggler_height() {
+            let sc_width = parseFloat(w.getComputedStyle(qs('.glavnaya-4>.standart-container')).width),
+                toggler = qs('.glavnaya-4__toggler'),
+                swiper_slides = qsa('.glavnaya-4__wrap-slider-swiper-wrap .swiper-slide'),
+                greatest_length = 0,
+                greatest_str,
+                div = d.createElement('div');
+
+            swiper_slides.forEach(el => {
+                let t = qs('.hide-text-data', el).innerText;
+                if (t.length > greatest_length) {
+                    greatest_length = t.length;
+                    greatest_str = t;
+                }
+            });
+
+            div.innerText = greatest_str;
+            div.style.position = 'absolute';
+            div.style.visibility = 'hidden';
+            div.style.pointerEvents = 'none';
+
+            d.body.append(div);
+
+            if (w.matchMedia('(min-width:40rem)').matches) {
+                div.style.width = sc_width / 2 + 'px';
+            } else {
+                div.style.width = sc_width + 'px';
+            }
+
+            toggler.style.height = w.getComputedStyle(div).height;
+
+            div.remove();
+        }
+
+        set_toggler_height();
+
+        w.addEventListener('resize', set_toggler_height);
+    },
+    /*скрипт задаёт высоту блокс с текстом для слайдов по высоте самого большого блока с текстом*/
 };
 //содержит все скрипты которые необходимы до полной загрузки страницы

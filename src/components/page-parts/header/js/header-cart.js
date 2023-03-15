@@ -744,6 +744,8 @@ let cart = qs('.cart'),
 
             //отправляем запрос на сервер что отправить сообщение и выводим соответсвующие всплывающие окна
 
+            if(!carrent_cart_data || carrent_cart_data == '{}') return;//если данных корзины нет или корзина пуста то не выполянем проверку
+
             fetch(GDS.ajax_url, request_data)
                 .then(response => response.text()) //считываем переданные данные
                 .then(result => {

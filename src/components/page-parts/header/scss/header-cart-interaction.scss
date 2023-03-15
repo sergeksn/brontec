@@ -189,7 +189,8 @@
                 margin-bottom: var(--gap);
 
                 &:before {
-                    content: 'Комплект частичной защиты Brontero® ';
+                    content: 'Комплект частичной защиты Brontero®';
+                    display: block;
                 }
             }
 
@@ -250,12 +251,7 @@
                 }
 
                 [data-decrease] {
-                    font-family: 'icon-font';
-                    speak: never;
-                    font-style: normal;
-                    font-weight: normal;
-                    font-variant: normal;
-                    text-transform: none;
+                    font-family: var(--icon);
                     font-size: rem(2);
 
                     @media (min-width: rem(1920)) {
@@ -311,12 +307,7 @@
 
                 &:after {
                     content: '\e90c';
-                    font-family: 'icon-font';
-                    speak: never;
-                    font-style: normal;
-                    font-weight: normal;
-                    font-variant: normal;
-                    text-transform: none;
+                    font-family: var(--icon);
                     font-size: rem(12);
                     transform: rotate(90deg);
                     display: inline-block;
@@ -378,7 +369,8 @@
             &--full-kit {
                 .cart__body-product-title {
                     &:before {
-                        content: 'Полный комплект защиты Brontero® ';
+                        content: 'Полный комплект защиты Brontero®';
+                        display: block;
                     }
                 }
 

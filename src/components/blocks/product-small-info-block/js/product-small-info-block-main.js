@@ -29,7 +29,7 @@ export default class {
                 status = 'data-active';
             }
 
-            this.svg_parts_html += `<object ${status} type="image/svg+xml" data="data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=" data-src="${GDS.wp_img_url_prefix + img.url}"></object>`;
+            this.svg_parts_html += `<object ${status} data-src="${GDS.wp_img_url_prefix + img.url}"></object>`;
         });
 
         this.svg_parts_html += '</div>';
@@ -71,7 +71,7 @@ export default class {
           <div class="product-info__img-wrap">
             <div class="product-info__gradient-fon"></div>
               <div class="image" style="padding-top: ${this.main_img.pt}%">
-                <img data-img-type="img" data-main src="data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=" data-src="${this.main_img.url}" data-original-w="${this.main_img.ow}" data-original-h="${this.main_img.oh}">
+                <img data-img-type="img" data-main data-src="${this.main_img.url}" data-original-w="${this.main_img.ow}" data-original-h="${this.main_img.oh}">
                 ${this.svg_parts_html}
                 <div class="loader">
                     <div class="loader__circle"></div>
@@ -95,7 +95,7 @@ export default class {
             <div class="product-info__img-wrap">
                 <div class="product-info__gradient-fon"></div>
                 <div class="image" style="padding-top: ${this.main_img.pt}%">
-                  <img data-img-type="img" data-main src="data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=" data-src="${this.main_img.url}" data-original-w="${this.main_img.ow}" data-original-h="${this.main_img.oh}">
+                  <img data-img-type="img" data-main data-src="${this.main_img.url}" data-original-w="${this.main_img.ow}" data-original-h="${this.main_img.oh}">
                   ${this.svg_parts_html}
                   <div class="image product-info__img-wrap-instruction-img">
                     <div data-img-type="bg" data-src="${this.instruction_img.url}" data-original-w="${this.instruction_img.ow}" data-original-h="${this.instruction_img.oh}"></div>
