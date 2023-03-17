@@ -1,0 +1,34 @@
+.oformit-zakaz-1 {
+    h1 {
+        margin-bottom: var(--medium-gap);
+    }
+
+    &__you-order {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            order: 1;
+            grid-column: 7/-1;
+        }
+
+        h2 {
+            margin-bottom: var(--small-gap);
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 8/-1;
+        }
+    }
+
+    &__kontact {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/6;
+        }
+
+        h2 {
+            margin-bottom: var(--small-gap);
+        }
+    }
+}

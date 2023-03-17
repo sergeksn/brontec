@@ -45,7 +45,7 @@
 }
 //разные типы блоков по цвету
 
-span[title="Вы тут!"] {
+span[title='Вы тут!'] {
     color: var(--gray);
     cursor: not-allowed;
 }
@@ -264,6 +264,15 @@ input {
     grid-template-columns: repeat(12, 1fr);
     grid-column-gap: var(--gap);
     position: relative;
+
+    &--after-line:after {
+        //для блокв которым снизу нужно серая линия, есть на странице оформления заказа
+        content: '';
+        border-bottom: var(--border-width) solid var(--gray);
+        grid-column: 1/-1;
+        order: 9;
+        margin-top: var(--medium-gap);
+    }
 }
 //ширина основных блоков не стандартная так что задаём её отлельно от сетки
 
@@ -282,7 +291,7 @@ input {
         position: absolute;
         opacity: 0;
         pointer-events: none;
-        bottom: 0;
+        height: 100%;
     }
 
     label {
@@ -373,15 +382,34 @@ input {
 }
 //кастомный чекбокс используемый в конфигураторе и т.д.
 
+//оформление label заголовков для полей в форме
+.forma-title {
+    margin-bottom: var(--gap-10);
+    font: var(--small);
+    display: inline-block;
+
+    &--required {
+        &:before {
+            content: '* ';
+            color: red;
+        }
+    }
+}
+//оформление label заголовков для полей в форме
+
 //кастомные инпуты
 input.custom-text-input {
-    margin-bottom: var(--small-gap);
+    margin-bottom: rem(20);
     border: var(--border-width) solid var(--gray);
     border-radius: var(--border-radius);
     padding: rem(15) rem(20);
     height: rem(50);
     width: 100%;
     outline: none; //иногда пользовательские таблицы стилей делают обводку нам это нужно запретить
+
+    @media (min-width: rem(640)) {
+        margin-bottom: adaptiv_rem_size(20, 640, 30, 1920);
+    }
 
     @media (min-width: rem(1280)) {
         height: rem(60);
@@ -390,22 +418,51 @@ input.custom-text-input {
     @media (min-width: rem(1920)) {
         height: adaptiv_rem_size(60, 1920);
         padding: adaptiv_rem_size(15, 1920) adaptiv_rem_size(20, 1920);
+        margin-bottom: adaptiv_rem_size(30, 1920);
+    }
+
+    @media (any-hover: hover) {
+        &:hover:not(:disabled):not(:focus):not(&--error) {
+            border-color: var(--black);
+        }
+    }
+
+    &:focus:not(:disabled) {
+        border-color: var(--blue);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: var(--light);
+    }
+
+    &--error {
+        border-color: var(--error);
     }
 }
-
 //кастомные инпуты
 
 //кастомные текстовые поля
 .custom-textarea {
-    margin-bottom: var(--small-gap);
     border: var(--border-width) solid var(--gray);
     border-radius: var(--border-radius);
     padding: rem(15) rem(20);
     position: relative;
     display: flex;
+    cursor: text;
 
     @media (min-width: rem(1920)) {
         padding: adaptiv_rem_size(15, 1920) adaptiv_rem_size(20, 1920);
+    }
+
+    @media (any-hover: hover) {
+        &:hover {
+            border-color: var(--black);
+        }
+    }
+
+    &--focus {
+        border-color: var(--blue) !important; //чтоб перекрыть ховер
     }
 
     &__resizer {
@@ -450,6 +507,29 @@ input.custom-text-input {
     display: none;
 }
 //для скрытия спойлера
+
+//блок с ссылкой и чекбоксом для политики конфиденциальности
+.policy-konfidencial-checkout {
+    display: flex;
+    align-items: center;
+
+    &-title {
+        margin-left: var(--gap);
+        font: var(--small);
+
+        div {
+            @media (min-width: rem(1280)) {
+                width: max-content;
+            }
+        }
+
+        div:before {
+            content: '* ';
+            color: red;
+        }
+    }
+}
+//блок с ссылкой и чекбоксом для политики конфиденциальности
 
 //блоки для того чтоб получать значения переменных в js
 .test-div {

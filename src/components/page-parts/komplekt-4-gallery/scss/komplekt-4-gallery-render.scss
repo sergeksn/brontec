@@ -36,7 +36,7 @@
         grid-column: 1/-1;
 
         .swiper-slide{
-            cursor: pointer;
+            cursor: zoom-in;
 
             @media (any-hover: hover) {
                 &:hover .icon--magnifying-glass{

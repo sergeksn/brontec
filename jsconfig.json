@@ -1557,6 +1557,150 @@
             "@o-nas-3-bottom-img-text-img/*": [
                 "@components\\page-parts\\o-nas-3-bottom-img-text\\img/*"
             ],
+            "@oformit-zakaz-1-order-and-user-data": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data"
+            ],
+            "@oformit-zakaz-1-order-and-user-data/*": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data/*"
+            ],
+            "@oformit-zakaz-1-order-and-user-data-main-js": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data\\js\\oformit-zakaz-1-order-and-user-data-main.js"
+            ],
+            "@oformit-zakaz-1-order-and-user-data-main-js/*": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data\\js\\oformit-zakaz-1-order-and-user-data-main.js/*"
+            ],
+            "@oformit-zakaz-1-order-and-user-data-render-scss": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data\\scss\\oformit-zakaz-1-order-and-user-data-render.scss"
+            ],
+            "@oformit-zakaz-1-order-and-user-data-render-scss/*": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data\\scss\\oformit-zakaz-1-order-and-user-data-render.scss/*"
+            ],
+            "@oformit-zakaz-1-order-and-user-data-interaction-scss": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data\\scss\\oformit-zakaz-1-order-and-user-data-interaction.scss"
+            ],
+            "@oformit-zakaz-1-order-and-user-data-interaction-scss/*": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data\\scss\\oformit-zakaz-1-order-and-user-data-interaction.scss/*"
+            ],
+            "@oformit-zakaz-1-order-and-user-data-fonts": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data\\fonts"
+            ],
+            "@oformit-zakaz-1-order-and-user-data-fonts/*": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data\\fonts/*"
+            ],
+            "@oformit-zakaz-1-order-and-user-data-img": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data\\img"
+            ],
+            "@oformit-zakaz-1-order-and-user-data-img/*": [
+                "@components\\page-parts\\oformit-zakaz-1-order-and-user-data\\img/*"
+            ],
+            "@oformit-zakaz-2-dostavka": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka"
+            ],
+            "@oformit-zakaz-2-dostavka/*": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka/*"
+            ],
+            "@oformit-zakaz-2-dostavka-main-js": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka\\js\\oformit-zakaz-2-dostavka-main.js"
+            ],
+            "@oformit-zakaz-2-dostavka-main-js/*": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka\\js\\oformit-zakaz-2-dostavka-main.js/*"
+            ],
+            "@oformit-zakaz-2-dostavka-render-scss": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka\\scss\\oformit-zakaz-2-dostavka-render.scss"
+            ],
+            "@oformit-zakaz-2-dostavka-render-scss/*": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka\\scss\\oformit-zakaz-2-dostavka-render.scss/*"
+            ],
+            "@oformit-zakaz-2-dostavka-interaction-scss": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka\\scss\\oformit-zakaz-2-dostavka-interaction.scss"
+            ],
+            "@oformit-zakaz-2-dostavka-interaction-scss/*": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka\\scss\\oformit-zakaz-2-dostavka-interaction.scss/*"
+            ],
+            "@oformit-zakaz-2-dostavka-fonts": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka\\fonts"
+            ],
+            "@oformit-zakaz-2-dostavka-fonts/*": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka\\fonts/*"
+            ],
+            "@oformit-zakaz-2-dostavka-img": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka\\img"
+            ],
+            "@oformit-zakaz-2-dostavka-img/*": [
+                "@components\\page-parts\\oformit-zakaz-2-dostavka\\img/*"
+            ],
+            "@oformit-zakaz-3-oplata": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata"
+            ],
+            "@oformit-zakaz-3-oplata/*": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata/*"
+            ],
+            "@oformit-zakaz-3-oplata-main-js": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata\\js\\oformit-zakaz-3-oplata-main.js"
+            ],
+            "@oformit-zakaz-3-oplata-main-js/*": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata\\js\\oformit-zakaz-3-oplata-main.js/*"
+            ],
+            "@oformit-zakaz-3-oplata-render-scss": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata\\scss\\oformit-zakaz-3-oplata-render.scss"
+            ],
+            "@oformit-zakaz-3-oplata-render-scss/*": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata\\scss\\oformit-zakaz-3-oplata-render.scss/*"
+            ],
+            "@oformit-zakaz-3-oplata-interaction-scss": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata\\scss\\oformit-zakaz-3-oplata-interaction.scss"
+            ],
+            "@oformit-zakaz-3-oplata-interaction-scss/*": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata\\scss\\oformit-zakaz-3-oplata-interaction.scss/*"
+            ],
+            "@oformit-zakaz-3-oplata-fonts": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata\\fonts"
+            ],
+            "@oformit-zakaz-3-oplata-fonts/*": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata\\fonts/*"
+            ],
+            "@oformit-zakaz-3-oplata-img": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata\\img"
+            ],
+            "@oformit-zakaz-3-oplata-img/*": [
+                "@components\\page-parts\\oformit-zakaz-3-oplata\\img/*"
+            ],
+            "@oformit-zakaz-4-check-data": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data"
+            ],
+            "@oformit-zakaz-4-check-data/*": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data/*"
+            ],
+            "@oformit-zakaz-4-check-data-main-js": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data\\js\\oformit-zakaz-4-check-data-main.js"
+            ],
+            "@oformit-zakaz-4-check-data-main-js/*": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data\\js\\oformit-zakaz-4-check-data-main.js/*"
+            ],
+            "@oformit-zakaz-4-check-data-render-scss": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data\\scss\\oformit-zakaz-4-check-data-render.scss"
+            ],
+            "@oformit-zakaz-4-check-data-render-scss/*": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data\\scss\\oformit-zakaz-4-check-data-render.scss/*"
+            ],
+            "@oformit-zakaz-4-check-data-interaction-scss": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data\\scss\\oformit-zakaz-4-check-data-interaction.scss"
+            ],
+            "@oformit-zakaz-4-check-data-interaction-scss/*": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data\\scss\\oformit-zakaz-4-check-data-interaction.scss/*"
+            ],
+            "@oformit-zakaz-4-check-data-fonts": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data\\fonts"
+            ],
+            "@oformit-zakaz-4-check-data-fonts/*": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data\\fonts/*"
+            ],
+            "@oformit-zakaz-4-check-data-img": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data\\img"
+            ],
+            "@oformit-zakaz-4-check-data-img/*": [
+                "@components\\page-parts\\oformit-zakaz-4-check-data\\img/*"
+            ],
             "@politika-konfidenczialnosti": [
                 "@components\\page-parts\\politika-konfidenczialnosti"
             ],

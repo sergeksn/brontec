@@ -25,42 +25,8 @@
             grid-column: 1/5;
         }
 
-        &-title {
-            margin-bottom: var(--gap-10);
-            font: var(--small);
-            display: block;
-
-            &:before {
-                content: '* ';
-                color: red;
-            }
-        }
-
         &-polici-konf {
-            display: flex;
-            align-items: center;
-            margin-bottom: var(--small-gap);
-            margin-top: rem(40);
-
-            @media (min-width: rem(640)) {
-                margin-top: 0;
-            }
-
-            &-title {
-                margin-left: var(--gap);
-                font: var(--small);
-
-                div {
-                    @media (min-width: rem(1280)) {
-                        width: max-content;
-                    }
-                }
-
-                div:before {
-                    content: '* ';
-                    color: red;
-                }
-            }
+            margin: var(--small-gap) 0;
         }
     }
 

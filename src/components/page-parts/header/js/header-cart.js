@@ -434,17 +434,24 @@ let cart = qs('.cart'),
 
             ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); //меняет функции кнопок связанных с удаляемым комплектом на "Добавить в корзину"
 
+            //в общем тут куча проверок на существование данного товара, т.к может прозойти что мы нажали удалить товар до того как с базы пришёл ответ после синхронизации и тогда корзина обновить если были изменения и данный товар перерендерится по новой и дальнейшие функции уже будут вызывать ошибки т.к. прежний элемент товар абыл удалён и создан по новой, тоже касается и удаленяи при синхронизации вкладок
+            let carrent_product_body = qs('[data-product-cart-id="' + id + '"]', cart_body);
+            if (!carrent_product_body) return;
+
             await anime({
-                targets: product_body,
+                targets: carrent_product_body,
                 opacity: 0,
             }).finished; //дожидаемся скрытия товара
 
+            carrent_product_body = qs('[data-product-cart-id="' + id + '"]', cart_body);
+            if (!carrent_product_body) return;
+
             await anime({
-                targets: product_body,
+                targets: carrent_product_body,
                 height: 0,
             }).finished; //дожидаемся сворачивания товара
 
-            qs('[data-product-cart-id="'+id+'"]',cart_body).remove(); //удаляем данный товар из корзины именно так поиском через всю корзину, т.к. могло произойти изменение в корзине на другой вкладке и это бы пререндерело корзину в текущей вкладке тем самым товары удалились бы их зранилища но остались бы визуально в корзине
+            carrent_product_body?.remove(); //удаляем данный товар из корзины именно так поиском через всю корзину, т.к. могло произойти изменение в корзине на другой вкладке и это бы пререндерело корзину в текущей вкладке тем самым товары удалились бы их зранилища но остались бы визуально в корзине
         },
         //полностью удлаяет товар из корзины и хранилища корзины
 
@@ -562,9 +569,7 @@ let cart = qs('.cart'),
         //функция высчитывает общую сумму товаров в корзине основываясь на данных в хранилище
 
         //задём значение счётчика корзины в хедере ив самой корзине
-        //value - значение на которое нужно изменить значение счётчиков корзины
-        //nead_anim - нужно ли запускать анимацию +1 под корзиной в хедере
-        set_cart_counter: async function (nead_anim = true) {
+        set_cart_counter: async function () {
             let cart_data = localStorage.getItem('cart-data');
 
             if (!cart_data) return; //если в хранилище нет данных корзины прерываем
@@ -572,21 +577,26 @@ let cart = qs('.cart'),
             let old_value = +inner_cart_counter.textContent, //старое значение количества товаров, даже если там пустота мы преобразуем её в 0
                 new_value = Object.keys(JSON.parse(cart_data)).length, //берём текущее количество товаров в корзине чтоб избежать багов при синхронизации вкладок браузера
                 inner_cart_counter_fade_controller = inner_cart_counter.ksn_fade, //контролер прозрачности
-                header_cart_counter_fade_controller = header_cart_counter.ksn_fade; //контролер прозрачности
+                header_cart_counter_fade_controller = header_cart_counter.ksn_fade, //контролер прозрачности
+                set_actual_cart_count = () => {
+                    //функция записывает актуальные данные в счётчики корзины на основе данных из хранилища, т.к. за вреям паузы анимаций при неактивных вкладках состав корзины мог обновитья, и данные нужно брать из хранилища
+                    let actual_cart_value = Object.keys(JSON.parse(localStorage.getItem('cart-data'))).length; //за время выполнения анимаций, или анимации могли быть на паузе из-за того что вкладка неактивна. в обще в конце мы обновляем счётчики ещё раз уже актуальными данными корзины
+
+                    inner_cart_counter.textContent = actual_cart_value; //меняем значение счётчика в корзине
+                    header_cart_counter.textContent = actual_cart_value; //меняем значение счётчика в хедере
+                };
 
             if (old_value === 0 && new_value !== 0) await inner_cart_counter_fade_controller.fade_show(); //если до этого в корзине не было товаров то мы можем их только добавлять так что если прежние значение 0 то новое будет больше нуля и мы должны показать счётчик
 
             if (new_value === 0) await inner_cart_counter_fade_controller.fade_hide(); //если новое значение количества товаров в корзине 0 то мы скрываем счётчик
 
-            inner_cart_counter.textContent = new_value; //меняем значение счётчика в корзине
-
-            //если добавился один товар и нужна анимациия увеличения счётчика
-            if (new_value - old_value === 1 && nead_anim) {
+            //если добавился один товар
+            if (new_value - old_value === 1) {
                 await Header.show(); //ждём пока опустится хедер
 
                 //запустится после анимации +1 для корзины в хедере
                 let after_anim = () => {
-                    header_cart_counter.textContent = new_value; //меняем значение счётчика в корзине
+                    set_actual_cart_count(); //вставляем в счётчики актуальные данные о количество товаров в корзине
 
                     if (old_value === 0) header_cart_counter_fade_controller.fade_show(); //если до этого в корзине не было товаров то мы можем их только добавлять так что если прежние значение 0 то новое будет больше нуля и мы должны показать счётчик
 
@@ -598,7 +608,7 @@ let cart = qs('.cart'),
                 animation_cart_increase._on('animationend', after_anim); //добавляем случшатель на окончание анимации
                 animation_cart_increase.setAttribute('data-init-anim', ''); //задаём атибут чтоб началась анимация
             }
-            //если добавился один товар и нужна анимациия увеличения счётчика
+            //если добавился один товар
 
             //если количество товаров в корзине изменилось на другое значение или количество увеличилось на 1 но НЕ нужна анимация
             else {
@@ -606,7 +616,7 @@ let cart = qs('.cart'),
 
                 if (new_value === 0) await header_cart_counter_fade_controller.fade_hide(); //если новое значение количества товаров в корзине 0 то мы скрываем счётчик
 
-                header_cart_counter.textContent = new_value; //меняем значение счётчика в хедере
+                set_actual_cart_count(); //вставляем в счётчики актуальные данные о количество товаров в корзине
             }
             //если количество товаров в корзине изменилось на другое значение или количество увеличилось на 1 но НЕ нужна анимация
         },

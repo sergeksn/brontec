@@ -1,0 +1,56 @@
+.oformit-zakaz-4 {
+    margin: var(--medium-gap) 0 var(--big-gap) 0;
+
+    & > div {
+        grid-row-gap: var(--small-gap);
+    }
+
+    &__contact-info {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+        }
+
+        &-title {
+            font: var(--small);
+            color: var(--gray);
+            margin-bottom: var(--gap-10);
+        }
+    }
+
+    &__delivery {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 7/-1;
+        }
+
+        &-title {
+            font: var(--small);
+            color: var(--gray);
+            margin-bottom: var(--gap-10);
+        }
+    }
+
+    &__pay {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+        }
+
+        &-final-price {
+            font: var(--h3);
+            margin-bottom: var(--small-gap);
+
+            &:before {
+                content: 'Итого к оплате: ';
+            }
+        }
+
+        &-run-button {
+            margin-top: var(--small-gap);
+        }
+    }
+}

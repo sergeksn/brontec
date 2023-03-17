@@ -1,0 +1,29 @@
+<div class="oformit-zakaz-3">
+  <div class="standart-container standart-container--after-line" data-showed-on-scroll>
+    <h2>Оплата</h2>
+    <div class="oformit-zakaz-3__promocod">
+      <input id="promocod" class="custom-text-input" autocomplete="off" maxlength="100" placeholder="Промокод">
+      <button class="button-main button-main--black" disabled>Применить</button>
+      <div class="oformit-zakaz-3__promocod-prices">
+        <div class="oformit-zakaz-3__promocod-prices-full ruble-price">23 500</div>
+        <div class="oformit-zakaz-3__promocod-prices-promocod-discont ruble-price">1 200</div>
+        <div class="oformit-zakaz-3__promocod-prices-delivery ruble-price">500</div>
+      </div>
+    </div>
+    <div class="oformit-zakaz-3__payment-info">
+      <div>
+        <div class="oformit-zakaz-3__payment-info-imges">
+          <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@oformit-zakaz-3-oplata-img/visa-verefid.png", pt:25,}})%>
+          <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@oformit-zakaz-3-oplata-img/mastercard-secure.png", pt:25,}})%>
+          <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@oformit-zakaz-3-oplata-img/mir-accept.png", pt:25,}})%>
+          <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", url:"~@oformit-zakaz-3-oplata-img/umany.png", pt:25,}})%>
+        </div>
+        <div class="oformit-zakaz-3__payment-info-text">
+          <p>Ввод данных банковской карты осуществляется на защищенной платежной странице АО «АЛЬФА-БАНК».</p>
+          <p>После ввода данных банковской карты вы будете перенаправлены на страницу Вашего банка для ввода кода безопасности, который придет к Вам в СМС.</p>
+        </div>
+        <a href="#" class="oformit-zakaz-3__payment-info-link link-default set-min-interactive-size">Правила и конфиденциальность оплаты</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+.oformit-zakaz-3 {
+    margin-top: var(--medium-gap);
+
+    h2 {
+        margin-bottom: var(--small-gap);
+    }
+
+    &__promocod {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 1/6;
+        }
+
+        button {
+            @media (min-width: rem(640)) and (max-width: rem(960)) {
+                max-width: none;
+            }
+        }
+
+        &-prices {
+            margin: rem(40) 0;
+            text-align: right;
+            font: var(--h3);
+            display: grid;
+            grid-gap: var(--gap-10);
+
+            @media (min-width: rem(640)) {
+                margin: adaptiv_rem_size(40, 640, 100, 1920) 0 0 0;
+            }
+
+            @media (min-width: rem(1920)) {
+                margin-top: adaptiv_rem_size(100, 1920);
+            }
+
+            & > div:before {
+                position: absolute;
+                left: 0;
+            }
+
+            &-full:before {
+                content: 'Сумма заказа';
+            }
+
+            &-promocod-discont:before {
+                content: 'Скидка по промокоду';
+            }
+
+            &-delivery:before {
+                content: 'Доставка';
+            }
+        }
+    }
+
+    &__payment-info {
+        grid-column: 1/-1;
+        font: var(--small);
+
+        @media (min-width: rem(640)) {
+            grid-column: 7/-1;
+        }
+
+        & > div {
+            border-radius: var(--border-radius);
+            background-color: var(--light);
+            padding: rem(40) rem(20);
+
+            @media (min-width: rem(640)) {
+                grid-column: 7/-1;
+                padding: adaptiv_rem_size(40, 640, 50, 1920) adaptiv_rem_size(20, 640, 50, 1920);
+            }
+
+            @media (min-width: rem(1920)) {
+                padding: adaptiv_rem_size(50, 1920);
+            }
+        }
+
+        &-imges {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(calc((100% - var(--gap) * 3) / 4), max-content));
+            grid-gap: var(--gap);
+            margin-bottom: var(--small-gap);
+        }
+
+        &-text {
+            p {
+                &:only-child {
+                    margin: 0;
+                }
+
+                &:first-child {
+                    margin-top: 0;
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        &-link {
+            display: inline-flex;
+            margin-top: var(--gap);
+        }
+    }
+}
