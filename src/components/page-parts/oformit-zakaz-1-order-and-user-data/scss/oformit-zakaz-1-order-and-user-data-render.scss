@@ -5,18 +5,90 @@
 
     &__you-order {
         grid-column: 1/-1;
+        position: relative;
 
         @media (min-width: rem(640)) {
             order: 1;
             grid-column: 7/-1;
         }
 
-        h2 {
-            margin-bottom: var(--small-gap);
-        }
-
         @media (min-width: rem(960)) {
             grid-column: 8/-1;
+        }
+
+        h2 {
+            padding-bottom: var(--small-gap);
+        }
+
+        &-info {
+            display: flex;
+            justify-content: space-between;
+
+            &-amount {
+                color: var(--gray);
+
+                &--komplect {
+                    &:after {
+                        content: ' комплект';
+                    }
+                }
+
+                &--komplecta {
+                    &:after {
+                        content: ' комплекта';
+                    }
+                }
+
+                &--komplectov {
+                    &:after {
+                        content: ' комплектов';
+                    }
+                }
+            }
+
+            &-price {
+                color: var(--gray);
+            }
+        }
+
+        &-loader,
+        &-empty-cart,
+        &-zero-cart-price {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: calc(100% - var(--small-gap) - rem(30));
+            opacity: 0;
+            //pointer-events: none;
+
+            @media (min-width: rem(640)) {
+                height: calc(100% - var(--small-gap) - adaptiv_rem_size(30, 640, 40, 1920));
+            }
+
+            @media (min-width: rem(1920)) {
+                height: calc(100% - var(--small-gap) - adaptiv_rem_size(40, 1920));
+            }
+        }
+
+        &-loader {
+            background: var(--popup-backdrop);
+        }
+
+        &-empty-cart,
+        &-zero-cart-price {
+            opacity: 1;
+            display: grid;
+            align-content: center;
+            justify-content: center;
+            justify-items: center;
+            background: #fff;
+
+            &-title {
+                font: var(--h3);
+                text-align: center;
+                margin-bottom: var(--small-gap);
+            }
         }
     }
 
@@ -31,4 +103,10 @@
             margin-bottom: var(--small-gap);
         }
     }
+}
+
+.order {
+    max-height: rem(800);
+    min-height: rem(200);
+    overflow: auto;
 }

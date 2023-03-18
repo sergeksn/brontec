@@ -3,16 +3,44 @@
     <h1>Оформление заказа</h1>
     <div class="oformit-zakaz-1__you-order" data-showed-on-scroll>
       <h2>Ваш заказ</h2>
+      <div class="oformit-zakaz-1__you-order-info">
+        <div class="oformit-zakaz-1__you-order-info-amount"></div>
+        <div class="oformit-zakaz-1__you-order-info-price ruble-price"></div>
+      </div>
+
+      <div class="oformit-zakaz-1__you-order-spoiler-wrap">
+        <div class="oformit-zakaz-1__you-order-spoiler-wrap-content order custom-scrollbar">
+
+          <!-- <div class="order__body">
+            <div class="order__body-product"></div>
+
+          </div>-->
+        </div>
+      </div>
+
+      <div class="oformit-zakaz-1__you-order-loader">
+        <div class="loader">
+          <div class="loader__circle"></div>
+        </div>
+      </div>
+      <div class="oformit-zakaz-1__you-order-empty-cart">
+        <div class="oformit-zakaz-1__you-order-empty-cart-title">Ваша корзина пуста</div>
+        <a href="/vybrat-komplekt/" class=" button-main">Выбрать комплект</a>
+      </div>
+      <div class="oformit-zakaz-1__you-order-zero-cart-price">
+        <div class="oformit-zakaz-1__you-order-zero-cart-price-title">Цена товаров в Вашей корзине равна нулю</div>
+        <button class=" button-main">Открыть корзину</button>
+      </div>
     </div>
     <div class="oformit-zakaz-1__kontact" data-showed-on-scroll>
       <h2>Контакты</h2>
       <form class="oformit-zakaz-1__kontact-form" id="user-data" data-emails="sergeksnsd1997sd@gmail.com, sergej.catashov@yandex.ru">
         <label for="fio" class="forma-title forma-title--required">ФИО</label>
-        <input id="fio" class="custom-text-input" name="name" autocomplete="name" maxlength="200" placeholder="Иванов Иван Иванович" required>
+        <input id="fio" class="custom-text-input" pattern="[a-zA-Zа-яА-ЯЁё\s]+" name="name" autocomplete="name" maxlength="200" placeholder="Иванов Иван Иванович" required>
         <label for="email" class="forma-title forma-title--required">Электронная почта</label>
         <input id="email" class="custom-text-input" type="email" name="email" autocomplete="email" maxlength="320" placeholder="adres@mail.com" required>
         <label for="tel" class="forma-title forma-title--required">Телефон</label>
-        <input id="tel" class="custom-text-input" name="tel" autocomplete="tel" maxlength="300" placeholder="+7 (- - -) - - -  - -  - -" required>
+        <input id="tel" class="custom-text-input" pattern="[\d\s\+()-]+" name="tel" autocomplete="tel" maxlength="300" placeholder="+7 (- - -) - - -  - -  - -" required>
         <label for="message" class="forma-title">Комментарий к заказу</label>
         <label for="message" class="custom-textarea">
           <span class="custom-textarea__resizer"></span>
@@ -22,3 +50,11 @@
     </div>
   </div>
 </div>
+<script>
+  GDS.delivery = {
+    border: 1000,
+    price: 300
+  }
+  w.ksn_order_controler.init();
+  w.ksn_order_controler.render_order();
+</script>

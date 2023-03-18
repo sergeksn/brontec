@@ -87,30 +87,38 @@ let header = qs('header'),
         //функция получае общую высоту постера + видимой части хедера +  скрытой части хедера
 
         //отпускает вниз и показывает блок хедера
-        show: function () {
+        show: function (fast = false) {
             return show({
                 el: header,
                 instance: this,
                 property: 'translateY',
                 value: 0,
-                duration: 250,
+                duration: fast ? 0 : 250,
                 started_value: -this.get_header_h({ header_poster: true, header_visible: true }),
             });
         },
         //отпускает вниз и показывает блок хедера
 
         //поднимает вверх и скрывает блок хедера
-        hide: function () {
+        hide: function (fast = false) {
             return hide({
                 el: header,
                 instance: this,
                 property: 'translateY',
-                duration: 250,
+                duration: fast ? 0 : 250,
                 value: -this.get_header_h({ header_poster: true, header_visible: true }),
                 started_value: 0,
             });
         },
         //поднимает вверх и скрывает блок хедера
+
+        //скрываем хедер и на время блокируем его показ, это полезно когда нужно проскролить без показа хедера
+        hide_and_lock_on_time: function (time = 1000, fast = true) {
+            if (this.status != 'hide') this.hide(fast); //скрываем толкьо если не скрыт
+            this.lock = true;
+            setTimeout(() => (this.lock = false), time);
+        },
+        //скрываем хедер и на время блокируем его показ, это полезно когда нужно проскролить без показа хедера
 
         //функция оправляет сворачиванием и разворачиванием хедера
         toggle_header: async function () {

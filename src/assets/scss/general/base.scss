@@ -250,7 +250,7 @@ input {
         }
 
         &[data-in-cart='yes']:before {
-            content: 'Комплект в корзине. Перейти →';
+            content: 'Комплект в корзине →';
         }
     }
 }
@@ -329,6 +329,14 @@ input {
     input:disabled ~ label {
         cursor: not-allowed;
     }
+
+    //это для чекбоксов в формах после проверки если они не отмечены быдучи обязательными после попытки отправки то будут выделены красным
+    &--check-valid {
+        input:invalid ~ label {
+            border-color: var(--error);
+        }
+    }
+    //это для чекбоксов в формах после проверки если они не отмечены быдучи обязательными после попытки отправки то будут выделены красным
 
     //чекбокс для страниц комплекта и детали с синей заливкой и белой галочкой
     &--blue {
@@ -436,8 +444,9 @@ input.custom-text-input {
         background-color: var(--light);
     }
 
-    &--error {
-        border-color: var(--error);
+    &--error,
+    &--check-valid:invalid {
+        border-color: var(--error) !important; //чтоб перекрыть все другие стили пок аесть ошибка
     }
 }
 //кастомные инпуты
@@ -463,6 +472,10 @@ input.custom-text-input {
 
     &--focus {
         border-color: var(--blue) !important; //чтоб перекрыть ховер
+    }
+    
+    &--not-valid{
+        border-color: var(--error) !important; //чтоб перекрыть ховер
     }
 
     &__resizer {

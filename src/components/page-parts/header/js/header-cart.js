@@ -2,7 +2,7 @@ import { anime, show, hide, set_localStorage, wait } from '@js-libs/func-kit';
 import Overlay from '@overlays-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
 import { Header, Header_Hidden } from '@header-main-js';
-import { base_spoiler_fade, Spoiler } from '@js-moduls/spoiler';
+import { base_spoiler_fade } from '@js-moduls/spoiler';
 import Fade from '@js-moduls/fade';
 
 let cart = qs('.cart'),
@@ -540,31 +540,7 @@ let cart = qs('.cart'),
 
         //функция высчитывает общую сумму товаров в корзине основываясь на данных в хранилище
         calculate_common_price_in_cart: function () {
-            let result = 0,
-                cart_data = localStorage.getItem('cart-data');
-
-            if (!cart_data || cart_data === '{}') return (cart_final_price.textContent = 0); //если корзина пуста
-
-            cart_data = JSON.parse(cart_data);
-
-            for (let id in cart_data) {
-                let product_data = cart_data[id], //даные текущего товара
-                    composition = product_data.composition,
-                    procuct_price = 0,
-                    is_full_kit = true; //полный комплект или набор отдельных деталей
-
-                for (let detal in composition) {
-                    if (composition[detal].add) {
-                        procuct_price += composition[detal].price;
-                    } else {
-                        is_full_kit = false; //если хоть одна деталь в комплектен не добавлена то мы помечаем что это не полный комплект
-                    }
-                }
-
-                result += is_full_kit ? +product_data.price * product_data.amount : procuct_price * product_data.amount;
-            }
-
-            cart_final_price.textContent = result.toLocaleString('ru');
+            cart_final_price.textContent =  w.ksn_order_controler.calculate_common_order_prise().toLocaleString('ru');
         },
         //функция высчитывает общую сумму товаров в корзине основываясь на данных в хранилище
 
