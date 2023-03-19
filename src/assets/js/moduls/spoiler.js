@@ -236,8 +236,9 @@ class Spoiler {
 //spoiler_content_wrap - оболочка скрываемого контента именно к ней нужно добавить класс spoiler-hidden чтоб спойлер был скрыт по умолчанию
 //spoiler_content - скрываемый контент
 //spoiler_toggle_button - элемент по нажатию на которйы будет откарываться/закрыватьяс спойлер
+//dependency_func - фнукция которая будетв ыполнятся перед началом отработки, если она вернёт false то мы не выполянем base_spoiler_fade
 //остальные параметры , название говорит само за себя
-function base_spoiler_fade({ spoiler_content_wrap, spoiler_content, spoiler_toggle_button, open_start_func, open_end_func, close_start_func, close_end_func, spoiler_open_settings, spoiler_close_settings, fade_show_settings, fade_hide_settings } = {}) {
+function base_spoiler_fade({ spoiler_content_wrap, spoiler_content, spoiler_toggle_button, open_start_func, open_end_func, close_start_func, close_end_func, spoiler_open_settings, spoiler_close_settings, fade_show_settings, fade_hide_settings, dependency_func } = {}) {
     if (!spoiler_content_wrap || !spoiler_content) return console.error('Для функции base_spoiler_fade не указаны обязательные параметры!'); //если не заданы основные параметры то прерываем выполнение и выводим в консоль ошибку
 
     new Spoiler(spoiler_content_wrap);
@@ -260,6 +261,8 @@ function base_spoiler_fade({ spoiler_content_wrap, spoiler_content, spoiler_togg
 
     function toggle_spoiler() {
         return new Promise((resolve, reject) => {
+            if (dependency_func && dependency_func() === false) return reject(); //если есть функция для проверки разрешено ли выполянться и она вернула fakse прерываем выполнение и промис завершён неудачей
+
             //если спройлер закрыт или в процессе закрытия
             if (spoiler_controller.status === 'hide' || spoiler_controller.status === 'pending to hide') {
                 open_start_func(); //калбек начало открытия спойлера

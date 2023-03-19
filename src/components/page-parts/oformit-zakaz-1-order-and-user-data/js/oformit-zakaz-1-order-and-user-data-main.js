@@ -1,4 +1,4 @@
-import { Header } from '@header-main-js';
+import { Header, Header_Cart } from '@header-main-js';
 import { base_spoiler_fade } from '@js-moduls/spoiler';
 import Fade from '@js-moduls/fade';
 
@@ -12,7 +12,12 @@ let form = qs('#user-data'),
     order_spoiler_title = qs('.oformit-zakaz-1__you-order h2'),
     order_spoiler_content_wrap = qs('.oformit-zakaz-1__you-order-spoiler-wrap'),
     order_spoiler_content = qs('.oformit-zakaz-1__you-order-spoiler-wrap-content'),
-    order_loader = qs('.oformit-zakaz-1__you-order-loader'),
+    order_loader = qs('.oformit-zakaz-1__you-order-loader'), //лоадер блока заказа которые показываемтся в моменты обновляений и синхронизаций
+    order_product_amount_area = qs('.oformit-zakaz-1__you-order-info-amount'), //поле с количеством комплектов в заказе
+    order_common_price_area = qs('.oformit-zakaz-1__you-order-info-price'), //поле с общей ценой товаров в заказе
+    order_empty_cart_message = qs('.oformit-zakaz-1__you-order-empty-cart'), //блок сообщения что корзина пустая
+    order_zero_cart_price_message = qs('.oformit-zakaz-1__you-order-zero-cart-price'), //блок сообщения что цена товарво в корзине равна нулю
+    order_zero_cart_price_message_button = qs('.oformit-zakaz-1__you-order-zero-cart-price button'), //нопка перехода в корзину в блоке сообщения что цена товаров в корзине равна нулю
     CONTROLER = {
         init: function () {
             if (!form) return; //если нет такой формы то прерываем инициализацию
@@ -30,15 +35,39 @@ let form = qs('#user-data'),
             [fio_input, email_input, tel_input].forEach(input => input._on('input', this.inputed_event.bind(this))); //при каждом взаимодействии с инпутом проверяем его валидность и записываем текст в соответствующие поле внизу страницы
             policy_checkbox._on('input', this.check_validation.bind(null, { policy: true })); //при каждом взаимодействии с инпутом проверяем его валидность
 
+            let rotate_arrow = () => order_spoiler_title.classList.toggle('open-order-title');
+
             //создайм спойлер с прозрачный появленяием товаров в заказе
             base_spoiler_fade({
                 spoiler_content_wrap: order_spoiler_content_wrap,
                 spoiler_content: order_spoiler_content,
                 spoiler_toggle_button: order_spoiler_title,
+                dependency_func: () => !(GDS.win.width_rem >= 40), //разрешаем работу спойлера заказа только на экранах меньше 640px
+                open_start_func: () => rotate_arrow(),
+                close_start_func: () => rotate_arrow(),
             });
             //создайм спойлер с прозрачный появленяием товаров в заказе
 
-            new Fade(order_loader); //создаём контролерй видимости лоадера заказа
+            //создаём контролеры видимости для следующих блоков
+            new Fade(order_loader);
+            new Fade(order_empty_cart_message);
+            new Fade(order_zero_cart_price_message);
+            //создаём контролеры видимости для следующих блоков
+
+            order_zero_cart_price_message_button._on('click', Header_Cart.toggle_cart.bind(Header_Cart)); //делаем открытие корзины при клике на данную кнопку
+            order_zero_cart_price_message_button.disabled = false; //теперь можно разблокировать кнопку, т.к. она теперь имеет действие
+
+            let chenge_visible_action = () => qs('.order__product-toggle-composition').classList.toggle('order__product-toggle-composition--open');
+
+            //создайм спойлер с прозрачный появленяием контента
+            // base_spoiler_fade({
+            //     spoiler_content_wrap: qs('.order__product-spoiler-wrap'),
+            //     spoiler_content: qs('.order__product-spoiler-wrap-content'),
+            //     spoiler_toggle_button: qs('.order__product-toggle-composition'),
+            //     open_start_func: () => chenge_visible_action(),
+            //     close_start_func: () => chenge_visible_action(),
+            // });
+            //создайм спойлер с прозрачный появленяием контента
         },
 
         //при отправлке формы перехватываем управление

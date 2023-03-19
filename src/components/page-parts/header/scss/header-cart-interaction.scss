@@ -305,6 +305,10 @@
                 color: var(--blue);
                 margin-top: var(--gap);
 
+                &:before {
+                    content: 'Состав комплекта ';
+                }
+
                 &:after {
                     content: '\e90c';
                     font-family: var(--icon);
@@ -320,6 +324,10 @@
                 }
 
                 &--open {
+                    &:before {
+                        content: 'Свернуть ';
+                    }
+
                     &:after {
                         transform: rotate(-90deg);
                     }

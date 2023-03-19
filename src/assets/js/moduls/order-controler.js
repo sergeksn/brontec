@@ -1,7 +1,9 @@
 w.ksn_order_controler = {
     init: function () {
-        this.order_product_amount_area = qs('.oformit-zakaz-1__you-order-info-amount');
-        this.order_common_price_area = qs('.oformit-zakaz-1__you-order-info-price');
+        this.order_product_amount_area = qs('.oformit-zakaz-1__you-order-info-amount'); //поле с количеством комплектов в заказе
+        this.order_common_price_area = qs('.oformit-zakaz-1__you-order-info-price'); //поле с общей ценой товаров в заказе
+        this.order_empty_cart_message = qs('.oformit-zakaz-1__you-order-empty-cart'); //блок сообщения что корзина пустая
+        this.order_zero_cart_price_message = qs('.oformit-zakaz-1__you-order-zero-cart-price'); //блок сообщения что цена товарво в корзине равна нулю
     },
 
     //получаем общую цену товаров в корзине
@@ -82,6 +84,27 @@ w.ksn_order_controler = {
     },
     //функция добавляет нужный класс к полю с количеством комплектов чтоб словко комплек читалось логично
 
+    //показываем блок с сообщением, подходит для лоадера, сообщения о пустой корзине и сообщение что цена товаров в корзине равна нулю
+    order_info_block_show: async function (message_block) {
+        //данный блок может быть показан ещё до того как будет создан контролер плавного показа так что если мы вызвали когда контролера ещё нет то просто делаем его многовенно видимым
+        if (message_block.ksn_fade) {
+            await message_block.ksn_fade.fade_show().catch(() => {}); //ждём показа
+        } else {
+            message_block.style.opacity = '1';
+        }
+
+        message_block.style.pointerEvents = 'auto'; //делаем блок доступным для взаимодействия
+    },
+    //показываем блок с сообщением, подходит для лоадера, сообщения о пустой корзине и сообщение что цена товаров в корзине равна нулю
+
+    //скрываем блок с сообщением, подходит для лоадера, сообщения о пустой корзине и сообщение что цена товаров в корзине равна нулю
+    order_info_block_hide: async function (message_block) {
+        //данный блок мы будем скрывать толкьо после того как его контролер прозрачности определён поскольку изначально он скрыт так что првоерку на наличие контролера можно не делать
+        await message_block.ksn_fade.fade_hide().catch(() => {}); //ждём сокрытия
+        message_block.style.pointerEvents = ''; //делаем блок недоступным для взаимодействия
+    },
+    //скрываем блок с сообщением, подходит для лоадера, сообщения о пустой корзине и сообщение что цена товаров в корзине равна нулю
+
     //рендерит блок заказа с нуля
     render_order: async function () {
         let cart_data = JSON.parse(localStorage.getItem('cart-data')),
@@ -89,7 +112,9 @@ w.ksn_order_controler = {
             cart_total_amount_area_postfix = this.get_amount_postfix(cart_total_amount),
             common_price = this.calculate_common_order_prise();
 
-        if (cart_total_amount == 0) console.log(1);
+        if (cart_total_amount == 0) return this.order_info_block_show(this.order_empty_cart_message); //если корзина пуста показываем сообщение и заверашем функцию
+
+        if (common_price == 0) return this.order_info_block_show(this.order_zero_cart_price_message); //если цена товаров в корзине равна нулю показываем сообщение и заверашем функцию
 
         this.order_product_amount_area.textContent = cart_total_amount; //записываем количество комплектов в поле
 
@@ -97,8 +122,7 @@ w.ksn_order_controler = {
 
         this.order_common_price_area.textContent = common_price.toLocaleString('ru'); //получаем общую цену товаров в корзине и записывает её в поле для финальной цены
 
-        // await order_loader.ksn_fade.fade_hide();
-        // order_loader.style.pointerEvents = 'none';
+       
     },
     //рендерит блок заказа с нуля
 };

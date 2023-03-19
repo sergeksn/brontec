@@ -49,13 +49,13 @@
                 li {
                     &:before {
                         content: '\e912';
-                        font-size: rem(9);
+                        font-size: rem(14);
                         margin-right: rem(30);
                         font-family: var(--icon);
                    
 
                         @media (min-width: rem(1920)) {
-                            font-size: adaptiv_rem_size(9, 1920);
+                            font-size: adaptiv_rem_size(14, 1920);
                             margin-right: adaptiv_rem_size(30, 1920);
                         }
                     }

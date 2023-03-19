@@ -29,11 +29,29 @@
     --ff-regular: 'Manrope-Regular';
     --ff-bold: 'Manrope-Bold';
     --icon: 'icon-font';
-    --h1: #{rem(25)} / #{rem(30)} var(--ff-bold);
-    --h2: #{rem(22)} / #{rem(30)} var(--ff-bold);
-    --h3: #{rem(18)} / #{rem(25)} var(--ff-regular);
-    --default: #{rem(15)} / #{rem(20)} var(--ff-regular); //--default обычный текст на страницах
-    --small: #{rem(13)} / #{rem(20)} var(--ff-regular); //--small маленький текст на страницах
+
+    //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
+    --h1-fs: #{rem(25)};
+    --h1-lh: #{rem(30)};
+
+    --h2-fs: #{rem(22)};
+    --h2-lh: #{rem(30)};
+
+    --h3-fs: #{rem(18)};
+    --h3-lh: #{rem(25)};
+
+    --default-fs: #{rem(15)};
+    --default-lh: #{rem(20)};
+
+    --small-fs: #{rem(13)};
+    --small-lh: #{rem(20)};
+    //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
+
+    --h1: var(--h1-fs) / var(--h1-lh) var(--ff-bold);
+    --h2: var(--h2-fs) / var(--h2-lh) var(--ff-bold);
+    --h3: var(--h3-fs) / var(--h3-lh) var(--ff-regular);
+    --default: var(--default-fs) / var(--default-lh) var(--ff-regular); //--default обычный текст на страницах
+    --small: var(--small-fs) / var(--small-lh) var(--ff-regular); //--small маленький текст на страницах
     /*шрифты*/
 
     /*отступы между блоками*/
@@ -75,11 +93,22 @@
         $final_w: 1919; //конечное значение ширины
 
         /*шрифты*/
-        --h1: #{adaptiv_rem_size(25, $start_w, 50, $final_w)} / #{adaptiv_rem_size(30, $start_w, 60, $final_w)} var(--ff-bold);
-        --h2: #{adaptiv_rem_size(22, $start_w, 32, $final_w)} / #{adaptiv_rem_size(30, $start_w, 40, $final_w)} var(--ff-bold);
-        --h3: #{adaptiv_rem_size(18, $start_w, 24, $final_w)} / #{adaptiv_rem_size(25, $start_w, 30, $final_w)} var(--ff-regular);
-        --default: #{adaptiv_rem_size(15, $start_w, 17, $final_w)} / #{adaptiv_rem_size(20, $start_w, 25, $final_w)} var(--ff-regular);
-        --small: #{adaptiv_rem_size(13, $start_w, 14, $final_w)} / #{rem(20)} var(--ff-regular);
+        //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
+        --h1-fs: #{adaptiv_rem_size(25, $start_w, 50, $final_w)};
+        --h1-lh: #{adaptiv_rem_size(30, $start_w, 60, $final_w)};
+
+        --h2-fs: #{adaptiv_rem_size(22, $start_w, 32, $final_w)};
+        --h2-lh: #{adaptiv_rem_size(30, $start_w, 40, $final_w)};
+
+        --h3-fs: #{adaptiv_rem_size(18, $start_w, 24, $final_w)};
+        --h3-lh: #{adaptiv_rem_size(25, $start_w, 30, $final_w)};
+
+        --default-fs: #{adaptiv_rem_size(15, $start_w, 17, $final_w)};
+        --default-lh: #{adaptiv_rem_size(20, $start_w, 25, $final_w)};
+
+        --small-fs: #{adaptiv_rem_size(13, $start_w, 14, $final_w)};
+        --small-lh: #{rem(20)};
+        //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
         /*шрифты*/
 
         /*отступы между блоками*/
@@ -108,11 +137,22 @@
         $start_w: 1920; //начальное значение ширины
 
         /*шрифты*/
-        --h1: #{adaptiv_rem_size(50, $start_w)} / #{adaptiv_rem_size(60, $start_w)} var(--ff-bold);
-        --h2: #{adaptiv_rem_size(32, $start_w)} / #{adaptiv_rem_size(40, $start_w)} var(--ff-bold);
-        --h3: #{adaptiv_rem_size(24, $start_w)} / #{adaptiv_rem_size(30, $start_w)} var(--ff-regular);
-        --default: #{adaptiv_rem_size(17, $start_w)} / #{adaptiv_rem_size(25, $start_w)} var(--ff-regular);
-        --small: #{adaptiv_rem_size(14, $start_w)} / #{adaptiv_rem_size(20, $start_w)} var(--ff-regular);
+        //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
+        --h1-fs: #{adaptiv_rem_size(50, $start_w)};
+        --h1-lh: #{adaptiv_rem_size(60, $start_w)};
+
+        --h2-fs: #{adaptiv_rem_size(32, $start_w)};
+        --h2-lh: #{adaptiv_rem_size(40, $start_w)};
+
+        --h3-fs: #{adaptiv_rem_size(24, $start_w)};
+        --h3-lh: #{adaptiv_rem_size(30, $start_w)};
+
+        --default-fs: #{adaptiv_rem_size(17, $start_w)};
+        --default-lh: #{adaptiv_rem_size(25, $start_w)};
+
+        --small-fs: #{adaptiv_rem_size(14, $start_w)};
+        --small-lh: #{adaptiv_rem_size(20, $start_w)};
+        //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
         /*шрифты*/
 
         /*отступы между блоками*/

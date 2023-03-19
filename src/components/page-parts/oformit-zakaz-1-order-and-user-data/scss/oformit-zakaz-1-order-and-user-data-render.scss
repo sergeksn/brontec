@@ -18,11 +18,38 @@
 
         h2 {
             padding-bottom: var(--small-gap);
+            display: flex;
+            justify-content: space-between;
+
+            &:after {
+                content: '\e90c';
+                font-family: var(--icon);
+                font-size: rem(12);
+                transform: rotate(90deg);
+                display: inline-block;
+                margin-left: var(--gap);
+                transition: transform var(--standart-anim);
+
+                @media (min-width: rem(640)) {
+                    content: none;
+                }
+            }
+
+            &.open-order-title {
+                &:after {
+                    transform: rotate(-90deg);
+                }
+            }
         }
 
         &-info {
             display: flex;
             justify-content: space-between;
+            padding-bottom: var(--small-gap);
+
+            @media (min-width: rem(960)) {
+                grid-column: 1/5;
+            }
 
             &-amount {
                 color: var(--gray);
@@ -58,17 +85,9 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: calc(100% - var(--small-gap) - rem(30));
+            height: calc(100% - var(--h2-lh) - var(--small-gap));
             opacity: 0;
-            //pointer-events: none;
-
-            @media (min-width: rem(640)) {
-                height: calc(100% - var(--small-gap) - adaptiv_rem_size(30, 640, 40, 1920));
-            }
-
-            @media (min-width: rem(1920)) {
-                height: calc(100% - var(--small-gap) - adaptiv_rem_size(40, 1920));
-            }
+            pointer-events: none;
         }
 
         &-loader {
@@ -77,7 +96,6 @@
 
         &-empty-cart,
         &-zero-cart-price {
-            opacity: 1;
             display: grid;
             align-content: center;
             justify-content: center;
@@ -88,6 +106,50 @@
                 font: var(--h3);
                 text-align: center;
                 margin-bottom: var(--small-gap);
+            }
+        }
+
+        &-spoiler-wrap {
+            //если что строчками ниже можно ограничить окно на мобилке по высоте
+            // max-height: rem(800);
+            // overflow: auto;
+
+            @media (min-width: rem(640)) {
+                overflow: auto;
+                display: block !important; //чтоб показать даже если спойлер был скрыт в мобильнйо версии
+
+                //добавить чтоб было как сказали дизайнеры для пк
+                //max-height: rem(800); //эта настрйока отвечает за максимальную высоты блока с товарами в заказе
+                //добавить чтоб было как сказали дизайнеры для пк
+
+                //убрать чтоб было как сказали дизайнеры для пк
+                position: absolute;
+                bottom: 0;
+                height: calc(100% - var(--h2-lh) - var(--small-gap) * 2 - var(--default-lh));
+                //убрать чтоб было как сказали дизайнеры для пк
+            }
+
+            //добавить чтоб было как сказали дизайнеры для пк
+            // @media (min-width: rem(1920)) {
+            //     max-height: adaptiv_rem_size(800, 1920);//эта настрйока отвечает за максимальную высоты блока с товарами в заказе
+            // }
+            //добавить чтоб было как сказали дизайнеры для пк
+
+            &-content {
+                @media (min-width: rem(640)) {
+                    opacity: 1 !important; //чтоб показать даже если спойлер был скрыт в мобильнйо версии
+                }
+            }
+        }
+
+        &:after {
+            content: '';
+            border-top: var(--border-width) solid var(--gray);
+            display: block;
+            margin: rem(20) 0 rem(40) 0;
+
+            @media (min-width: rem(640)) {
+                content: none;
             }
         }
     }
@@ -105,8 +167,112 @@
     }
 }
 
+.order-grid {
+    @media (min-width: rem(960)) {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
 .order {
-    max-height: rem(800);
-    min-height: rem(200);
-    overflow: auto;
+    &__product {
+        @media (min-width: rem(960)) {
+            grid-column: 1/5;
+        }
+
+        &:before {
+            content: '';
+            border-top: var(--border-width) solid var(--light);
+            display: block;
+            margin: var(--gap) 0;
+        }
+
+        &:first-child {
+            &:before {
+                content: none;
+            }
+        }
+
+        &-title {
+            font: var(--h3);
+            margin-bottom: var(--gap);
+
+            &:before {
+                content: 'Комплект частичной защиты Brontero® ';
+            }
+
+            &--full-kit {
+                &:before {
+                    content: 'Полный комплект защиты Brontero® ';
+                }
+            }
+        }
+
+        &-info {
+            display: flex;
+            justify-content: space-between;
+            margin: var(--gap) 0;
+
+            &-amount {
+                &:after {
+                    content: ' шт';
+                }
+            }
+        }
+
+        &-toggle-composition {
+            color: var(--blue);
+
+            &:before {
+                content: 'Состав комплекта ';
+            }
+
+            &:after {
+                content: '\e90c';
+                font-family: var(--icon);
+                font-size: rem(12);
+                transform: rotate(90deg);
+                display: inline-block;
+                margin-left: var(--gap);
+                transition: transform var(--standart-anim);
+
+                @media (min-width: rem(1920)) {
+                    font-size: adaptiv_rem_size(12, 1920);
+                }
+            }
+
+            &--open {
+                &:before {
+                    content: 'Свернуть ';
+                }
+
+                &:after {
+                    transform: rotate(-90deg);
+                }
+            }
+        }
+
+        &-spoiler-wrap {
+            &-content {
+                padding-top: var(--gap);
+                display: grid;
+                grid-gap: var(--gap-10);
+
+                &-item {
+                    &:before {
+                        content: '\e912';
+                        font-family: var(--icon);
+                        font-size: rem(14);
+                        margin-right: rem(30);
+                        color: var(--gray);
+
+                        @media (min-width: rem(1920)) {
+                            font-size: adaptiv_rem_size(14, 1920);
+                            margin-right: adaptiv_rem_size(30, 1920);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

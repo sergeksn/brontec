@@ -207,7 +207,6 @@ let cart = qs('.cart'),
                 amount = data.amount,
                 spoiler_hide = data.spoiler_hide,
                 spoiler_class = spoiler_hide ? ' spoiler-hidden' : '', //скрываем/показываем спойлер у товара
-                spoiler_text = spoiler_hide ? 'Состав комплекта' : 'Свернуть', //текст кнопки переключения спойлера
                 spoilet_content_style = spoiler_hide ? '' : ' style="opacity:1;"', //если нужно показать спойлер делаем его контент видимым
                 marka_model = data.marka_model,
                 price = data.price,
@@ -246,7 +245,7 @@ let cart = qs('.cart'),
             <div class="cart__body-product-prices-parts ruble-price">${all_added_detals_price.toLocaleString('ru')}</div>
           </div>
         </div>
-        <button class="cart__body-product-toggle-composition set-min-interactive-size">${spoiler_text}</button>
+        <button class="cart__body-product-toggle-composition set-min-interactive-size"></button>
         <div class="cart__body-product-spoiler-wrap${spoiler_class}">
           <div class="cart__body-product-spoiler-wrap-content"${spoilet_content_style}>`;
 
@@ -278,21 +277,15 @@ let cart = qs('.cart'),
                 spoiler_content = qs('.cart__body-product-spoiler-wrap-content', product_body), //контент спойлера
                 spoiler_title_block = qs('.cart__body-product-toggle-composition', product_body), //кнопка для открытия/закрытия спойлера
                 product_quantity_price_wrap = qs('.cart__body-product-quantity-price-wrap', product_body), //оболочка для блока цен и управленяи количеством
-                rotate_arrow = () => spoiler_title_block.classList.toggle('cart__body-product-toggle-composition--open'); //при скрытии/показе спойлера переключаем класс, чтоб менялся поворот стрелочки
+                chenge_visible_action = () => spoiler_title_block.classList.toggle('cart__body-product-toggle-composition--open'); //при скрытии/показе спойлера переключаем класс, чтоб менялся поворот стрелочки и текст
 
             //создайм спойлер с прозрачный появленяием контента
             base_spoiler_fade({
                 spoiler_content_wrap: spoiler_content_wrap,
                 spoiler_content: spoiler_content,
                 spoiler_toggle_button: spoiler_title_block,
-                open_start_func: () => {
-                    rotate_arrow();
-                    spoiler_title_block.textContent = 'Свернуть';
-                },
-                close_start_func: () => {
-                    rotate_arrow();
-                    spoiler_title_block.textContent = 'Состав комплекта';
-                },
+                open_start_func: () => chenge_visible_action(),
+                close_start_func: () => chenge_visible_action(),
                 open_end_func: this.update_cart_localStorage_data.bind(this), //обновляет данные товаров в корзине, используется для обновляени после изменения состояния спойлера
                 close_end_func: this.update_cart_localStorage_data.bind(this), //обновляет данные товаров в корзине, используется для обновляени после изменения состояния спойлера
             });
@@ -304,7 +297,7 @@ let cart = qs('.cart'),
             new Fade(detete_block);
             //создаём контролеры прозрачности
 
-            if (!spoiler_hide) rotate_arrow(); //переворачиваем стрелочку если спойлер нужно показать
+            if (!spoiler_hide) chenge_visible_action(); //переворачиваем стрелочку если спойлер нужно показать
 
             spoiler_content_wrap.ksn_spoiler.status = spoiler_hide ? 'hide' : 'show'; //задаём статус спойлера
 
@@ -359,7 +352,6 @@ let cart = qs('.cart'),
                 [product_quantity_price_wrap, spoiler_toggle_button, spoiler_wrap].forEach(el => (el.style.pointerEvents = 'none')); //блокируем для взаимоействия все блоки которые могут помешать
 
                 //тут важно не сипользовать тригер клика т.к. если мы нажмём на удаление в момент сворачивания спойлера он просто раскроется но не начнёт удаление
-                spoiler_toggle_button.textContent = 'Состав комплекта'; //меняем текст
                 spoiler_toggle_button.classList.remove('cart__body-product-toggle-composition--open'); //переворачиваем стрелочку
 
                 await fade_data.fade_hide(); //ждём окончания соркытия контента прозрачностью
@@ -540,7 +532,7 @@ let cart = qs('.cart'),
 
         //функция высчитывает общую сумму товаров в корзине основываясь на данных в хранилище
         calculate_common_price_in_cart: function () {
-            cart_final_price.textContent =  w.ksn_order_controler.calculate_common_order_prise().toLocaleString('ru');
+            cart_final_price.textContent = w.ksn_order_controler.calculate_common_order_prise().toLocaleString('ru');
         },
         //функция высчитывает общую сумму товаров в корзине основываясь на данных в хранилище
 
