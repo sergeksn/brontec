@@ -50,7 +50,8 @@ let cart = qs('.cart'),
             if (!this.was_first_render) {
                 this.render_cart(); //функция проверяет локальное хранилище и если там что-то записано для корзины то ренедерт эти товары
                 this.was_first_render = true; //помечаем что рендер выполнен
-                this.check_actual_cart_data(); //функция проверят данные в корзине на актуальнось данных в базе
+
+                if (!location.href.includes('oformit_zakaz')) this.check_actual_cart_data(); //если мы на странице оформленяи заказа то при открытии корзины не нужно выполянть провеку актуальности товаров в базе т.к. это проверка выполняется после сама сразу после полной загрузки страницы оформления заказа
             }
             //если ещё не было рендера
 
@@ -125,9 +126,10 @@ let cart = qs('.cart'),
 
         //пересчитываем верхний отступ корзины пре ресайзе
         size_recalculate: function () {
+            //if (Header.status == 'show') 
             cart.style.top = GDS.win.width_rem < 40 ? Header.get_header_h({ header_poster: true, header_visible: true }) + 'px' : Header.get_header_h({ header_poster: true }) + 'px'; //при экранах меньше 640 корзину опускеаем к низу видимой части хедера, а если шире то поднимаем к верху видимрой части
 
-            overlay.style.top = header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегода было видно постер и верхнюю часть хедера
+            overlay.style.top = header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегда было видно постер и верхнюю часть хедера
         },
         //пересчитываем верхний отступ корзины пре ресайзе
 
@@ -150,6 +152,8 @@ let cart = qs('.cart'),
             //если в корзине уже есть товары
 
             set_localStorage('cart-data', cart_data); //записываем обновлённые данные в хранилище
+
+            this.run_event_update_cart_data(); //вызываем событие обновление данных корзины
         },
         //добавляет товар в локальное хранилище корзины
 
@@ -218,7 +222,7 @@ let cart = qs('.cart'),
                     for (let detal in data.composition) {
                         if (data.composition[detal].add) result_price += data.composition[detal].price;
                     }
-                    return result_price;
+                    return result_price * amount;
                 })();
 
             product_body.classList.add('cart__body-product');
@@ -240,8 +244,8 @@ let cart = qs('.cart'),
           </div>
           <div class="cart__body-product-quantity">${amount}</div>
           <div class="cart__body-product-prices">
-            <div class="cart__body-product-prices-old-price ruble-price old-price">${full_price.toLocaleString('ru')}</div>
-            <div class="cart__body-product-prices-kit ruble-price">${price.toLocaleString('ru')}</div>
+            <div class="cart__body-product-prices-old-price ruble-price old-price" data-price="${full_price}">${(full_price * amount).toLocaleString('ru')}</div>
+            <div class="cart__body-product-prices-kit ruble-price" data-price="${price}">${(price * amount).toLocaleString('ru')}</div>
             <div class="cart__body-product-prices-parts ruble-price">${all_added_detals_price.toLocaleString('ru')}</div>
           </div>
         </div>
@@ -254,7 +258,7 @@ let cart = qs('.cart'),
 
                 content += `
             <div class="cart__body-product-spoiler-wrap-content-item">
-              <div class="custom-checbox custom-checbox--cart" data-price="${data.composition[detal].price.toLocaleString('ru')}">
+              <div class="custom-checbox custom-checbox--cart" data-price="${data.composition[detal].price}">
                 <input id="cart-${id}-${detal}-checkbox" type="checkbox" ${is_checked}>
                 <label for="cart-${id}-${detal}-checkbox" class="icon--check-mark"></label>
                 <div class="cart__body-product-spoiler-wrap-content-item-title">${GDS.products_detal_types[detal]}</div>
@@ -284,10 +288,10 @@ let cart = qs('.cart'),
                 spoiler_content_wrap: spoiler_content_wrap,
                 spoiler_content: spoiler_content,
                 spoiler_toggle_button: spoiler_title_block,
-                open_start_func: () => chenge_visible_action(),
-                close_start_func: () => chenge_visible_action(),
-                open_end_func: this.update_cart_localStorage_data.bind(this), //обновляет данные товаров в корзине, используется для обновляени после изменения состояния спойлера
-                close_end_func: this.update_cart_localStorage_data.bind(this), //обновляет данные товаров в корзине, используется для обновляени после изменения состояния спойлера
+                open_start_func: chenge_visible_action,
+                close_start_func: chenge_visible_action,
+                open_end_func: this.update_cart_localStorage_data.bind(this, false), //обновляет данные товаров в корзине, используется для обновляени после изменения состояния спойлера
+                close_end_func: this.update_cart_localStorage_data.bind(this, false), //обновляет данные товаров в корзине, используется для обновляени после изменения состояния спойлера
             });
             //создайм спойлер с прозрачный появленяием контента
 
@@ -311,7 +315,7 @@ let cart = qs('.cart'),
             button_decrease._on('click', this.decrease_amount.bind(this, product_body)); //уменьшаем количество единиц данного товара
             delete_abort_button._on('click', this.abort_delete_product.bind(this, product_body)); //прерывает удаление товара из корзины
 
-            all_current_inputs.forEach(input => input._on('change', this.cart_input_chenge.bind(this, all_current_inputs, product_body))); //срабатывает при взаимодействии с инпутами в корзине
+            all_current_inputs.forEach(input => input._on('change', this.cart_input_chenge.bind(this, product_body))); //срабатывает при взаимодействии с инпутами в корзине
 
             return product_body;
         },
@@ -324,7 +328,11 @@ let cart = qs('.cart'),
             amount_el.textContent = +amount_el.textContent + 1; //увеличиваем количество
 
             product_body.classList.remove('cart__body-product--single'); //убираем пометку о том что товар один
+
             this.update_cart_localStorage_data(); //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
+
+            this.set_product_cart_price(product_body); //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара и его количество
+
             this.calculate_common_price_in_cart(); //при каждом изменении количества товаров в корзине пересчитываем итоговую сумму
         },
         //увеличивает количество единиц товара в корзине
@@ -382,6 +390,9 @@ let cart = qs('.cart'),
             }
 
             this.update_cart_localStorage_data(); //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
+
+            this.set_product_cart_price(product_body); //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара и его количество
+
             this.calculate_common_price_in_cart(); //при каждом изменении количества товаров в корзине пересчитываем итоговую сумму
         },
         //уменьшаем количество единиц товара в корзине
@@ -406,6 +417,23 @@ let cart = qs('.cart'),
         },
         //прерывает удаление товара из корзины
 
+        //функция запускет кастомное событие на корзине сообщаюшуе что её данные обновлены
+        //important_chenge - указывает произошло важное изменение или просто обновилось состояние спойлера состава комплекта в корзине
+        //data_base_update - сообщаетчто событие было вызвано после изменений из-за отличия товаров в базе и корзине
+        run_event_update_cart_data: function (important_chenge = true, data_base_update = false) {
+            //вызываем событие обновление данных корзины
+            cart.dispatchEvent(
+                new CustomEvent('update-cart-cata', {
+                    detail: {
+                        important: important_chenge,
+                        data_base_update: data_base_update,
+                    },
+                }),
+            );
+            //вызываем событие обновление данных корзины
+        },
+        //функция запускет кастомное событие на корзине сообщаюшуе что её данные обновлены
+
         //полностью удлаяет товар из корзины и хранилища корзины
         delete_product: async function (product_body) {
             clearInterval(product_body.cart_detete_timer); //удаляем функцию интервала обратного отсчёта до удаления
@@ -417,6 +445,8 @@ let cart = qs('.cart'),
             delete cart_data[id]; //удаляем данные этого товара из хранилища корзины
 
             set_localStorage('cart-data', JSON.stringify(cart_data)); //записываем обновлённые данные в хранилище сразу чтоб если удалаяли одновременно нескольког товаров то всё работало корректно
+
+            this.run_event_update_cart_data(); //вызываем событие обновление данных корзины
 
             if (localStorage.getItem('cart-data') == '{}') this.disable_cart_order_button(); //если в корзине больше нет товаров делает НЕ активной кнопку оформления заказа в корзине
 
@@ -448,10 +478,10 @@ let cart = qs('.cart'),
         //полностью удлаяет товар из корзины и хранилища корзины
 
         //срабатывает при взаимодействии с инпутами в корзине
-        cart_input_chenge: function (all_current_inputs, product_body) {
-            this.set_product_cart_price(all_current_inputs, product_body); //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара
-
+        cart_input_chenge: function (product_body) {
             this.update_cart_localStorage_data(); //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
+
+            this.set_product_cart_price(product_body); //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара
 
             this.calculate_common_price_in_cart(); //при каждом изменении чекбокса детали комплекта в корзине пересчитываем итоговую сумму
 
@@ -462,7 +492,8 @@ let cart = qs('.cart'),
         //срабатывает при взаимодействии с инпутами в корзине
 
         //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
-        update_cart_localStorage_data: function () {
+        //important_chenge - указывает произошло важное изменение или просто обновилось состояние спойлера состава комплекта в корзине
+        update_cart_localStorage_data: function (important_chenge = true) {
             let product_in_cart = qsa('.cart__body-product', cart_body),
                 result = '{';
 
@@ -471,14 +502,14 @@ let cart = qs('.cart'),
                     amount = qs('.cart__body-product-quantity', product).textContent,
                     spoiler_hide = qs('.cart__body-product-spoiler-wrap', product).classList.contains('spoiler-hidden'),
                     marka_model = product.dataset.markaModel,
-                    price = qs('.cart__body-product-prices-kit', product).textContent.replace('\u00A0', ''),
-                    full_price = qs('.cart__body-product-prices-old-price', product).textContent.replace('\u00A0', ''),
+                    price = qs('.cart__body-product-prices-kit', product).dataset.price,
+                    full_price = qs('.cart__body-product-prices-old-price', product).dataset.price,
                     composition = (() => {
                         let all_inputs = qsa('input', product),
                             composition_text = '';
                         all_inputs.forEach(input => {
                             let detal = input.id.replace('cart-' + id + '-', '').replace('-checkbox', ''),
-                                price = input.parentNode.dataset.price.replace('\u00A0', ''),
+                                price = input.parentNode.dataset.price,
                                 add = input.checked;
 
                             composition_text += `"${detal}":{"price":${price},"add":${add}},`;
@@ -492,6 +523,8 @@ let cart = qs('.cart'),
             result = result.slice(0, -1) + '}'; //удаляет запятую после последней детали;
 
             set_localStorage('cart-data', result); //записываем обновлённые данные в хранилище
+
+            this.run_event_update_cart_data(important_chenge); //вызываем событие обновление данных корзины
         },
         //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
 
@@ -639,14 +672,21 @@ let cart = qs('.cart'),
         },
         //проверяем активен ли хоть один чекбокс хоть у какого-то товара в корзине и в зависимости от результата выполянем разыне функциии
 
-        //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара
-        //all_current_inputs - все инпуты текущего товара
+        //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара и его количество
         //product_body - сам текущий товар в корзине
-        set_product_cart_price: function (all_current_inputs, product_body) {
+        set_product_cart_price: function (product_body) {
             //убираем классы если они были
             product_body.classList.remove('cart__body-product--full-kit');
 
-            let product_detals_price_block = qs('.cart__body-product-prices-parts', product_body); //блок с ценами всех отмеченых деталей в товаре
+            let all_current_inputs = qsa('input', product_body), //все инпуты текущего товара
+                product_detals_price_block = qs('.cart__body-product-prices-parts', product_body), //блок с ценами всех отмеченых деталей в товаре
+                amount = qs('.cart__body-product-quantity', product_body).textContent, //количество данных комплектов
+                old_pise = qs('.cart__body-product-prices-old-price', product_body),
+                kit_price = qs('.cart__body-product-prices-kit', product_body);
+
+            //в любом случае считыем цены полного комплекта
+            old_pise.textContent = old_pise.dataset.price * amount;
+            kit_price.textContent = kit_price.dataset.price * amount;
 
             //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
             if ([...all_current_inputs].every(input => input.checked)) {
@@ -671,11 +711,13 @@ let cart = qs('.cart'),
                     }
                 });
 
+                result_price = result_price * amount;
+
                 product_detals_price_block.textContent = result_price.toLocaleString('ru');
             }
             //если просто отмечены какие-то инпуты, но не все
         },
-        //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара
+        //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара и его количество
 
         //функция полностью удаляет все товары из корзины но НЕ из хранилища
         clean_cart_html: function () {
@@ -729,8 +771,11 @@ let cart = qs('.cart'),
                 .then(result => {
                     let update_cart_data = this.compare_cart_and_base_data(result); //сравнивает данные полученые после проверки в базе и текущие данные в корзине и если они отличаются составом и/или ценами то обновляем корзину
 
+                    //если нужно обновлять данные т.к. произошли изменения в базе
                     if (update_cart_data !== false) {
                         set_localStorage('cart-data', update_cart_data); //обновляем данные
+
+                        this.run_event_update_cart_data(true, true); //вызываем событие обновление данных корзины
 
                         ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
 
@@ -741,6 +786,7 @@ let cart = qs('.cart'),
                             this.set_cart_counter(); //просто меняем счётчик корзины если корзина ещё не рендерилась
                         }
                     }
+                    //если нужно обновлять данные т.к. произошли изменения в базе
                 })
                 .catch(e => console.error(e));
         },

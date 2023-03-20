@@ -4,9 +4,9 @@ export default class {
 
         if (search_text) this.ms_title = ms_title.replace(new RegExp(search_text, 'ig'), '<span class="product-info__searched-text">$&</span>'); //если есть search_text в переданном объекте с данными значит это рендер для результатов поиска и нам нужно выделить поисковые фразы, $&   вставляет всё найденное совпадение
 
-        this.price = price;
-        this.full_price = full_price ? '<div class="product-info__old-price old-price">' + full_price + '</div>' : '';
-        this.discont = discont ? '<div class="product-info__discont discont-price">' + discont + '</div>' : '';
+        this.price = (+price).toLocaleString('ru');
+        this.full_price = full_price ? '<div class="product-info__old-price ruble-price old-price">' + (+full_price).toLocaleString('ru') + '</div>' : '';
+        this.discont = discont ? '<div class="product-info__discont discont">' + discont + '</div>' : '';
 
         this.ms_desctiption = ms_desctiption ?? '';
 

@@ -90,24 +90,6 @@ body {
     color: red;
 }
 
-button {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-
-    @media (any-hover: none) and (any-pointer: coarse) {
-        min-width: var(--min-interactive-elements-width);
-        min-height: var(--min-interactive-elements-height);
-    }
-}
-
-.button-maket-size {
-    min-width: var(--button-maket-size);
-    min-height: var(--button-maket-size);
-}
-
 input {
     width: 100%;
     border: none;
@@ -121,7 +103,7 @@ input {
     }
 }
 
-.discont-price {
+.discont {
     &::before {
         content: '-';
     }
@@ -253,6 +235,24 @@ input {
             content: 'Комплект в корзине →';
         }
     }
+}
+
+button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    @media (any-hover: none) and (any-pointer: coarse) {
+        min-width: var(--min-interactive-elements-width);
+        min-height: var(--min-interactive-elements-height);
+    }
+}
+
+.button-maket-size {
+    min-width: var(--button-maket-size);
+    min-height: var(--button-maket-size);
 }
 
 //ширина основных блоков не стандартная так что задаём её отлельно от сетки
@@ -473,8 +473,8 @@ input.custom-text-input {
     &--focus {
         border-color: var(--blue) !important; //чтоб перекрыть ховер
     }
-    
-    &--not-valid{
+
+    &--not-valid {
         border-color: var(--error) !important; //чтоб перекрыть ховер
     }
 

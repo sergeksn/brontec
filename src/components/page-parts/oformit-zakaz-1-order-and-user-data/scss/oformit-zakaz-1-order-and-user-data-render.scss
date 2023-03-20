@@ -16,6 +16,10 @@
             grid-column: 8/-1;
         }
 
+        &--empty-or-zero-cart {
+            min-height: rem(200);
+        }
+
         h2 {
             padding-bottom: var(--small-gap);
             display: flex;
@@ -38,6 +42,12 @@
             &.open-order-title {
                 &:after {
                     transform: rotate(-90deg);
+                }
+            }
+
+            &.lock-order-title {
+                &:after {
+                    content: none;
                 }
             }
         }
@@ -96,10 +106,10 @@
 
         &-empty-cart,
         &-zero-cart-price {
-            display: grid;
+            display: flex;
+            flex-wrap: wrap;
             align-content: center;
             justify-content: center;
-            justify-items: center;
             background: #fff;
 
             &-title {
@@ -119,30 +129,36 @@
                 display: block !important; //чтоб показать даже если спойлер был скрыт в мобильнйо версии
 
                 //добавить чтоб было как сказали дизайнеры для пк
-                //max-height: rem(800); //эта настрйока отвечает за максимальную высоты блока с товарами в заказе
+                max-height: rem(800); //эта настрйока отвечает за максимальную высоты блока с товарами в заказе
                 //добавить чтоб было как сказали дизайнеры для пк
 
                 //убрать чтоб было как сказали дизайнеры для пк
-                position: absolute;
-                bottom: 0;
-                height: calc(100% - var(--h2-lh) - var(--small-gap) * 2 - var(--default-lh));
+                // position: absolute;
+                // bottom: 0;
+                // height: calc(100% - var(--h2-lh) - var(--small-gap) * 2 - var(--default-lh));
                 //убрать чтоб было как сказали дизайнеры для пк
             }
 
             //добавить чтоб было как сказали дизайнеры для пк
-            // @media (min-width: rem(1920)) {
-            //     max-height: adaptiv_rem_size(800, 1920);//эта настрйока отвечает за максимальную высоты блока с товарами в заказе
-            // }
+            @media (min-width: rem(1920)) {
+                max-height: adaptiv_rem_size(800, 1920); //эта настрйока отвечает за максимальную высоты блока с товарами в заказе
+            }
             //добавить чтоб было как сказали дизайнеры для пк
 
             &-content {
+                opacity: 0; //для того чтоб спойлер заказа плавно появлялся из нивидмости при открытии
+
                 @media (min-width: rem(640)) {
                     opacity: 1 !important; //чтоб показать даже если спойлер был скрыт в мобильнйо версии
                 }
             }
         }
+    }
 
-        &:after {
+    &__kontact {
+        grid-column: 1/-1;
+
+        &:before {
             content: '';
             border-top: var(--border-width) solid var(--gray);
             display: block;
@@ -152,10 +168,6 @@
                 content: none;
             }
         }
-    }
-
-    &__kontact {
-        grid-column: 1/-1;
 
         @media (min-width: rem(640)) {
             grid-column: 1/6;
@@ -193,6 +205,12 @@
             }
         }
 
+        &:last-child {
+            .order__product-spoiler-wrap {
+                margin-bottom: var(--gap);
+            }
+        }
+
         &-title {
             font: var(--h3);
             margin-bottom: var(--gap);
@@ -204,6 +222,12 @@
             &--full-kit {
                 &:before {
                     content: 'Полный комплект защиты Brontero® ';
+                }
+            }
+
+            &--tools {
+                &:before {
+                    content: 'Набор инструментов Brontero®';
                 }
             }
         }
@@ -222,6 +246,7 @@
 
         &-toggle-composition {
             color: var(--blue);
+            transition: color var(--standart-anim);
 
             &:before {
                 content: 'Состав комплекта ';
@@ -250,6 +275,11 @@
                     transform: rotate(-90deg);
                 }
             }
+
+            &:disabled {
+                color: var(--gray);
+                cursor: not-allowed;
+            }
         }
 
         &-spoiler-wrap {
@@ -259,16 +289,22 @@
                 grid-gap: var(--gap-10);
 
                 &-item {
+                    display: grid;
+                    grid-template-columns: var(--gap) auto;
+                    grid-gap: rem(30);
+
+                    @media (min-width: rem(1920)) {
+                        grid-gap: adaptiv_rem_size(30, 1920);
+                    }
+
                     &:before {
                         content: '\e912';
                         font-family: var(--icon);
                         font-size: rem(14);
-                        margin-right: rem(30);
                         color: var(--gray);
 
                         @media (min-width: rem(1920)) {
                             font-size: adaptiv_rem_size(14, 1920);
-                            margin-right: adaptiv_rem_size(30, 1920);
                         }
                     }
                 }
