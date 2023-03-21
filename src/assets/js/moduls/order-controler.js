@@ -117,8 +117,13 @@ w.ksn_order_controler = {
 
     //скрываем блок с сообщением, подходит для лоадера, сообщения о пустой корзине и сообщение что цена товаров в корзине равна нулю
     order_info_block_hide: async function (message_block) {
-        //данный блок мы будем скрывать толкьо после того как его контролер прозрачности определён поскольку изначально он скрыт так что првоерку на наличие контролера можно не делать
-        await message_block.ksn_fade.fade_hide().catch(() => {}); //ждём сокрытия
+        //данный блок может быть скрыт ещё до того как будет создан контролер плавного показа так что если мы вызвали когда контролера ещё нет то просто делаем его многовенно невидимым
+        if (message_block.ksn_fade) {
+            await message_block.ksn_fade.fade_hide().catch(() => {}); //ждём сокрытия
+        } else {
+            message_block.style.opacity = '';
+        }
+
         message_block.style.pointerEvents = ''; //делаем блок недоступным для взаимодействия
 
         this.order_spoiler_title.classList.remove('lock-order-title'); //разблокируем возможность открывать/закрывать спойлер
@@ -126,42 +131,30 @@ w.ksn_order_controler = {
     },
     //скрываем блок с сообщением, подходит для лоадера, сообщения о пустой корзине и сообщение что цена товаров в корзине равна нулю
 
-    //ищем товары которые являются просто инструментом без других плёнок
-    search_only_tools: function (cart_data) {
+    //ищем и удаляем пустые комплекты, они могли появится в следствии снятия у товара всех галочек, или после синхронизации с базой когда отмеченая деталь была удалена из-за неактуальности
+    delete_empty_kits: function (cart_data) {
         //перебираем все товары в корзине
         for (let id in cart_data) {
-            let product_data = cart_data[id],
-                composition = product_data.composition,
-                only_tools = true; //пометка что данный товар всего лишь инструмент
+            let composition = cart_data[id].composition,
+                empty_kit = true; //по умолчанию комплект пустой и входе проверки станет false если есть хоть одина отмечаеная деталь
 
-            //перебираем все детали данного комплекта
+            //проверяем все детали комплекта чтоб найти хоть одну отмеченую деталь
             for (let detal in composition) {
-                let detal_data = composition[detal]; //данные текущей детали комплекта
+                let detal_data = composition[detal];
 
-                //если инструмент для данного товара не добавлен то он уже априори не может стать товаром соло инструмента
-                if (detal == 'tools') {
-                    if (!detal_data.add) only_tools = false;
+                //если нашли хоть одну отмеченую деталь то сразу помечаем что данный комплект не пустой и прерываем дальнейшие проверки для данного комплекта
+                if (detal_data.add) {
+                    empty_kit = false;
                     break;
                 }
-                //если инструмент для данного товара не добавлен то он уже априори не может стать товаром соло инструмента
-
-                if (detal_data.add) only_tools = false; //если товар не инструмент но добавлен в комплекте то данный товар тоже не является соло инструментом
             }
-            //перебираем все детали данного комплекта
+            //проверяем все детали комплекта чтоб найти хоть одну отмеченую деталь
 
-            if (only_tools) {
-                cart_data[id] = {
-                    amount: product_data.amount,
-                    tools: true,
-                    price: composition['tools'].price,
-                };
-            }
+            if (empty_kit) delete cart_data[id]; //если комплект оказался пустым то удаляем его
         }
         //перебираем все товары в корзине
-
-        //мы ничего не возвращает т.к. мы изменяем переданный объект cart_data
     },
-    //ищем товары которые являются просто инструментом без других плёнок
+    //ищем и удаляем пустые комплекты, они могли появится в следствии снятия у товара всех галочек, или после синхронизации с базой когда отмеченая деталь была удалена из-за неактуальности
 
     //ищем и объединяем одинаковые товары
     unite_dublicate_kits: function (cart_data) {
@@ -225,52 +218,144 @@ w.ksn_order_controler = {
     },
     //ищем и объединяем одинаковые товары
 
-    //рендерит один элемент товара в блоке заказа
-    render_order_item: function (data, single_product = false) {
-        let empty_kit = (() => {
-            if (data.tools) return false; //если это соло инструмент прерываем
+    //ищем и помечаем полные комплекты для дальнейшей быстроты взаимодействия
+    search_full_kits: function (cart_data) {
+        //перебираем все товары в корзине
+        for (let id in cart_data) {
+            let composition = cart_data[id].composition,
+                full_kit = true; //по умолчанию комплект полный и входе проверки станет false если есть хоть одина неотмечаеная деталь
 
-            for (let detal in data.composition) {
-                if (data.composition[detal].add) return false;
-            }
+            //проверяем все детали комплекта чтоб найти хоть одну неотмеченую деталь
+            for (let detal in composition) {
+                let detal_data = composition[detal];
 
-            return true;
-        })(); //может такое случится что после синхронизации выдеденные детали будут удалены и получается что у товара нет добавленых к покупке деталей, в этом случае мы не должны рендерить данный комплект
-
-        if (empty_kit) return ''; //если в этом комплекте нет отмеченых деталей то мы его не выводим и возвращаем вместо него пустую строку
-
-        let is_full_kit = (() => {
-                if (data.tools) return false; //если это соло инструмент прерываем
-
-                //проверяем полный ли комплект
-                for (let detal in data.composition) {
-                    if (!data.composition[detal].add) return false;
+                //если нашли хоть одну неотмеченую деталь то сразу помечаем что данный комплект не полный и прерываем дальнейшие проверки для данного комплекта
+                if (!detal_data.add) {
+                    full_kit = false;
+                    break;
                 }
-                return true;
-            })(),
+            }
+            //проверяем все детали комплекта чтоб найти хоть одну неотмеченую деталь
+
+            if (full_kit) cart_data[id].is_full_kit = true; //если комплект оказался полныйм то помечаем его
+        }
+        //перебираем все товары в корзине
+    },
+    //ищем и помечаем полные комплекты для дальнейшей быстроты взаимодействия
+
+    //ищем товары которые являются просто инструментом без других плёнок
+    search_only_tools: function (cart_data) {
+        //перебираем все товары в корзине
+        for (let id in cart_data) {
+            let product_data = cart_data[id],
+                composition = product_data.composition,
+                only_tools = true; //пометка что данный товар всего лишь инструмент
+
+            //перебираем все детали данного комплекта
+            for (let detal in composition) {
+                let detal_data = composition[detal]; //данные текущей детали комплекта
+
+                //если инструмент для данного товара не добавлен то он уже априори не может стать товаром соло инструмента
+                if (detal == 'tools') {
+                    if (!detal_data.add) only_tools = false;
+                    break;
+                }
+                //если инструмент для данного товара не добавлен то он уже априори не может стать товаром соло инструмента
+
+                if (detal_data.add) only_tools = false; //если товар не инструмент но добавлен в комплекте то данный товар тоже не является соло инструментом
+            }
+            //перебираем все детали данного комплекта
+
+            if (only_tools) {
+                cart_data[id] = {
+                    amount: product_data.amount,
+                    tools: true,
+                    price: composition['tools'].price,
+                };
+            }
+        }
+        //перебираем все товары в корзине
+
+        //мы ничего не возвращает т.к. мы изменяем переданный объект cart_data
+    },
+    //ищем товары которые являются просто инструментом без других плёнок
+
+    //функция устанавливает статусы спойлера комплектации для каждого товара, на основе предидущих подготовленых данных, если токовые есть, если нет то по умолчанию закрывает все спойлеры, за исключеним случая когда товар один
+    set_order_product_spoilers_status: function (cart_data) {
+        let prev_order_data = GDS.prepare_cart_data_for_order; //тут будут содержаться предидущие обработанные данные заказа в которых будет так же содержаться последние состояние спойлера товара до обновления корзины
+
+        //перебираем все товары в корзине
+        for (let id in cart_data) {
+            let product_data = cart_data[id];
+
+            //если уже был первый рендер заказа то мы могли открывать спойлеры так что для каждого товара записываем его статус спойлера, если он был только что добавлен то по умолчанию его спойлер закрыт
+            if (prev_order_data?.[id]) {
+                product_data.spoiler_hide = prev_order_data[id].spoiler_hide;
+            } else {
+                product_data.spoiler_hide = true; //если данный товар не обнаружен ранее обработаных данных или этих данных ещё нет то мы скрываем спойлер товара
+            }
+        }
+        //перебираем все товары в корзине
+    },
+    //функция устанавливает статусы спойлера комплектации для каждого товара, на основе предидущих подготовленых данных, если токовые есть, если нет то по умолчанию закрывает все спойлеры, за исключеним случая когда товар один
+
+    //функция подготованивает данные из корзины для работы с заказом, удаляе пустые комплекты,генерируюя товары соло инструментов и объединяя дубликаты
+    prepare_cart_data_for_order: function () {
+        let cart_data = localStorage.getItem('cart-data'); //получаем данные из хранилища корзины
+
+        if (!cart_data || cart_data == '{}') return {}; //если коризина пуста или несуществует то возвращаем пустой объект
+
+        cart_data = JSON.parse(cart_data); //парсим данные
+
+        //ВАЖНО не менять дале порядок вызова функций т.к. каждая берёт за основу результат предидущей !!!
+
+        this.delete_empty_kits(cart_data); //ищем и удаляем пустые комплекты, они могли появится в следствии снятия у товара всех галочек, или после синхронизации с базой когда отмеченая деталь была удалена из-за неактуальности
+
+        this.unite_dublicate_kits(cart_data); //ищем и объединяем одинаковые товары
+
+        this.search_full_kits(cart_data); //ищем и помечаем полные комплекты для дальнейшей быстроты взаимодействия
+
+        this.search_only_tools(cart_data); //ищем товары которые являются просто инструментом без других плёнок
+
+        this.set_order_product_spoilers_status(cart_data); //функция устанавливает статусы спойлера комплектации для каждого товара, на основе предидущих подготовленых данных, если токовые есть, если нет то по умолчанию закрывает все спойлеры, за исключеним случая когда товар один
+
+        GDS.prepare_cart_data_for_order = cart_data; //записываем данные для дальнейшего быстрого доступа к ним при расчёт промокода, обновлении актуальных цен промокода и про отправке заказа
+
+        return cart_data; ///возвращаем обработанные данные корзины
+    },
+    //функция подготованивает данные из корзины для работы с заказом, удаляе пустые комплекты,генерируюя товары соло инструментов и объединяя дубликаты
+
+    //рендерит один элемент товара в блоке заказа
+    render_order_item: function (id, data, single_product_in_order) {
+        let is_full_kit = data.is_full_kit, //проверяем полный ли комплект
+            tools = data.tools, //проверяем является ли товар соло инструментом
+            composition = data.composition, //состав данного товара
             amount = data.amount,
-            spoiler_toggle_button_class = single_product ? ' order__product-toggle-composition--open' : '', //меняем поворот стрелочки у кнопки спойлера состава товара в зависимости от того один товар в заказе или нет
-            spoiler_class = single_product ? '' : ' spoiler-hidden', //скрываем/показываем спойлер у товара
-            spoilet_content_style = single_product ? ' style="opacity:1;"' : '', //если нужно показать спойлер делаем его контент видимым
+            //ВАЖНО: если товар в заказе всего один то мы раскрываем его в любом случае даже не смотря на то что пользователь ранее мог его скрывать
+            spoiler_hide = single_product_in_order ? false : data.spoiler_hide, //состояние спойлера комплектации товара в заказе
+            spoiler_toggle_button_class = spoiler_hide ? '' : ' order__product-toggle-composition--open', //меняем поворот стрелочки у кнопки спойлера состава товара в зависимости от того один товар в заказе или нет
+            spoiler_class = spoiler_hide ? ' spoiler-hidden' : '', //скрываем/показываем спойлер у товара
+            spoilet_content_style = spoiler_hide ? '' : ' style="opacity:1;"', //если нужно показать спойлер делаем его контент видимым
             marka_model = data.marka_model,
             order_product_body = d.createElement('div'), //создаём элемент товара в заказе
             order_product_body_title_class = (() => {
-                if (data.tools) return ' order__product-title--tools'; //если это просто инструмент
+                if (tools) return ' order__product-title--tools'; //если это просто инструмент
                 if (is_full_kit) return ' order__product-title--full-kit'; //если полный комплект
             })(),
-            product_title = data.tools ? '' : marka_model.replace('@@', ' '),
+            product_title = tools ? '' : marka_model.replace('@@', ' '),
             price = (() => {
                 //сумма всех добавленых деталей или всего комплекта если он полный
-                if (is_full_kit || data.tools) return data.price * amount; //если полный комплект или соло инструмент
+                if (is_full_kit || tools) return data.price * amount; //если полный комплект или соло инструмент
 
                 let result_price = 0;
-                for (let detal in data.composition) {
-                    if (data.composition[detal].add) result_price += data.composition[detal].price;
+                for (let detal in composition) {
+                    if (composition[detal].add) result_price += composition[detal].price;
                 }
                 return result_price * amount;
             })();
 
         order_product_body.classList.add('order__product'); //добавляем класс элементу товара
+        order_product_body.dataset.id = id; //записываем id товара чтоб можно было удобно сохранять статус его спойлера
 
         let content = `
             <div class="order__product-title${order_product_body_title_class ?? ''}">${product_title}</div>
@@ -282,15 +367,15 @@ w.ksn_order_controler = {
             <div class="order__product-spoiler-wrap${spoiler_class}">
                 <div class="order__product-spoiler-wrap-content"${spoilet_content_style}>`;
         //если это соло инструмент
-        if (data.tools) {
+        if (tools) {
             content += `<div class="order__product-spoiler-wrap-content-item">${GDS.products_detal_types['tools']}</div>`;
         }
         //если это соло инструмент
 
         //если это полный или частичный комплект
         else {
-            for (let detal in data.composition) {
-                if (data.composition[detal].add) content += `<div class="order__product-spoiler-wrap-content-item">${GDS.products_detal_types[detal]}</div>`; //вставляем только добавленые в состав детали
+            for (let detal in composition) {
+                if (composition[detal].add) content += `<div class="order__product-spoiler-wrap-content-item">${GDS.products_detal_types[detal]}</div>`; //вставляем только добавленые в состав детали
             }
         }
         //если это полный или частичный комплект
@@ -306,11 +391,16 @@ w.ksn_order_controler = {
 
     //рендерит блок заказа с нуля
     render_order: async function () {
-        let cart_total_amount = this.get_amount_complects_in_cart(),
+        //скрываем блоки сообщений т.к. они могли быть видны
+        this.order_info_block_hide(this.order_zero_cart_price_message);
+        this.order_info_block_hide(this.order_empty_cart_message);
+
+        let cart_data = JSON.parse(localStorage.getItem('cart-data')), //получаем данные из хранилища корзины и парсим их
+            cart_total_amount = this.get_amount_complects_in_cart(),
             cart_total_amount_area_postfix = this.get_amount_postfix(cart_total_amount),
             common_price = this.calculate_common_order_prise();
 
-        if (cart_total_amount == 0) return this.order_info_block_show(this.order_empty_cart_message); //если корзина пуста показываем сообщение и заверашем функцию
+        if (!cart_data || Object.keys(cart_data).length == 0) return this.order_info_block_show(this.order_empty_cart_message); //если корзина пуста или ещё не существует показываем сообщение и заверашем функцию
 
         if (common_price == 0) return this.order_info_block_show(this.order_zero_cart_price_message); //если цена товаров в корзине равна нулю показываем сообщение и заверашем функцию
 
@@ -320,19 +410,14 @@ w.ksn_order_controler = {
 
         this.order_common_price_area.textContent = common_price.toLocaleString('ru'); //получаем общую цену товаров в корзине и записывает её в поле для финальной цены
 
-        let cart_data = JSON.parse(localStorage.getItem('cart-data')); //получаем данные из хранилища корзины
-
-        //в следующих функция меняется cart_data объект, по этому ничего не врозвращается
-        this.search_only_tools(cart_data); //ищем товары которые являются просто инструментом без других плёнок
-
-        this.unite_dublicate_kits(cart_data); //ищем и объединяем одинаковые товары
+        cart_data = this.prepare_cart_data_for_order(); //функция подготованивает данные из корзины для работы с заказом, удаляе пустые комплекты,генерируюя товары соло инструментов и объединяя дубликаты
 
         let wrap = d.createDocumentFragment(), //создаём оболочку в которую будем вставлять все отрендереные товары
             single_product_in_order = Object.keys(cart_data).length == 1; //определяет один товар в заказе или нет
 
         //рендерим каждый товар
-        for (let item_id in cart_data) {
-            wrap.append(this.render_order_item(cart_data[item_id], single_product_in_order));
+        for (let id in cart_data) {
+            wrap.append(this.render_order_item(id, cart_data[id], single_product_in_order));
         }
         //рендерим каждый товар
 

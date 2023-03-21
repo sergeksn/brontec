@@ -19,6 +19,7 @@ let cart = qs('.cart'),
     cart_body_nothing = qs('.cart__body-nothing'), //блок отображаемый в пустой корзине с кнопкой перехода к выбору комплекта
     cart_order_button = qs('.cart__footer-design-order'), //кнопка для перехода на страницу оформления заказа
     cart_final_price = qs('.cart__footer-final-price-value'), //поле с финальной ценой в корзине
+    fade_params = { duration: 350 },//время для сокрытия элементов управленяи товаров в корзине во вреям его удаленяи
     CONTROLLER = {
         status: 'hide',
         lock: false,
@@ -126,7 +127,7 @@ let cart = qs('.cart'),
 
         //пересчитываем верхний отступ корзины пре ресайзе
         size_recalculate: function () {
-            //if (Header.status == 'show') 
+            //if (Header.status == 'show')
             cart.style.top = GDS.win.width_rem < 40 ? Header.get_header_h({ header_poster: true, header_visible: true }) + 'px' : Header.get_header_h({ header_poster: true }) + 'px'; //при экранах меньше 640 корзину опускеаем к низу видимой части хедера, а если шире то поднимаем к верху видимрой части
 
             overlay.style.top = header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегда было видно постер и верхнюю часть хедера
@@ -362,15 +363,15 @@ let cart = qs('.cart'),
                 //тут важно не сипользовать тригер клика т.к. если мы нажмём на удаление в момент сворачивания спойлера он просто раскроется но не начнёт удаление
                 spoiler_toggle_button.classList.remove('cart__body-product-toggle-composition--open'); //переворачиваем стрелочку
 
-                await fade_data.fade_hide(); //ждём окончания соркытия контента прозрачностью
-                await spoiler_data.spoiler_hide(); //ждём пока закроется спойлер
+                await fade_data.fade_hide(fade_params); //ждём окончания соркытия контента прозрачностью
+                await spoiler_data.spoiler_hide({ duration: 150 }); //ждём пока закроется спойлер
 
-                await Promise.all([product_quantity_price_wrap.ksn_fade.fade_hide(), spoiler_toggle_button.ksn_fade.fade_hide()]); //ждём пока скорется кнопка открытия состава комплекта и блок с ценами и количеством товаров
+                await Promise.all([product_quantity_price_wrap.ksn_fade.fade_hide(fade_params), spoiler_toggle_button.ksn_fade.fade_hide(fade_params)]); //ждём пока скорется кнопка открытия состава комплекта и блок с ценами и количеством товаров
 
                 detete_block.style.pointerEvents = 'auto'; //разблокируем блок удаляения чтоб была доступна для взаимодействия кнопрка отмены удаления
                 cart_detete_timer_counter.textContent = 5; //ставим 5 сек по умолчанию
 
-                await detete_block.ksn_fade.fade_show(); //дожидаемся показа блока удаления
+                await detete_block.ksn_fade.fade_show(fade_params); //дожидаемся показа блока удаления
 
                 //с интервалом секунду уменьшаем таймер секунд
                 product_body.cart_detete_timer = setInterval(() => {
@@ -409,11 +410,11 @@ let cart = qs('.cart'),
 
             detete_block.style.pointerEvents = ''; //блокируем кнопку отмены удаляения чтоб не мешала повторрными нажатиями
 
-            await detete_block.ksn_fade.fade_hide(); //дожидаемся сокрытия блока удаления
+            await detete_block.ksn_fade.fade_hide(fade_params); //дожидаемся сокрытия блока удаления
 
             [product_quantity_price_wrap, spoiler_toggle_button, spoiler_wrap].forEach(el => (el.style.pointerEvents = '')); //разрешаем для взаимоействия все блоки которые ранее блокировали при подготовке к удалению товара
 
-            await Promise.all([product_quantity_price_wrap.ksn_fade.fade_show(), spoiler_toggle_button.ksn_fade.fade_show()]); //ждём пока появится кнопка открытия состава комплекта и блок с ценами и количеством товаров
+            await Promise.all([product_quantity_price_wrap.ksn_fade.fade_show(fade_params), spoiler_toggle_button.ksn_fade.fade_show(fade_params)]); //ждём пока появится кнопка открытия состава комплекта и блок с ценами и количеством товаров
         },
         //прерывает удаление товара из корзины
 

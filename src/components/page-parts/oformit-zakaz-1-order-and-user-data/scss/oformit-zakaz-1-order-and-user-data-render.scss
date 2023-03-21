@@ -287,6 +287,7 @@
                 padding-top: var(--gap);
                 display: grid;
                 grid-gap: var(--gap-10);
+                opacity: 0;
 
                 &-item {
                     display: grid;
