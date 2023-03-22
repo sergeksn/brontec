@@ -1,4 +1,4 @@
-import { set_localStorage } from '@js-libs/func-kit';
+import { set_local_storage } from '@js-libs/func-kit';
 import { Header_Cart } from '@header-main-js';
 //ПРИМЕЧАНИЕ: разделитель вида @@ между маркой и моделью сделан что точно отделить марку от модели т.к. марака или модель может состоять из двух слов, а не одного, а так мы точно их разделим
 
@@ -161,7 +161,7 @@ let configurator = qs('.komplekt-2-select-kit-composition') ?? qs('.detal-1-add-
             //если ещё ничего не записано
             else {
                 data = {}; //создаём новый пустой объект для того чтоб записать в него первые данные
-                set_localStorage('kits-composition-last-update', new Date().getTime()); //записываем текущее время как дату последнего обновления
+                set_local_storage('kits-composition-last-update', new Date().getTime()); //записываем текущее время как дату последнего обновления
             }
             //если ещё ничего не записано
 
@@ -175,7 +175,7 @@ let configurator = qs('.komplekt-2-select-kit-composition') ?? qs('.detal-1-add-
 
             data[GDS.product.marka_model] = active_checkboxes; //записываем для данного комплекта активные детали
 
-            set_localStorage('kits-composition-info', JSON.stringify(data)); //записываем обновлённые данные в хранилище
+            set_local_storage('kits-composition-info', JSON.stringify(data)); //записываем обновлённые данные в хранилище
         },
         //записывает/обновляет данные в локальном хранилище для отображения активными тех или иных чекбоксов
 
@@ -203,8 +203,8 @@ let configurator = qs('.komplekt-2-select-kit-composition') ?? qs('.detal-1-add-
             fetch(GDS.ajax_url, request_data)
                 .then(response => response.json()) //считываем переданные данные
                 .then(result => {
-                    set_localStorage('kits-composition-info', JSON.stringify(result)); //обновляем данные
-                    set_localStorage('kits-composition-last-update', new Date().getTime()); //записываем текущее время как дату последнего обновления
+                    set_local_storage('kits-composition-info', JSON.stringify(result)); //обновляем данные
+                    set_local_storage('kits-composition-last-update', new Date().getTime()); //записываем текущее время как дату последнего обновления
                 })
                 .finally(() => {
                     all_inputs.forEach(el => (el.disabled = false)); //после завершеняи запрсоа разблокируем чекбоксы

@@ -2,8 +2,15 @@
   <div class="standart-container standart-container--after-line" data-showed-on-scroll>
     <h2>Оплата</h2>
     <div class="oformit-zakaz-3__promocod">
-      <input id="promocod" class="custom-text-input" autocomplete="off" maxlength="100" placeholder="Промокод">
-      <button class="button-main button-main--black" disabled>Применить</button>
+      <div>
+        <div class="oformit-zakaz-3__promocod-input-wrap">
+          <input id="promocod" class="custom-text-input" autocomplete="off" maxlength="100" placeholder="Промокод">
+          <button class="oformit-zakaz-3__promocod-input-wrap-clean-input set-min-interactive-size icon--close-bold"></button>
+        </div>
+        <div class="oformit-zakaz-3__promocod-success">Промокод успешно применён!</div>
+        <div class="oformit-zakaz-3__promocod-error">Неверный промокод и/или не применим не к одному из товаров в заказе</div>
+        <button class="oformit-zakaz-3__promocod-submit button-main button-main--black" disabled>Применить</button>
+      </div>
       <div class="oformit-zakaz-3__promocod-prices">
         <div class="oformit-zakaz-3__promocod-prices-full ruble-price">ожидание...</div>
         <div class="oformit-zakaz-3__promocod-prices-promocod-discont ruble-price">ожидание...</div>

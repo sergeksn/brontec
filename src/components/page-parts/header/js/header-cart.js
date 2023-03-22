@@ -1,4 +1,4 @@
-import { anime, show, hide, set_localStorage, wait } from '@js-libs/func-kit';
+import { anime, show, hide, set_local_storage, wait } from '@js-libs/func-kit';
 import Overlay from '@overlays-main-js';
 import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
 import { Header, Header_Hidden } from '@header-main-js';
@@ -19,7 +19,7 @@ let cart = qs('.cart'),
     cart_body_nothing = qs('.cart__body-nothing'), //блок отображаемый в пустой корзине с кнопкой перехода к выбору комплекта
     cart_order_button = qs('.cart__footer-design-order'), //кнопка для перехода на страницу оформления заказа
     cart_final_price = qs('.cart__footer-final-price-value'), //поле с финальной ценой в корзине
-    fade_params = { duration: 350 },//время для сокрытия элементов управленяи товаров в корзине во вреям его удаленяи
+    fade_params_for_delete = { duration: 350 }, //время для сокрытия элементов управленяи товаров в корзине во вреям его удаленяи
     CONTROLLER = {
         status: 'hide',
         lock: false,
@@ -56,7 +56,7 @@ let cart = qs('.cart'),
             }
             //если ещё не было рендера
 
-            overlay.style.top = header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегода было видно постер и верхнюю часть хедера
+            this.size_recalculate(); //пересчитываем верхний отступ корзины и опускаем подложку корзины так чтоб всегода было видно постер и верхнюю часть хедера
 
             body.scrollbar.lock(); //блокируем прокуртку документа
             body.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
@@ -72,13 +72,6 @@ let cart = qs('.cart'),
                 header.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
             }
             //если закрыт блок хедера
-
-            let cart_data = w.localStorage.getItem('cart'); //получаем данные карзины
-
-            //если корзина пуста
-            if (cart_data === null) {
-            }
-            //если корзина пуста
 
             cart.style.transform = 'translateX(100%)'; //для корректной работы анимаци приходится явно задавать смещение т.к. почему-то скрипт не видит значение transform в стилях из таблиц css
 
@@ -127,10 +120,13 @@ let cart = qs('.cart'),
 
         //пересчитываем верхний отступ корзины пре ресайзе
         size_recalculate: function () {
-            //if (Header.status == 'show')
-            cart.style.top = GDS.win.width_rem < 40 ? Header.get_header_h({ header_poster: true, header_visible: true }) + 'px' : Header.get_header_h({ header_poster: true }) + 'px'; //при экранах меньше 640 корзину опускеаем к низу видимой части хедера, а если шире то поднимаем к верху видимрой части
-
             overlay.style.top = header_visible.getBoundingClientRect().bottom + 'px'; //опускаем подложку корзины так чтоб всегда было видно постер и верхнюю часть хедера
+
+            if (Header.status != 'show' && Header.status != 'pending to show') {
+                cart.style.top = '0'; //если хедер свёрнут и не в процесе появленяи то мы не делаем верхний отступ для корзины
+            } else {
+                cart.style.top = GDS.win.width_rem < 40 ? Header.get_header_h({ header_poster: true, header_visible: true }) + 'px' : Header.get_header_h({ header_poster: true }) + 'px'; //при экранах меньше 640 корзину опускеаем к низу видимой части хедера, а если шире то поднимаем к верху видимрой части
+            }
         },
         //пересчитываем верхний отступ корзины пре ресайзе
 
@@ -152,7 +148,7 @@ let cart = qs('.cart'),
             }
             //если в корзине уже есть товары
 
-            set_localStorage('cart-data', cart_data); //записываем обновлённые данные в хранилище
+            set_local_storage('cart-data', cart_data); //записываем обновлённые данные в хранилище
 
             this.run_event_update_cart_data(); //вызываем событие обновление данных корзины
         },
@@ -363,15 +359,15 @@ let cart = qs('.cart'),
                 //тут важно не сипользовать тригер клика т.к. если мы нажмём на удаление в момент сворачивания спойлера он просто раскроется но не начнёт удаление
                 spoiler_toggle_button.classList.remove('cart__body-product-toggle-composition--open'); //переворачиваем стрелочку
 
-                await fade_data.fade_hide(fade_params); //ждём окончания соркытия контента прозрачностью
+                await fade_data.fade_hide(fade_params_for_delete); //ждём окончания соркытия контента прозрачностью
                 await spoiler_data.spoiler_hide({ duration: 150 }); //ждём пока закроется спойлер
 
-                await Promise.all([product_quantity_price_wrap.ksn_fade.fade_hide(fade_params), spoiler_toggle_button.ksn_fade.fade_hide(fade_params)]); //ждём пока скорется кнопка открытия состава комплекта и блок с ценами и количеством товаров
+                await Promise.all([product_quantity_price_wrap.ksn_fade.fade_hide(fade_params_for_delete), spoiler_toggle_button.ksn_fade.fade_hide(fade_params_for_delete)]); //ждём пока скорется кнопка открытия состава комплекта и блок с ценами и количеством товаров
 
                 detete_block.style.pointerEvents = 'auto'; //разблокируем блок удаляения чтоб была доступна для взаимодействия кнопрка отмены удаления
                 cart_detete_timer_counter.textContent = 5; //ставим 5 сек по умолчанию
 
-                await detete_block.ksn_fade.fade_show(fade_params); //дожидаемся показа блока удаления
+                await detete_block.ksn_fade.fade_show(fade_params_for_delete); //дожидаемся показа блока удаления
 
                 //с интервалом секунду уменьшаем таймер секунд
                 product_body.cart_detete_timer = setInterval(() => {
@@ -410,11 +406,11 @@ let cart = qs('.cart'),
 
             detete_block.style.pointerEvents = ''; //блокируем кнопку отмены удаляения чтоб не мешала повторрными нажатиями
 
-            await detete_block.ksn_fade.fade_hide(fade_params); //дожидаемся сокрытия блока удаления
+            await detete_block.ksn_fade.fade_hide(fade_params_for_delete); //дожидаемся сокрытия блока удаления
 
             [product_quantity_price_wrap, spoiler_toggle_button, spoiler_wrap].forEach(el => (el.style.pointerEvents = '')); //разрешаем для взаимоействия все блоки которые ранее блокировали при подготовке к удалению товара
 
-            await Promise.all([product_quantity_price_wrap.ksn_fade.fade_show(fade_params), spoiler_toggle_button.ksn_fade.fade_show(fade_params)]); //ждём пока появится кнопка открытия состава комплекта и блок с ценами и количеством товаров
+            await Promise.all([product_quantity_price_wrap.ksn_fade.fade_show(fade_params_for_delete), spoiler_toggle_button.ksn_fade.fade_show(fade_params_for_delete)]); //ждём пока появится кнопка открытия состава комплекта и блок с ценами и количеством товаров
         },
         //прерывает удаление товара из корзины
 
@@ -445,7 +441,7 @@ let cart = qs('.cart'),
 
             delete cart_data[id]; //удаляем данные этого товара из хранилища корзины
 
-            set_localStorage('cart-data', JSON.stringify(cart_data)); //записываем обновлённые данные в хранилище сразу чтоб если удалаяли одновременно нескольког товаров то всё работало корректно
+            set_local_storage('cart-data', JSON.stringify(cart_data)); //записываем обновлённые данные в хранилище сразу чтоб если удалаяли одновременно нескольког товаров то всё работало корректно
 
             this.run_event_update_cart_data(); //вызываем событие обновление данных корзины
 
@@ -523,7 +519,7 @@ let cart = qs('.cart'),
 
             result = result.slice(0, -1) + '}'; //удаляет запятую после последней детали;
 
-            set_localStorage('cart-data', result); //записываем обновлённые данные в хранилище
+            set_local_storage('cart-data', result); //записываем обновлённые данные в хранилище
 
             this.run_event_update_cart_data(important_chenge); //вызываем событие обновление данных корзины
         },
@@ -774,7 +770,7 @@ let cart = qs('.cart'),
 
                     //если нужно обновлять данные т.к. произошли изменения в базе
                     if (update_cart_data !== false) {
-                        set_localStorage('cart-data', update_cart_data); //обновляем данные
+                        set_local_storage('cart-data', update_cart_data); //обновляем данные
 
                         this.run_event_update_cart_data(true, true); //вызываем событие обновление данных корзины
 

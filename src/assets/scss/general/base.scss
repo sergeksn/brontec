@@ -165,6 +165,10 @@ input {
         max-width: none;
     }
 
+    &--not-anim{
+        transition: none;
+    }
+
     &:disabled {
         background-color: var(--gray);
     }
@@ -447,6 +451,10 @@ input.custom-text-input {
     &--error,
     &--check-valid:invalid {
         border-color: var(--error) !important; //чтоб перекрыть все другие стили пок аесть ошибка
+    }
+
+    &--success {
+        border-color: var(--success) !important; //чтоб перекрыть все другие стили пок аесть ошибка
     }
 }
 //кастомные инпуты

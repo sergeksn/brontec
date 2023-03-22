@@ -20,6 +20,10 @@ let cart = qs('.cart'),
     order_zero_cart_price_message = qs('.oformit-zakaz-1__you-order-zero-cart-price'), //блок сообщения что цена товарво в корзине равна нулю
     order_zero_cart_price_message_button = qs('.oformit-zakaz-1__you-order-zero-cart-price button'), //нопка перехода в корзину в блоке сообщения что цена товаров в корзине равна нулю
     promocod_input = qs('#promocod'), //инпут промокода
+    promocod_clean_button = qs('.oformit-zakaz-3__promocod-input-wrap-clean-input'), //кнопка очистки поля промокода
+    promocod_submit_button = qs('.oformit-zakaz-3__promocod-submit'), //кнопка применения промокода
+    promocod_success_message = qs('.oformit-zakaz-3__promocod-success'), //сообщение что промокод успешно применён
+    promocod_error_message = qs('.oformit-zakaz-3__promocod-error'), //сообщение что неверный промокод
     promocod_full_price = qs('.oformit-zakaz-3__promocod-prices-full'), //полная цена заказа без учёта промокода в блоке промокода
     promocod_discont = qs('.oformit-zakaz-3__promocod-prices-promocod-discont'), //скидка промокода, т.е. сколько съэкономил этот промокод в руб
     delivery_price = qs('.oformit-zakaz-3__promocod-prices-delivery'), //стоимость доставки без учёта промокода
@@ -34,6 +38,12 @@ let cart = qs('.cart'),
 
             w._on('storage', this.storage_cart_update_listener.bind(this)); //следим за изменения в локальном хранилище, и если обвновились данные корзины то перерендереваем данные на странице заказа
 
+            promocod_input._on('input', this.input_promocod_event.bind(this)); //срабатывает при вводе в полне промокода
+
+            promocod_clean_button._on('click', this.clean_promocod_input.bind(this)); //очищает поле инпута при клике на кнопку очистки
+
+            promocod_submit_button._on('click', this.submit_promocod.bind(this)); //проверяем актуальность промокода после нажатия кнопки применить промокод
+
             this.form_init(); //запускает все необходиме функции для работы формы отправки заказа
 
             this.spoiler_order_init(); //создаёт контролер спойлера и прозрачности для блока заказа который будет работать только на экрнах меньше 640px
@@ -43,6 +53,8 @@ let cart = qs('.cart'),
             this.update_order_product_spoilers(); //функция подключает спойлеры к каждому блоку сотава товаров в заказе
 
             this.update_payment_block(); //функция обновляет цену заказа, скидку промокода, статус актуальности промокода и цену доставки в блоке информации по оплате заказа
+
+            this.update_submit_block(); //обновляет данные в блоке с отправкой заказа
         },
 
         //следим за изменения в локальном хранилище, и если обвновились данные корзины то перерендереваем данные на странице заказа
@@ -229,17 +241,116 @@ let cart = qs('.cart'),
         //при клике на кнопку отправки
 
         //функция обновляет цену заказа, скидку промокода, статус актуальности промокода и цену доставки в блоке информации по оплате заказа
-        update_payment_block: function () {
-            promocod_full_price.textContent = order_common_price_area.textContent; //берём общую цену товаров в заказе из уже высчитаной цены в верхнем блоке со списком товаров в заказе, т.к. в любом случае данная функция пересчёта будет вызваться всегда только после того как будет перерендерен блок сверху с полными данными о заказе
+        update_payment_block: async function () {
+            let cart_data = localStorage.getItem('cart-data');
 
-            let promocode = promocod_input.value;
+            //если корзина пуста то блокируем инпут и кнопку промокода
+            if (!cart_data || cart_data == '{}') {
+                promocod_submit_button.disabled = true; //блокируем кнопку
+                promocod_input.disabled = true; //блокируем инпут
+                promocod_full_price.textContent = 0;
+                promocod_discont.textContent = 0;
+                delivery_price.textContent = 0;
+                return;
+            }
+            //если корзина пуста то блокируем инпут и кнопку промокода
 
-            //console.log(promocode)
+            let full_price = +order_common_price_area.textContent.replace('\u00A0', ''); //получаем полную цену из блока заказа без пробелов-разделителей и ввиде числа
+
+            promocod_full_price.textContent = full_price.toLocaleString('ru'); //берём общую цену товаров в заказе из уже высчитаной цены в верхнем блоке со списком товаров в заказе, т.к. в любом случае данная функция пересчёта будет вызваться всегда только после того как будет перерендерен блок сверху с полными данными о заказе
+
+            this.set_delivery_price(full_price); //заполйнем цену доставки
+
+            let promocod_price = await this.get_promokod_data(); //проверяем промокод и если он есть получаем цену заказа с учётом помокода
+
+            this.set_discont_price(promocod_price); //заполняем цену скидки с учётом промокода
         },
         //функция обновляет цену заказа, скидку промокода, статус актуальности промокода и цену доставки в блоке информации по оплате заказа
 
-        //получаем полную цену
-        set_full_payment_block_price: function () {},
+        //получает на вход цену заказа после применения промокода если он есть высчитывает сумму скидки
+        set_discont_price: function (promocod_price) {
+            promocod_discont.textContent = promocod_price ? (promocod_price - +order_common_price_area.textContent.replace('\u00A0', '')).toLocaleString('ru').replace('-', '- ') : 0; //записываем сколько нам экномит промокод
+        },
+        //получает на вход цену заказа после применения промокода если он есть высчитывает сумму скидки
+
+        //определяем бесплатняа доставка или нет отталкиваясь от цены заказа ДО применения промокода
+        set_delivery_price: function (full_price) {
+            delivery_price.textContent = full_price >= GDS.delivery.border ? 0 : GDS.delivery.price.toLocaleString('ru');
+        },
+        //определяем бесплатняа доставка или нет отталкиваясь от цены заказа ДО применения промокода
+
+        //получаем промокод и если он есть получаем цену заказа с учётом помокода
+        get_promokod_data: async function () {
+            let promocod = localStorage.getItem('promocod'), //наличие промокода в хранилище
+                cart_data = localStorage.getItem('cart-data'); //данные в корзины
+
+            if (!promocod || promocod == '' || !cart_data || cart_data == '{}') return 9500; //если нет промокода или нет данных в корзине прерываем дальнейшие проверки
+        },
+        //получаем промокод и если он есть получаем цену заказа с учётом помокода
+
+        //срабатывает при вводе в поле промокода
+        input_promocod_event: function () {
+            promocod_submit_button.disabled = promocod_input.value.length < 1; //блокируем кнопку если в инпуте ничего не введено
+
+            promocod_clean_button.style.display = ''; //так же после неправильного промокода будет показан крестик чтоб его убрать, и данный крестик мы скрываем сразу после того как изменим занчение в поле промокода, крестик не показывается при простом заполнении инпута чтоб при прокрутке на мобильном человек случайно его не нажал и не сёр промокод
+
+            promocod_input.classList.remove('custom-text-input--error', 'custom-text-input--success'); //если у инпута были пометки ошибко или успеху убираем их чтоб бордер был цвета по умолчанию
+
+            //скрываем сообщения ошибки и успеха
+            promocod_success_message.style.display = '';
+            promocod_error_message.style.display = '';
+        },
+        //срабатывает при вводе в поле промокода
+
+        //очищает поле инпута при клике на кнопку очистки
+        clean_promocod_input: function () {
+            promocod_input.value = ''; //чистим поле промокода
+            promocod_clean_button.style.display = ''; //скрывам кнопку очистки промокода
+            promocod_submit_button.disabled = true; //блокируем кнопку
+            promocod_input.classList.remove('custom-text-input--error'); //удаляему инпута пометку что была ошибка при неправильном промокоде
+            promocod_error_message.style.display = ''; //скрываем сообщение ошибки
+        },
+        //очищает поле инпута при клике на кнопку очистки
+
+        //срабатывает в помент нажатия кнопки применения промокода
+        submit_promocod: async function () {
+            promocod_input.disabled = true; //блокируем инпут
+            promocod_submit_button.disabled = true; //блокируем кнопку
+            promocod_submit_button.textContent = 'Ожидайте...'; //меняем текст кнокпи
+
+            let promocod_price = await this.get_promokod_data(); //пытаемся получить цену промокода для текущего заказа из базы
+
+            promocod_submit_button.textContent = 'Применить'; //меняем текст кнокпи
+            promocod_input.disabled = false; //разблокируем инпут
+
+            //если для данных товаров промокод не найден
+            if (!promocod_price) {
+                promocod_input.classList.add('custom-text-input--error'); //меняем цвет бордера у инпута
+                promocod_clean_button.style.display = 'block'; //показываем кнопку очистки промокода
+                promocod_error_message.style.display = 'block'; //показываем сообщение ошибки
+                return; //прерываем функцию
+            }
+            //если для данных товаров промокод не найден
+
+            promocod_success_message.style.display = 'block'; //показываем сообщение что прмокод успешно применён
+            promocod_input.classList.add('custom-text-input--success'); //меняем цвет бордера у инпута помечаем что промокод применён успешно
+        },
+        //срабатывает в помент нажатия кнопки применения промокода
+        
+        //обновляет данные в блоке с отправкой заказа
+        update_submit_block: function () {
+            let cart_data = localStorage.getItem('cart-data');
+
+            //если корзина пуста
+            if (!cart_data || cart_data == '{}') {
+                button.disabled = true; //блокируем кнопку
+                finall_order_price.textContent = 0;
+                return;
+            }
+            //если корзина пуста
+
+        },
+        //обновляет данные в блоке с отправкой заказа
     };
 
 CONTROLER.init();

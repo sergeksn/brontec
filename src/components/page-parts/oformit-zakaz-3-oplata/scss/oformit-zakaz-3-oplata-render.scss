@@ -7,35 +7,79 @@
 
     &__promocod {
         grid-column: 1/-1;
+        display: grid;
+        align-content: space-between;
+        grid-gap: var(--gap);
+        margin-bottom: rem(40);
 
         @media (min-width: rem(640)) {
             grid-column: 1/7;
+            margin-bottom: 0;
         }
 
         @media (min-width: rem(960)) {
             grid-column: 1/6;
         }
 
-        button {
+        &-input-wrap {
+            position: relative;
+            margin-bottom: var(--gap-10);
+
+            #promocod {
+                margin-bottom: 0 !important;
+                padding-right: calc(var(--min-interactive-elements-width) + var(--gap-10));
+            }
+
+            &-clean-input {
+                position: absolute;
+                right: var(--gap);
+                top: 50%;
+                transform: translateY(-50%);
+                display: none;
+
+                @media (any-hover: none) and (any-pointer: coarse) {
+                    right: 0;
+                }
+            }
+        }
+
+        &-success,
+        &-error {
+            display: none;
+            font: var(--small);
+        }
+
+        &-success {
+            color: var(--success);
+        }
+
+        &-error {
+            color: var(--error);
+        }
+
+        &-submit {
+            margin-top: var(--gap);
+
             @media (min-width: rem(640)) and (max-width: rem(960)) {
                 max-width: none;
             }
         }
 
         &-prices {
-            margin: rem(40) 0;
+            //margin: rem(40) 0;
             text-align: right;
             font: var(--h3);
             display: grid;
+            align-self: start;
             grid-gap: var(--gap-10);
 
-            @media (min-width: rem(640)) {
-                margin: adaptiv_rem_size(40, 640, 100, 1920) 0 0 0;
-            }
+            // @media (min-width: rem(640)) {
+            //     margin: adaptiv_rem_size(40, 640, 100, 1920) 0 0 0;
+            // }
 
-            @media (min-width: rem(1920)) {
-                margin-top: adaptiv_rem_size(100, 1920);
-            }
+            // @media (min-width: rem(1920)) {
+            //     margin-top: adaptiv_rem_size(100, 1920);
+            // }
 
             & > div:before {
                 position: absolute;

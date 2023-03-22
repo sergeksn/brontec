@@ -1,4 +1,4 @@
-import { set_localStorage } from '@js-libs/func-kit';
+import { set_local_storage } from '@js-libs/func-kit';
 import Full_Kit_Configurator from '@komplekt-2-select-kit-composition-main-js';
 
 let input = qs('.detal-1-add-to-kit input'), //инпут в конфигураторе
@@ -77,7 +77,7 @@ let input = qs('.detal-1-add-to-kit input'), //инпут в конфигура�
             }
             //если нет никаких данных
 
-            set_localStorage('kits-composition-info', JSON.stringify(data)); //записываем данные в локальное хранилище
+            set_local_storage('kits-composition-info', JSON.stringify(data)); //записываем данные в локальное хранилище
         },
         //записывает/обновляет данные в локальном хранилище для отображения активными тех или иных чекбоксов для страницы детали
     };

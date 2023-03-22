@@ -20,7 +20,7 @@ w.critical_scripts = {
     check_if_nead_remove_poster_data: function () {
         let header_poster = qs('.header-poster'),
             header_poster_id = header_poster.getAttribute('id'),
-            storage_header_poster = JSON.parse(w.localStorage.getItem('advertising-posters')); /*пытаемся получить значение для данного рекламоного постера скрыт он или нет*/
+            storage_header_poster = JSON.parse(w.sessionStorage.getItem('advertising-posters')); /*пытаемся получить значение для данного рекламоного постера скрыт он или нет*/
 
         if (storage_header_poster?.header_poster?.[header_poster_id] === 'hide') header_poster.remove(); //если еслить запись о постере хедера и там указано что он должен быть скрыт удаляем его из документа
     },

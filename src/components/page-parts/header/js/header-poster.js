@@ -1,5 +1,5 @@
 import { Header, Header_Hidden, Header_Search, Header_Cart } from '@header-main-js';
-import { wait, set_localStorage, anime, hide } from '@js-libs/func-kit';
+import { set_session_storage, anime, hide } from '@js-libs/func-kit';
 
 let header = qs('header'),
     header_poster = qs('.header-poster'),
@@ -64,7 +64,7 @@ let header = qs('header'),
                     [poster_id]: 'hide',
                 }; //помечаем что банер в хедере с таким id нужно скрыть
 
-                set_localStorage('advertising-posters', JSON.stringify(full_posters_data)); //записываем новые данные в локальное хранилище
+                set_session_storage('advertising-posters', JSON.stringify(full_posters_data)); //записываем новые данные в сессионное хранилище хранилище
             }
             //если нужно скрыть данный рекламный банер навсегда
 

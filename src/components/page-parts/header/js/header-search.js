@@ -1,5 +1,5 @@
 import { Header, Header_Hidden } from '@header-main-js';
-import { wait, request_to_server, set_localStorage, anime, show, hide } from '@js-libs/func-kit';
+import { wait, request_to_server, set_local_storage, anime, show, hide } from '@js-libs/func-kit';
 import Product_Small_Info_Block from '@product-small-info-block-main-js';
 import { add_in_observe, dellete_from_observe } from '@images-main-js';
 
@@ -147,7 +147,7 @@ let header = qs('header'),
 
                 localStorage.removeItem('search-result'); //так же чистим прежние результаты поиска из кеша объекта поиска
 
-                if (!set_localStorage('search-text', search_text.slice(0, 100))) return; //если локальное хранилище доступно сохраняем в него поисковой запрос пользователя для того чтоб запомнить его на следующих страницах, сохраняем не более 100 символов
+                if (!set_local_storage('search-text', search_text.slice(0, 100))) return; //если локальное хранилище доступно сохраняем в него поисковой запрос пользователя для того чтоб запомнить его на следующих страницах, сохраняем не более 100 символов
 
                 if (Header_Hidden.status !== 'open') return; //если вдруг мы закрыли скрытый блок во время начала поиска, то мы просто записываем в хранилище поисковой запрос и прерываем дальнейшие дествия
 
@@ -287,7 +287,7 @@ let header = qs('header'),
 
                     if (check_abort_render()) return; //проверяем нужно ли продолжать рендер
 
-                    !data.error && !set_localStorage('search-result', html_code); //если это не ошибка и если локальное хранилище доступно сохраняем в него результат поиска, для быстрого рендера при повторном открытии окна, если оно было просто закрыто
+                    !data.error && !set_local_storage('search-result', html_code); //если это не ошибка и если локальное хранилище доступно сохраняем в него результат поиска, для быстрого рендера при повторном открытии окна, если оно было просто закрыто
                     //ПРИМЕЧАНИЕ: сохранять в хранилище ошибки не тоит т.к. ошибки быстро пофиксятся, а то чего раньше не было в каталоге может добавится и нужна постоянно актуальная информация, так её мы не запоминаем что постоянно проверять заново
                 })
                 .catch(_ => {}); //этот блок catch может сработать только из-за прерывания поиска AbortError или при ошибке в коде или исключении внутри then

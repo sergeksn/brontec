@@ -113,29 +113,43 @@ function get_remaining_time({ el, started_value, final_value, property, duration
 }
 //получает время оставшиеся для выполянения анимации
 
-//проверяем доступность локального хранилища и записываем данные
-function set_localStorage(key, value) {
+//пытаемся записать данные в хранилище
+//type - тип хранилища
+//error_type - тип ошипки которая выведется при взникновении сбоя записи
+function set_storage(key, value, type, error_type) {
     try {
-        w.localStorage.setItem(key, value); //пытаемся записать в хранилище
+        type == 'local' ? w.localStorage.setItem(key, value) : w.sessionStorage.setItem(key, value); //пытаемся записать в хранилище
         return true;
     } catch (e) {
         if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' || e.name === 'QUOTA_EXCEEDED_ERR' || e.name === 'W3CException_DOM_QUOTA_EXCEEDED_ERR') {
             new Pop_Up_Message({
-                title: 'Не достаточно свободного места в локальном хранилище!',
-                message: 'Не достаточно места в локальном хранилище, пожалуйста очистите место для файлов браузера!\nЕсли не помоголо то возможно Вы используете приватный режим (режим инкогнито, режим частного просмотра), перейдите в обычный режим для использования сайтом!<br><br><span class="red">ВАЖНО</span>: для работы сайта требуется доступ к локальному хранилищу браузера!',
-                type: 'fatal-error',
+                title: 'Не достаточно свободного места в ' + type + ' хранилище!',
+                message: 'Не достаточно места в ' + type + ' хранилище, пожалуйста очистите место для файлов браузера!\nЕсли не помоголо то возможно Вы используете приватный режим (режим инкогнито, режим частного просмотра), перейдите в обычный режим для использования сайтом!<br><br><span class="red">ВАЖНО</span>: для работы сайта требуется доступ к ' + type + ' хранилищу браузера!',
+                type: error_type,
             });
-            console.error({ ksn_message: 'Не доступно локальное хранилище', error: e, name: e.name });
+            console.error({ ksn_message: 'Не доступно ' + type + ' хранилище', error: e, name: e.name });
         } else {
             new Pop_Up_Message({
-                title: 'Не доступно локальное хранилище!',
-                message: 'При попытке записи в локальное хранилище произошла ошибка!<br><br><span class="red">ВАЖНО</span>: для работы сайта требуется доступ к локальному хранилищу браузера!',
-                type: 'fatal-error',
+                title: 'Не доступно ' + type + ' хранилище!',
+                message: 'При попытке записи в ' + type + ' хранилище произошла ошибка!<br><br><span class="red">ВАЖНО</span>: для работы сайта требуется доступ к локальному ' + type + ' браузера!',
+                type: error_type,
             });
             console.error(e);
         }
         return false;
     }
+}
+//пытаемся записать данные в хранилище
+
+//проверяем доступность локального хранилища и записываем данные
+function set_local_storage(key, value) {
+    return set_storage(key, value, 'local', 'fatal-error');
+}
+//проверяем доступность локального хранилища и записываем данные
+
+//проверяем доступность локального хранилища и записываем данные
+function set_session_storage(key, value) {
+    return set_storage(key, value, 'session', 'error');
 }
 //проверяем доступность локального хранилища и записываем данные
 
@@ -381,4 +395,4 @@ function adaptiv_size(min_value, min_win_width, max_value = false, wax_win_width
 }
 //функция возвращает значения в пикселях или rem отталкиваясь от переданных пределов значений и ширины экрана
 
-export { wait, request_to_server, show, hide, set_localStorage, anime, get_translate, rem, rem_to_px, px_to_px, adaptiv_size };
+export { wait, request_to_server, show, hide, set_local_storage, set_session_storage, anime, get_translate, rem, rem_to_px, px_to_px, adaptiv_size };
