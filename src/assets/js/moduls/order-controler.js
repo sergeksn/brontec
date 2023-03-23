@@ -1,12 +1,17 @@
+let rerender_order_list_event = new CustomEvent('rerender-order-list'), //событие которое будет срабатывать на блоке с заказом когда он будет перерендериваться
+    empty_order = new CustomEvent('empty-order'), //сработает когда корзина пуста при рендере заказа
+    zero_cart_price = new CustomEvent('zero-cart-price'); //сработает когда цена товаров в корзине равна нулю при рендере заказа
+
 w.ksn_order_controler = {
     init: function () {
+        //ВАЖНО: нужно пределять именно сдесь т.к. раньше этих элементов просто нет в DOM
         this.you_order_wrap = qs('.oformit-zakaz-1__you-order'); //оболочка всего блока с заказом
         this.order_product_amount_area = qs('.oformit-zakaz-1__you-order-info-amount'); //поле с количеством комплектов в заказе
         this.order_common_price_area = qs('.oformit-zakaz-1__you-order-info-price'); //поле с общей ценой товаров в заказе
         this.order_empty_cart_message = qs('.oformit-zakaz-1__you-order-empty-cart'); //блок сообщения что корзина пустая
         this.order_zero_cart_price_message = qs('.oformit-zakaz-1__you-order-zero-cart-price'); //блок сообщения что цена товарво в корзине равна нулю
         this.order_spoiler_title = qs('.oformit-zakaz-1__you-order h2'); //блок заголовка который болжен открывать/закрывать спойлер заказа
-        this.order_spoiler_content = qs('.oformit-zakaz-1__you-order-spoiler-wrap-content');
+        this.order_spoiler_content = qs('.oformit-zakaz-1__you-order-spoiler-wrap-content'); //содержимое заказа
     },
 
     //получаем общую цену товаров в корзине
@@ -400,9 +405,23 @@ w.ksn_order_controler = {
             cart_total_amount_area_postfix = this.get_amount_postfix(cart_total_amount),
             common_price = this.calculate_common_order_prise();
 
-        if (!cart_data || Object.keys(cart_data).length == 0) return this.order_info_block_show(this.order_empty_cart_message); //если корзина пуста или ещё не существует показываем сообщение и заверашем функцию
+        //если корзина пуста или ещё не существует
+        if (!cart_data || Object.keys(cart_data).length == 0) {
+            this.you_order_wrap.dispatchEvent(empty_order); //вызываем событие сообщающие что при попытке рендера заказа обнаружена пустая корзина
 
-        if (common_price == 0) return this.order_info_block_show(this.order_zero_cart_price_message); //если цена товаров в корзине равна нулю показываем сообщение и заверашем функцию
+            this.order_info_block_show(this.order_empty_cart_message); //если корзина пуста или ещё не существует показываем сообщение и заверашем функцию
+            return;
+        }
+        //если корзина пуста или ещё не существует
+
+        //если цена товаров в корзине равна нулю
+        if (common_price == 0) {
+            this.you_order_wrap.dispatchEvent(zero_cart_price); //вызываем событие сообщающие что при попытке рендера заказа обнаружена нулевая цена товаров в корзине
+
+            this.order_info_block_show(this.order_zero_cart_price_message); //если цена товаров в корзине равна нулю показываем сообщение и заверашем функцию
+            return;
+        }
+        //если цена товаров в корзине равна нулю
 
         this.order_product_amount_area.textContent = cart_total_amount; //записываем количество комплектов в поле
 
@@ -422,6 +441,8 @@ w.ksn_order_controler = {
         //рендерим каждый товар
 
         this.order_spoiler_content.append(wrap); //вставляем результат в блок заказа
+
+        this.you_order_wrap.dispatchEvent(rerender_order_list_event); //вызываем событие сообщающие что блок заказа перерендерился, что в свою очерез вызовет срабатывае функций которое следять за этим событием
     },
     //рендерит блок заказа с нуля
 };

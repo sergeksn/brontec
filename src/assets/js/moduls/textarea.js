@@ -1,5 +1,5 @@
 let all_textarea = qsa('.custom-textarea textarea'),
-    CONTROLER = {
+    CONTROLLER = {
         init: function () {
             if (all_textarea.length == 0) return; //прерываем если на странице нет кастомных текстовых полей
 
@@ -29,6 +29,6 @@ let all_textarea = qsa('.custom-textarea textarea'),
         //проверяет валидность значения в текстовом поле и если не валидно то помечаем это класом у родителя
     };
 
-CONTROLER.init();
+CONTROLLER.init();
 
-export default CONTROLER;
+export default CONTROLLER;

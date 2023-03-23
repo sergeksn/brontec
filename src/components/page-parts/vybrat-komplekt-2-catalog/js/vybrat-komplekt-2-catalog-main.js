@@ -1,4 +1,4 @@
-import CUSTOM_SELECTOR_CONTROLER from '@selector-marka-model-main-js';
+import CUSTOM_SELECTOR_CONTROLLER from '@selector-marka-model-main-js';
 
 let CATALOG_CONTROLLER = {
     init: function () {
@@ -41,7 +41,7 @@ let CATALOG_CONTROLLER = {
         });
         //прослушиваем кастомное событие изменения в селекторе марки и модели
 
-        CUSTOM_SELECTOR_CONTROLER.selector_wrap.dispatchEvent(CUSTOM_SELECTOR_CONTROLER.select_chenge_event);//после полной инициализации вызываем событие marka-model-select-chenge на случай если програмно была выбрана марки и/или модели, а так же возможно были параметры в GET запросе
+        CUSTOM_SELECTOR_CONTROLLER.selector_wrap.dispatchEvent(CUSTOM_SELECTOR_CONTROLLER.select_chenge_event);//после полной инициализации вызываем событие marka-model-select-chenge на случай если програмно была выбрана марки и/или модели, а так же возможно были параметры в GET запросе
     },
 };
 

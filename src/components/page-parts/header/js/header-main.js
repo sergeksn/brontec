@@ -140,9 +140,8 @@ let header = qs('header'),
             let fifst_child_main = qs('main').children[0]; //первый элемент в блоке main
             if (fifst_child_main) header_background.style.backgroundColor = w.getComputedStyle(fifst_child_main).backgroundColor; //цвет фона хедера берём такой же как и цвет первого блока в теге main
         },
-    },
-    Header = CONTROLLER; //нужно чтоб имена в экспортах были понятные
+    };
 
 CONTROLLER.init(); //выполянем действия необходимые при загрузке модуля
 
-export { Header, Header_Poster, Header_Hidden, Header_Search, Header_Cart };
+export { CONTROLLER as Header, Header_Poster, Header_Hidden, Header_Search, Header_Cart };

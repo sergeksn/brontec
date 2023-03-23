@@ -1,4 +1,4 @@
-let CUSTOM_SELECTOR_CONTROLER = {
+let CUSTOM_SELECTOR_CONTROLLER = {
     //срабатывает при выборе марки
     marka_select_toggle: function (e) {
         //if (e.currentTarget.hasAttribute('data-disabled')) return; //если данные селектор заблокирован
@@ -197,7 +197,7 @@ let CUSTOM_SELECTOR_CONTROLER = {
         this.selector_wrap = qs('.select-marka-model'); //оболочка с селектами
         if (!this.selector_wrap) return; //если оболочка не найдена прерываем дальнейшую инициализацию
 
-        this.selector_wrap.CUSTOM_SELECTOR_CONTROLER = this; //записываем объект в свойства оболочки селектора чтоб можно было получать к нему доступ
+        this.selector_wrap.CUSTOM_SELECTOR_CONTROLLER = this; //записываем объект в свойства оболочки селектора чтоб можно было получать к нему доступ
 
         this.marka_select_wrap = qs('.marka-select-wrap', this.selector_wrap); //оболочка группы с марками
         this.marka_group = qs('.option-group', this.marka_select_wrap); //группа с марками
@@ -263,6 +263,6 @@ let CUSTOM_SELECTOR_CONTROLER = {
     //если в поиске есть марка или модель то мы вносим их данные в селектор
 };
 
-CUSTOM_SELECTOR_CONTROLER.init();
+CUSTOM_SELECTOR_CONTROLLER.init();
 
-export default CUSTOM_SELECTOR_CONTROLER;
+export default CUSTOM_SELECTOR_CONTROLLER;

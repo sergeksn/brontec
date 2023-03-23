@@ -745,7 +745,7 @@ let cart = qs('.cart'),
         //переводит нас на страницу оформления заказа
 
         //функция проверят данные в корзине на актуальнось данных в базе
-        check_actual_cart_data: function () {
+        check_actual_cart_data: async function () {
             //ВАЖНО: пока сделаю проверку при каждом первом открытии корзины после перезагрузки страницы, если нагрузка на базу будет большая то сделать ограничение что проверка должна быть не чаще чем раз в час
 
             let carrent_cart_data = localStorage.getItem('cart-data'), //записываем данные корзины до отправки чтоб если что-то поменяли за время выполнения запроса это не повлияло на исход проверки
@@ -763,7 +763,7 @@ let cart = qs('.cart'),
 
             if (!carrent_cart_data || carrent_cart_data == '{}') return; //если данных корзины нет или корзина пуста то не выполянем проверку
 
-            fetch(GDS.ajax_url, request_data)
+            await fetch(GDS.ajax_url, request_data)
                 .then(response => response.json()) //считываем переданные данные
                 .then(result => {
                     let update_cart_data = this.compare_cart_and_base_data(result); //сравнивает данные полученые после проверки в базе и текущие данные в корзине и если они отличаются составом и/или ценами то обновляем корзину

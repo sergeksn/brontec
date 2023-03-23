@@ -9,7 +9,7 @@ let form = qs('.vybrat-komplekt-3__forma'),
     message_textarea = qs('.vybrat-komplekt-3__forma textarea'),
     policy_checkbox = qs('#polici-konf-checkbox'),
     to_form_url_string = '#send-request-for-new-car',
-    CONTROLER = {
+    CONTROLLER = {
         init: function () {
             if (!form) return; //если нет такой формы то прерываем инициализацию
 
@@ -119,4 +119,4 @@ let form = qs('.vybrat-komplekt-3__forma'),
         //при клике на кнопку отправки
     };
 
-CONTROLER.init();
+CONTROLLER.init();
