@@ -1,6 +1,6 @@
 import { show, hide } from '@js-libs/func-kit';
 import Overlay from '@overlays-main-js';
-import {  Header_Hidden, Header_Cart } from '@header-main-js';
+import { Header_Hidden, Header_Cart } from '@header-main-js';
 
 let body = d.body,
     header = qs('header');
@@ -56,6 +56,8 @@ export default class {
         !this.is_fatal && this.close_button._on('click', this.close_window_message.bind(this)); //закрываем окно сообщения по клику на кнопку закрытия, если она есть
 
         fast_show && this.show(); //если true то сообщени будет сразу показано
+
+        w.ksn_close_window_message = this.close_window_message.bind(this); //создаём функцию для закрытия окон
     }
 
     //клик по кнопке закрытия сообщения
@@ -74,7 +76,7 @@ export default class {
     async show() {
         body.scrollbar.lock(); //блокируем прокрутку документа
         body.scrollbar.show_scrollbar_space(); //добавляем пространство имитирующее скролбар
-        (Header_Cart.status !== 'show' && Header_Hidden.status !== 'open') && header.scrollbar.lock(); //блокируем прокуртку хедера если корзина закрыта и закрыт скртый блок хедера
+        Header_Cart.status !== 'show' && Header_Hidden.status !== 'open' && header.scrollbar.lock(); //блокируем прокуртку хедера если корзина закрыта и закрыт скртый блок хедера
 
         let opacity;
 

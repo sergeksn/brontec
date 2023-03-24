@@ -304,6 +304,26 @@ w.ksn_order_controler = {
     },
     //функция устанавливает статусы спойлера комплектации для каждого товара, на основе предидущих подготовленых данных, если токовые есть, если нет то по умолчанию закрывает все спойлеры, за исключеним случая когда товар один
 
+    //чистим данные состава неполных комплектов от невыбраных деталей
+    clean_not_activ_delals_in_kit_composition: function (cart_data) {
+        //перебираем все товары в корзине
+        for (let id in cart_data) {
+            let product_data = cart_data[id];
+
+            if (product_data.tools || product_data.is_full_kit) continue; //пропускаем полные комплекты и инструмент
+
+            let composition = product_data.composition;
+
+            //перебираем состав и удаляем не добавленый детали
+            for (let detal in composition) {
+                if (!composition[detal].add) delete composition[detal];
+            }
+            //перебираем состав и удаляем не добавленый детали
+        }
+        //перебираем все товары в корзине
+    },
+    //чистим данные состава неполных комплектов от невыбраных деталей
+
     //функция подготованивает данные из корзины для работы с заказом, удаляе пустые комплекты,генерируюя товары соло инструментов и объединяя дубликаты
     prepare_cart_data_for_order: function () {
         let cart_data = localStorage.getItem('cart-data'); //получаем данные из хранилища корзины
@@ -324,11 +344,123 @@ w.ksn_order_controler = {
 
         this.set_order_product_spoilers_status(cart_data); //функция устанавливает статусы спойлера комплектации для каждого товара, на основе предидущих подготовленых данных, если токовые есть, если нет то по умолчанию закрывает все спойлеры, за исключеним случая когда товар один
 
+        this.clean_not_activ_delals_in_kit_composition(cart_data); //чистим данные состава неполных комплектов от невыбраных деталей
+
         GDS.prepare_cart_data_for_order = cart_data; //записываем данные для дальнейшего быстрого доступа к ним при расчёт промокода, обновлении актуальных цен промокода и про отправке заказа
 
         return cart_data; ///возвращаем обработанные данные корзины
     },
     //функция подготованивает данные из корзины для работы с заказом, удаляе пустые комплекты,генерируюя товары соло инструментов и объединяя дубликаты
+
+    //генерирует на основе данных из функции prepare_cart_data_for_order списко состоящий из уникальных товаров для дальнейшей передачи их на сервре или для быстрой проверки не превышен ли лимит 100 уникальных товаров
+    get_unique_products_list: function () {
+        let cart_data = this.prepare_cart_data_for_order(),//функция подготованивает данные из корзины для работы с заказом, удаляе пустые комплекты,генерируюя товары соло инструментов и объединяя дубликаты
+            unique_products = {
+                length: 0, //количество уникальных товаров
+            }; //объект содержащий только уникальные товары
+
+        //перебираем все товары
+        for (let id in cart_data) {
+            let product_data = cart_data[id]; //данные товара
+
+            //если данный товар соло инструмен
+            if (product_data.tools) {
+                //если уже есть запись об инструментах
+                if (unique_products.tools) {
+                    unique_products.tools.amount += product_data.amount; //просто увеличиваем количество штук
+                }
+                //если уже есть запись об инструментах
+
+                //если записи нет то создаёем её с нуля
+                else {
+                    unique_products.tools = {
+                        amount: product_data.amount,
+                        price: product_data.price, //цену записываем при создании т.к. она одинаковая у одинаковых товаров
+                    };
+
+                    unique_products.length += 1; //увеличиваем счётчик уникальных товаров
+                }
+                //если записи нет то создаёем её с нуля
+
+                continue; //переходим к следующему товару
+            }
+            //если данный товар соло инструмен
+
+            //если это полный комплект
+            if (product_data.is_full_kit) {
+                let marka_model = product_data.marka_model;
+
+                if (!unique_products[marka_model]) unique_products[marka_model] = {}; //если для данной марки-модели ещё нет записи создаём её
+
+                //composition['kit'] раньше точно не мог существовать, можно не проверять, т.к. ранее мы объединяли дыбликаты
+                unique_products[marka_model]['kit'] = {
+                    amount: product_data.amount,
+                    price: product_data.price,
+                };
+
+                unique_products.length += 1; //увеличиваем счётчик уникальных товаров
+
+                continue; //переходим к следующему товару
+            }
+            //если это полный комплект
+
+            //если это неполная конфигурация
+            let marka_model = product_data.marka_model,
+                amount = product_data.amount,
+                composition = product_data.composition;
+
+            if (!unique_products[marka_model]) unique_products[marka_model] = {}; //если для данной марки-модели ещё нет записи создаём её
+
+            for (let detal in composition) {
+                let detal_data = composition[detal];
+
+                //если деталь инструмент учитываем её отдельно
+                if (detal == 'tools') {
+                    //если уже есть запись об инструментах
+                    if (unique_products.tools) {
+                        unique_products.tools.amount += amount; //просто увеличиваем количество штук
+                    }
+                    //если уже есть запись об инструментах
+
+                    //если записи нет то создаёем её с нуля
+                    else {
+                        unique_products.tools = {
+                            amount: amount,
+                            price: product_data.price, //цену записываем при создании т.к. она одинаковая у одинаковых товаров
+                        };
+
+                        unique_products.length += 1; //увеличиваем счётчик уникальных товаров
+                    }
+                    //если записи нет то создаёем её с нуля
+
+                    continue; //переходим к следующей детали
+                }
+                //если деталь инструмент учитываем её отдельно
+
+                //если уже есть запись
+                if (unique_products[marka_model][detal]) {
+                    unique_products[marka_model][detal].amount += amount; //просто увеличиваем количество штук
+                }
+                //если уже есть запись
+
+                //если это новый уникальный товар детали
+                else {
+                    unique_products[marka_model][detal] = {
+                        amount: amount,
+                        price: detal_data.price,
+                    };
+
+                    unique_products.length += 1; //увеличиваем счётчик уникальных товаров
+                }
+                //если это новый уникальный товар детали
+            }
+            //если это неполная конфигурация
+        }
+        //перебираем все товары
+
+        return unique_products;
+    },
+    //генерирует на основе данных из функции prepare_cart_data_for_order списко состоящий из уникальных товаров для дальнейшей передачи их на сервре или для быстрой проверки не превышен ли лимит 100 уникальных товаров
 
     //рендерит один элемент товара в блоке заказа
     render_order_item: function (id, data, single_product_in_order) {
@@ -380,7 +512,7 @@ w.ksn_order_controler = {
         //если это полный или частичный комплект
         else {
             for (let detal in composition) {
-                if (composition[detal].add) content += `<div class="order__product-spoiler-wrap-content-item">${GDS.products_detal_types[detal]}</div>`; //вставляем только добавленые в состав детали
+                content += `<div class="order__product-spoiler-wrap-content-item">${GDS.products_detal_types[detal]}</div>`; //вставляем только добавленые в состав детали
             }
         }
         //если это полный или частичный комплект

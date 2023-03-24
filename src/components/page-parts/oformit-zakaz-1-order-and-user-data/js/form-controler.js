@@ -1,4 +1,5 @@
-import { Header } from '@header-main-js';
+import { Header, Header_Cart } from '@header-main-js';
+import Pop_Up_Message from '@pop-up-messages-main-js';
 
 let form = qs('#user-data'),
     order_block = qs('.oformit-zakaz-1__you-order'), //блок с товарами заказа
@@ -7,12 +8,9 @@ let form = qs('#user-data'),
     tel_input = qs('#tel'),
     policy_checkbox = qs('#polici-konf-checkbox'),
     button = qs('.oformit-zakaz-4__pay-run-button'), //кнопка отправки заказа
-    button_text, //текст кнопки отправки заказа
     CONTROLLER = {
         //запускает все необходиме функции для работы формы отправки заказа
         init: function () {
-            button_text = button.textContent; //записываем исходный текст кнопки
-
             //нужно записать в свойства текущего объекта дял корректной рабоыт функции inputed_event
             this.area_fio = qs('.oformit-zakaz-4__contact-info-fio');
             this.area_email = qs('.oformit-zakaz-4__contact-info-email');
@@ -44,11 +42,62 @@ let form = qs('#user-data'),
         form_submit: async function (e) {
             e.preventDefault(); //предотвращаем отправку формы стандартным образом
 
+            if (!Header_Cart.check_cart_limits()) return; //прерываем если превышен лимит в 100 уникальных товаров корзине
+
             button.setAttribute('disabled', 'disabled'); //блокируем кнопку
             button.textContent = 'Ожидайте ...';
-            console.log(456);
+
+            let request_data = {
+                //запрос на сервер
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json;charset=utf-8' },
+                body: JSON.stringify({
+                    action: 'get_order_check_and_go_to_pay',
+                    data: JSON.stringify(w.ksn_order_controler.get_unique_products_list()),
+                }),
+            };
+
+            //отправляем запрос на сервер чтоб проверить все ли товары в заказе проходят проврку в базе, если не проходят вернём собщение со сприском товаров которые изменились, если все товары прошли проверку то в юкасе создаём объект оплаты
+            await fetch(GDS.ajax_url, request_data)
+                .then(response => response.json()) //считываем переданные данные
+                .then(result => {
+                    let warning_data = result.warning;
+
+                    //если в ответ пришло предупреждение
+                    if (warning_data) {
+                        Header_Cart.check_actual_cart_data(); //обновляем все данные товаров в корзине, в заказе и данные промокода
+
+                        let message = 'Ознакомьтесь с изменениями, они уже обновились на странице заказа!<br><br>';
+
+                        warning_data.forEach(item => {
+                            let type = item.type;
+
+                            if (type == 'deleted') {
+                                message += item.name + ' удалён<br><br>';
+                            }
+
+                            if (type == 'chenge_price') {
+                                message += item.name + ' изменилась цена ' + item.old + ' > ' + item.new + '<br><br>';
+                            }
+                        });
+
+                        //выводим сообщение в котором указываем что изменилось
+                        new Pop_Up_Message({
+                            title: 'Изменились данные товаров в заказе:',
+                            message: message,
+                            type: 'warning',
+                        });
+                        //выводим сообщение в котором указываем что изменилось
+
+                        return; //прерываем
+                    }
+                    //если в ответ пришло предупреждение
+                    console.log(result);
+                })
+                .catch(e => console.error(e));
+
             button.removeAttribute('disabled'); //блокируем кнопку
-            button.textContent = button_text;
+            button.textContent = 'Оплатить онлайн';
         },
         //при отправлке формы перехватываем управление
 

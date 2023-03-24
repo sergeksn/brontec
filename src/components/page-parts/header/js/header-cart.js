@@ -4,6 +4,7 @@ import Scroll_To_Top_Button from '@scroll-to-top-button-main-js';
 import { Header, Header_Hidden } from '@header-main-js';
 import { base_spoiler_fade } from '@js-moduls/spoiler';
 import Fade from '@js-moduls/fade';
+import Pop_Up_Message from '@pop-up-messages-main-js';
 
 let cart = qs('.cart'),
     header_visible = qs('.header-visible'),
@@ -47,6 +48,8 @@ let cart = qs('.cart'),
 
         //выпоялняем все действия для открытия корзины
         open: async function () {
+            Header.lock = true; //блокируем хедер чтоб при перендере на странице не закрывался хедер, т.к. будет срабатывать функции скрола макета из-за добавления новых элементов
+
             //если ещё не было рендера
             if (!this.was_first_render) {
                 this.render_cart(); //функция проверяет локальное хранилище и если там что-то записано для корзины то ренедерт эти товары
@@ -87,11 +90,16 @@ let cart = qs('.cart'),
                 this.Overlay.show(),
                 Scroll_To_Top_Button.hide(),
             ]); //дожидаемся показа корзины и подложки, а так же скрытия кнопки скрола вверх
+
+            Scroll_To_Top_Button.lock = true; //блокируем кнопку скролла вверх
         },
         //выпоялняем все действия для открытия корзины
 
         //выпоялняем все действия для закрытия корзины
         close: async function () {
+            Header.lock = false; //разблокируем хедер
+            Scroll_To_Top_Button.lock = false; //разблокируем кнопку скролла вверх
+
             await Promise.all([
                 hide({
                     el: cart,
@@ -475,7 +483,9 @@ let cart = qs('.cart'),
         //полностью удлаяет товар из корзины и хранилища корзины
 
         //срабатывает при взаимодействии с инпутами в корзине
-        cart_input_chenge: function (product_body) {
+        cart_input_chenge: function (product_body, e) {
+            if (!this.check_cart_limits(e.target)) return; //прерываем если превышен лимит в 100 уникальных товаров корзине
+
             this.update_cart_localStorage_data(); //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
 
             this.set_product_cart_price(product_body); //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара
@@ -525,8 +535,55 @@ let cart = qs('.cart'),
         },
         //обновляет данные товаров в корзине, используется для обновляени после взаимодествия с чекбоксом в корзине
 
+        //функция проверяет не превышен ли лимит в 100 уникальных товаров в корзине
+        check_cart_limits: function (checkbox = null) {
+            let unique_products = w.ksn_order_controler.get_unique_products_list();
+
+            //если превысили лимит уникальных товаров
+            if (unique_products.length > 99) {
+                //выводим сообщение в котором указываем что запрещено превышать лиммит товаров
+
+                if (checkbox) checkbox.checked = !checkbox.checked; //если был передан чекбокс, значит клик был в корзине по чекбоксу, и нужно веруть его в исходное состояние до клика
+
+                let situation_message = '',
+                    count = '';
+
+                //если мы чётко в пределах лимита отправляем на страницу оформленяи заказа
+                if (unique_products.length == 100) {
+                    situation_message = 'Пожалуйста оплатите текущий заказ чтоб продолжить покупки<br><br><a href="/oformlenie-zakaza/" class="button-main button-main--not-minmax-width">Оформить заказ</a><br><br>';
+                }
+                //если за пределами лимита то отправляем в корзину чтоб что-то удалили
+                else {
+                    count = 'Текущее количество уникальных товаров в корзине ' + unique_products.length + '<br><br>';
+                    situation_message = '<b style="color:red;">Пожалуйста удалите какой-то товар из корзины</b><br><br>';
+
+
+                    if (this.status == 'hide') {
+                        situation_message += '<button class="button-main button-main--not-minmax-width" onclick="ksn_open_cart(); ksn_close_window_message();">Открыть корзину</button><br><br>'; //добавляем строчку в сообщение толкьо если корзина закрыта
+                    }
+                }
+
+                let message = 'Приносим извинения но для отправки Вам фискального чека мы не должны выходить за лимит в 100 товаров. <br><br>' + count + 'Полный комплект - это один товар<br><br> Частичный комплект - это неколько отдельных товаров, где отдельным товаром считается каждая деталь, кроме инструмента, о нём ниже<br><br> Инструмент - это один товар для всех комплектов и полных, и частичных<br><br>' + situation_message + 'Если данное сообщение не пропадает даже после очистки корзины, то пожалуйста почистите Ваш браузер,т.к. возможно произошёл сбой!';
+
+                new Pop_Up_Message({
+                    title: 'Превышен лимит в 100 уникальных товаров!',
+                    message: message,
+                    type: 'warning',
+                });
+                //выводим сообщение в котором указываем что запрещено превышать лиммит товаров
+
+                return false;
+            }
+            //если превысили лимит уникальных товаров
+
+            return true;
+        },
+        //функция проверяет не превышен ли лимит в 100 уникальных товаров в корзине
+
         //добавляет товар в корзину
         add_single_product_to_cart: function (id, data) {
+            if (!this.check_cart_limits()) return; //прерываем если превышен лимит в 100 уникальных товаров корзине
+
             this.add_in_cart_localStorage_data(id, data); //добавляет товар в локальное хранилище корзины
 
             ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); //проверяем наличие в корзине полного комплекта и текущей конфигурации для данного товара, если такие есть меняем функции кнопок
@@ -900,6 +957,8 @@ let cart = qs('.cart'),
             w._on('storage', this.cart_browser_tabs_sinhronization.bind(this)); //синхронизирует корзины в разных вкладках браузера
 
             cart_order_button._on('click', this.transition_to_order_page); //переводит нас на страницу оформления заказа
+
+            w.ksn_open_cart = this.open.bind(this); //функция для открытия/закрытия корзины
         },
     };
 
