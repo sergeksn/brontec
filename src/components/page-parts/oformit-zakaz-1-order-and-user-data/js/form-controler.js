@@ -8,6 +8,7 @@ let form = qs('#user-data'),
     tel_input = qs('#tel'),
     policy_checkbox = qs('#polici-konf-checkbox'),
     button = qs('.oformit-zakaz-4__pay-run-button'), //кнопка отправки заказа
+    finall_price = qs('.oformit-zakaz-4__pay-final-price'), //финальная цена заказа с учтом скидки промокода и цены доставки
     CONTROLLER = {
         //запускает все необходиме функции для работы формы отправки заказа
         init: function () {
@@ -47,13 +48,16 @@ let form = qs('#user-data'),
             button.setAttribute('disabled', 'disabled'); //блокируем кнопку
             button.textContent = 'Ожидайте ...';
 
-            let request_data = {
+            let promocod = localStorage.getItem('promocod') ?? '',//если промокода не существует передаём пустую строку
+                request_data = {
                 //запрос на сервер
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json;charset=utf-8' },
                 body: JSON.stringify({
                     action: 'get_order_check_and_go_to_pay',
                     data: JSON.stringify(w.ksn_order_controler.get_unique_products_list()),
+                    promocod: promocod,//передаём промокод если он есть
+                    curent_full_price: finall_price.textContent.replace('\u00A0', ''),//передаём текущую цену чтоб точно удостоверится что данная цена не отличается от той что будет получена в результате проверко цен товаров с учётом промокода если он есть
                 }),
             };
 

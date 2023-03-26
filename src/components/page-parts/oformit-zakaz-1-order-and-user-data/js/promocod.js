@@ -58,7 +58,7 @@ let form_submit_button = qs('.oformit-zakaz-4__pay-run-button'), //кнопка 
                     headers: { 'Content-Type': 'application/json;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'check_promocod_price',
-                        data: JSON.stringify(GDS.prepare_cart_data_for_order),
+                        data: JSON.stringify(w.ksn_order_controler.get_unique_products_list()),
                         promocod: promocod,
                     }),
                 };
