@@ -48,54 +48,57 @@ let form = qs('#user-data'),
             button.setAttribute('disabled', 'disabled'); //блокируем кнопку
             button.textContent = 'Ожидайте ...';
 
-            let promocod = localStorage.getItem('promocod') ?? '',//если промокода не существует передаём пустую строку
+            let promocod = localStorage.getItem('promocod') ?? '', //если промокода не существует передаём пустую строку
                 request_data = {
-                //запрос на сервер
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json;charset=utf-8' },
-                body: JSON.stringify({
-                    action: 'get_order_check_and_go_to_pay',
-                    data: JSON.stringify(w.ksn_order_controler.get_unique_products_list()),
-                    promocod: promocod,//передаём промокод если он есть
-                    curent_full_price: finall_price.textContent.replace('\u00A0', ''),//передаём текущую цену чтоб точно удостоверится что данная цена не отличается от той что будет получена в результате проверко цен товаров с учётом промокода если он есть
-                }),
-            };
+                    //запрос на сервер
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'get_order_check_write_order_in_bd_and_go_to_pay',
+                        data: JSON.stringify(w.ksn_order_controler.get_unique_products_list()),
+                        promocod: promocod, //передаём промокод если он есть
+                        curent_finall_price: finall_price.textContent.replace('\u00A0', ''), //передаём текущую цену чтоб точно удостоверится что данная цена не отличается от той что будет получена в результате проверко цен товаров с учётом промокода если он есть
+                    }),
+                };
 
             //отправляем запрос на сервер чтоб проверить все ли товары в заказе проходят проврку в базе, если не проходят вернём собщение со сприском товаров которые изменились, если все товары прошли проверку то в юкасе создаём объект оплаты
             await fetch(GDS.ajax_url, request_data)
                 .then(response => response.json()) //считываем переданные данные
                 .then(result => {
-                    let warning_data = result.warning;
+                    let error = result.error;
 
-                    //если в ответ пришло предупреждение
-                    if (warning_data) {
-                        Header_Cart.check_actual_cart_data(); //обновляем все данные товаров в корзине, в заказе и данные промокода
-
-                        let message = 'Ознакомьтесь с изменениями, они уже обновились на странице заказа!<br><br>';
-
-                        warning_data.forEach(item => {
-                            let type = item.type;
-
-                            if (type == 'deleted') {
-                                message += item.name + ' удалён<br><br>';
-                            }
-
-                            if (type == 'chenge_price') {
-                                message += item.name + ' изменилась цена ' + item.old + ' > ' + item.new + '<br><br>';
-                            }
-                        });
-
-                        //выводим сообщение в котором указываем что изменилось
+                    //если в ответ пришла ошибка
+                    if (error) {
+                        //выводим сообщение в котором указываем что случилось
                         new Pop_Up_Message({
-                            title: 'Изменились данные товаров в заказе:',
-                            message: message,
-                            type: 'warning',
+                            title: error.title,
+                            message: error.message,
+                            type: error['message-type'],
                         });
-                        //выводим сообщение в котором указываем что изменилось
+                        //выводим сообщение в котором указываем что случилось
+
+                        //если вылезли за лимит, но почему-то скрипт на фронтенде не отработал
+                        // if (error['error-type'] == 'order_unical_items_amount > 100') {
+                        //     //выводим сообщение в котором указываем что случилось
+                        //     new Pop_Up_Message({
+                        //         title: error.title,
+                        //         message: error.message,
+                        //         type: error['message-type'],
+                        //     });
+                        //     //выводим сообщение в котором указываем что случилось
+                        // }
+                        //если вылезли за лимит, но почему-то скрипт на фронтенде не отработал
+
+                        //если пришло сообщение что данные товаров или финальная цена не актуальны то обновляем данные заказа
+                        if (error['error-type'] == 'not_actual_products' || error['error-type'] == 'not_actual_finall_price') {
+                            Header_Cart.check_actual_cart_data(); //обновляем все данные товаров в корзине, в заказе и данные промокода
+                        }
+                        //если пришло сообщение что данные товаров или финальная цена не актуальны то обновляем данные заказа
 
                         return; //прерываем
                     }
-                    //если в ответ пришло предупреждение
+                    //если в ответ пришла ошибка
+
                     console.log(result);
                 })
                 .catch(e => console.error(e));

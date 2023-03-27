@@ -540,7 +540,7 @@ let cart = qs('.cart'),
             let unique_products = w.ksn_order_controler.get_unique_products_list();
 
             //если превысили лимит уникальных товаров
-            if (unique_products.length > 99) {
+            if (unique_products.length > 100) {
                 //выводим сообщение в котором указываем что запрещено превышать лиммит товаров
 
                 if (checkbox) checkbox.checked = !checkbox.checked; //если был передан чекбокс, значит клик был в корзине по чекбоксу, и нужно веруть его в исходное состояние до клика

@@ -274,6 +274,7 @@ w.ksn_order_controler = {
             if (only_tools) {
                 cart_data[id] = {
                     amount: product_data.amount,
+                    marka_model: 'all@@all',
                     tools: true,
                     price: composition['tools'].price,
                 };
@@ -354,7 +355,7 @@ w.ksn_order_controler = {
 
     //генерирует на основе данных из функции prepare_cart_data_for_order списко состоящий из уникальных товаров для дальнейшей передачи их на сервре или для быстрой проверки не превышен ли лимит 100 уникальных товаров
     get_unique_products_list: function () {
-        let cart_data = this.prepare_cart_data_for_order(),//функция подготованивает данные из корзины для работы с заказом, удаляе пустые комплекты,генерируюя товары соло инструментов и объединяя дубликаты
+        let cart_data = this.prepare_cart_data_for_order(), //функция подготованивает данные из корзины для работы с заказом, удаляе пустые комплекты,генерируюя товары соло инструментов и объединяя дубликаты
             unique_products = {
                 length: 0, //количество уникальных товаров
             }; //объект содержащий только уникальные товары
@@ -366,16 +367,18 @@ w.ksn_order_controler = {
             //если данный товар соло инструмен
             if (product_data.tools) {
                 //если уже есть запись об инструментах
-                if (unique_products.tools) {
-                    unique_products.tools.amount += product_data.amount; //просто увеличиваем количество штук
+                if (unique_products['all@@all']?.tools) {
+                    unique_products['all@@all'].tools.amount += product_data.amount; //просто увеличиваем количество штук
                 }
                 //если уже есть запись об инструментах
 
                 //если записи нет то создаёем её с нуля
                 else {
-                    unique_products.tools = {
-                        amount: product_data.amount,
-                        price: product_data.price, //цену записываем при создании т.к. она одинаковая у одинаковых товаров
+                    unique_products['all@@all'] = {
+                        tools: {
+                            amount: product_data.amount,
+                            price: product_data.price, //цену записываем при создании т.к. она одинаковая у одинаковых товаров
+                        },
                     };
 
                     unique_products.length += 1; //увеличиваем счётчик уникальных товаров
@@ -417,16 +420,18 @@ w.ksn_order_controler = {
                 //если деталь инструмент учитываем её отдельно
                 if (detal == 'tools') {
                     //если уже есть запись об инструментах
-                    if (unique_products.tools) {
-                        unique_products.tools.amount += amount; //просто увеличиваем количество штук
+                    if (unique_products['all@@all']?.tools) {
+                        unique_products['all@@all'].tools.amount += amount; //просто увеличиваем количество штук
                     }
                     //если уже есть запись об инструментах
 
                     //если записи нет то создаёем её с нуля
                     else {
-                        unique_products.tools = {
-                            amount: amount,
-                            price: product_data.price, //цену записываем при создании т.к. она одинаковая у одинаковых товаров
+                        unique_products['all@@all'] = {
+                            tools: {
+                                amount: amount,
+                                price: detal_data.price, //цену записываем при создании т.к. она одинаковая у одинаковых товаров
+                            },
                         };
 
                         unique_products.length += 1; //увеличиваем счётчик уникальных товаров

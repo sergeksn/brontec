@@ -1,6 +1,7 @@
 import { set_local_storage } from '@js-libs/func-kit';
 import { Order_Prices } from '@oformit-zakaz-1-order-and-user-data-main-js';
 import { Header_Cart } from '@header-main-js';
+import Pop_Up_Message from '@pop-up-messages-main-js';
 
 let form_submit_button = qs('.oformit-zakaz-4__pay-run-button'), //кнопка отправки заказа
     order_block = qs('.oformit-zakaz-1__you-order'), //блок с товарами заказа
@@ -67,19 +68,36 @@ let form_submit_button = qs('.oformit-zakaz-4__pay-run-button'), //кнопка 
                 .then(response => response.json()) //считываем переданные данные
                 .then(result => {
                     let success = result.success,
-                        warning = result.warning;
+                        error = result.error;
 
                     if (success) {
-                        promocode_price = success['full-price'] - success['promocod-price'] > 0 ? success['promocod-price'] : false; //если всё прошло успешно то смотрим чтоб цена с промокодом была меньше текущей общей цены заказа и тогда возвращаем её , еслди же цена такая же или больше из-за ошибки заполненяи в мс то мы возвращаем false который покажет что промокод не подошёл
+                        promocode_price = success['full'] - success['promocod'] > 0 ? success['promocod'] : false; //если всё прошло успешно то смотрим чтоб цена с промокодом была меньше текущей общей цены заказа и тогда возвращаем её , еслди же цена такая же или больше из-за ошибки заполненяи в мс то мы возвращаем false который покажет что промокод не подошёл
                         return;
                     }
 
-                    //если какойто из товаров или цен товаров отличался от теущих на странице мы начианем обновление данных корзины, что в свою очередь вызовет перерендер блока заказа, а это в свою очередь опять вызовет проверку актуальных цен промокода
-                    if (warning == 'nead update') {
-                        promocode_price = false; //помечаем что цена прмоокода не было отпределена
-                        Header_Cart.check_actual_cart_data(); //вызыаем проверку данных товаров в базе
+                    //есливозникла ошибка валидации данных
+                    if (error) {
+                        //если превышен лимит в 100 товаров
+                        if (error['error-type'] == 'order_unical_items_amount > 100') {
+                            //выводим сообщение в котором указываем что изменилось
+                            new Pop_Up_Message({
+                                title: error.title,
+                                message: error.message,
+                                type: error['message-type'],
+                            });
+                            //выводим сообщение в котором указываем что изменилось
+                        }
+                        //если превышен лимит в 100 товаров
+
+                        //если аднные товаров в заказе не актуальны
+                        if (error['error-type'] == 'not_actual_products') {
+                            Header_Cart.check_actual_cart_data(); //вызыаем проверку данных товаров в базе чтоб обновить новые актуальные данные
+                        }
+                        //если аднные товаров в заказе не актуальны
+
+                        promocode_price = 'wait fo update'; //помечаем что цена прмоокода не было отпределена и мы ждём обновляения из-за ошибки
                     }
-                    //если какойто из товаров или цен товаров отличался от теущих на странице мы начианем обновление данных корзины, что в свою очередь вызовет перерендер блока заказа, а это в свою очередь опять вызовет проверку актуальных цен промокода
+                    //есливозникла ошибка валидации данных
                 })
                 .catch(e => console.error(e));
 
@@ -135,6 +153,8 @@ let form_submit_button = qs('.oformit-zakaz-4__pay-run-button'), //кнопка 
             [promocod_price_area, promocod_block_delivery_price_area, finall_price].forEach(el => (el.textContent = 'ожидание...')); //помечаем цены скидки промокода и полную цена в режим ожидания пока проверяем промокод
 
             let promocod_price = await this.get_promokod_data(promocod); //пытаемся получить цену промокода для текущего заказа из базы
+
+            if (promocod_price == 'wait fo update') return; //если нам сообщили что ожидаем обновления то прерываем, т.к. после обновления все отобразится как нужно
 
             promocod_submit_button.textContent = 'Применить'; //меняем текст кнокпи
             promocod_input.disabled = false; //разблокируем инпут
