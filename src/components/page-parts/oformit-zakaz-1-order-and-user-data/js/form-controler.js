@@ -6,6 +6,7 @@ let form = qs('#user-data'),
     fio_input = qs('#fio'),
     email_input = qs('#email'),
     tel_input = qs('#tel'),
+    comment_message = qs('#message'),
     policy_checkbox = qs('#polici-konf-checkbox'),
     button = qs('.oformit-zakaz-4__pay-run-button'), //кнопка отправки заказа
     finall_price = qs('.oformit-zakaz-4__pay-final-price'), //финальная цена заказа с учтом скидки промокода и цены доставки
@@ -56,6 +57,13 @@ let form = qs('#user-data'),
                     body: JSON.stringify({
                         action: 'get_order_check_write_order_in_bd_and_go_to_pay',
                         data: JSON.stringify(w.ksn_order_controler.get_unique_products_list()),
+                        delivery: JSON.stringify('test'), //данные доставки
+                        user_info: JSON.stringify({
+                            fio: fio_input.value,
+                            email: email_input.value,
+                            tel: tel_input.value,
+                        }),
+                        comment: comment_message.value,
                         promocod: promocod, //передаём промокод если он есть
                         curent_finall_price: finall_price.textContent.replace('\u00A0', ''), //передаём текущую цену чтоб точно удостоверится что данная цена не отличается от той что будет получена в результате проверко цен товаров с учётом промокода если он есть
                     }),
