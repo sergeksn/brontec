@@ -1,5 +1,6 @@
 import { Header, Header_Cart } from '@header-main-js';
 import Pop_Up_Message from '@pop-up-messages-main-js';
+import { set_local_storage } from '@js-libs/func-kit';
 
 let form = qs('#user-data'),
     order_block = qs('.oformit-zakaz-1__you-order'), //блок с товарами заказа
@@ -85,18 +86,6 @@ let form = qs('#user-data'),
                         });
                         //выводим сообщение в котором указываем что случилось
 
-                        //если вылезли за лимит, но почему-то скрипт на фронтенде не отработал
-                        // if (error['error-type'] == 'order_unical_items_amount > 100') {
-                        //     //выводим сообщение в котором указываем что случилось
-                        //     new Pop_Up_Message({
-                        //         title: error.title,
-                        //         message: error.message,
-                        //         type: error['message-type'],
-                        //     });
-                        //     //выводим сообщение в котором указываем что случилось
-                        // }
-                        //если вылезли за лимит, но почему-то скрипт на фронтенде не отработал
-
                         //если пришло сообщение что данные товаров или финальная цена не актуальны то обновляем данные заказа
                         if (error['error-type'] == 'not_actual_products' || error['error-type'] == 'not_actual_finall_price') {
                             Header_Cart.check_actual_cart_data(); //обновляем все данные товаров в корзине, в заказе и данные промокода
@@ -107,7 +96,7 @@ let form = qs('#user-data'),
                     }
                     //если в ответ пришла ошибка
 
-                    console.log(result);
+                    this.write_paymet_id_and_redirect_user(result); //при успешном создании платежа записываем в хранилище id платежа и перенаправляем юзера на страницу оплаты
                 })
                 .catch(e => console.error(e));
 
@@ -115,6 +104,14 @@ let form = qs('#user-data'),
             button.textContent = 'Оплатить онлайн';
         },
         //при отправлке формы перехватываем управление
+
+        //при успешном создании платежа записываем в хранилище id платежа и перенаправляем юзера на страницу оплаты
+        write_paymet_id_and_redirect_user: function (result) {
+            set_local_storage('payment-id', result.id);//записываем в хранилище чтоб на после возврата с платёжной системы на наш сайт знать какой платёж проверять, тут даже если юзер подменит id то он увидит тот статус который он нахакерил, но у нас всё равно проверка на вебхуках с повторонйо проверкой статуса платеже перед созданием заказа в МС
+
+            w.location.href = result.payment_url;//перенаправляем пользователя на платёжную систему
+        },
+        //при успешном создании платежа записываем в хранилище id платежа и перенаправляем юзера на страницу оплаты
 
         //подключает все необходимые события для работы инпутов
         init_inputs: function () {

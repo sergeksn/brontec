@@ -405,6 +405,42 @@
             "@selector-marka-model-img/*": [
                 "@components\\blocks\\selector-marka-model\\img/*"
             ],
+            "@slider": [
+                "@components\\blocks\\slider"
+            ],
+            "@slider/*": [
+                "@components\\blocks\\slider/*"
+            ],
+            "@slider-main-js": [
+                "@components\\blocks\\slider\\js\\slider-main.js"
+            ],
+            "@slider-main-js/*": [
+                "@components\\blocks\\slider\\js\\slider-main.js/*"
+            ],
+            "@slider-render-scss": [
+                "@components\\blocks\\slider\\scss\\slider-render.scss"
+            ],
+            "@slider-render-scss/*": [
+                "@components\\blocks\\slider\\scss\\slider-render.scss/*"
+            ],
+            "@slider-interaction-scss": [
+                "@components\\blocks\\slider\\scss\\slider-interaction.scss"
+            ],
+            "@slider-interaction-scss/*": [
+                "@components\\blocks\\slider\\scss\\slider-interaction.scss/*"
+            ],
+            "@slider-fonts": [
+                "@components\\blocks\\slider\\fonts"
+            ],
+            "@slider-fonts/*": [
+                "@components\\blocks\\slider\\fonts/*"
+            ],
+            "@slider-img": [
+                "@components\\blocks\\slider\\img"
+            ],
+            "@slider-img/*": [
+                "@components\\blocks\\slider\\img/*"
+            ],
             "@standart-video-block": [
                 "@components\\blocks\\standart-video-block"
             ],

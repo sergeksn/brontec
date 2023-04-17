@@ -31,6 +31,16 @@
             color: var(--gray);
             margin-bottom: var(--gap-10);
         }
+
+        &-info {
+            &-address:before {
+                content: 'Адрес доставки: ';
+            }
+
+            &-term:before {
+                content: 'Сроки доствки: ';
+            }
+        }
     }
 
     &__pay {
