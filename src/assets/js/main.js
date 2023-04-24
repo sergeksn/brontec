@@ -45,6 +45,7 @@ import "@slider-main-js";
 import "@standart-video-block-main-js";
 import "@block-showed-on-scroll-main-js";
 import "@scrollbar-main-js";
+import "@check-payment-main-js";
 import "@detal-1-add-to-kit-main-js";
 import "@detal-2-about-main-js";
 import "@detal-3-video-instruction-main-js";

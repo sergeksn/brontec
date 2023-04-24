@@ -1,0 +1,46 @@
+.check-payment {
+    margin: rem(40) 0 rem(120) 0;
+
+    @media (min-width: rem(640)) {
+        margin: adaptiv_rem_size(100, 640, 120, 1920) 0 adaptiv_rem_size(130, 640, 205, 1920) 0;
+    }
+
+    @media (min-width: rem(1920)) {
+        margin: adaptiv_rem_size(120, 1920) 0 adaptiv_rem_size(205, 1920) 0;
+    }
+
+    h1,
+    &__description,
+    &__img {
+        grid-column: 1/-1;
+        text-align: center;
+        margin-bottom: var(--small-gap);
+
+        @media (min-width: rem(640)) {
+            grid-column: 3/11;
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 4/10;
+        }
+    }
+
+    &__buttons {
+        grid-column: 1/-1;
+        display: grid;
+        grid-gap: var(--gap);
+        text-align: center;
+
+        @media (min-width: rem(640)) {
+            grid-column: 4/10;
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 5/9;
+        }
+
+        &-to-order{
+            display: none;
+        }
+    }
+}

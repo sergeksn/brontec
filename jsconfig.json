@@ -549,6 +549,42 @@
             "@scrollbar-img/*": [
                 "@components\\moduls\\scrollbar\\img/*"
             ],
+            "@check-payment": [
+                "@components\\page-parts\\check-payment"
+            ],
+            "@check-payment/*": [
+                "@components\\page-parts\\check-payment/*"
+            ],
+            "@check-payment-main-js": [
+                "@components\\page-parts\\check-payment\\js\\check-payment-main.js"
+            ],
+            "@check-payment-main-js/*": [
+                "@components\\page-parts\\check-payment\\js\\check-payment-main.js/*"
+            ],
+            "@check-payment-render-scss": [
+                "@components\\page-parts\\check-payment\\scss\\check-payment-render.scss"
+            ],
+            "@check-payment-render-scss/*": [
+                "@components\\page-parts\\check-payment\\scss\\check-payment-render.scss/*"
+            ],
+            "@check-payment-interaction-scss": [
+                "@components\\page-parts\\check-payment\\scss\\check-payment-interaction.scss"
+            ],
+            "@check-payment-interaction-scss/*": [
+                "@components\\page-parts\\check-payment\\scss\\check-payment-interaction.scss/*"
+            ],
+            "@check-payment-fonts": [
+                "@components\\page-parts\\check-payment\\fonts"
+            ],
+            "@check-payment-fonts/*": [
+                "@components\\page-parts\\check-payment\\fonts/*"
+            ],
+            "@check-payment-img": [
+                "@components\\page-parts\\check-payment\\img"
+            ],
+            "@check-payment-img/*": [
+                "@components\\page-parts\\check-payment\\img/*"
+            ],
             "@detal-1-add-to-kit": [
                 "@components\\page-parts\\detal-1-add-to-kit"
             ],

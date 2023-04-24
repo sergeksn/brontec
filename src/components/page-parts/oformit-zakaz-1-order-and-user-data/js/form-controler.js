@@ -10,7 +10,6 @@ let form = qs('#user-data'),
     comment_message = qs('#message'),
     policy_checkbox = qs('#polici-konf-checkbox'),
     button = qs('.oformit-zakaz-4__pay-run-button'), //кнопка отправки заказа
-    finall_price = qs('.oformit-zakaz-4__pay-final-price'), //финальная цена заказа с учтом скидки промокода и цены доставки
     CONTROLLER = {
         //запускает все необходиме функции для работы формы отправки заказа
         init: function () {
@@ -58,7 +57,13 @@ let form = qs('#user-data'),
                     body: JSON.stringify({
                         action: 'get_order_check_write_order_in_bd_and_go_to_pay',
                         data: JSON.stringify(w.ksn_order_controler.get_unique_products_list()),
-                        delivery: JSON.stringify('test'), //данные доставки
+                        delivery: JSON.stringify({
+                            city_name: GDS.delivery.city_name,
+                            pvz_or_postomat_id: GDS.delivery.pvz_or_postomat_id,
+                            price: GDS.delivery.price,
+                            pvz_or_postomat_name: GDS.delivery.pvz_or_postomat_name,
+                            pvz_or_postomat_address: GDS.delivery.pvz_or_postomat_address,
+                        }), //данные доставки
                         user_info: JSON.stringify({
                             fio: fio_input.value,
                             email: email_input.value,
@@ -66,7 +71,7 @@ let form = qs('#user-data'),
                         }),
                         comment: comment_message.value,
                         promocod: promocod, //передаём промокод если он есть
-                        curent_finall_price: finall_price.textContent.replace('\u00A0', ''), //передаём текущую цену чтоб точно удостоверится что данная цена не отличается от той что будет получена в результате проверко цен товаров с учётом промокода если он есть
+                        curent_finall_price: qs('.oformit-zakaz-3__promocod-prices-promocod-discont').getAttribute('data-promocod-price'), //передаём текущую цену чтоб точно удостоверится что данная цена не отличается от той что будет получена в результате проверко цен товаров с учётом промокода если он есть
                     }),
                 };
 
@@ -107,9 +112,9 @@ let form = qs('#user-data'),
 
         //при успешном создании платежа записываем в хранилище id платежа и перенаправляем юзера на страницу оплаты
         write_paymet_id_and_redirect_user: function (result) {
-            set_local_storage('payment-id', result.id);//записываем в хранилище чтоб на после возврата с платёжной системы на наш сайт знать какой платёж проверять, тут даже если юзер подменит id то он увидит тот статус который он нахакерил, но у нас всё равно проверка на вебхуках с повторонйо проверкой статуса платеже перед созданием заказа в МС
+            set_local_storage('payment-id', result.id); //записываем в хранилище чтоб на после возврата с платёжной системы на наш сайт знать какой платёж проверять, тут даже если юзер подменит id то он увидит тот статус который он нахакерил, но у нас всё равно проверка на вебхуках с повторонйо проверкой статуса платеже перед созданием заказа в МС
 
-            w.location.href = result.payment_url;//перенаправляем пользователя на платёжную систему
+            w.location.href = result.payment_url; //перенаправляем пользователя на платёжную систему
         },
         //при успешном создании платежа записываем в хранилище id платежа и перенаправляем юзера на страницу оплаты
 

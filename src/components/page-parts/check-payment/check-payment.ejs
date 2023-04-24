@@ -1,0 +1,13 @@
+<div class="check-payment">
+  <div class="standart-container">
+    <h1>Ожидаем данные ...</h1>
+    <div class="check-payment__description">Пожалуйста подождите мы проверяем Ваш заказ</div>
+    <div class="check-payment__img">
+        <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", loader:true, url:"~@check-payment-img/end_payment_img.jpg", pt:67.7586,}})%>
+    </div>
+    <div class="check-payment__buttons">
+      <a class="check-payment__buttons-to-order button-main button-main--not-minmax-width" href="/oformlenie-zakaza/">На страницу оформления заказа</a>
+      <a class="check-payment__buttons-to-shop button-main button-main--not-minmax-width" href="/">Вернуться в магазин</a>
+    </div>
+  </div>
+</div>

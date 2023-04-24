@@ -1,15 +1,21 @@
+import { Order_Prices } from '@oformit-zakaz-1-order-and-user-data-main-js';
+
 let delivery_input = qs('.oformit-zakaz-2 input'),
     delivery_addres = qs('.oformit-zakaz-4__delivery-info-address'),
     delivery_term = qs('.oformit-zakaz-4__delivery-info-term'),
     CONTROLLER = {
         init: function () {
+            if (!delivery_input) return; //если не на той странице
+
+            GDS.delivery.price = 0; //цена доставки по умолчанию нулевая
+
             var widjet = new ISDEKWidjet({
-                //defaultCity: 'auto',
+                defaultCity: 'auto',
                 cityFrom: 'Екатеринбург',
                 link: 'sdekmap',
                 path: GDS.host_url + '/wp-content/plugins/ksn_shop/integrations/sdek/widget/scripts/',
                 servicepath: GDS.host_url + '/wp-content/plugins/ksn_shop/integrations/sdek/widget/scripts/service.php', //ссылка на файл service.php на вашем сайте
-                mode: 'pvz',
+                //mode: 'pvz',
                 hidedress: true, //скрывает фильтр пунктов выдачи заказов с опцией примерки
                 hidecash: true, //скрывает фильтр ПВЗ с возможностью расчета картой
                 hidedelt: true, //скрывается панель, на которой отображены варианты доставки
@@ -24,6 +30,13 @@ let delivery_input = qs('.oformit-zakaz-2 input'),
                 ],
                 onChoose: this.select_pvz_or_postomat,
             });
+
+            GDS.delivery.city_name = 'Донецк';
+            GDS.delivery.pvz_or_postomat_id = 'DON2';
+            GDS.delivery.price = 310;
+            GDS.delivery.term = '3-5';
+            GDS.delivery.pvz_or_postomat_name = 'На Смирнова 56';
+            GDS.delivery.pvz_or_postomat_address = 'ул. Смирнова, 56';
         },
 
         //срабытывает при выборе пвз или постомата на карте и нажатию кнопки выбрать
@@ -31,17 +44,21 @@ let delivery_input = qs('.oformit-zakaz-2 input'),
             console.log(data);
 
             GDS.delivery.city_name = data.cityName;
-            GDS.delivery.id = data.id;
-            GDS.delivery.price = data.price;
-            GDS.delivery.price = data.term;
-            GDS.delivery.pvz_name = data.PVZ.Name;
-            GDS.delivery.pvz_address = data.PVZ.Address;
+            GDS.delivery.pvz_or_postomat_id = data.id;
+            GDS.delivery.price = +data.price;
+            GDS.delivery.term = data.term;
+            GDS.delivery.pvz_or_postomat_name = data.PVZ.Name;
+            GDS.delivery.pvz_or_postomat_address = data.PVZ.Address;
 
             delivery_input.value = data.id; //записываем id  в инпут чтоб он перестал быть пустым
 
             //записываем данные в блоке с итоговой информацией о доставке и цене
             delivery_addres.textContent = data.cityName + ' ' + data.PVZ.Address;
             delivery_term.textContent = data.term + ' дней';
+
+            Order_Prices.upadate_prices(); //вызываем для обнволяения знченйи цен в полях
+
+            console.log(GDS.delivery);
         },
         //срабытывает при выборе пвз или постомата на карте и нажатию кнопки выбрать
     };
