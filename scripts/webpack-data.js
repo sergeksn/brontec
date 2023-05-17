@@ -57,7 +57,6 @@ function Get_Extensions() {
 function Get_Pages() {
     let pages = [
         'glavnaya', //
-        'abaut',
         'instruction',
         'dostavka_i_oplata',
         'vibrat_complekt',

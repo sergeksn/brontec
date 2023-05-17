@@ -1,5 +1,4 @@
 import '@pages/glavnaya.ejs';
-import '@pages/abaut.ejs';
 import '@pages/instruction.ejs';
 import '@pages/dostavka_i_oplata.ejs';
 import '@pages/vibrat_complekt.ejs';
@@ -7,6 +6,9 @@ import '@pages/komplekt.ejs';
 import '@pages/detal.ejs';
 import '@pages/oformit_zakaz.ejs';
 import '@pages/ostavit_otziv.ejs';
+import '@pages/politika_konfidenczialnosti.ejs';
+import '@pages/o_nas.ejs';
+import '@pages/end_payment.ejs';
 
 import '@js/main.js';
 import '@scss/main.scss';

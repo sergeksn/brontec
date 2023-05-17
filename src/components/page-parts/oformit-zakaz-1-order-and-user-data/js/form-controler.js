@@ -71,7 +71,8 @@ let form = qs('#user-data'),
                         }),
                         comment: comment_message.value,
                         promocod: promocod, //передаём промокод если он есть
-                        curent_finall_price: qs('.oformit-zakaz-3__promocod-prices-promocod-discont').getAttribute('data-promocod-price'), //передаём текущую цену чтоб точно удостоверится что данная цена не отличается от той что будет получена в результате проверко цен товаров с учётом промокода если он есть
+                        curent_finall_price: qs('.oformit-zakaz-3__promocod-prices-promocod-discont').getAttribute('data-promocod-price') ?? qs('.oformit-zakaz-3__promocod-prices-full').textContent.replace('\u00A0', ''), //передаём текущую цену чтоб точно удостоверится что данная цена не отличается от той что будет получена в результате проверко цен товаров с учётом промокода если он есть
+                        //если промокода нет то берём просто финальную цену
                     }),
                 };
 

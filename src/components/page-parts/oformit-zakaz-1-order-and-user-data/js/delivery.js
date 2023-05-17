@@ -9,13 +9,14 @@ let delivery_input = qs('.oformit-zakaz-2 input'),
 
             GDS.delivery.price = 0; //цена доставки по умолчанию нулевая
 
-            var widjet = new ISDEKWidjet({
-                defaultCity: 'auto',
+            new ISDEKWidjet({
+                defaultCity: 'Москва', //defaultCity: 'auto',
                 cityFrom: 'Екатеринбург',
                 link: 'sdekmap',
                 path: GDS.host_url + '/wp-content/plugins/ksn_shop/integrations/sdek/widget/scripts/',
                 servicepath: GDS.host_url + '/wp-content/plugins/ksn_shop/integrations/sdek/widget/scripts/service.php', //ссылка на файл service.php на вашем сайте
                 //mode: 'pvz',
+                apikey: GDS.delivery.yandex_map_api_key, //ключ от яндекс карт
                 hidedress: true, //скрывает фильтр пунктов выдачи заказов с опцией примерки
                 hidecash: true, //скрывает фильтр ПВЗ с возможностью расчета картой
                 hidedelt: true, //скрывается панель, на которой отображены варианты доставки
@@ -30,19 +31,10 @@ let delivery_input = qs('.oformit-zakaz-2 input'),
                 ],
                 onChoose: this.select_pvz_or_postomat,
             });
-
-            GDS.delivery.city_name = 'Донецк';
-            GDS.delivery.pvz_or_postomat_id = 'DON2';
-            GDS.delivery.price = 310;
-            GDS.delivery.term = '3-5';
-            GDS.delivery.pvz_or_postomat_name = 'На Смирнова 56';
-            GDS.delivery.pvz_or_postomat_address = 'ул. Смирнова, 56';
         },
 
         //срабытывает при выборе пвз или постомата на карте и нажатию кнопки выбрать
         select_pvz_or_postomat: function (data) {
-            console.log(data);
-
             GDS.delivery.city_name = data.cityName;
             GDS.delivery.pvz_or_postomat_id = data.id;
             GDS.delivery.price = +data.price;
@@ -57,12 +49,8 @@ let delivery_input = qs('.oformit-zakaz-2 input'),
             delivery_term.textContent = data.term + ' дней';
 
             Order_Prices.upadate_prices(); //вызываем для обнволяения знченйи цен в полях
-
-            console.log(GDS.delivery);
         },
         //срабытывает при выборе пвз или постомата на карте и нажатию кнопки выбрать
     };
-
-CONTROLLER.init();
 
 export default CONTROLLER;

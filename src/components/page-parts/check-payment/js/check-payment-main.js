@@ -1,4 +1,5 @@
 import { set_local_storage } from '@js-libs/func-kit';
+import { Header_Cart } from '@header-main-js';
 
 let title = qs('.check-payment h1'),
     description = qs('.check-payment__description'),
@@ -50,10 +51,8 @@ let title = qs('.check-payment h1'),
                         title.textContent = 'Спасибо за покупку!';
                         description.textContent = 'Ваш заказ успешно оплачен!';
 
-                        //после успешной оплаты платежа чистим корзину и удалям идентификатор платежа
-                        set_local_storage('cart-data', '{}');
-                        set_local_storage('payment-id', '');
-                        //после успешной оплаты платежа чистим корзину и удалям идентификатор платежа
+                        set_local_storage('cart-data', '{}');//после успешной оплаты платежа чистим корзину
+                        Header_Cart.set_cart_counter();//убираем счётчик корзины
                     } else if (status == 'pending') {
                         title.textContent = 'Платёж в ожидании';
                         description.textContent = 'Платёж ожидает подтвержения с Вашей стороны или стороны Вашего банка';

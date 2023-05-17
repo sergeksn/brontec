@@ -108,8 +108,14 @@ let form_submit_button = qs('.oformit-zakaz-4__pay-run-button'), //кнопка 
         //срабатывает при вводе в поле промокода
         input_promocod_event: function () {
             let empty_promocod = promocod_input.value.length < 1; //пустое ли поле промокода
-
-            if (empty_promocod) set_local_storage('promocod', ''); //если пользователь полностью удалил промокод то значит он хочет его отменить в таком случае мы его чистим
+            
+            //если пользователь полностью удалил промокод то значит он хочет его отменить в таком случае мы его чистим
+            if (empty_promocod) {
+                set_local_storage('promocod', '');
+                promocod_price_area.removeAttribute('data-promocod-price'); //удаляем атрибут с прежней ценой заказа с учётом промокода
+                Order_Prices.upadate_prices(); //вызываем для обнволяения знченйи цен в поялх
+            } 
+            //если пользователь полностью удалил промокод то значит он хочет его отменить в таком случае мы его чистим
 
             promocod_submit_button.disabled = empty_promocod; //блокируем кнопку если в инпуте ничего не введено
 

@@ -5,7 +5,7 @@
         margin-bottom: var(--small-gap);
     }
 
-    input{
+    input[form="user-data"]{
         position: absolute;
         pointer-events: none;
         opacity: 0;
@@ -20,7 +20,7 @@
         height: adaptiv_rem_size(400, 1920);
     }
 
-    *{
-        color: #fff;
-    }
+    // *{
+    //     color: #fff;
+    // }
 }
