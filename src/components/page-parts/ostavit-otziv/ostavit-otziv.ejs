@@ -1,0 +1,74 @@
+<div class="ostavit-otziv-title">
+  <div class="standart-container" data-showed-on-scroll>
+    <h1>Оставить отзыв</h1>
+  </div>
+</div>
+<div class="ostavit-otziv">
+  <form id="otziv" class="standart-container" data-showed-on-scroll>
+
+    <div class="ostavit-otziv__stars">
+      <div>Ваша оценка</div>
+      <div class="ostavit-otziv__stars-items">
+        <div class="ostavit-otziv__stars-items-star" data-id="1"></div>
+        <div class="ostavit-otziv__stars-items-star" data-id="2"></div>
+        <div class="ostavit-otziv__stars-items-star" data-id="3">
+          <input type="text" required>
+        </div>
+        <div class="ostavit-otziv__stars-items-star" data-id="4"></div>
+        <div class="ostavit-otziv__stars-items-star" data-id="5"></div>
+      </div>
+    </div>
+
+    <label for="images" class="ostavit-otziv__add-button">
+      <span class="icon--add-fill"></span>
+      <span class="ostavit-otziv__add-button-title">Прикрепить фото</span>
+      <input id="images" type="file" multiple accept="image/*" required>
+    </label>
+
+    <div class="ostavit-otziv__images-previv-wrap">
+    </div>
+
+    <div class="ostavit-otziv__note">
+      - файл должен быть изображением<br>
+      - максимум 50 мегабайт на один файл<br>
+      - не более 10 файлов<br>
+    </div>
+
+    <div class="ostavit-otziv__plusi">
+      <label for="plusi" class="forma-title forma-title--required">Плюсы</label>
+      <label for="plusi" class="custom-textarea">
+        <span class="custom-textarea__resizer"></span>
+        <textarea id="plusi" placeholder="Что вам понравилось в комплекте?" rows="5" maxlength="1500" class="custom-scrollbar" required></textarea>
+      </label>
+    </div>
+
+    <div class="ostavit-otziv__minusi">
+      <label for="minusi" class="forma-title">Минусы</label>
+      <label for="minusi" class="custom-textarea">
+        <span class="custom-textarea__resizer"></span>
+        <textarea id="minusi" placeholder="С какими сложностями вы столкнулись, что разочаровало?" rows="5" maxlength="1500" class="custom-scrollbar"></textarea>
+      </label>
+    </div>
+
+    <div class="ostavit-otziv__name">
+      <label for="fio" class="forma-title forma-title--required">Ваше имя</label>
+      <input id="fio" data-user-info="fio" class="custom-text-input" pattern="[a-zA-Zа-яА-ЯЁё\s]+" name="name" autocomplete="name" maxlength="255" required>
+    </div>
+
+    <div class="ostavit-otziv__city">
+      <label for="city" class="forma-title forma-title--required">Город проживания</label>
+      <input id="city" class="custom-text-input" name="city" maxlength="255" required>
+    </div>
+
+    <div class="ostavit-otziv__car">
+      <label for="car" class="forma-title forma-title--required">Автомобиль</label>
+      <input id="car" class="custom-text-input" name="car" maxlength="255" required>
+    </div>
+
+    <%- include('./../../blocks/policy-konf-checkbox/policy-konf-checkbox.ejs', {data:{classes: "ostavit-otziv__pkc"}})%>
+
+    <button class="button-main button-main--not-minmax-width ostavit-otziv__submit-button" type="submit">Отправить</button>
+
+    <div class="ostavit-otziv__dropbox">Перетащите файлы для загрузки</div>
+  </form>
+</div>

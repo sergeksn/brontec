@@ -142,7 +142,7 @@ export default class {
 
         let _this = this,
             settings = _this.settings,
-            { slider, slide_width, slide_height, slider_wrap, slider_wrap_sl, vertical_slider, slide_delay, slide_duration, slide_tf, all_slides, space_between } = settings,
+            { slider, slide_width, slide_height, slider_wrap, slider_wrap_sl, vertical_slider, slide_delay, slide_duration, slide_tf, all_slides, space_between, slider_base_translate } = settings,
             slide_prop = vertical_slider ? slide_height : slide_width, //css свойство слайда в зависимости от типа слайдера
             translate = get_translate(slider_wrap_sl)[vertical_slider ? 'y' : 'x'], //получаем текущие параметры трансформации
             clone,
@@ -150,12 +150,6 @@ export default class {
                 slider_wrap.style.transition = ''; //чистим парамеры перехода
                 settings.lock = false; //снимаем блокировку слайдера
                 slider_wrap._off('transitionend', clean_transition_anim); //удаляем слушатель
-
-                let final_translate = get_translate(slider_wrap_sl)[vertical_slider ? 'y' : 'x'];
-
-                final_translate = -445; //next_slide ? final_translate + slide_prop + space_between : final_translate - slide_prop - space_between;
-
-                slider_wrap.style.transform = 'translate' + (vertical_slider ? 'Y' : 'X') + '(' + final_translate + 'px)'; //задаём смещение
 
                 if (next_slide) {
                     slider_wrap.append(all_slides[0]);
@@ -165,20 +159,26 @@ export default class {
                     slider_wrap.prepend(all_slides[all_slides.length - 1]);
                 }
 
-                slider.ksn_slider.write_all_slides();
+                slider_wrap.style.transform = 'translate' + (vertical_slider ? 'Y' : 'X') + '(' + slider_base_translate + 'px)'; //возвращаем слайдер в исходное положение по смещению
+
+                slider.ksn_slider.write_all_slides();//записываем все слайды по новой т.к. мы сейчас удаляли и добавляли слайды
             };
 
         settings.lock = true; //блокируем слайдер
 
         if (next_slide) {
             translate = translate - slide_prop - space_between; //вычисляем смещение
+
+            clone = all_slides[0].cloneNode(true);
+
+            slider_wrap.append(clone);
         } else {
             clone = all_slides[all_slides.length - 1].cloneNode(true);
 
             slider_wrap.prepend(clone);
 
             let start_translate = +(translate - slide_prop - space_between).toFixed(2);
-            console.log(start_translate);
+     
 
             slider_wrap.style.transform = 'translate' + (vertical_slider ? 'Y' : 'X') + '(' + start_translate + 'px)'; //задаём смещение
 

@@ -35,17 +35,29 @@ let delivery_input = qs('.oformit-zakaz-2 input'),
 
         //срабытывает при выборе пвз или постомата на карте и нажатию кнопки выбрать
         select_pvz_or_postomat: function (data) {
+            //задаём текст и стили кнопки после выбора текущего пвз
+            let button = qs('.CDEK-widget__panel-details__block .CDEK-widget__choose'),
+                old_width = w.getComputedStyle(button).width;
+
+            button.textContent = 'Выбран';
+            button.style.width = old_width;
+            button.style.color = '#fff';
+            button.style.textAlign = 'center';
+            button.style.borderColor = 'rgba(80, 166, 49, 0.6)';
+            button.style.backgroundColor = 'rgba(80, 166, 49, 0.6)';
+            //задаём текст и стили кнопки после выбора текущего пвз
+
             GDS.delivery.city_name = data.cityName;
             GDS.delivery.pvz_or_postomat_id = data.id;
             GDS.delivery.price = +data.price;
             GDS.delivery.term = data.term;
             GDS.delivery.pvz_or_postomat_name = data.PVZ.Name;
-            GDS.delivery.pvz_or_postomat_address = data.PVZ.Address;
+            GDS.delivery.pvz_or_postomat_address = data.PVZ.Address.replace('Нет приема и выдачи груза','');
 
             delivery_input.value = data.id; //записываем id  в инпут чтоб он перестал быть пустым
 
             //записываем данные в блоке с итоговой информацией о доставке и цене
-            delivery_addres.textContent = data.cityName + ' ' + data.PVZ.Address;
+            delivery_addres.textContent = data.cityName + ' ' + GDS.delivery.pvz_or_postomat_address;
             delivery_term.textContent = data.term + ' дней';
 
             Order_Prices.upadate_prices(); //вызываем для обнволяения знченйи цен в полях

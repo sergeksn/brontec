@@ -45,7 +45,6 @@ let form = qs('.vybrat-komplekt-3__forma'),
                     action: 'send_email_zayavka_na_complect',
                     email: email.value,
                     message: message.value,
-                    send_emails: form.getAttribute('data-emails'),
                 }),
             };
 
@@ -62,6 +61,9 @@ let form = qs('.vybrat-komplekt-3__forma'),
                             message: result.success.message,
                             type: 'success',
                         });
+
+                        if (!KSN_DEV_MODE) ym(94035861,'reachGoal','order'); //если не режим разработки добавляем триггер цели яндекс метрики на отправку заявки
+
                         return;
                     }
 
@@ -92,7 +94,7 @@ let form = qs('.vybrat-komplekt-3__forma'),
                 });
             //отправляем запрос на сервер что отправить сообщение и выводим соответсвующие всплывающие окна
 
-            button.removeAttribute('disabled'); //блокируем кнопку
+            button.removeAttribute('disabled'); //разблокируем кнопку
             button.textContent = button_text;
         },
         //при отправлке формы перехватываем управление

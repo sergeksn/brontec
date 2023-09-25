@@ -261,6 +261,42 @@
             "@overlays-img/*": [
                 "@components\\blocks\\overlays\\img/*"
             ],
+            "@policy-konf-checkbox": [
+                "@components\\blocks\\policy-konf-checkbox"
+            ],
+            "@policy-konf-checkbox/*": [
+                "@components\\blocks\\policy-konf-checkbox/*"
+            ],
+            "@policy-konf-checkbox-main-js": [
+                "@components\\blocks\\policy-konf-checkbox\\js\\policy-konf-checkbox-main.js"
+            ],
+            "@policy-konf-checkbox-main-js/*": [
+                "@components\\blocks\\policy-konf-checkbox\\js\\policy-konf-checkbox-main.js/*"
+            ],
+            "@policy-konf-checkbox-render-scss": [
+                "@components\\blocks\\policy-konf-checkbox\\scss\\policy-konf-checkbox-render.scss"
+            ],
+            "@policy-konf-checkbox-render-scss/*": [
+                "@components\\blocks\\policy-konf-checkbox\\scss\\policy-konf-checkbox-render.scss/*"
+            ],
+            "@policy-konf-checkbox-interaction-scss": [
+                "@components\\blocks\\policy-konf-checkbox\\scss\\policy-konf-checkbox-interaction.scss"
+            ],
+            "@policy-konf-checkbox-interaction-scss/*": [
+                "@components\\blocks\\policy-konf-checkbox\\scss\\policy-konf-checkbox-interaction.scss/*"
+            ],
+            "@policy-konf-checkbox-fonts": [
+                "@components\\blocks\\policy-konf-checkbox\\fonts"
+            ],
+            "@policy-konf-checkbox-fonts/*": [
+                "@components\\blocks\\policy-konf-checkbox\\fonts/*"
+            ],
+            "@policy-konf-checkbox-img": [
+                "@components\\blocks\\policy-konf-checkbox\\img"
+            ],
+            "@policy-konf-checkbox-img/*": [
+                "@components\\blocks\\policy-konf-checkbox\\img/*"
+            ],
             "@pop-up-messages": [
                 "@components\\blocks\\pop-up-messages"
             ],
@@ -1772,6 +1808,42 @@
             ],
             "@oformit-zakaz-4-check-data-img/*": [
                 "@components\\page-parts\\oformit-zakaz-4-check-data\\img/*"
+            ],
+            "@ostavit-otziv": [
+                "@components\\page-parts\\ostavit-otziv"
+            ],
+            "@ostavit-otziv/*": [
+                "@components\\page-parts\\ostavit-otziv/*"
+            ],
+            "@ostavit-otziv-main-js": [
+                "@components\\page-parts\\ostavit-otziv\\js\\ostavit-otziv-main.js"
+            ],
+            "@ostavit-otziv-main-js/*": [
+                "@components\\page-parts\\ostavit-otziv\\js\\ostavit-otziv-main.js/*"
+            ],
+            "@ostavit-otziv-render-scss": [
+                "@components\\page-parts\\ostavit-otziv\\scss\\ostavit-otziv-render.scss"
+            ],
+            "@ostavit-otziv-render-scss/*": [
+                "@components\\page-parts\\ostavit-otziv\\scss\\ostavit-otziv-render.scss/*"
+            ],
+            "@ostavit-otziv-interaction-scss": [
+                "@components\\page-parts\\ostavit-otziv\\scss\\ostavit-otziv-interaction.scss"
+            ],
+            "@ostavit-otziv-interaction-scss/*": [
+                "@components\\page-parts\\ostavit-otziv\\scss\\ostavit-otziv-interaction.scss/*"
+            ],
+            "@ostavit-otziv-fonts": [
+                "@components\\page-parts\\ostavit-otziv\\fonts"
+            ],
+            "@ostavit-otziv-fonts/*": [
+                "@components\\page-parts\\ostavit-otziv\\fonts/*"
+            ],
+            "@ostavit-otziv-img": [
+                "@components\\page-parts\\ostavit-otziv\\img"
+            ],
+            "@ostavit-otziv-img/*": [
+                "@components\\page-parts\\ostavit-otziv\\img/*"
             ],
             "@politika-konfidenczialnosti": [
                 "@components\\page-parts\\politika-konfidenczialnosti"

@@ -259,9 +259,12 @@ let configurator = qs('.komplekt-2-select-kit-composition') ?? qs('.detal-1-add-
 
             let button = e.target;
 
+            //добавляем данные комплекта только если у кнпки нет атрибута сообщающего нам о том что данная конфигурация или комплект уже был добавлен в корзину
             if (!button.dataset.inCart) {
                 let is_full_kit_button = path.find(el => el?.classList?.contains('komplekt-1-full-kit')), //проверяем что это за кнопка нажата
                     data_from_cart = this.generate_poduct_data_object_from_cart(is_full_kit_button); //фнукция генерирует объект с данными для добавления товара в корзину
+
+                if (!KSN_DEV_MODE) ym(94035861, 'reachGoal', 'cart_add'); //если не режим разработки добавляем триггер цели яндекс метрики на добавление товара в корзину
 
                 Header_Cart.add_single_product_to_cart(data_from_cart[0], data_from_cart[1]); //добавляет товар в корзину
             }

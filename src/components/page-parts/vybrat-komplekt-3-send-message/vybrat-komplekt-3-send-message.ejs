@@ -1,23 +1,15 @@
 <div class="vybrat-komplekt-3" id="send-request-for-new-car">
   <div class="standart-container" data-showed-on-scroll>
     <h2>Не нашли ваш авто? Оставьте заявку</h2>
-    <form class="vybrat-komplekt-3__forma" data-emails="sergeksnsd1997sd@gmail.com, sergej.catashov@yandex.ru">
+    <form class="vybrat-komplekt-3__forma">
       <label for="email" class="forma-title forma-title--required">Электронная почта</label>
-      <input id="email" data-user-info="email" class="custom-text-input" type="email" name="email" autocomplete="email" maxlength="320" placeholder="adres@mail.com" required>
+      <input id="email" data-user-info="email" class="custom-text-input" inputmode="email" type="email" name="email" autocomplete="email" maxlength="320" placeholder="adres@mail.com" required>
       <label for="message" class="forma-title forma-title--required">Производитель, модель, год выпуска</label>
       <label for="message" class="custom-textarea">
         <span class="custom-textarea__resizer"></span>
         <textarea id="message" placeholder="Mitsubishi Pajero Mini 94" rows="5" maxlength="500" class="custom-scrollbar" required></textarea>
       </label>
-      <div class="vybrat-komplekt-3__forma-polici-konf policy-konfidencial-checkout">
-        <div class="custom-checbox">
-          <input id="polici-konf-checkbox" type="checkbox" required>
-          <label for="polici-konf-checkbox" class="icon--check-mark"></label>
-        </div>
-        <div class="policy-konfidencial-checkout-title">
-          <div>Согласен с <a class="link-default" href="#">политикой конфиденциальности</a></div>
-        </div>
-      </div>
+      <%- include('./../../blocks/policy-konf-checkbox/policy-konf-checkbox.ejs', {data:{classes: "vybrat-komplekt-3__forma-polici-konf"}})%>
       <button class="button-main button-main--not-minmax-width vybrat-komplekt-3__forma-submit-button" type="submit">Отправить заявку</button>
     </form>
     <div class="vybrat-komplekt-3__description">

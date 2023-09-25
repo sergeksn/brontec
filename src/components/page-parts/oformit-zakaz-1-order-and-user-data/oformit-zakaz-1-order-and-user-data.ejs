@@ -33,9 +33,9 @@
         <label for="fio" class="forma-title forma-title--required">ФИО</label>
         <input id="fio" data-user-info="fio" class="custom-text-input" pattern="[a-zA-Zа-яА-ЯЁё\s]+" name="name" autocomplete="name" maxlength="255" placeholder="Иванов Иван Иванович" required>
         <label for="email" class="forma-title forma-title--required">Электронная почта</label>
-        <input id="email" data-user-info="email" class="custom-text-input" type="email" name="email" autocomplete="email" maxlength="255" placeholder="adres@mail.com" required>
+        <input id="email" data-user-info="email" class="custom-text-input" inputmode="email" type="email" name="email" autocomplete="email" maxlength="255" placeholder="adres@mail.com" required>
         <label for="tel" class="forma-title forma-title--required">Телефон</label>
-        <input id="tel" data-user-info="tel" class="custom-text-input" pattern="[\d\s\+()-]+" name="tel" autocomplete="tel" maxlength="100" placeholder="+7 (- - -) - - -  - -  - -" required>
+        <input id="tel" data-user-info="tel" class="custom-text-input" pattern="\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}" inputmode="tel" name="tel" autocomplete="tel" maxlength="18" required>
         <label for="message" class="forma-title">Комментарий к заказу</label>
         <label for="message" class="custom-textarea">
           <span class="custom-textarea__resizer"></span>

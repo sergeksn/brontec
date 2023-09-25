@@ -10,13 +10,13 @@
 
     .custom-scrollbar::-webkit-scrollbar {
         width: var(--scroll-width);
-        background-color: var(--gray-transparent);
+        // background-color: var(--gray-transparent);
         border-radius: var(--scroll-border-radius);
     }
 
     .custom-page-scrollbar::-webkit-scrollbar {
         width: var(--scroll-page-width);
-        background-color: var(--gray-transparent);
+        // background-color: var(--gray-transparent);
     }
 
     .custom-scrollbar::-webkit-scrollbar-thumb {

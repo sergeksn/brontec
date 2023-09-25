@@ -1,6 +1,7 @@
 import { Header, Header_Cart } from '@header-main-js';
 import Pop_Up_Message from '@pop-up-messages-main-js';
 import { set_local_storage } from '@js-libs/func-kit';
+import user_info_save from '@js-moduls/user-info-save';
 
 let form = qs('#user-data'),
     order_block = qs('.oformit-zakaz-1__you-order'), //блок с товарами заказа
@@ -67,7 +68,7 @@ let form = qs('#user-data'),
                         user_info: JSON.stringify({
                             fio: fio_input.value,
                             email: email_input.value,
-                            tel: tel_input.value,
+                            tel: tel_input.value.replace(/[^\d\+]/g, ''), //чистим номер от мусора
                         }),
                         comment: comment_message.value,
                         promocod: promocod, //передаём промокод если он есть
@@ -98,16 +99,22 @@ let form = qs('#user-data'),
                         }
                         //если пришло сообщение что данные товаров или финальная цена не актуальны то обновляем данные заказа
 
+                        button.removeAttribute('disabled'); //разблокируем кнопку
+                        button.textContent = 'Оплатить онлайн';
+
                         return; //прерываем
                     }
                     //если в ответ пришла ошибка
 
                     this.write_paymet_id_and_redirect_user(result); //при успешном создании платежа записываем в хранилище id платежа и перенаправляем юзера на страницу оплаты
-                })
-                .catch(e => console.error(e));
 
-            button.removeAttribute('disabled'); //блокируем кнопку
-            button.textContent = 'Оплатить онлайн';
+                    if (!KSN_DEV_MODE) ym(94035861,'reachGoal','order_complete'); //если не режим разработки добавляем триггер цели яндекс метрики на отправку заказа
+                })
+                .catch(e => {
+                    button.removeAttribute('disabled'); //разблокируем кнопку
+                    button.textContent = 'Оплатить онлайн';
+                    console.error(e);
+                });
         },
         //при отправлке формы перехватываем управление
 
@@ -133,8 +140,35 @@ let form = qs('#user-data'),
             policy_checkbox._on('input', this.premision_pometka_invalid_inputs.bind(null, { policy: true })); //при каждом взаимодействии с инпутом проверяем его валидность
 
             policy_checkbox.addEventListener('invalid', e => Header.hide_and_lock_on_time()); //скрываем хедер скрываем и блокируем показ хедера на секунду чтоб он не закрывал часть экрана, при услови что инпут был невалидным
+
+            tel_input._on('input', this.phone_input_autocompliter.bind(this)); //при каждом взаимодействии с инпутом проверяем его валидность
         },
         //подключает все необходимые события для работы инпутов
+
+        //взял готовую функцию, если будет лагать переделаю
+        //управляет автозаполнением номера
+        phone_input_autocompliter: function (e) {
+            let value = e.target.value.replace(/^\+7\s?/, '').replace(/[^\d]/g, ''), //чистим всё оставляя цыфры номера без кода страны
+                mask = [...'+7 (___) ___-__-__'],
+                result,
+                last_pos; //индекс последнего найденого подчёркивани _ в маске
+
+            //перебираем все цыфры в инпуте и вставляем их по порядку в нашу маску заменяя нижние подчёркивания
+            [...value].forEach(item => {
+                let position = mask.indexOf('_');
+                mask[position] = item;
+                last_pos = position;
+            });
+            //перебираем все цыфры в инпуте и вставляем их по порядку в нашу маску заменяя нижние подчёркивания
+
+            mask.length = last_pos ? last_pos + 1 : 0;//если не задан last_pos значит передали пустое количество цыфр номера
+            result = mask.join(''); //сбираем в строку безлишней части
+
+            e.target.value = result;
+            user_info_save.write_input_or_textarea_data(e.target); //сохраняем в хранилище отформатированную версию телефона
+            this.area_tel.textContent = result; //записываем отформатированное значение телефона в данные заказа ниже на странице
+        },
+        //взял готовую функцию, если будет лагать переделаю
 
         //записывает содержимое инпутов в соотвествующие поля внизу страницы оформленяи заказа
         inputed_event: function (e) {

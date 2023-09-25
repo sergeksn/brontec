@@ -1,0 +1,22 @@
+//блок с ссылкой и чекбоксом для политики конфиденциальности
+.policy-konfidencial-checkout {
+    display: flex;
+    align-items: center;
+
+    &-title {
+        margin-left: var(--gap);
+        font: var(--small);
+
+        div {
+            @media (min-width: rem(1280)) {
+                width: max-content;
+            }
+        }
+
+        div:before {
+            content: '* ';
+            color: red;
+        }
+    }
+}
+//блок с ссылкой и чекбоксом для политики конфиденциальности

@@ -142,6 +142,10 @@
                 }
             }
 
+            .touched {
+                z-index: 1;
+            }
+
             .touched [class*='-plusik-icon'] {
                 background-color: var(--blue-hover);
 

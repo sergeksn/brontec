@@ -1,11 +1,12 @@
 .politika-konfidenczialnosti {
+    margin-bottom: var(--big-gap);
+
     h1 {
         margin-bottom: var(--medium-gap);
     }
 
     &__text {
         grid-column: 1/-1;
-        margin-bottom: var(--big-gap);
 
         *:first-child {
             margin-top: 0;
@@ -14,5 +15,17 @@
         *:last-child {
             margin-bottom: 0;
         }
+    }
+
+    &__button {
+        grid-column: 1/-1;
+        margin: var(--medium-gap) 0 var(--gap) 0;
+        display: none;
+    }
+
+    &__description {
+        display: none;
+        grid-column: 1/-1;
+        font: var(--small);
     }
 }
