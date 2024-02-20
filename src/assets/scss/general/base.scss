@@ -11,6 +11,10 @@
     src: url(@fonts/manrope-bold.woff2) format('woff2'), url(@fonts/manrope-bold.woff) format('woff');
 }
 
+// html{
+//     scroll-behavior: smooth;
+// }
+
 *,
 *::before,
 *::after {
@@ -77,6 +81,10 @@ h2 {
     grid-column: 1/-1;
 }
 
+h3 {
+    font: var(--h3);
+}
+
 body {
     background-color: var(--white);
     font: var(--default);
@@ -96,6 +104,7 @@ input {
     outline: none; //иногда пользовательские таблицы стилей делают обводку нам это нужно запретить
 }
 
+//приёдётся отказатся от вставки кирилицы через css т.к. иногда происходя ошибки с кодировкой и на экране кракозябры
 .ruble-price {
     &::after {
         //если вдруг не понравится внешний вид рубля попросить шрифт и сюда вставить символ ₽ с указанием font-famaly
@@ -134,7 +143,7 @@ input {
 
     @media (any-hover: none) and (any-pointer: coarse) {
         min-width: var(--min-interactive-elements-width);
-        min-height: calc(var(--min-interactive-elements-height) - rem(10));
+        min-height: calc(var(--min-interactive-elements-height) - var(--10));
     }
 
     @media (any-hover: none) and (any-pointer: coarse) and (min-width: rem(1920)) {
@@ -157,7 +166,7 @@ input {
     min-width: var(--button-min-width);
     max-width: var(--button-max-width);
     background-color: var(--blue);
-    padding: var(--gap-10) var(--gap);
+    padding: var(--10) var(--gap);
     transition: opacity var(--standart-anim), background-color var(--standart-anim);
 
     &--not-minmax-width {
@@ -165,7 +174,7 @@ input {
         max-width: none;
     }
 
-    &--not-anim{
+    &--not-anim {
         transition: none;
     }
 
@@ -204,6 +213,10 @@ input {
                 background-color: var(--white-hover);
             }
         }
+
+        &:disabled {
+            background-color: var(--white-disabled);
+        }
     }
 
     &--transparent {
@@ -218,6 +231,20 @@ input {
         }
     }
 
+    &--white-transparent {
+        background-color: transparent;
+        color: var(--light);
+        border: var(--border-width) solid var(--light);
+
+        @media (any-hover: hover) {
+            &:hover {
+                color: var(--white-hover);
+                border-color: var(--white-hover);
+                background-color: transparent;
+            }
+        }
+    }
+
     &--disabled {
         background-color: var(--gray);
         color: var(--white);
@@ -227,16 +254,6 @@ input {
             &:hover {
                 background-color: var(--gray);
             }
-        }
-    }
-
-    &--add-in-cart {
-        &:before {
-            content: 'Добавить в корзину';
-        }
-
-        &[data-in-cart='yes']:before {
-            content: 'Комплект в корзине →';
         }
     }
 }
@@ -302,18 +319,12 @@ button {
         display: flex;
         align-items: center;
         justify-content: center;
-        min-width: rem(30);
-        min-height: rem(30);
-        font-size: rem(12);
+        min-width: var(--30);
+        min-height: var(--30);
+        font-size: var(--12);
         border: var(--border-width-bold) solid var(--gray);
         border-radius: var(--border-radius);
         cursor: pointer;
-
-        @media (min-width: rem(1920)) {
-            min-width: adaptiv_rem_size(30, 1920);
-            min-height: adaptiv_rem_size(30, 1920);
-            font-size: adaptiv_rem_size(12, 1920);
-        }
 
         @media (any-hover: none) and (any-pointer: coarse) {
             font-size: var(--gap);
@@ -337,7 +348,7 @@ button {
     //это для чекбоксов в формах после проверки если они не отмечены быдучи обязательными после попытки отправки то будут выделены красным
     &--check-valid {
         input:invalid ~ label {
-            border-color: var(--error);
+            border-color: var(--error-color);
         }
     }
     //это для чекбоксов в формах после проверки если они не отмечены быдучи обязательными после попытки отправки то будут выделены красным
@@ -345,16 +356,10 @@ button {
     //чекбокс для страниц комплекта и детали с синей заливкой и белой галочкой
     &--blue {
         label {
-            font-size: rem(14);
+            font-size: var(--14);
             color: var(--white);
-            min-width: rem(40);
-            min-height: rem(40);
-
-            @media (min-width: rem(1920)) {
-                min-width: adaptiv_rem_size(40, 1920);
-                min-height: adaptiv_rem_size(40, 1920);
-                font-size: adaptiv_rem_size(14, 1920);
-            }
+            min-width: var(--40);
+            min-height: var(--40);
 
             @media (any-hover: none) and (any-pointer: coarse) {
                 min-width: var(--min-interactive-elements-width);
@@ -396,7 +401,7 @@ button {
 
 //оформление label заголовков для полей в форме
 .forma-title {
-    margin-bottom: var(--gap-10);
+    margin-bottom: var(--10);
     font: var(--small);
     display: inline-block;
 
@@ -411,11 +416,11 @@ button {
 
 //кастомные инпуты
 input.custom-text-input {
-    margin-bottom: rem(20);
+    margin-bottom: var(--20);
     border: var(--border-width) solid var(--gray);
     border-radius: var(--border-radius);
-    padding: rem(15) rem(20);
-    height: rem(50);
+    padding: var(--15) var(--20);
+    height: var(--50);
     width: 100%;
     outline: none; //иногда пользовательские таблицы стилей делают обводку нам это нужно запретить
 
@@ -424,13 +429,11 @@ input.custom-text-input {
     }
 
     @media (min-width: rem(1280)) {
-        height: rem(60);
+        height: var(--60);
     }
 
     @media (min-width: rem(1920)) {
-        height: adaptiv_rem_size(60, 1920);
-        padding: adaptiv_rem_size(15, 1920) adaptiv_rem_size(20, 1920);
-        margin-bottom: adaptiv_rem_size(30, 1920);
+        margin-bottom: var(--30);
     }
 
     @media (any-hover: hover) {
@@ -450,11 +453,11 @@ input.custom-text-input {
 
     &--error,
     &--check-valid:invalid {
-        border-color: var(--error) !important; //чтоб перекрыть все другие стили пок аесть ошибка
+        border-color: var(--error-color) !important; //чтоб перекрыть все другие стили пок аесть ошибка
     }
 
     &--success {
-        border-color: var(--success) !important; //чтоб перекрыть все другие стили пок аесть ошибка
+        border-color: var(--success-color) !important; //чтоб перекрыть все другие стили пок аесть ошибка
     }
 }
 //кастомные инпуты
@@ -463,14 +466,10 @@ input.custom-text-input {
 .custom-textarea {
     border: var(--border-width) solid var(--gray);
     border-radius: var(--border-radius);
-    padding: rem(15) rem(20);
+    padding: var(--15) var(--20);
     position: relative;
     display: flex;
     cursor: text;
-
-    @media (min-width: rem(1920)) {
-        padding: adaptiv_rem_size(15, 1920) adaptiv_rem_size(20, 1920);
-    }
 
     @media (any-hover: hover) {
         &:hover {
@@ -483,25 +482,18 @@ input.custom-text-input {
     }
 
     &--not-valid {
-        border-color: var(--error) !important; //чтоб перекрыть ховер
+        border-color: var(--error-color) !important; //чтоб перекрыть ховер
     }
 
     &__resizer {
-        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAxNSAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iNiIgeT0iNiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgZmlsbD0iIzI2MjYyNiIvPgo8cmVjdCB4PSIxMiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgZmlsbD0iIzI2MjYyNiIvPgo8cmVjdCB4PSIxNSIgeT0iNiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMTUgNikiIGZpbGw9IiMyNjI2MjYiLz4KPHJlY3QgeT0iMTIiIHdpZHRoPSIzIiBoZWlnaHQ9IjMiIGZpbGw9IiMyNjI2MjYiLz4KPHJlY3QgeD0iMTUiIHk9IjEyIiB3aWR0aD0iMyIgaGVpZ2h0PSIzIiB0cmFuc2Zvcm09InJvdGF0ZSg5MCAxNSAxMikiIGZpbGw9IiMyNjI2MjYiLz4KPHJlY3QgeD0iOSIgeT0iMTIiIHdpZHRoPSIzIiBoZWlnaHQ9IjMiIHRyYW5zZm9ybT0icm90YXRlKDkwIDkgMTIpIiBmaWxsPSIjMjYyNjI2Ii8+Cjwvc3ZnPgo='); //тут закодирована картинка
+        background-image: var(--resizer-textarea);
         background-size: cover;
-        height: rem(15);
-        width: rem(15);
+        height: var(--15);
+        width: var(--15);
         position: absolute;
-        bottom: rem(15);
-        right: rem(20);
+        bottom: var(--15);
+        right: var(--20);
         pointer-events: none;
-
-        @media (min-width: rem(1920)) {
-            height: adaptiv_rem_size(15, 1920);
-            width: adaptiv_rem_size(15, 1920);
-            bottom: adaptiv_rem_size(15, 1920);
-            right: adaptiv_rem_size(20, 1920);
-        }
     }
 
     textarea {
@@ -511,13 +503,8 @@ input.custom-text-input {
         outline: none; //иногда пользовательские таблицы стилей делают обводку нам это нужно запретить
 
         &::-webkit-resizer {
-            height: rem(15);
-            width: rem(15);
-
-            @media (min-width: rem(1920)) {
-                height: adaptiv_rem_size(15, 1920);
-                width: adaptiv_rem_size(15, 1920);
-            }
+            height: var(--15);
+            width: var(--15);
         }
     }
 }
@@ -534,5 +521,5 @@ input.custom-text-input {
     visibility: hidden;
     height: var(--big-gap);
     pointer-events: none;
-    padding: var(--gap) var(--gap-10) var(--small-gap) var(--medium-gap);
+    padding: var(--gap) var(--10) var(--small-gap) var(--medium-gap);
 }

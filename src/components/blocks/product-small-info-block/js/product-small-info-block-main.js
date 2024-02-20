@@ -4,8 +4,8 @@ export default class {
 
         if (search_text) this.ms_title = ms_title.replace(new RegExp(search_text, 'ig'), '<span class="product-info__searched-text">$&</span>'); //если есть search_text в переданном объекте с данными значит это рендер для результатов поиска и нам нужно выделить поисковые фразы, $&   вставляет всё найденное совпадение
 
-        this.price = (+price).toLocaleString('ru');
-        this.full_price = full_price ? '<div class="product-info__old-price ruble-price old-price">' + (+full_price).toLocaleString('ru') + '</div>' : '';
+        this.price = (+price).toLocaleString('ru') + ' ₽';
+        this.full_price = full_price ? '<div class="product-info__old-price old-price">' + (+full_price).toLocaleString('ru') + ' ₽</div>' : '';
         this.discont = discont ? '<div class="product-info__discont discont">' + discont + '</div>' : '';
 
         this.ms_desctiption = ms_desctiption ?? '';
@@ -14,7 +14,7 @@ export default class {
 
         main_img = JSON.parse(main_img);
         this.main_img = {
-            url: GDS.wp_img_url_prefix + main_img.url,
+            url: main_img.url,
             pt: ((main_img.original_height / main_img.original_width) * 100).toFixed(5),
             ow: main_img.original_width,
             oh: main_img.original_height,
@@ -29,7 +29,7 @@ export default class {
                 status = 'data-active';
             }
 
-            this.svg_parts_html += `<object ${status} data-src="${GDS.wp_img_url_prefix + img.url}"></object>`;
+            this.svg_parts_html += `<object ${status} data-src="${img.url}"></object>`;
         });
 
         this.svg_parts_html += '</div>';
@@ -38,7 +38,7 @@ export default class {
             instruction_img = JSON.parse(instruction_img);
 
             this.instruction_img = {
-                url: GDS.wp_img_url_prefix + instruction_img.url,
+                url: instruction_img.url,
                 ow: instruction_img.original_width,
                 oh: instruction_img.original_height,
             };
@@ -64,7 +64,7 @@ export default class {
             <div class="product-info__small-description">${this.ms_desctiption}</div>
             <div class="product-info__price-block">
               ${this.full_price}
-              <div class="product-info__current-price ruble-price">${this.price}</div>
+              <div class="product-info__current-price">${this.price}</div>
               ${this.discont}
             </div>
           </div>

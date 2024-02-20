@@ -1,0 +1,31 @@
+<div class="glavnaya-5">
+  <div class="standart-container" data-showed-on-scroll>
+    <h2>Точные лекала, инструмент, материалы и<br> инструкция — в комплекте</h2>
+  </div>
+  <div class="glavnaya-5__kit-data standart-container">
+    <div class="glavnaya-5__kit-data-text" data-showed-on-scroll>
+      <div class="glavnaya-5__kit-data-text-small-description">Плёнки не требуют дополнительной подрезки. Набор деталей отличается в зависимости от модели:</div>
+      <ul class="glavnaya-5__kit-data-text-complekt">
+        <li class="icon--check-mark">Передние фары</li>
+        <li class="icon--check-mark">Полоса на капот</li>
+        <li class="icon--check-mark">Передние крылья</li>
+        <li class="icon--check-mark">Полоса на крышу</li>
+        <li class="icon--check-mark">Стойки лобового стекла</li>
+        <li class="icon--check-mark">Зона выгрузки багажника</li>
+        <li class="icon--check-mark">Другая защита</li>
+        <li class="icon--check-mark">Мыльный раствор</li>
+        <li class="icon--check-mark">Абразивная глина</li>
+        <li class="icon--check-mark">Ракель для разглаживания</li>
+      </ul>
+    </div>
+    <div class="glavnaya-5__kit-data-wrap-template-s-plusikami" data-showed-on-scroll>
+      <%- include('./../../blocks/template-s-plusikami/template-s-plusikami.ejs', {data:{tag_name: "div"}})%>
+    </div>
+  </div>
+  <div class="glavnaya-5__wrap-img-complekt" data-showed-on-scroll>
+    <%- include('./../../blocks/images/images.ejs', {data:{type: "bg",loader: true, url:"~@glavnaya-5-sostav-komplekta-img/kit-complekt.png", pt:64.5161}})%>
+  </div>
+  <div class="glavnaya-5__button-wrap standart-container" data-showed-on-scroll>
+    <a href="#" class="glavnaya-5__button-wrap-button button-main">Подобрать комплект</a>
+  </div>
+</div>

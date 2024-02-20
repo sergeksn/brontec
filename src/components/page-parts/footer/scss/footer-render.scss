@@ -1,13 +1,9 @@
 .footer {
-    padding: rem(55) 0 rem(60) 0;
+    padding: var(--55) 0 var(--60) 0;
     position: relative;
 
     @media (min-width: rem(640)) {
-        padding: rem(80) 0 rem(40) 0;
-    }
-
-    @media (min-width: rem(1920)) {
-        padding: adaptiv_rem_size(80, 1920) 0 adaptiv_rem_size(50, 1920) 0;
+        padding: var(--80) 0 var(--45) 0;
     }
 
     .standart-container {
@@ -24,7 +20,7 @@
 
         ul {
             display: grid;
-            grid-gap: rem(10);
+            grid-gap: var(--10);
             font: var(--h3);
 
             @media (min-width: rem(640)) {
@@ -32,15 +28,15 @@
             }
 
             @media (min-width: rem(1920)) {
-                grid-gap: adaptiv_rem_size(15, 1920);
+                grid-gap: var(--15);
             }
         }
     }
 
     &__logo {
         grid-column: 3/-1;
-        margin: rem(30) 0 rem(35) 0;
-        width: rem(168);
+        margin: var(--30) 0 var(--35) 0;
+        width: var(--168);
 
         @media (min-width: rem(640)) {
             grid-column: 1/5;
@@ -60,8 +56,8 @@
         grid-column: 1/-1;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-column-gap: rem(20);
-        margin: rem(35) 0 rem(40) 0;
+        grid-column-gap: var(--20);
+        margin: var(--35) 0 var(--40) 0;
 
         @media (min-width: rem(640)) {
             grid-column: 5/9;
@@ -75,20 +71,19 @@
         }
 
         @media (min-width: rem(1920)) {
-            grid-column-gap: adaptiv_rem_size(20, 1920);
-            margin-bottom: adaptiv_rem_size(70, 1920);
+            margin-bottom: var(--70);
         }
 
         ul {
             display: grid;
-            grid-gap: rem(5);
+            grid-gap: var(--5);
 
             @media (min-width: rem(960)) {
                 grid-gap: adaptiv_rem_size(5, 960, 10, 1920);
             }
 
             @media (min-width: rem(1920)) {
-                grid-gap: adaptiv_rem_size(10, 1920);
+                grid-gap: var(--10);
             }
         }
     }
@@ -97,7 +92,7 @@
         grid-column: 1/-1;
         display: grid;
         grid-template-columns: repeat(6, 1fr);
-        margin-bottom: rem(40);
+        margin-bottom: var(--40);
 
         @media (min-width: rem(640)) {
             grid-column: 5/9;
@@ -109,25 +104,23 @@
             grid-template-columns: repeat(6, 1fr);
         }
 
-        a,span[title="Вы тут!"] {
+        a,
+        span[title='Вы тут!'] {
             justify-items: center;
             min-width: auto;
         }
 
         &-img-wrap {
-            width: rem(30);
-            height: rem(30);
+            width: var(--30);
+            height: var(--30);
 
-            @media (min-width: rem(1920)) {
-                width: adaptiv_rem_size(30, 1920);
-                height: adaptiv_rem_size(30, 1920);
-            }
+          
         }
     }
 
     &__company-info {
         grid-column: 1/-1;
-        margin-bottom: rem(23);
+        margin-bottom: var(--23);
 
         @media (min-width: rem(640)) {
             grid-column: 9/-1;
@@ -140,16 +133,14 @@
         &-contacts {
             display: grid;
             grid-template-columns: repeat(2, max-content);
-            margin-bottom: rem(37);
+            margin-bottom: var(--37);
             font: var(--h3);
 
             @media (min-width: rem(640)) {
-                grid-gap: rem(10);
+                grid-gap: var(--10);
             }
 
-            @media (min-width: rem(1920)) {
-                grid-gap: adaptiv_rem_size(10, 1920);
-            }
+           
         }
 
         &-requisites {
@@ -160,7 +151,7 @@
             }
 
             @media (min-width: rem(1920)) {
-                margin-bottom: adaptiv_rem_size(24, 1920);
+                margin-bottom: var(--24);
             }
         }
 
@@ -172,8 +163,8 @@
     &__payments-systems {
         grid-column: 1/7;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(rem(30), max-content));
-        grid-gap: rem(10) rem(20);
+        grid-template-columns: repeat(auto-fit, minmax(var(--30), max-content));
+        grid-gap: var(--10) var(--20);
 
         @media (min-width: rem(640)) {
             grid-column: 9/-1;
@@ -183,10 +174,7 @@
             grid-column: 10/-1;
         }
 
-        @media (min-width: rem(1920)) {
-            grid-template-columns: repeat(auto-fit, minmax(adaptiv_rem_size(30, 1920), max-content));
-            grid-gap: adaptiv_rem_size(10, 1920) adaptiv_rem_size(20, 1920);
-        }
+       
 
         &-img-wrap {
             min-width: auto !important;
@@ -197,9 +185,9 @@
 .footer__decoration {
     //ПРИМЕЧАНИЕ: т.к. при расчётах позиции частей декорации получаютс не целые значения, элементы могут иметь ненужные зазоры в 1 пиксель что не нужно, для этого я сделал их соединение не впритых а в нахёляст на половину ширины их границы т.е. на 1 пиксель, и так же не забыл увеличть радиус круга на 1 пиксель соответственно, тем самым вроде больше нет зазоров про изменении ширины экрана
     //--border-width-bold - толщина полос
-    --fd-zazor: #{rem(17)}; //растояние между вертикальной левой и правой полосками
-    --circle-radius: #{rem(19)}; //радиус круга
-    --left-otstup: #{rem(20)}; //смещении декорации вправую сторону
+    --fd-zazor: #{var(--17)}; //растояние между вертикальной левой и правой полосками
+    --circle-radius: #{var(--19)}; //радиус круга
+    --left-otstup: #{var(--20)}; //смещении декорации вправую сторону
     width: calc(100% - var(--left-otstup));
     height: 100%;
     position: absolute;
@@ -210,7 +198,7 @@
     @media (min-width: rem(640)) {
         --fd-zazor: #{adaptiv_rem_size(17, 640, 23, 1920)};
         --circle-radius: #{adaptiv_rem_size(17, 640, 25, 1920)};
-        --left-otstup: #{rem(5)}; //смещении декорации вправую сторону
+        --left-otstup: #{var(--5)}; //смещении декорации вправую сторону
     }
 
     @media (min-width: rem(1240)) {
@@ -219,8 +207,8 @@
     }
 
     @media (min-width: rem(1920)) {
-        --fd-zazor: #{adaptiv_rem_size(23, 1920)};
-        --circle-radius: #{adaptiv_rem_size(25, 1920)};
+        --fd-zazor: var(--23);
+        --circle-radius: var(--25);
         --left-otstup: #{adaptiv_rem_size(278, 1920)}; //смещении декорации вправую сторону
     }
 

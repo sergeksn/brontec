@@ -1,0 +1,76 @@
+<div class="komplekt-1">
+  <div class="standart-container" data-showed-on-scroll>
+    <h1>Комплект полиуретановых плёнок Brontero®
+      для Omoda C5. <span class="h1-not-bold">Защитите авто от сколов</span></h1>
+    <div class="komplekt-1__rating">
+      <span class="komplekt-1__rating-new-mark">Новинка</span>
+      <script>
+        if (Date.now() - 1706720225355 < 7776000) qs('.komplekt-1__rating-new-mark').style.display = 'block';
+      </script>
+      <div class="komplekt-1__rating-stars">
+        <span class="icon--star-outline" style="background: linear-gradient(to right, #000 100%, #fff 0%);"></span>
+        <span class="icon--star-outline" style="background: linear-gradient(to right, #000 100%, #fff 0%);"></span>
+        <span class="icon--star-outline" style="background: linear-gradient(to right, #000 100%, #fff 0%);"></span>
+        <span class="icon--star-outline" style="background: linear-gradient(to right, #000 100%, #fff 0%);"></span>
+        <span class="icon--star-outline" style="background: linear-gradient(to right, #000 60%, #fff 40%);"></span>
+      </div>
+      <div class="komplekt-1__rating-title">
+        <span class="komplekt-1__rating-title-value">4,6 / 5</span> — средняя оценка покупателей на маркетплейсах
+      </div>
+    </div>
+    <h2 class="komplekt-1__h2-mobile">Готовые плёнки по лекалам, инструмент для установки и инструкция</h2>
+    <div class="komplekt-1__photos">
+      <div class="komplekt-1__photos-slider">
+        <%- include('./../../blocks/images/images.ejs', {data:{type: "img", loader:true, url:"~@komplekt-1-sostav-komplekta-i-foto-img/car.jpg", pt:69.3103,}})%>
+      </div>
+      <div class="komplekt-1__photos-kit-preview">
+        <%- include('./../../blocks/images/images.ejs', {data:{type: "img", loader:true, url:"~@komplekt-1-sostav-komplekta-i-foto-img/kit_preview.jpg", pt:96.3793,}})%>
+      </div>
+    </div>
+    <div class="komplekt-1__info">
+      <h2 class="komplekt-1__info-h2">Готовые плёнки по лекалам, инструмент для установки и инструкция</h2>
+      <div class="komplekt-1__info-sostav">
+        <div class="icon--check-mark">Передние фары</div>
+        <div class="icon--check-mark">Полоса на капот</div>
+        <div class="icon--check-mark">Передние крылья</div>
+        <div class="icon--check-mark">Полоса на крышу</div>
+        <div class="icon--check-mark">Стойки лобового стекла</div>
+        <div class="icon--check-mark">Зона выгрузки багажника</div>
+        <div class="icon--check-mark">Мыльный раствор</div>
+        <div class="icon--check-mark">Абразивная глина</div>
+        <div class="icon--check-mark">Ракель для разглаживания</div>
+      </div>
+      <div class="komplekt-1__info-price">
+        <div class="komplekt-1__info-price-old old-price">13 990 ₽</div>
+        <div class="komplekt-1__info-price-actual">11 990 ₽</div>
+        <div class="komplekt-1__info-price-discont discont">17</div>
+        <div class="komplekt-1__info-price-title">цена от производителя</div>
+      </div>
+      <div class="komplekt-1__info-buttons">
+        <button class="komplekt-1__info-buttons-to-cart button-main button-main--not-minmax-width" data-in-cart></button>
+        <a href="#komplekt-configurator" class="button-main button-main--not-minmax-width button-main--transparent">Выбрать детали</a>
+      </div>
+    </div>
+  </div>
+  <%- include('./../../blocks/decor-vertical-line/decor-vertical-line.ejs')%>
+</div>
+<script>
+  GDS.product = {
+    marka_model: 'Geely@@Coolray',
+    price: 10800,
+    full_price: 12800,
+    discont: 16,
+    composition: {
+      'ruchki': 340,
+      'fary': 1500,
+      'peredniye-stoyki': 1090,
+      'kapot': 7590,
+      'krylya': 990,
+      'krysha': 1890,
+      'bagazhnik': 1190,
+      'tools': 2100,
+    }
+  }
+
+  ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); /*устанавливаем кнопку в верхнем блоке страницы комплекта в нужное значение и здаёем её нужные параметры*/
+</script>

@@ -123,6 +123,12 @@ let cart = qs('.cart'), //корзинаH
                         //ВАЖНО эта функция срабатывает до того как статус спойлера измениться так что статусы проверяем наоборот
                         GDS.order_product_data[product.dataset.id].spoiler_hide = spoiler_controler.status == 'show' ? true : false; //в зависимости от статуста спойлера обновляем данные, чтоб при обновлениях в корзине спойлер не скрывался, а оставляся открытм у тех товаров к оторых был открыт
 
+                        if (spoiler_toggle_button.classList.contains('order__product-toggle-composition--open')) {
+                            spoiler_toggle_button.textContent = 'Состав комплекта';
+                        } else {
+                            spoiler_toggle_button.textContent = 'Свернуть';
+                        }
+
                         spoiler_toggle_button.classList.toggle('order__product-toggle-composition--open'); //меняем поворот стрелочки у блока заголовка который управляет спойлером
                     };
 

@@ -1,0 +1,40 @@
+<div class="komplekt-5 komplekt-configurator" id="komplekt-configurator">
+  <div class="komplekt-configurator__wrap standart-container">
+    <h2>Соберите Ваш комплект <span class="h2-not-bold">— выберите все детали или только нужные</span></h2>
+    <%- include('./../../blocks/configurator-images/configurator-images.ejs', {data:{krylya: true}})%>
+    <div class="komplekt-configurator__wrap-composition" data-showed-on-scroll>
+      <ul class="komplekt-configurator__wrap-composition-detals komplekt-configurator__wrap-composition-detals">
+        <%- include('./../../blocks/configurator-switch-element/configurator-switch-element.ejs', {data:{title: 'Передние фары',id_name: 'fary',price: '1 400',checked: true}})%>
+        <%- include('./../../blocks/configurator-switch-element/configurator-switch-element.ejs', {data:{title: 'Полоса на капот',id_name: 'kapot',price: '1 400'}})%>
+        <%- include('./../../blocks/configurator-switch-element/configurator-switch-element.ejs', {data:{title: 'Передние крылья',id_name: 'krylya',price: '1 400'}})%>
+        <%- include('./../../blocks/configurator-switch-element/configurator-switch-element.ejs', {data:{title: 'Полоса на крышу',id_name: 'krysha',price: '1 400'}})%>
+        <%- include('./../../blocks/configurator-switch-element/configurator-switch-element.ejs', {data:{title: 'Стойки лобового стекла',id_name: 'peredniye-stoyki',price: '1 400'}})%>
+        <%- include('./../../blocks/configurator-switch-element/configurator-switch-element.ejs', {data:{title: 'Зона выгрузки багажника',id_name: 'bagazhnik',price: '1 400', position: 'back'}})%>
+        <%- include('./../../blocks/configurator-switch-element/configurator-switch-element.ejs', {data:{title: 'Дверные ручки',id_name: 'ruchki',price: '1 400'}})%>
+        <li>
+          <div class="configurator-checbox">
+            <div class="custom-checbox custom-checbox--blue">
+              <input id="tools-checkbox" type="checkbox" disabled checked>
+              <label for="tools-checkbox" class="icon--check-mark"></label>
+            </div>
+          </div>
+          <div class="configurator-detal-data">
+            <div class="configurator-detal-data-title">Мыльный раствор, ракель, абразивная глина</div>
+            <div class="configurator-detal-data-price">990 ₽</div>
+          </div>
+        </li>
+      </ul>
+      <div class="komplekt-configurator__wrap-composition-price">
+        <div class="komplekt-configurator__wrap-composition-price-old komplekt-configurator__wrap-composition-price-old old-price">19 080 ₽</div>
+        <div class="komplekt-configurator__wrap-composition-price-current"></div>
+        <div class="komplekt-configurator__wrap-composition-price-discont komplekt-configurator__wrap-composition-price-discont discont">16</div>
+      </div>
+      <button class="komplekt-configurator__wrap-composition-button button-main button-main--not-minmax-width">Добавить в корзину</button>
+      <div class="komplekt-configurator__wrap-composition-warning-add-anyone-item">Выберите хотя бы одну деталь или инструмент</div>
+    </div>
+  </div>
+  <%- include('./../../blocks/decor-vertical-line/decor-vertical-line.ejs')%>
+</div>
+<script>
+  ksn_product_configurator_func.init_configurator_fom_saved_settings(); /*запускает конфигуратор с сохранённыеми настройками*/
+</script>

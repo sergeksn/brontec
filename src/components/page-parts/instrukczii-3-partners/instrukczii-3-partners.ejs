@@ -1,11 +1,13 @@
-<div class="instrukczii-3">
+<div class="instrukczii-3" id="partners-map">
   <div class="standart-container" data-showed-on-scroll>
     <h2>2. Установка у партнёров Brontero®</h2>
-    <div class="instrukczii-3-info">
-      <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", loader:true, url:"~@glavnaya-3-icons-grid-img/icon_gloves.svg", pt:20,}})%>
-      <div class="instrukczii-3-info-text">Мы установим плёнку на ваш автомобиль во время мойки или ТО. Комплект можно привезти с собой или купить на месте.</div>
+    <div class="instrukczii-3__info">
+      <div class="instrukczii-3__info-img">
+        <%- include('./../../blocks/images/images.ejs', {data:{type: "bg", loader:true, url:"~@instrukczii-3-partners-img/icon_gloves.svg", pt:100,}})%>
+      </div>
+      <div class="instrukczii-3__info-title">Мы установим плёнку на ваш автомобиль во время мойки или ТО. Комплект можно привезти с собой или купить на месте.</div>
     </div>
-    <div class="instrukczii-3-map" data-admin="no">
+    <div class="instrukczii-3__map" data-admin="no">
       <script>
         GDS.YANDEX_MAP_API_KEY = '9720c798-730b-4af9-898a-937b264afcdd';
         GDS.partners_data = {
@@ -108,53 +110,53 @@
         };
       </script>
 
-    
-
-
-      <div class="instrukczii-3-map-body"></div>
 
 
 
-      <div class="instrukczii-3-map-area-list">
-        <div class="instrukczii-3-map-area-list-search">
-          <div class="instrukczii-3-map-area-list-search-title">
-            <div class="instrukczii-3-map-area-list-search-title-text"></div>
-            <div class="instrukczii-3-map-area-list-search-title-counter"></div>
+      <div class="instrukczii-3__map-body"></div>
+
+
+
+      <div class="instrukczii-3__map-area-list">
+        <div class="instrukczii-3__map-area-list-search">
+          <div class="instrukczii-3__map-area-list-search-title">
+            <div class="instrukczii-3__map-area-list-search-title-text"></div>
+            <div class="instrukczii-3__map-area-list-search-title-counter"></div>
           </div>
-          <input class="instrukczii-3-map-area-list-search-input" placeholder="Введите название города" type="text">
-          <button class="instrukczii-3-map-area-list-search-arrow icon--arrow" data-status="close"></button>
+          <input class="instrukczii-3__map-area-list-search-input" placeholder="Введите название города" type="text">
+          <button class="instrukczii-3__map-area-list-search-arrow icon--arrow" data-status="close"></button>
         </div>
-        <div class="instrukczii-3-map-area-list-wrap custom-scrollbar">
-          <div class="instrukczii-3-map-area-list-wrap-item">
-            <div class="instrukczii-3-map-area-list-wrap-item-letter">М</div>
-            <div class="instrukczii-3-map-area-list-wrap-item-title">Москва</div>
-            <div class="instrukczii-3-map-area-list-wrap-item-counter">2</div>
+        <div class="instrukczii-3__map-area-list-wrap custom-scrollbar">
+          <div class="instrukczii-3__map-area-list-wrap-item">
+            <div class="instrukczii-3__map-area-list-wrap-item-letter">М</div>
+            <div class="instrukczii-3__map-area-list-wrap-item-title">Москва</div>
+            <div class="instrukczii-3__map-area-list-wrap-item-counter">2</div>
           </div>
-          <div class="instrukczii-3-map-area-list-wrap-item">
-            <div class="instrukczii-3-map-area-list-wrap-item-letter">Е</div>
-            <div class="instrukczii-3-map-area-list-wrap-item-title">Екатеринбург</div>
-            <div class="instrukczii-3-map-area-list-wrap-item-counter">4</div>
+          <div class="instrukczii-3__map-area-list-wrap-item">
+            <div class="instrukczii-3__map-area-list-wrap-item-letter">Е</div>
+            <div class="instrukczii-3__map-area-list-wrap-item-title">Екатеринбург</div>
+            <div class="instrukczii-3__map-area-list-wrap-item-counter">4</div>
           </div>
-          <div class="instrukczii-3-map-area-list-wrap-item">
-            <div class="instrukczii-3-map-area-list-wrap-item-letter">Т</div>
-            <div class="instrukczii-3-map-area-list-wrap-item-title">Тюмень</div>
-            <div class="instrukczii-3-map-area-list-wrap-item-counter">3</div>
+          <div class="instrukczii-3__map-area-list-wrap-item">
+            <div class="instrukczii-3__map-area-list-wrap-item-letter">Т</div>
+            <div class="instrukczii-3__map-area-list-wrap-item-title">Тюмень</div>
+            <div class="instrukczii-3__map-area-list-wrap-item-counter">3</div>
           </div>
+        </div>
+      </div>
+
+
+      <div class="instrukczii-3__map-point-pop-up">
+        <button class="instrukczii-3__map-point-pop-up-close-button icon--close"></button>
+        <div class="instrukczii-3__map-point-pop-up-info">
+          <div class="instrukczii-3__map-point-pop-up-info-name">Mr.Cap Ural</div>
+          <div class="instrukczii-3__map-point-pop-up-info-description">детейлинг-центр</div>
+          <div class="instrukczii-3__map-point-pop-up-info-address">Екатеринбург, ул. Восточная, 51</div>
+          <a href="" class="instrukczii-3__map-point-pop-up-info-site set-min-interactive-size link-default" target="_blunk" rel="nofollow">ekb.mrcap-ural.ru</a>
+          <a href="" class="instrukczii-3__map-point-pop-up-info-phone set-min-interactive-size link-default">+7 (343) 247-83-11</a>
         </div>
       </div>
 
-
-      <div class="instrukczii-3-map-point-pop-up">
-        <button class="instrukczii-3-map-point-pop-up-close-button icon--close"></button>
-        <div class="instrukczii-3-map-point-pop-up-info">
-          <div class="instrukczii-3-map-point-pop-up-info-name">Mr.Cap Ural</div>
-          <div class="instrukczii-3-map-point-pop-up-info-description">детейлинг-центр</div>
-          <div class="instrukczii-3-map-point-pop-up-info-address">Екатеринбург, ул. Восточная, 51</div>
-          <a href="" class="instrukczii-3-map-point-pop-up-info-site set-min-interactive-size link-default" target="_blunk" rel="nofollow">ekb.mrcap-ural.ru</a>
-          <a href="" class="instrukczii-3-map-point-pop-up-info-phone set-min-interactive-size link-default">+7 (343) 247-83-11</a>
-        </div>
-      </div>
-      
 
 
     </div>

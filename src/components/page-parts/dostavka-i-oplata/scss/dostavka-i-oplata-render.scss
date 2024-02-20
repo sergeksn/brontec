@@ -44,7 +44,6 @@
             }
 
             &-spoiler-toggle-icon {
-                font-size: rem(20);
                 transform: rotate(45deg);
                 transition: transform 0.3s ease-out;
                 justify-content: center;
@@ -90,12 +89,8 @@
 
                 &-img-collect {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, rem(80));
+                    grid-template-columns: repeat(auto-fill, var(--80));
                     grid-gap: var(--small-gap);
-
-                    @media (min-width: rem(1920)) {
-                        grid-template-columns: repeat(auto-fill, adaptiv_rem_size(80, 1920));
-                    }
                 }
             }
         }

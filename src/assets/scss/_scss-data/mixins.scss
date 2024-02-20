@@ -1,0 +1,139 @@
+@mixin icon-element-base-style-mixin {
+    content: '';
+    background-size: cover;
+    display: block;
+    background-color: var(--black);
+    mask-repeat: no-repeat;
+}
+
+@mixin icon--check-mark-mixin {
+    width: var(--16);
+    height: var(--12);
+    mask-image: var(--check-mark);
+}
+
+@mixin icon--map-pointer-mixin {
+    width: var(--20);
+    height: var(--20);
+    mask-image: var(--map-pointer);
+}
+
+@mixin icon--star-outline-mixin {
+    width: var(--20);
+    height: var(--20);
+    mask-image: var(--star-outline);
+}
+
+@mixin icon--star-s-zalivkoy-mixin {
+    width: var(--20);
+    height: var(--20);
+    mask-image: var(--star-s-zalivkoy);
+}
+
+@mixin icon--plusik-mixin {
+    width: var(--20);
+    height: var(--20);
+    mask-image: var(--plusik);
+}
+
+@mixin icon--close-mixin {
+    width: var(--22);
+    height: var(--22);
+    mask-image: var(--close);
+}
+
+@mixin icon--close-bold-mixin {
+    width: var(--14);
+    height: var(--14);
+    mask-image: var(--close-bold);
+}
+
+@mixin icon--minus-mixin {
+    width: var(--14);
+    height: var(--2);
+    mask-image: var(--minus);
+}
+
+@mixin icon--cart-mixin {
+    width: var(--32);
+    height: var(--22);
+    mask-image: var(--cart);
+}
+
+@mixin icon--cart-bold-mixin {
+    width: var(--28);
+    height: var(--19);
+    mask-image: var(--cart-bold);
+}
+
+@mixin icon--magnifying-glass-mixin {
+    width: var(--18);
+    height: var(--18);
+    mask-image: var(--magnifying-glass);
+}
+
+@mixin icon--search-mixin {
+    width: var(--14);
+    height: var(--14);
+    mask-image: var(--search);
+}
+
+@mixin icon--search-bold-mixin {
+    width: var(--15);
+    height: var(--15);
+    mask-image: var(--search-bold);
+}
+
+@mixin icon--add-fill-mixin {
+    width: var(--20);
+    height: var(--20);
+    mask-image: var(--add-fill);
+}
+
+@mixin icon--success-mixin {
+    width: var(--30);
+    height: var(--30);
+    mask-image: var(--success);
+}
+
+@mixin icon--warning-mixin {
+    width: var(--20);
+    height: var(--20);
+    mask-image: var(--warning);
+}
+
+@mixin icon--error-mixin {
+    width: var(--30);
+    height: var(--30);
+    mask-image: var(--error);
+}
+
+@mixin icon--phone-mixin {
+    width: var(--10);
+    height: var(--14);
+    mask-image: var(--phone);
+}
+
+@mixin icon--arrow-mixin {
+    width: var(--8);
+    height: var(--13);
+    mask-image: var(--arrow);
+}
+
+@mixin icon--arrow-middle-mixin {
+    width: var(--22);
+    height: var(--18);
+    mask-image: var(--arrow-middle);
+}
+
+@mixin icon--arrow-big-mixin {
+    width: var(--40);
+    height: var(--18);
+    mask-image: var(--arrow-big);
+}
+
+@mixin icon--arrow-scroll-to-top-mixin {
+    width: var(--17);
+    height: var(--26);
+    mask-image: var(--arrow-scroll-to-top);
+}

@@ -10,7 +10,7 @@
         display: grid;
         align-content: space-between;
         grid-gap: var(--gap);
-        margin-bottom: rem(40);
+        margin-bottom: var(--40);
 
         @media (min-width: rem(640)) {
             grid-column: 1/7;
@@ -23,11 +23,11 @@
 
         &-input-wrap {
             position: relative;
-            margin-bottom: var(--gap-10);
+            margin-bottom: var(--10);
 
             #promocod {
                 margin-bottom: 0 !important;
-                padding-right: calc(var(--min-interactive-elements-width) + var(--gap-10));
+                padding-right: calc(var(--min-interactive-elements-width) + var(--10));
             }
 
             &-clean-input {
@@ -40,6 +40,10 @@
                 @media (any-hover: none) and (any-pointer: coarse) {
                     right: 0;
                 }
+
+                &::before {
+                    background-color: var(--error-color);
+                }
             }
         }
 
@@ -50,11 +54,11 @@
         }
 
         &-success {
-            color: var(--success);
+            color: var(--success-color);
         }
 
         &-error {
-            color: var(--error);
+            color: var(--error-color);
         }
 
         &-submit {
@@ -66,12 +70,12 @@
         }
 
         &-prices {
-            //margin: rem(40) 0;
+            //margin: var(--40) 0;
             text-align: right;
             font: var(--h3);
             display: grid;
             align-self: start;
-            grid-gap: var(--gap-10);
+            grid-gap: var(--10);
 
             // @media (min-width: rem(640)) {
             //     margin: adaptiv_rem_size(40, 640, 100, 1920) 0 0 0;
@@ -81,21 +85,10 @@
             //     margin-top: adaptiv_rem_size(100, 1920);
             // }
 
-            & > div:before {
-                position: absolute;
-                left: 0;
-            }
-
-            &-full:before {
-                content: 'Сумма заказа';
-            }
-
-            &-promocod-discont:before {
-                content: 'Скидка по промокоду';
-            }
-
-            &-delivery:before {
-                content: 'Доставка';
+            &-wrap{
+                grid-column: 1/-1;
+                display: flex;
+                justify-content: space-between;
             }
         }
     }
@@ -111,7 +104,7 @@
         & > div {
             border-radius: var(--border-radius);
             background-color: var(--light);
-            padding: rem(40) rem(20);
+            padding: var(--40) var(--20);
 
             @media (min-width: rem(640)) {
                 grid-column: 7/-1;
@@ -119,7 +112,7 @@
             }
 
             @media (min-width: rem(1920)) {
-                padding: adaptiv_rem_size(50, 1920);
+                padding: var(--50);
             }
         }
 

@@ -1,0 +1,85 @@
+.slider-full-width-page {
+    &__wrap-slider {
+        margin-bottom: var(--small-gap);
+        width: 100%;
+        height: adaptiv_rem_size(155, 320, 336, 640);
+        position: relative;
+        overflow: hidden;
+
+        @media (min-width: rem(640)) {
+            height: adaptiv_rem_size(195, 640, 400, 1240);
+        }
+
+        @media (min-width: rem(1240)) {
+            height: var(--400);
+        }
+
+        &-swiper-wrap {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+
+            @media (min-width: rem(640)) {
+                left: 50%;
+                transform: translateX(-50%);
+                width: adaptiv_rem_size(640, 640, 1300, 1240);
+            }
+
+            @media (min-width: rem(1240)) {
+                width: var(--1920);
+            }
+
+            .hide-text-data {
+                display: none;
+            }
+        }
+    }
+
+    &__toggler {
+        grid-column: 1/-1;
+        opacity: 0;
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+        }
+    }
+
+    &__control-buttons {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        grid-gap: var(--20);
+        margin: var(--10) 0 var(--20) 0;
+        align-items: start;
+
+        @media (min-width: rem(640)) {
+            grid-gap: adaptiv_rem_size(20, 640, 60, 1920);
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 7/-1;
+            margin: 0;
+            justify-content: end;
+        }
+
+        @media (min-width: rem(1920)) {
+            grid-gap: var(--60);
+        }
+
+        button {
+            &:before {
+                background-color: var(--blue-transparent);
+            }
+
+            @media (any-hover: hover) {
+                &:hover:before {
+                    background-color: var(--blue-hover);
+                }
+            }
+        }
+
+        &-button-prev {
+            transform: rotate(180deg);
+        }
+    }
+}

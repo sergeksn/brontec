@@ -1,0 +1,97 @@
+.fqa {
+    grid-column: 1/-1;
+    display: grid;
+    grid-gap: var(--10);
+
+    h2 {
+        margin-bottom: var(--medium-gap);
+        font: var(--h3);
+        font-family: var(--ff-bold);
+    }
+
+    &__spoiler {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-column-gap: var(--gap);
+        border: var(--border-width) solid var(--gray);
+        border-radius: var(--border-radius);
+        position: relative;
+
+        &-title {
+            grid-column: 1/-1;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            padding: var(--20) 0;
+            font: var(--h3);
+            cursor: pointer;
+            user-select: none;
+
+            @media (min-width: rem(640)) {
+                padding: adaptiv_rem_size(20, 640, 25, 1920) 0;
+            }
+
+            @media (min-width: rem(1920)) {
+                padding: var(--25) 0;
+            }
+
+            &-text {
+                grid-column: 2/11;
+
+                &-toggle-icon {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: absolute;
+                    top: var(--20);
+                    right: var(--10);
+                    transition: transform 0.3s ease-out;
+
+                    @media (min-width: rem(640)) {
+                        top: adaptiv_rem_size(20, 640, 30, 1920);
+                        right: adaptiv_rem_size(10, 640, 30, 1920);
+                    }
+
+                    @media (min-width: rem(1920)) {
+                        top: var(--30);
+                        right: var(--30);
+                    }
+                }
+
+                &-toggle-icon--open {
+                    transform: rotate(-45deg);
+                }
+            }
+        }
+
+        &-wrap {
+            grid-column: 2/12;
+            padding: var(--20) 0 adaptiv_rem_size(20, 320, 35, 640) 0;
+            position: relative;
+
+            @media (min-width: rem(640)) {
+                padding: adaptiv_rem_size(20, 640, 25, 1920) 0 adaptiv_rem_size(35, 640, 40, 1920) 0;
+            }
+
+            @media (min-width: rem(1920)) {
+                padding: var(--25) 0 var(--40) 0;
+            }
+
+            &-content {
+                opacity: 0;
+
+                &:before {
+                    content: '';
+                    width: 100%;
+                    border-top: var(--border-width) solid var(--gray);
+                    position: absolute;
+                    top: 0;
+                }
+            }
+        }
+    }
+
+    &__spoiler--can-click {
+        border-color: var(--blue);
+    }
+}

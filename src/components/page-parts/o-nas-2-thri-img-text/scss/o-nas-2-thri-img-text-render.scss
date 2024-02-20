@@ -2,7 +2,7 @@
     position: relative;
 
     &__first-block {
-        grid-row-gap: rem(10);
+        grid-row-gap: var(--10);
         padding-bottom: var(--medium-gap);
 
         @media (min-width: rem(640)) {
@@ -60,13 +60,13 @@
             }
 
             @media (min-width: rem(1920)) {
-                bottom: adaptiv_rem_size(100, 1920);
+                bottom: var(--100);
             }
         }
     }
 
     &__second-block{
-        margin-bottom: rem(100);
+        margin-bottom: var(--100);
 
         @media (min-width: rem(640)) {
             margin-bottom: adaptiv_rem_size(100, 640, 320, 1920);

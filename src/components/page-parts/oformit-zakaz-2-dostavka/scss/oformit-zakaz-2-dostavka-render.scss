@@ -1,26 +1,18 @@
 .oformit-zakaz-2 {
     margin-top: var(--medium-gap);
 
-    h2{
+    h2 {
         margin-bottom: var(--small-gap);
     }
 
-    input[form="user-data"]{
+    input[form='user-data'] {
         position: absolute;
         pointer-events: none;
         opacity: 0;
     }
 }
 
-#sdekmap{
+#sdekmap {
     grid-column: 1/-1;
-    height: rem(400);
-
-    @media (min-width: rem(1920)) {
-        height: adaptiv_rem_size(400, 1920);
-    }
-
-    // *{
-    //     color: #fff;
-    // }
+    height: var(--400);
 }

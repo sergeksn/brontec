@@ -1,0 +1,16 @@
+.komplekt-6 {
+    margin-bottom: var(--small-gap);
+
+    @media (min-width: rem(960)) {
+        margin-bottom: var(--medium-gap);
+    }
+
+    @media (min-width: rem(1280)) {
+        margin-bottom: var(--big-gap);
+    }
+
+    h2 {
+        font: var(--h1);
+        margin-bottom: var(--medium-gap);
+    }
+}

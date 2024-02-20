@@ -1,13 +1,13 @@
 .standart-video-block{
     &__video {
-        margin-bottom: rem(10);
+        margin-bottom: var(--10);
     
         @media (min-width: rem(960)) {
             margin-bottom: adaptiv_rem_size(10, 960, 20, 1920);
         }
     
         @media (min-width: rem(1920)) {
-            margin-bottom: var(--gap);
+            margin-bottom: var(--20);
         }
     }
     

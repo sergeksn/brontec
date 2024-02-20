@@ -13,7 +13,7 @@
 
     &__first-part {
         grid-column: 1/-1;
-        margin-top: rem(30);
+        margin-top: var(--30);
         position: relative;
 
         @media (min-width: rem(640)) {
@@ -24,7 +24,7 @@
         &-car-img-wrap {
             position: relative;
             width: 100vw;
-            margin: 0 0 rem(60) adaptiv_rem_size(-20, 320, -30, 640);
+            margin: 0 0 var(--60) adaptiv_rem_size(-20, 320, -30, 640);
 
             @media (min-width: rem(640)) {
                 position: absolute;
@@ -65,9 +65,9 @@
             }
 
             @media (min-width: rem(1920)) {
-                width: adaptiv_rem_size(80, 1920);
-                height: adaptiv_rem_size(80, 1920);
-                margin-right: adaptiv_rem_size(100, 1920);
+                width: var(--80);
+                height: var(--80);
+                margin-right: var(--100);
             }
         }
     }
@@ -83,7 +83,7 @@
         }
 
         h1 {
-            margin-bottom: rem(30);
+            margin-bottom: var(--30);
         }
 
         &-text {
@@ -105,8 +105,8 @@
             }
 
             @media (min-width: rem(1920)) {
-                height: adaptiv_rem_size(80, 1920);
-                margin: adaptiv_rem_size(40, 1920) 0;
+                height: var(--80);
+                margin: var(--40) 0;
             }
 
             &-swiper {
@@ -118,7 +118,7 @@
                 position: relative;
 
                 a,
-                span[title="Вы тут!"] {
+                span[title='Вы тут!'] {
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -152,7 +152,7 @@
                 }
 
                 @media (min-width: rem(1920)) {
-                    max-width: adaptiv_rem_size(47, 1920);
+                    max-width: var(--47);
                 }
             }
 
@@ -163,24 +163,21 @@
                     justify-content: center;
                     position: absolute;
                     top: 50%;
-                    font-size: adaptiv_rem_size(10, 320);
+                    width: var(--10);
                     cursor: pointer;
-                    color: var(--white-disabled);
 
                     @media (min-width: rem(640)) {
-                        font-size: rem(20);
-                        width: rem(30);
-                    }
-
-                    @media (min-width: rem(1920)) {
-                        width: adaptiv_rem_size(30, 1920);
-                        font-size: adaptiv_rem_size(20, 1920);
+                        width: var(--30);
                     }
 
                     @media (any-hover: hover) {
-                        &:hover {
-                            color: var(--white);
+                        &:hover:before {
+                            background-color: var(--white);
                         }
+                    }
+
+                    &:before {
+                        background-color: var(--white-disabled);
                     }
                 }
 
@@ -208,7 +205,7 @@
             }
 
             @media (min-width: rem(1920)) {
-                min-height: adaptiv_rem_size(60, 1920);
+                min-height: var(--60);
             }
         }
     }

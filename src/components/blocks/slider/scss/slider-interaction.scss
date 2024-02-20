@@ -1,21 +1,21 @@
-.slider {
-    width: 80%;
-    margin: auto;
-    background-color: gray;
-    position: relative;
-    overflow: hidden;
+// .slider {
+//     width: 80%;
+//     margin: auto;
+//     background-color: gray;
+//     position: relative;
+//     overflow: hidden;
 
-    &-wrap {
-        position: absolute;
-        top: 0;
-        height: 100%;
-        display: grid;
-        grid-gap: 0 !important;
-        transform: translate3d(0px, 0px, 0px);
-    }
+//     &-wrap {
+//         position: absolute;
+//         top: 0;
+//         height: 100%;
+//         display: grid;
+//         grid-gap: 0 !important;
+//         transform: translate3d(0px, 0px, 0px);
+//     }
 
-    &-slide {
-        text-align: center;
-        margin-right: 20px;
-    }
-}
+//     &-slide {
+//         text-align: center;
+//         margin-right: 20px;
+//     }
+// }

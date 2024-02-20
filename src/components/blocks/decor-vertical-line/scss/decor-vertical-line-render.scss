@@ -1,0 +1,6 @@
+.decor-vertical-line {
+    grid-column: 1/-1;
+    margin: var(--medium-gap) auto;
+    height: var(--medium-gap);
+    border-left: var(--border-width) solid var(--blue);
+}

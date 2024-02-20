@@ -1,0 +1,18 @@
+.partners-button {
+    color: var(--light);
+
+    @media (any-hover: hover) {
+        &:hover {
+            color: var(--white);
+        }
+
+        &:hover:before {
+            background-color: var(--white);
+        }
+    }
+
+    &::before {
+        background-color: var(--light);
+        margin-right: var(--10);
+    }
+}

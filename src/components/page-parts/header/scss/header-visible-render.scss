@@ -5,17 +5,17 @@
     justify-content: flex-end;
     align-items: center;
     grid-column-gap: 0; //нужно для переопределения стилей standart-container
-    min-height: rem(60);
+    min-height: var(--60);
     position: relative;
     background-color: var(--white);
     max-width: none !important; //нужно чтоб переопределить после групировки медиазапросов
 
     @media (min-width: rem(640)) {
-        min-height: rem(100);
+        min-height: var(--100);
     }
 
     @media (min-width: rem(960)) {
-        min-height: rem(80);
+        min-height: var(--80);
     }
 
     @media (min-width: rem(1180)) {
@@ -25,21 +25,21 @@
     }
 
     @media (min-width: rem(1920)) {
-        min-height: adaptiv_rem_size(80, 1920);
-        width: calc(100% - adaptiv_rem_size(50, 1920) * 2) !important; //нужно чтоб переопределить после групировки медиазапросов
-        margin: 0 adaptiv_rem_size(50, 1920) !important; //нужно чтоб переопределить после групировки медиазапросов
+        min-height: var(--80);
+        width: calc(100% - var(--50) * 2) !important; //нужно чтоб переопределить после групировки медиазапросов
+        margin: 0 var(--50) !important; //нужно чтоб переопределить после групировки медиазапросов
     }
 
     &__logo {
         margin-right: auto;
-        width: rem(110);
+        width: var(--110);
 
         @media (min-width: rem(640)) {
             width: adaptiv_rem_size(130, 640, 120, 1920);
         }
 
         @media (min-width: rem(1920)) {
-            width: adaptiv_rem_size(120, 1920);
+            width: var(--120);
         }
     }
 
@@ -47,25 +47,20 @@
         display: none;
 
         @media (min-width: rem(640)) {
-            font-size: rem(15);
             display: flex;
             margin-right: adaptiv_rem_size(20, 640, 25, 960);
         }
 
         @media (min-width: rem(960)) {
-            margin-right: rem(25);
-        }
-
-        @media (min-width: rem(1920)) {
-            font-size: adaptiv_rem_size(15, 1920);
-            margin-right: adaptiv_rem_size(25, 1920);
+            margin-right: var(--25);
         }
 
         &:before {
-            content: '\e907';
+            @include icon-element-base-style-mixin;
+            @include icon--search-bold-mixin;
 
             @media (min-width: rem(960)) {
-                content: '\e906';
+                @include icon--search-mixin;
             }
         }
     }
@@ -85,13 +80,9 @@
             width: auto;
             display: block; //нужно менять иначе в фаерфоксе поочему-то едет меню
             order: 0;
-            margin-right: rem(40);
+            margin-right: var(--40);
         }
         //для переноса меню
-
-        @media (min-width: rem(1920)) {
-            margin-right: adaptiv_rem_size(40, 1920);
-        }
 
         ul {
             @media (min-width: rem(640)) {
@@ -109,11 +100,12 @@
             //для переноса меню
 
             @media (min-width: rem(1920)) {
-                grid-gap: adaptiv_rem_size(40, 1920);
+                grid-gap: var(--40);
             }
 
             li {
-                a,span[title="Вы тут!"] {
+                a,
+                span[title='Вы тут!'] {
                     min-width: auto; //нужно чтоб если текст в пункте меню будет маленький блок не растягивался
                 }
             }
@@ -126,43 +118,31 @@
         @media (min-width: rem(640)) {
             display: flex;
             color: var(--blue);
-            margin-right: rem(50);
+            margin-right: var(--50);
         }
 
         @media (min-width: rem(1920)) {
-            margin-right: adaptiv_rem_size(60, 1920);
+            margin-right: var(--60);
         }
     }
 
     &__cart-button {
-        font-size: rem(30);
         cursor: pointer;
 
-        @media (min-width: rem(640)) {
-            font-size: rem(25);
-        }
-
-        @media (min-width: rem(960)) {
-            font-size: rem(22);
-        }
-
-        @media (min-width: rem(1920)) {
-            font-size: adaptiv_rem_size(22, 1920);
-        }
-
         &:before {
-            content: '\e901';
+            @include icon-element-base-style-mixin;
+            @include icon--cart-bold-mixin;
 
             @media (min-width: rem(960)) {
-                content: '\e900';
+                @include icon--cart-mixin;
             }
         }
     }
 
     &__cart-counter {
-        min-width: rem(24);
-        height: rem(24);
-        padding: 0 rem(5);
+        min-width: var(--24);
+        height: var(--24);
+        padding: 0 var(--5);
         background: var(--blue);
         border-radius: 50%;
         display: flex;
@@ -171,12 +151,12 @@
         justify-content: center;
         color: var(--white);
         font: var(--small);
-        margin-left: rem(1);
+        margin-left: var(--1);
 
         @media (min-width: rem(640)) {
             min-width: adaptiv_rem_size(24, 640, 30, 1920);
             height: adaptiv_rem_size(24, 640, 30, 1920);
-            margin-left: rem(4);
+            margin-left: var(--4);
         }
 
         @media (min-width: rem(960)) {
@@ -184,10 +164,8 @@
         }
 
         @media (min-width: rem(1920)) {
-            min-width: adaptiv_rem_size(30, 1920);
-            height: adaptiv_rem_size(30, 1920);
-            padding: 0 adaptiv_rem_size(5, 1920);
-            margin-left: adaptiv_rem_size(4, 1920);
+            min-width: var(--30);
+            height: var(--30);
         }
     }
 
@@ -196,16 +174,13 @@
         position: absolute;
         right: 0;
         top: 100%;
-        padding-right: rem(10);
+        padding-right: var(--10);
         opacity: 0;
 
         @media (min-width: rem(640)) {
             top: 200%;
         }
 
-        @media (min-width: rem(1920)) {
-            padding-right: adaptiv_rem_size(10, 1920);
-        }
 
         &[data-init-anim] {
             animation: linear 1s increase_cart_counter;
@@ -213,7 +188,7 @@
     }
 
     &__burger-button {
-        margin-left: rem(20);
+        margin-left: var(--20);
 
         @media (min-width: rem(640)) {
             display: none;
@@ -226,35 +201,35 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     &__body {
-        width: rem(30);
-        height: rem(30);
-        padding: rem(4) rem(3);
+        width: var(--30);
+        height: var(--30);
+        padding: var(--4) var(--3);
         position: relative;
     }
 
     [class^='burger__line'] {
         border-top: var(--border-width-bold) solid var(--black);
-        width: calc(100% - rem(6));
+        width: calc(100% - var(--6));
         position: absolute;
         transition: transform var(--standart-anim);
     }
 
     &__line-1 {
-        top: rem(4);
+        top: var(--4);
     }
 
     &__line-2 {
-        top: rem(14);
+        top: var(--14);
     }
 
     &__line-3 {
-        top: rem(14);
+        top: var(--14);
     }
 
     &__line-4 {
-        bottom: rem(4);
+        bottom: var(--4);
     }
 }
 

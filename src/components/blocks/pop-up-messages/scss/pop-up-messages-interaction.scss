@@ -17,52 +17,38 @@
     scrollbar-gutter: stable;
 
     @media (min-width: rem(1920)) {
-        width: adaptiv_rem_size(580, 1920);
+        width: var(--580);
     }
 
     &__content-wrap {
-        padding: rem(5) adaptiv_rem_size(25, 320, 100, 1920) rem(60) adaptiv_rem_size(25, 320, 100, 1920);
+        padding: var(--5) adaptiv_rem_size(25, 320, 100, 1920) var(--60) adaptiv_rem_size(25, 320, 100, 1920);
         width: 100%;
 
         @media (min-width: rem(1920)) {
-            padding: adaptiv_rem_size(5, 1920) adaptiv_rem_size(100, 1920) adaptiv_rem_size(60, 1920) adaptiv_rem_size(100, 1920);
+            padding: var(--5) var(--100) var(--60) var(--100);
         }
     }
 
     &__close-button {
         position: sticky;
-        width: rem(50);
-        height: rem(50);
+        width: var(--50);
+        height: var(--50);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: rem(20);
-        right: rem(5);
-        top: rem(5);
+        font-size: var(--20);
+        right: var(--5);
+        top: var(--5);
         color: var(--black);
-
-        @media (min-width: rem(1920)) {
-            width: adaptiv_rem_size(50, 1920);
-            height: adaptiv_rem_size(50, 1920);
-            font-size: adaptiv_rem_size(20, 1920);
-            right: adaptiv_rem_size(5, 1920);
-            top: adaptiv_rem_size(5, 1920);
-        }
     }
 
     &__title {
         font: var(--h3);
-        padding-bottom: rem(20);
-
-        @media (min-width: rem(1920)) {
-            padding-bottom: adaptiv_rem_size(20, 1920);
-        }
+        padding-bottom: var(--20);
+        display: flex;
 
         [class^='icon--'] {
-            padding-right: rem(10);
-            @media (min-width: rem(1920)) {
-                padding-right: adaptiv_rem_size(10, 1920);
-            }
+            padding-right: var(--10);
         }
     }
 
@@ -72,32 +58,40 @@
 
 .pop-up-message--fatal-error {
     .pop-up-message__content-wrap {
-        padding: rem(60) adaptiv_rem_size(25, 320, 100, 1920);
+        padding: var(--60) adaptiv_rem_size(25, 320, 100, 1920);
 
         @media (min-width: rem(1920)) {
-            padding: adaptiv_rem_size(60, 1920) adaptiv_rem_size(100, 1920);
+            padding: var(--60) var(--100);
         }
     }
     .icon--error {
-        color: var(--error);
+        &:before {
+            background-color: var(--error-color);
+        }
     }
 }
 
 .pop-up-message--success {
     .icon--success {
-        color: var(--success);
+        &:before {
+            background-color: var(--success-color);
+        }
     }
 }
 
 .pop-up-message--error {
     .icon--error {
-        color: var(--error);
+        &:before {
+            background-color: var(--error-color);
+        }
     }
 }
 
 .pop-up-message--warning {
     .icon--warning {
-        color: var(--error); //посатвит цвет от error так как цвет --warning вообще не видно
+        &:before {
+            background-color: var(--error-color); //посатвит цвет от error так как цвет --warning вообще не видно
+        }
     }
 }
 

@@ -1,0 +1,11 @@
+.detal-4 {
+    padding: var(--big-gap) 0;
+
+    h2 {
+        margin-bottom: var(--medium-gap);
+    }
+
+    &__video {
+        grid-column: 1/-1;
+    }
+}

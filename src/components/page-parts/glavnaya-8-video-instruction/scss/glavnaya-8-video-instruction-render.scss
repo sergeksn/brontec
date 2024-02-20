@@ -1,0 +1,35 @@
+.glavnaya-8 {
+    padding: var(--big-gap) 0;
+
+    h2 {
+        margin-bottom: var(--medium-gap);
+    }
+
+    &__video-block {
+        grid-column: 1/-1;
+        margin-bottom: var(--medium-gap);
+
+        @media (min-width: rem(640)) {
+            grid-column: span 6;
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: span 4;
+        }
+    }
+
+    &__buttons {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: var(--gap);
+
+        &-item {
+            grid-column: 1/-1;
+
+            @media (min-width: rem(640)) {
+                grid-column: span 3;
+            }
+        }
+    }
+}

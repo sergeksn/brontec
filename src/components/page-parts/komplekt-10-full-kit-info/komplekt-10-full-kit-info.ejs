@@ -1,0 +1,32 @@
+<div class="komplekt-10">
+  <div class="komplekt-10__wrap standart-container">
+    <h2 data-showed-on-scroll><span class="h2-not-bold">Купите полный комплект Brontero® для Omoda C5 </span>со специальной скидкой от производителя</h2>
+    <%- include('./../../blocks/configurator-images/configurator-images.ejs', {data:{ruchki: true, fary: true, peredniye_stoyki: true,kapot: true,krylya: true,krysha: true,bagazhnik: true}})%>
+    <div class="komplekt-10__wrap-composition" data-showed-on-scroll>
+      <h3>Готовые плёнки по лекалам, инструмент для установки и инструкция</h3>
+      <ul class="komplekt-10__wrap-composition-detals komplekt-10-render-item-list">
+        <li class="icon--check-mark">Передние фары</li>
+        <li class="icon--check-mark">Полоса на капот</li>
+        <li class="icon--check-mark">Передние крылья</li>
+        <li class="icon--check-mark">Полоса на крышу</li>
+        <li class="icon--check-mark">Стойки лобового стекла</li>
+        <li class="icon--check-mark">Зона выгрузки багажника</li>
+        <li class="icon--check-mark">Дверные ручки</li>
+      </ul>
+      <ul class="komplekt-10__wrap-composition-tools komplekt-10-render-item-list">
+        <li class="icon--check-mark">Мыльный раствор</li>
+        <li class="icon--check-mark">Абразивная глина</li>
+        <li class="icon--check-mark">Ракель</li>
+      </ul>
+      <div class="komplekt-10__wrap-composition-price">
+        <div class="komplekt-10__wrap-composition-price-old old-price">13 990 ₽</div>
+        <div class="komplekt-10__wrap-composition-price-current">11 990 ₽</div>
+        <div class="komplekt-10__wrap-composition-price-discont discont">17</div>
+      </div>
+      <button class="komplekt-10__wrap-composition-button button-main button-main--not-minmax-width"></button>
+    </div>
+  </div>
+</div>
+<script>
+  ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action(); /*устанавливаем кнопку в нижнем блоке страницы комплекта в нужное значение и здаёем её нужные параметры*/
+</script>

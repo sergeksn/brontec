@@ -5,7 +5,7 @@
 
     &__input {
         grid-column: span 12;
-        height: rem(100);
+        height: var(--100);
         position: relative;
         display: flex;
         align-items: center;
@@ -21,17 +21,13 @@
         }
 
         @media (min-width: rem(1920)) {
-            height: adaptiv_rem_size(200, 1920);
+            height: var(--200);
         }
 
         input {
             font-weight: var(--font-bold);
-            padding: 0 rem(55) rem(10) 0; //55 для небольшого запаса от кнопки
+            padding: 0 var(--55) var(--10) 0; //55 для небольшого запаса от кнопки
             border-bottom: var(--border-width) solid var(--gray);
-
-            @media (min-width: rem(1920)) {
-                padding: 0 adaptiv_rem_size(55, 1920) adaptiv_rem_size(10, 1920) 0;
-            }
         }
     }
 
@@ -40,58 +36,46 @@
     }
 
     &__input input.started-inputed + &__input-control-icons {
-        .icon--search {
+        div {
             display: none;
         }
-        .icon--close {
+        button {
             display: flex;
         }
     }
 
     &__input-control-icons {
-        font-size: rem(20);
         position: absolute;
         right: 0;
         justify-content: center;
 
-        @media (min-width: rem(640)) {
-            font-size: rem(15);
-        }
-
-        @media (min-width: rem(1920)) {
-            font-size: adaptiv_rem_size(15, 1920);
-        }
-
-        button,
-        .button {
-            font-size: inherit;
-        }
-
-        .icon--search {
-            color: var(--gray);
+        div {
+            &:before {
+                background-color: var(--gray);
+            }
 
             @media (min-width: rem(640)) {
                 display: none;
             }
         }
 
-        .icon--close {
+        button {
             display: none;
+
+            &:before {
+                width: var(--15);
+                height: var(--15);
+            }
         }
     }
 
     &__close-button {
         display: none;
-        font-size: rem(20);
 
         @media (min-width: rem(640)) {
             grid-column: 11/12;
             justify-self: end;
             display: flex;
-        }
-
-        @media (min-width: rem(1920)) {
-            font-size: adaptiv_rem_size(20, 1920);
         }
     }
 
@@ -109,16 +93,12 @@
     }
 
     &__results-wrap.--open-search-results-block {
-        min-height: rem(100);
-
-        @media (min-width: rem(1920)) {
-            min-height: adaptiv_rem_size(100, 1920);
-        }
+        min-height: var(--100);
     }
 
     &__loader {
         width: 100%;
-        min-height: rem(100);
+        min-height: var(--100);
         opacity: 0;
         display: none;
         position: absolute;
@@ -127,11 +107,7 @@
     &__results-data {
         opacity: 0;
         display: grid;
-        grid-gap: rem(10);
-
-        @media (min-width: rem(1920)) {
-            grid-gap: adaptiv_rem_size(10, 1920);
-        }
+        grid-gap: var(--10);
     }
 
     &__results-any-links {
@@ -139,17 +115,18 @@
         flex-wrap: wrap;
         color: var(--blue);
         opacity: 0;
-        margin: rem(40) 0 adaptiv_rem_size(80, 320, 40, 640) 0;
+        margin: var(--40) 0 adaptiv_rem_size(80, 320, 40, 640) 0;
 
         @media (min-width: rem(640)) {
-            margin: rem(40) 0 adaptiv_rem_size(40, 640, 95, 1920) 0;
+            margin: var(--40) 0 adaptiv_rem_size(40, 640, 95, 1920) 0;
         }
 
         @media (min-width: rem(1920)) {
-            margin: adaptiv_rem_size(40, 1920) 0 adaptiv_rem_size(95, 1920) 0;
+            margin: var(--40) 0 var(--95) 0;
         }
 
-        a,span[title="Вы тут!"] {
+        a,
+        span[title='Вы тут!'] {
             width: 100%;
 
             @media (min-width: rem(640)) {
@@ -157,11 +134,7 @@
             }
 
             &:first-child {
-                margin-right: rem(40);
-
-                @media (min-width: rem(1920)) {
-                    margin-right: adaptiv_rem_size(40, 1920);
-                }
+                margin-right: var(--40);
             }
         }
     }

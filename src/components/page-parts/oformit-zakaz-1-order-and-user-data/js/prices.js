@@ -17,7 +17,7 @@ let order_block = qs('.oformit-zakaz-1__you-order'), //блок с товара�
 
         //обнуляем все поля цен если корзина пуста или цена товаров в корзине равна нулю
         clean_prices: function () {
-            [promocod_block_full_price_area, promocod_block_discont_price_area, promocod_block_delivery_price_area, finall_price].forEach(el => (el.textContent = 0));
+            [promocod_block_full_price_area, promocod_block_discont_price_area, promocod_block_delivery_price_area, finall_price].forEach(el => (el.textContent = 0 + ' ₽'));
         },
         //обнуляем все поля цен если корзина пуста или цена товаров в корзине равна нулю
 
@@ -27,7 +27,7 @@ let order_block = qs('.oformit-zakaz-1__you-order'), //блок с товара�
                 delivery_price, //получаем цену доставки опираясь на порогове значения для бесплатной доставки и цену заказа с учётом промокода прмокода
                 promocod_price; //стоимость товаров в заказе с учётом промокода
 
-            promocod_block_full_price_area.textContent = order_full_price.toLocaleString('ru'); //полняа цена заказа в блоке прмокода
+            promocod_block_full_price_area.textContent = order_full_price.toLocaleString('ru')+ ' ₽'; //полняа цена заказа в блоке прмокода
 
             //если цена товаров в корзине равна нулю или корзина пуста то общая цена заказа будет рана нулю
             if (order_full_price == 0) {
@@ -76,11 +76,11 @@ let order_block = qs('.oformit-zakaz-1__you-order'), //блок с товара�
 
             delivery_price = order_full_price == 0 ? 0 : promocod_price >= GDS.delivery.border ? 0 : GDS.delivery.price; //получаем цену доставки опираясь на порогове значения для бесплатной доставки и цену заказа с учётом промокода прмокода
 
-            promocod_block_delivery_price_area.textContent = delivery_price.toLocaleString('ru'); //записываем цену доставки
+            promocod_block_delivery_price_area.textContent = delivery_price.toLocaleString('ru') + ' ₽'; //записываем цену доставки
 
-            promocod_block_discont_price_area.textContent = (promocod_price - order_full_price).toLocaleString('ru').replace('-', '- '); //получаем скидку промокода, и делаем знак минус с небольшим отступом для красоты
+            promocod_block_discont_price_area.textContent = (promocod_price - order_full_price).toLocaleString('ru').replace('-', '- ') + ' ₽'; //получаем скидку промокода, и делаем знак минус с небольшим отступом для красоты
 
-            finall_price.textContent = (promocod_price + delivery_price).toLocaleString('ru'); //записываем итоговую цену к оплате
+            finall_price.textContent = (promocod_price + delivery_price).toLocaleString('ru') + ' ₽'; //записываем итоговую цену к оплате
         },
         //обновляет все цены на странице заказа, кроме тех что в блоке со списком товаров в заказе, а именно цену без промокода, скидку промокода, цену доставки и финальную цену
     };

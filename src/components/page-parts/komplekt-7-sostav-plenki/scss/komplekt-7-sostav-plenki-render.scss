@@ -1,0 +1,19 @@
+.komplekt-7 {
+    position: relative;
+    background: var(--fon-v-kletochku);
+    background-size: 19px 19px; //привязываемся именно к пикселям что сетка всегда выглядела одинаково, не смотря на размер шрифта
+    padding: var(--medium-gap) 0 var(--big-gap) 0;
+
+    &__text {
+        grid-column: 1/-1;
+        font: var(--h2);
+        font-family: var(--ff-regular);
+        margin-bottom: var(--medium-gap);
+    }
+
+    .struktura-plenki-img-info {
+        @media (min-width: rem(1280)) {
+            top: 27%;
+        }
+    }
+}

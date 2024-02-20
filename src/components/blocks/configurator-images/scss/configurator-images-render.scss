@@ -1,0 +1,7 @@
+.komplekt-configurator-images {
+    grid-column: 1/-1;
+
+    @media (min-width: rem(640)) {
+        grid-column: 1/7;
+    }
+}

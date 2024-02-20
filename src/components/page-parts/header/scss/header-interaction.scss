@@ -6,11 +6,9 @@
 
 header.--open-header-hidden {
     overflow: hidden auto;
-    box-shadow: 0 rem(10) rem(10) rgba(0, 0, 0, 0.1);
+    box-shadow: 0 var(--10) var(--10) rgba(0, 0, 0, 0.1);
 
-    @media (min-width: rem(1920)) {
-        box-shadow: 0 adaptiv_rem_size(10, 1920) adaptiv_rem_size(10, 1920) rgba(0, 0, 0, 0.1);
-    }
+    
 }
 /*оболочка хедера*/
 

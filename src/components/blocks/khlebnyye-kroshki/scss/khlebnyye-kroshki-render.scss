@@ -8,18 +8,14 @@
         font: var(--small);
 
         span {
-            width: rem(20);
-            height: rem(20);
-            font-size: rem(10);
-            color:var(--light);
+            width: var(--20);
+            height: var(--20);
             display: flex;
             align-items: center;
             justify-content: center;
 
-            @media (min-width: rem(1920)) {
-                width: adaptiv_px_size(20, 1920);
-                height: adaptiv_px_size(20, 1920);
-                font-size: adaptiv_px_size(10, 1920);
+            &:before {
+                background-color: var(--light);
             }
         }
     }

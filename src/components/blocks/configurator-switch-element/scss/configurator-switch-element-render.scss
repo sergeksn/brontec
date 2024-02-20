@@ -1,0 +1,36 @@
+.configurator-checbox {
+    margin-right: var(--50);
+
+    @media (min-width: rem(640)) {
+        margin-right: var(--30);
+    }
+
+    label::before {
+        background-color: var(--white);
+    }
+}
+
+.configurator-detal-data {
+    display: grid;
+    width: 100%;
+    align-items: center;
+
+    @media (min-width: rem(960)) {
+        grid-template-columns: auto max-content;
+    }
+
+    &-title{
+        @media (min-width: rem(960)) {
+            padding-right: adaptiv_rem_size(20, 960, 50, 1920);
+        }
+
+        @media (min-width: rem(1920)) {
+            padding-right: var(--50);
+        }
+    }
+
+    &-price {
+        font: var(--small);
+        color: var(--gray);
+    }
+}

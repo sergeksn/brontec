@@ -6,7 +6,8 @@ import { base_spoiler_fade } from '@js-moduls/spoiler';
 import Fade from '@js-moduls/fade';
 import Pop_Up_Message from '@pop-up-messages-main-js';
 
-let cart = qs('.cart'),
+let CART_VERSION = 1,
+    cart = qs('.cart'),
     header_visible = qs('.header-visible'),
     body = qs('body'),
     header = qs('header'),
@@ -228,7 +229,8 @@ let cart = qs('.cart'),
                         if (data.composition[detal].add) result_price += data.composition[detal].price;
                     }
                     return result_price * amount;
-                })();
+                })(),
+                product_title = is_full_kit ? 'Полный комплект защиты Brontero® ' : 'Комплект частичной защиты Brontero® ';
 
             product_body.classList.add('cart__body-product');
             if (is_full_kit) product_body.classList.add('cart__body-product--full-kit');
@@ -237,7 +239,7 @@ let cart = qs('.cart'),
             product_body.dataset.productCartId = id;
 
             let content = `
-        <div class="cart__body-product-title">${marka_model.replace('@@', ' ')}</div>
+        <div class="cart__body-product-title"><span class="cart__body-product-title-prefix">${product_title}</span>${marka_model.replace('@@', ' ')}</div>
         <div class="cart__body-product-delete">
             <div class="cart__body-product-delete-timer"></div>
             <button class="cart__body-product-delete-abort-button">Отменить удаление</button>
@@ -245,16 +247,16 @@ let cart = qs('.cart'),
         <div class="cart__body-product-quantity-price-wrap">
           <div class="cart__body-product-change-quantity">
             <button data-decrease></button>
-            <button data-increase class="icon--plus"></button>
+            <button data-increase class="icon--plusik"></button>
           </div>
-          <div class="cart__body-product-quantity">${amount}</div>
+          <div class="cart__body-product-quantity">${amount} шт</div>
           <div class="cart__body-product-prices">
-            <div class="cart__body-product-prices-old-price ruble-price old-price" data-price="${full_price}">${(full_price * amount).toLocaleString('ru')}</div>
-            <div class="cart__body-product-prices-kit ruble-price" data-price="${price}">${(price * amount).toLocaleString('ru')}</div>
-            <div class="cart__body-product-prices-parts ruble-price">${all_added_detals_price.toLocaleString('ru')}</div>
+            <div class="cart__body-product-prices-old-price old-price" data-price="${full_price}">${(full_price * amount).toLocaleString('ru') + ' ₽'}</div>
+            <div class="cart__body-product-prices-kit" data-price="${price}">${(price * amount).toLocaleString('ru') + ' ₽'}</div>
+            <div class="cart__body-product-prices-parts">${all_added_detals_price.toLocaleString('ru') + ' ₽'}</div>
           </div>
         </div>
-        <button class="cart__body-product-toggle-composition set-min-interactive-size"></button>
+        <button class="cart__body-product-toggle-composition set-min-interactive-size icon--arrow">Состав комплекта </button>
         <div class="cart__body-product-spoiler-wrap${spoiler_class}">
           <div class="cart__body-product-spoiler-wrap-content"${spoilet_content_style}>`;
 
@@ -286,7 +288,11 @@ let cart = qs('.cart'),
                 spoiler_content = qs('.cart__body-product-spoiler-wrap-content', product_body), //контент спойлера
                 spoiler_title_block = qs('.cart__body-product-toggle-composition', product_body), //кнопка для открытия/закрытия спойлера
                 product_quantity_price_wrap = qs('.cart__body-product-quantity-price-wrap', product_body), //оболочка для блока цен и управленяи количеством
-                chenge_visible_action = () => spoiler_title_block.classList.toggle('cart__body-product-toggle-composition--open'); //при скрытии/показе спойлера переключаем класс, чтоб менялся поворот стрелочки и текст
+                chenge_visible_action = () => {
+                    spoiler_title_block.classList.toggle('cart__body-product-toggle-composition--open');
+
+                    spoiler_title_block.textContent = spoiler_title_block.classList.contains('cart__body-product-toggle-composition--open') ? 'Свернуть ' : 'Состав комплекта '; //меняем текст кнопки
+                }; //при скрытии/показе спойлера переключаем класс, чтоб менялся поворот стрелочки
 
             //создайм спойлер с прозрачный появленяием контента
             base_spoiler_fade({
@@ -330,7 +336,7 @@ let cart = qs('.cart'),
         increase_amount: function (product_body) {
             let amount_el = qs('.cart__body-product-quantity', product_body);
 
-            amount_el.textContent = +amount_el.textContent + 1; //увеличиваем количество
+            amount_el.textContent = +amount_el.textContent.replace(' шт', '') + 1 + ' шт'; //увеличиваем количество
 
             product_body.classList.remove('cart__body-product--single'); //убираем пометку о том что товар один
 
@@ -345,13 +351,13 @@ let cart = qs('.cart'),
         //уменьшаем количество единиц товара в корзине
         decrease_amount: async function (product_body) {
             let amount_el = qs('.cart__body-product-quantity', product_body),
-                old_amount = amount_el.textContent, //старое количество
+                old_amount = +amount_el.textContent.replace(' шт', ''), //старое количество
                 new_amount = +old_amount - 1; //новое количество
 
             if (new_amount > 1) {
-                amount_el.textContent = new_amount; //записываем новое количество
+                amount_el.textContent = new_amount + ' шт'; //записываем новое количество
             } else if (new_amount == 1) {
-                amount_el.textContent = new_amount; //записываем новое количество
+                amount_el.textContent = new_amount + ' шт'; //записываем новое количество
                 product_body.classList.add('cart__body-product--single'); //добавляем пометку о том что товар один
             } else {
                 let spoiler_wrap = qs('.cart__body-product-spoiler-wrap', product_body), //оболочка спойлера
@@ -366,6 +372,7 @@ let cart = qs('.cart'),
 
                 //тут важно не сипользовать тригер клика т.к. если мы нажмём на удаление в момент сворачивания спойлера он просто раскроется но не начнёт удаление
                 spoiler_toggle_button.classList.remove('cart__body-product-toggle-composition--open'); //переворачиваем стрелочку
+                spoiler_toggle_button.textContent = 'Состав комплекта ';
 
                 await fade_data.fade_hide(fade_params_for_delete); //ждём окончания соркытия контента прозрачностью
                 await spoiler_data.spoiler_hide({ duration: 150 }); //ждём пока закроется спойлер
@@ -506,7 +513,7 @@ let cart = qs('.cart'),
 
             product_in_cart.forEach(product => {
                 let id = product.dataset.productCartId,
-                    amount = qs('.cart__body-product-quantity', product).textContent,
+                    amount = +qs('.cart__body-product-quantity', product).textContent.replace(' шт', ''),
                     spoiler_hide = qs('.cart__body-product-spoiler-wrap', product).classList.contains('spoiler-hidden'),
                     marka_model = product.dataset.markaModel,
                     price = qs('.cart__body-product-prices-kit', product).dataset.price,
@@ -556,7 +563,6 @@ let cart = qs('.cart'),
                 else {
                     count = 'Текущее количество уникальных товаров в корзине ' + unique_products.length + '<br><br>';
                     situation_message = '<b style="color:red;">Пожалуйста удалите какой-то товар из корзины</b><br><br>';
-
 
                     if (this.status == 'hide') {
                         situation_message += '<button class="button-main button-main--not-minmax-width" onclick="ksn_open_cart(); ksn_close_window_message();">Открыть корзину</button><br><br>'; //добавляем строчку в сообщение толкьо если корзина закрыта
@@ -619,7 +625,7 @@ let cart = qs('.cart'),
 
         //функция высчитывает общую сумму товаров в корзине основываясь на данных в хранилище
         calculate_common_price_in_cart: function () {
-            cart_final_price.textContent = w.ksn_order_controler.calculate_common_order_prise().toLocaleString('ru');
+            cart_final_price.textContent = w.ksn_order_controler.calculate_common_order_prise().toLocaleString('ru') + ' ₽';
         },
         //функция высчитывает общую сумму товаров в корзине основываясь на данных в хранилище
 
@@ -729,22 +735,26 @@ let cart = qs('.cart'),
         //функция задаёт цену продукта в корзине опираясь на заполненые чекбоксы комплектации данного товара и его количество
         //product_body - сам текущий товар в корзине
         set_product_cart_price: function (product_body) {
-            //убираем классы если они были
-            product_body.classList.remove('cart__body-product--full-kit');
-
             let all_current_inputs = qsa('input', product_body), //все инпуты текущего товара
                 product_detals_price_block = qs('.cart__body-product-prices-parts', product_body), //блок с ценами всех отмеченых деталей в товаре
-                amount = qs('.cart__body-product-quantity', product_body).textContent, //количество данных комплектов
+                amount = +qs('.cart__body-product-quantity', product_body).textContent.replace(' шт', ''), //количество данных комплектов
                 old_pise = qs('.cart__body-product-prices-old-price', product_body),
-                kit_price = qs('.cart__body-product-prices-kit', product_body);
+                kit_price = qs('.cart__body-product-prices-kit', product_body),
+                title_prefix_block = qs('.cart__body-product-title-prefix', product_body);
+
+            //сбрасиываем по умолчанию
+            product_body.classList.remove('cart__body-product--full-kit');
+            title_prefix_block.textContent = 'Комплект частичной защиты Brontero® ';
+            //сбрасиываем по умолчанию
 
             //в любом случае считыем цены полного комплекта
-            old_pise.textContent = old_pise.dataset.price * amount;
-            kit_price.textContent = kit_price.dataset.price * amount;
+            old_pise.textContent = old_pise.dataset.price * amount + ' ₽';
+            kit_price.textContent = kit_price.dataset.price * amount + ' ₽';
 
             //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
             if ([...all_current_inputs].every(input => input.checked)) {
                 product_body.classList.add('cart__body-product--full-kit');
+                title_prefix_block.textContent = 'Полный комплект защиты Brontero® ';
             }
             //если отмечены все инпуты пкоазываем скидку и полную цену с ценой по скидке
 
@@ -767,7 +777,7 @@ let cart = qs('.cart'),
 
                 result_price = result_price * amount;
 
-                product_detals_price_block.textContent = result_price.toLocaleString('ru');
+                product_detals_price_block.textContent = result_price.toLocaleString('ru') + ' ₽';
             }
             //если просто отмечены какие-то инпуты, но не все
         },
@@ -952,6 +962,20 @@ let cart = qs('.cart'),
             new Fade(cart_loader);
             //создаём контролеры прозрачности для счётчиков корзины и её лоадера
 
+            let client_cart_version = w.localStorage.getItem('cart-version') || 1; //получаем из локального хранилища версию корзины или 1 по умолчанию
+
+            //если у нас не совпадают версии корзин то чистим всё 
+            if (client_cart_version != CART_VERSION) {
+                set_local_storage('cart-version', CART_VERSION);
+                set_local_storage('cart-data', '{}');
+                inner_cart_counter.textContent = 0; //меняем значение счётчика в корзине
+                header_cart_counter.textContent = 0; //меняем значение счётчика в хедере
+                inner_cart_counter.ksn_fade.fade_hide();
+                header_cart_counter.ksn_fade.fade_hide();
+                ksn_product_configurator_func.check_cart_composition_and_edit_buttons_action();
+            }
+            //если у нас не совпадают версии корзин то чистим всё 
+            
             w._on('resize_throttle load', this.size_recalculate.bind(this)); //пересчитываем верхний отступ корзины пре ресайзе и при первой загрузке
 
             w._on('storage', this.cart_browser_tabs_sinhronization.bind(this)); //синхронизирует корзины в разных вкладках браузера

@@ -29,7 +29,7 @@
             &-video {
                 display: grid;
                 grid-template-columns: 1fr;
-                grid-gap: rem(40) var(--gap);
+                grid-gap: var(--40) var(--gap);
 
                 @media (min-width: rem(640)) {
                     grid-template-columns: 1fr 1fr;
@@ -39,9 +39,7 @@
                     grid-template-columns: 1fr 1fr 1fr;
                 }
 
-                @media (min-width: rem(1920)) {
-                    grid-gap: adaptiv_rem_size(40, 1920) var(--gap);
-                }
+                
             }
         }
     }

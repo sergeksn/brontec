@@ -1,0 +1,20 @@
+<%
+let title = data.title,
+    id_name = data.id_name,
+    price = data.price,
+    checked = data.checked ? ' checked' : null,
+    position = data.tools ? null : (data.position ? ' data-position="'+data.position+'"' : ' data-position="front"');
+%>
+
+<li>
+    <div class="configurator-checbox">
+      <div class="custom-checbox custom-checbox--blue">
+        <input id="<%-id_name%>-checkbox" type="checkbox" disabled<%-position%><%-checked%>>
+        <label for="<%-id_name%>-checkbox" class="icon--check-mark"></label>
+      </div>
+    </div>
+    <div class="configurator-detal-data">
+      <a class="link-default configurator-detal-data-title" href="http://localhost:3579/pages/detal.html?from-configurator=true"><%-title%></a>
+      <div class="configurator-detal-data-price"><%-price%> ₽</div>
+    </div>
+  </li>

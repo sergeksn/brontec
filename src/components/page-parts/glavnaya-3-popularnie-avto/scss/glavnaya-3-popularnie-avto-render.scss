@@ -1,0 +1,31 @@
+.glavnaya-3 {
+    margin: var(--big-gap) 0; //нужно уменьшать нижний отступ чтоб учесть нижний марджив в блоках иконок с текстом
+
+    h2 {
+        margin-bottom: var(--medium-gap);
+    }
+
+    &__list {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: repeat(1fr);
+        grid-gap: var(--gap);
+        margin-bottom: var(--small-gap);
+
+        @media (min-width: rem(640)) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    a,span[title="Вы тут!"] {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 1/-1;
+        }
+    }
+}

@@ -1,0 +1,33 @@
+<%
+let tag_name = data.tag_name,
+    start_html,
+    end_html;
+
+    if(tag_name == 'div'){
+      start_html = 'div';
+      end_html = 'div';
+    } else if(tag_name == 'a'){
+      start_html = 'a href="#"';
+      end_html = 'a';
+    }
+%>
+
+<div class="template-s-plusikami" style="padding-top:76.1655%;">
+  <%- include('./../../blocks/images/images.ejs', {data:{type: "bg-template",loader: true, url:"~@template-s-plusikami-img/template.svg", pt:76.1655}})%>
+  <div class="template-s-plusikami-plusik" style="top: 20%; left: 45%;">
+    <div class="template-s-plusikami-plusik-icon icon--plusik icon--plusik--white"></div>
+    <<%-start_html%> class="template-s-plusikami-plusik-pop-up">Подручки Подручки Подручки Подручки</<%-end_html%>>
+  </div>
+  <div class="template-s-plusikami-plusik" style="top: 30%; left: 92%;">
+    <div class="template-s-plusikami-plusik-icon icon--plusik icon--plusik--white"></div>
+    <<%-start_html%> href="#" class="template-s-plusikami-plusik-pop-up">Капот Капот Капот Капот Капот</<%-end_html%>>
+  </div>
+  <div class="template-s-plusikami-plusik" style="top: 50%;left: 5%;">
+    <div class="template-s-plusikami-plusik-icon icon--plusik icon--plusik--white"></div>
+    <<%-start_html%> href="#" class="template-s-plusikami-plusik-pop-up">Бампер</<%-end_html%>>
+  </div>
+  <div class="template-s-plusikami-plusik" style="top: 50%; left: 45%;">
+    <div class="template-s-plusikami-plusik-icon icon--plusik icon--plusik--white"></div>
+    <<%-start_html%> href="#" class="template-s-plusikami-plusik-pop-up">Фары Фары Фары Фары Фары Фары</<%-end_html%>>
+  </div>
+</div>

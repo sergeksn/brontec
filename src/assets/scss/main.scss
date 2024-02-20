@@ -1,53 +1,72 @@
 @charset "UTF-8";
 
 @import '@scss-data/functions';
-@import '@scss-data/mixins';
+@import "@scss-data/mixins";
 @import '@scss-data/scss-variables';
 
 @import '@scss-general/errors';
 
 //@dinamic node import fils
+@import "@configurator-images-interaction-scss";
+@import "@configurator-switch-element-interaction-scss";
+@import "@decor-vertical-line-interaction-scss";
+@import "@fqa-interaction-scss";
 @import "@iframe-youtube-interaction-scss";
 @import "@images-interaction-scss";
+@import "@info-box-plenka-interaction-scss";
 @import "@khlebnyye-kroshki-interaction-scss";
 @import "@loader-interaction-scss";
+@import "@otzivi-interaction-scss";
 @import "@overlays-interaction-scss";
+@import "@partners-button-interaction-scss";
 @import "@policy-konf-checkbox-interaction-scss";
 @import "@pop-up-messages-interaction-scss";
 @import "@product-small-info-block-interaction-scss";
 @import "@scroll-to-top-button-interaction-scss";
 @import "@selector-marka-model-interaction-scss";
 @import "@slider-interaction-scss";
+@import "@slider-full-width-page-interaction-scss";
+@import "@slider-with-pop-up-standart-block-whidth-interaction-scss";
 @import "@standart-video-block-interaction-scss";
+@import "@struktura-plenki-img-info-interaction-scss";
+@import "@template-s-plusikami-interaction-scss";
 @import "@block-showed-on-scroll-interaction-scss";
 @import "@scrollbar-interaction-scss";
 @import "@check-payment-interaction-scss";
 @import "@detal-1-add-to-kit-interaction-scss";
 @import "@detal-2-about-interaction-scss";
-@import "@detal-3-video-instruction-interaction-scss";
-@import "@detal-4-move-to-kit-interaction-scss";
+@import "@detal-3-gallary-interaction-scss";
+@import "@detal-4-video-instruction-interaction-scss";
+@import "@detal-5-move-to-kit-interaction-scss";
 @import "@dostavka-i-oplata-interaction-scss";
 @import "@footer-interaction-scss";
 @import "@glavnaya-1-blue-top-block-interaction-scss";
-@import "@glavnaya-10-fqa-interaction-scss";
-@import "@glavnaya-11-cars-svg-interaction-scss";
+@import "@glavnaya-10-otzivi-interaction-scss";
+@import "@glavnaya-11-fqa-interaction-scss";
+@import "@glavnaya-12-cars-svg-interaction-scss";
 @import "@glavnaya-2-video-block-interaction-scss";
-@import "@glavnaya-3-icons-grid-interaction-scss";
-@import "@glavnaya-4-img-text-slider-interaction-scss";
-@import "@glavnaya-5-svoystva-plenki-interaction-scss";
-@import "@glavnaya-6-product-set-interaction-scss";
-@import "@glavnaya-7-video-instruction-interaction-scss";
-@import "@glavnaya-8-blue-block-interaction-scss";
-@import "@glavnaya-9-otzivi-interaction-scss";
+@import "@glavnaya-3-popularnie-avto-interaction-scss";
+@import "@glavnaya-4-icons-grid-interaction-scss";
+@import "@glavnaya-5-sostav-komplekta-interaction-scss";
+@import "@glavnaya-6-img-text-slider-interaction-scss";
+@import "@glavnaya-7-svoystva-plenki-interaction-scss";
+@import "@glavnaya-8-video-instruction-interaction-scss";
+@import "@glavnaya-9-blue-block-interaction-scss";
 @import "@header-interaction-scss";
 @import "@instrukczii-1-selector-interaction-scss";
 @import "@instrukczii-2-videos-interaction-scss";
 @import "@instrukczii-3-partners-interaction-scss";
-@import "@komplekt-1-full-kit-interaction-scss";
-@import "@komplekt-2-select-kit-composition-interaction-scss";
+@import "@komplekt-1-sostav-komplekta-i-foto-interaction-scss";
+@import "@komplekt-10-full-kit-info-interaction-scss";
+@import "@komplekt-11-info-text-interaction-scss";
+@import "@komplekt-2-uyazvimie-mesta-interaction-scss";
 @import "@komplekt-3-abaut-kit-interaction-scss";
-@import "@komplekt-4-gallery-interaction-scss";
-@import "@komplekt-5-video-instruction-interaction-scss";
+@import "@komplekt-4-video-instruction-interaction-scss";
+@import "@komplekt-5-select-kit-composition-interaction-scss";
+@import "@komplekt-6-gallery-interaction-scss";
+@import "@komplekt-7-sostav-plenki-interaction-scss";
+@import "@komplekt-8-otzivi-interaction-scss";
+@import "@komplekt-9-fqa-interaction-scss";
 @import "@o-nas-1-top-img-interaction-scss";
 @import "@o-nas-2-thri-img-text-interaction-scss";
 @import "@o-nas-3-bottom-img-text-interaction-scss";
@@ -68,3 +87,5 @@
 @import 'swiper/scss/navigation';//нужно добавить чтоб скрывались элементы навигации если в слайдере не хватает слайдов
 @import 'swiper/scss/autoplay';
 @import 'swiper/scss/effect-fade';
+
+

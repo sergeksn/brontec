@@ -1,5 +1,5 @@
 .o-nas-3 {
-    margin-bottom: rem(100);
+    margin-bottom: var(--100);
 
     @media (min-width: rem(640)) {
         margin-bottom: adaptiv_rem_size(100, 640, 286, 1920);
@@ -22,19 +22,19 @@
 
         &-title {
             font: var(--h2);
-            margin-bottom: rem(40);
+            margin-bottom: var(--40);
 
             @media (min-width: rem(640)) {
                 margin-bottom: adaptiv_rem_size(40, 640, 100, 1920);
             }
 
             @media (min-width: rem(1920)) {
-                margin-bottom: adaptiv_rem_size(100, 1920);
+                margin-bottom: var(--100);
             }
         }
 
         &-text-1 {
-            margin-bottom: rem(20);
+            margin-bottom: var(--20);
 
             @media (min-width: rem(640)) {
                 margin-bottom: adaptiv_rem_size(20, 640, 30, 1920);
@@ -45,7 +45,7 @@
             }
 
             @media (min-width: rem(1920)) {
-                margin-bottom: adaptiv_rem_size(30, 1920);
+                margin-bottom: var(--30);
             }
         }
 
@@ -63,7 +63,7 @@
         }
 
         &-text-2 {
-            margin-bottom: rem(40);
+            margin-bottom: var(--40);
 
             @media (min-width: rem(640)) {
                 margin-bottom: 0;
@@ -91,7 +91,7 @@
 
     &__bottom-part {
         grid-column: 1/-1;
-        margin-top: rem(20);
+        margin-top: var(--20);
         font: var(--h3);
 
         @media (min-width: rem(640)) {
@@ -107,7 +107,7 @@
         }
 
         &-email {
-            margin-top: rem(20);
+            margin-top: var(--20);
             display: inline-block;
 
             @media (min-width: rem(640)) {
@@ -115,7 +115,7 @@
             }
 
             @media (min-width: rem(1920)) {
-                margin-top: adaptiv_rem_size(50, 1920);
+                margin-top: var(--50);
             }
         }
     }

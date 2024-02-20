@@ -1,0 +1,153 @@
+[class^='icon--'],
+[class*=' icon--'] {
+    &::before {
+        @include icon-element-base-style-mixin;
+    }
+}
+
+.icon--check-mark {
+    &::before {
+        @include icon--check-mark-mixin;
+    }
+}
+
+.icon--map-pointer {
+    &::before {
+        @include icon--map-pointer-mixin;
+    }
+
+    &--light::before {
+        background-color: var(--light);
+    }
+}
+
+.icon--star-outline {
+    &::before {
+        @include icon--star-outline-mixin;
+    }
+}
+
+.icon--star-s-zalivkoy {
+    &::before {
+        @include icon--star-s-zalivkoy-mixin;
+    }
+}
+
+.icon--plusik {
+    &::before {
+        @include icon--plusik-mixin;
+    }
+
+    &--blue::before {
+        background-color: var(--blue);
+    }
+
+    &--white::before {
+        background-color: var(--white);
+    }
+}
+
+.icon--close {
+    &::before {
+        @include icon--close-mixin;
+    }
+}
+
+.icon--close-bold {
+    &::before {
+        @include icon--close-bold-mixin;
+    }
+}
+
+.icon--minus {
+    &::before {
+        @include icon--minus-mixin;
+    }
+}
+
+.icon--cart {
+    &::before {
+        @include icon--cart-mixin;
+    }
+}
+
+.icon--cart-bold {
+    &::before {
+        @include icon--cart-bold-mixin;
+    }
+}
+
+.icon--magnifying-glass {
+    &::before {
+        @include icon--magnifying-glass-mixin;
+    }
+    &--white::before {
+        background-color: var(--white);
+    }
+}
+
+.icon--search {
+    &::before {
+        @include icon--search-mixin;
+    }
+}
+
+.icon--search-bold {
+    &::before {
+        @include icon--search-bold-mixin;
+    }
+}
+
+.icon--add-fill {
+    &::before {
+        @include icon--add-fill-mixin;
+    }
+}
+
+.icon--success {
+    &::before {
+        @include icon--success-mixin;
+    }
+}
+
+.icon--warning {
+    &::before {
+        @include icon--warning-mixin;
+    }
+}
+
+.icon--error {
+    &::before {
+        @include icon--error-mixin;
+    }
+}
+
+.icon--phone {
+    &::before {
+        @include icon--phone-mixin;
+    }
+}
+
+.icon--arrow {
+    &::before {
+        @include icon--arrow-mixin;
+    }
+}
+
+.icon--arrow-middle {
+    &::before {
+        @include icon--arrow-middle-mixin;
+    }
+}
+
+.icon--arrow-big {
+    &::before {
+        @include icon--arrow-big-mixin;
+    }
+}
+
+.icon--arrow-scroll-to-top {
+    &::before {
+        @include icon--arrow-scroll-to-top-mixin;
+    }
+}

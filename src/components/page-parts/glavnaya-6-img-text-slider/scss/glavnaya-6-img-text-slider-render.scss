@@ -1,0 +1,24 @@
+.glavnaya-6 {
+    margin: var(--big-gap) 0;
+
+    h2 {
+        margin-bottom: var(--medium-gap);
+
+        @media (min-width: rem(960)) {
+            grid-column: 1/9;
+        }
+    }
+
+    &__link-button {
+        grid-column: 1/-1;
+
+        @media (min-width: rem(640)) {
+            grid-column: 1/7;
+        }
+
+        @media (min-width: rem(960)) {
+            grid-column: 1/4;
+            margin-top: var(--small-gap);
+        }
+    }
+}

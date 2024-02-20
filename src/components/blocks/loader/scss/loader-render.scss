@@ -19,9 +19,9 @@
 
     &__circle {
         position: relative;
-        width: rem(40);
-        height: rem(40);
-        border-width: rem(4);
+        width: var(--40);
+        height: var(--40);
+        border-width: var(--4);
         border-style: solid;
         border-radius: 50%;
         border-color: var(--blue-transparent);
@@ -34,18 +34,10 @@
             aspect-ratio: 1 / 1;
             width: auto;
             height: 100%;
-            max-height: rem(40);
+            max-height: var(--40);
         }
 
-        @media (min-width: rem(1920)) {
-            width: adaptiv_rem_size(40, 1920);
-            height: adaptiv_rem_size(40, 1920);
-            border-width: adaptiv_rem_size(4, 1920);
 
-            @supports (aspect-ratio: 1/1) {
-                max-height: adaptiv_rem_size(40, 1920);
-            }
-        }
     }
 }
 

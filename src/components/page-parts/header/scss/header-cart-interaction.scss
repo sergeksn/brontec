@@ -3,32 +3,28 @@
     display: grid;
     position: relative;
     grid-template-columns: repeat(12, 1fr);
-    grid-column-gap: rem(20);
+    grid-column-gap: var(--20);
     align-items: center;
     padding: 0 adaptiv_rem_size(20, 320, 30, 640) 0 adaptiv_rem_size(10, 320, 20, 640);
 
     @media (min-width: rem(640)) {
         grid-template-columns: repeat(5, 1fr);
-        padding: 0 rem(50);
-        grid-column-gap: var(--gap-10);
-    }
-
-    @media (min-width: rem(1920)) {
-        padding: 0 adaptiv_rem_size(50, 1920);
+        padding: 0 var(--50);
+        grid-column-gap: var(--10);
     }
 }
 
 .cart {
-    padding: 0 0 rem(10) rem(10);
+    padding: 0 0 var(--10) var(--10);
 
     @media (min-width: rem(640)) {
-        padding: rem(10) 0;
+        padding: var(--10) 0;
         padding-left: adaptiv_rem_size(10, 640, 0, 650);
     }
 
     @media (min-width: rem(1920)) {
-        max-width: adaptiv_rem_size(640, 1920);
-        padding: adaptiv_rem_size(10, 1920) 0;
+        max-width: var(--640);
+        padding-left: 0;
     }
 
     &__wrap {
@@ -44,11 +40,7 @@
         position: relative;
 
         @media (min-width: rem(640)) {
-            grid-template-rows: rem(60) 1fr auto;
-        }
-
-        @media (min-width: rem(1920)) {
-            grid-template-rows: adaptiv_rem_size(60, 1920) 1fr auto;
+            grid-template-rows: var(--60) 1fr auto;
         }
 
         &-update-loader {
@@ -70,11 +62,7 @@
 
         @media (min-width: rem(640)) {
             justify-content: flex-end;
-            padding-right: rem(25);
-        }
-
-        @media (min-width: rem(1920)) {
-            padding-right: adaptiv_rem_size(25, 1920);
+            padding-right: var(--25);
         }
 
         &-titile {
@@ -90,19 +78,14 @@
 
             @media (min-width: rem(640)) {
                 display: block;
-                font-size: rem(22);
-            }
-
-            @media (min-width: rem(1920)) {
-                font-size: adaptiv_rem_size(22, 1920);
             }
         }
 
         &-counter {
             display: none;
-            min-width: rem(24);
-            height: rem(24);
-            padding: 0 rem(5);
+            min-width: var(--24);
+            height: var(--24);
+            padding: 0 var(--5);
             background: var(--blue);
             border-radius: 50%;
             align-items: center;
@@ -115,8 +98,8 @@
                 display: flex;
                 min-width: adaptiv_rem_size(24, 640, 30, 1920);
                 height: adaptiv_rem_size(24, 640, 30, 1920);
-                margin-left: rem(4);
-                margin-right: rem(25);
+                margin-left: var(--4);
+                margin-right: var(--25);
             }
 
             @media (min-width: rem(960)) {
@@ -124,38 +107,22 @@
             }
 
             @media (min-width: rem(1920)) {
-                min-width: adaptiv_rem_size(30, 1920);
-                height: adaptiv_rem_size(30, 1920);
-                padding: 0 adaptiv_rem_size(5, 1920);
-                margin-right: adaptiv_rem_size(25, 1920);
-                margin-left: adaptiv_rem_size(4, 1920);
-            }
-        }
-
-        &-close-button {
-            font-size: rem(20);
-
-            @media (min-width: rem(1920)) {
-                font-size: adaptiv_rem_size(20, 1920);
+                min-width: var(--30);
+                height: var(--30);
             }
         }
     }
 
     &__body {
         overflow-y: auto;
-        margin-right: rem(8);
+        margin-right: var(--8);
         height: auto;
         padding-right: adaptiv_rem_size(12, 320, 22, 640);
         align-items: start;
         align-content: start;
 
         @media (min-width: rem(640)) {
-            padding-right: rem(42);
-        }
-
-        @media (min-width: rem(1920)) {
-            margin-right: adaptiv_rem_size(8, 1920);
-            padding-right: adaptiv_rem_size(42, 1920);
+            padding-right: var(--42);
         }
 
         &-nothing {
@@ -172,12 +139,8 @@
             }
 
             &-button {
-                max-width: rem(300);
+                max-width: var(--300);
                 margin: 0 auto;
-
-                @media (min-width: rem(1920)) {
-                    max-width: adaptiv_rem_size(300, 1920);
-                }
             }
         }
 
@@ -187,11 +150,6 @@
             &-title {
                 font: var(--h3);
                 margin-bottom: var(--gap);
-
-                &:before {
-                    content: 'Комплект частичной защиты Brontero®';
-                    display: block;
-                }
             }
 
             &-delete {
@@ -204,9 +162,9 @@
                 &-timer {
                     margin-right: var(--gap);
                     border-radius: 50%;
-                    border: var(--border-width) solid var(--error);
-                    width: rem(36);
-                    height: rem(36);
+                    border: var(--border-width) solid var(--error-color);
+                    width: var(--36);
+                    height: var(--36);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -225,55 +183,34 @@
 
             &-change-quantity {
                 display: grid;
-                grid-gap: var(--gap-10);
+                grid-gap: var(--10);
                 grid-template-columns: 1fr 1fr;
 
                 button {
-                    width: rem(36);
-                    height: rem(36);
+                    width: var(--36);
+                    height: var(--36);
                     border-radius: 50%;
                     border: var(--border-width) solid var(--gray);
-                    font-size: rem(14);
-
-                    @media (min-width: rem(1920)) {
-                        font-size: adaptiv_rem_size(14, 1920);
-                        width: adaptiv_rem_size(36, 1920);
-                        height: adaptiv_rem_size(36, 1920);
-                    }
 
                     @media (any-hover: hover) {
                         &:hover {
                             background-color: var(--blue);
-                            color: var(--white);
                             border: none;
+
+                            &::before {
+                                background-color: var(--white);
+                            }
                         }
-                    }
-                }
-
-                [data-decrease] {
-                    font-family: var(--icon);
-                    font-size: rem(2);
-
-                    @media (min-width: rem(1920)) {
-                        font-size: adaptiv_rem_size(2, 1920);
-                    }
-
-                    &:after {
-                        content: '\e911';
                     }
                 }
             }
 
             &-quantity {
                 font: var(--h3);
-                margin-left: rem(22);
+                margin-left: var(--22);
 
                 @media (min-width: rem(640)) {
                     font: var(--default);
-                }
-
-                &:after {
-                    content: ' шт';
                 }
             }
 
@@ -289,11 +226,7 @@
                     color: var(--gray);
 
                     @media (min-width: rem(640)) {
-                        margin-right: rem(50);
-                    }
-
-                    @media (min-width: rem(1920)) {
-                        grid-gap: adaptiv_rem_size(50, 1920);
+                        margin-right: var(--50);
                     }
                 }
                 &-kit {
@@ -304,31 +237,18 @@
             &-toggle-composition {
                 color: var(--blue);
                 margin-top: var(--gap);
+                display: flex;
 
                 &:before {
-                    content: 'Состав комплекта ';
-                }
-
-                &:after {
-                    content: '\e90c';
-                    font-family: var(--icon);
-                    font-size: rem(12);
                     transform: rotate(90deg);
-                    display: inline-block;
                     margin-left: var(--gap);
                     transition: transform var(--standart-anim);
-
-                    @media (min-width: rem(1920)) {
-                        font-size: adaptiv_rem_size(12, 1920);
-                    }
+                    order: 1;
+                    background-color: var(--blue);
                 }
 
                 &--open {
                     &:before {
-                        content: 'Свернуть ';
-                    }
-
-                    &:after {
                         transform: rotate(-90deg);
                     }
                 }
@@ -337,7 +257,7 @@
             &-spoiler-wrap {
                 &-content {
                     display: grid;
-                    grid-gap: var(--gap-10);
+                    grid-gap: var(--10);
                     padding-top: var(--gap);
                     opacity: 0;
 
@@ -356,11 +276,7 @@
                 content: '';
                 border-top: var(--border-width-bold) solid var(--light);
                 display: block;
-                margin: rem(40) 0;
-
-                @media (min-width: rem(1920)) {
-                    margin: adaptiv_rem_size(40, 1920) 0;
-                }
+                margin: var(--40) 0;
             }
 
             &:last-child {
@@ -375,13 +291,6 @@
             }
 
             &--full-kit {
-                .cart__body-product-title {
-                    &:before {
-                        content: 'Полный комплект защиты Brontero®';
-                        display: block;
-                    }
-                }
-
                 .cart__body-product-prices {
                     &-old-price {
                         display: block;
@@ -396,24 +305,39 @@
                 }
             }
 
-            &--single {
+            &:not(&--single) {
                 [data-decrease] {
-                    font-size: rem(14);
-
-                    @media (min-width: rem(1920)) {
-                        font-size: adaptiv_rem_size(14, 1920);
-                    }
-
                     @media (any-hover: hover) {
-                        &:hover {
-                            background-color: var(--error);
-                            color: var(--white);
+                        &:hover:before {
+                            background-color: var(--white);
                             border: none;
                         }
                     }
 
-                    &:after {
-                        content: '\e910';
+                    &:before {
+                        @include icon-element-base-style-mixin;
+                        @include icon--minus-mixin;
+                    }
+                }
+            }
+
+            &--single {
+                [data-decrease] {
+                    @media (any-hover: hover) {
+                        &:hover {
+                            background-color: var(--error-color);
+                            border: none;
+
+                            &:before {
+                                background-color: var(--white);
+                                border: none;
+                            }
+                        }
+                    }
+
+                    &:before {
+                        @include icon-element-base-style-mixin;
+                        @include icon--plusik-mixin;
                         transform: rotate(45deg);
                     }
                 }
@@ -436,12 +360,8 @@
         align-items: start;
 
         @media (min-width: rem(640)) {
-            grid-row-gap: rem(37);
+            grid-row-gap: var(--37);
             align-items: center;
-        }
-
-        @media (min-width: rem(1920)) {
-            grid-row-gap: adaptiv_rem_size(37, 1920);
         }
 
         &-final-price {
@@ -460,11 +380,7 @@
                 font: var(--h3);
 
                 @media (min-width: rem(640)) {
-                    margin-top: rem(5);
-                }
-
-                @media (min-width: rem(1920)) {
-                    margin-top: adaptiv_rem_size(5, 1920);
+                    margin-top: var(--5);
                 }
             }
         }

@@ -1,0 +1,57 @@
+<div class="standart-container" data-showed-on-scroll>
+  <div class="swpusbw">
+    <div class="swpusbw__slider-wrap">
+      <div class="swiper wait-init-slider-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" data-popup-id="1">
+            <%- include('./../../blocks/images/images.ejs', {data:{type: "img-swiper-loop", loader:true, url:"~@slider-with-pop-up-standart-block-whidth-img/1.jpg", pt:68.9655,}})%>
+            <div class="text-data">Незаметна с близкого расстояния</div>
+            <div class="icon--magnifying-glass icon--magnifying-glass--white"></div>
+          </div>
+          <div class="swiper-slide" data-popup-id="2">
+            <%- include('./../../blocks/images/images.ejs', {data:{type: "img-swiper-loop", loader:true, url:"~@slider-with-pop-up-standart-block-whidth-img/2.jpg", pt:68.9655,}})%>
+            <div class="text-data">Незаметна с близкого расстояния</div>
+            <div class="icon--magnifying-glass icon--magnifying-glass--white"></div>
+          </div>
+          <div class="swiper-slide" data-popup-id="3">
+            <%- include('./../../blocks/images/images.ejs', {data:{type: "img-swiper-loop", loader:true, url:"~@slider-with-pop-up-standart-block-whidth-img/3.jpg", pt:68.9655,}})%>
+            <div class="text-data">Незаметна с близкого расстояния</div>
+            <div class="icon--magnifying-glass icon--magnifying-glass--white"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swpusbw__control-buttons">
+      <button class="swpusbw__control-buttons-button-prev icon--arrow-big"></button>
+      <button class="swpusbw__control-buttons-button-next icon--arrow-big"></button>
+    </div>
+
+    <div class="swpusbw__pop-up">
+      <div class="swpusbw__pop-up-slider-wrap">
+        <div class="swiper wait-init-slider-swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" data-popup-id="1">
+              <%- include('./../../blocks/images/images.ejs', {data:{type: "img-swiper-loop", loader:true, url:"~@slider-with-pop-up-standart-block-whidth-img/1.jpg", pt:68.9655,}})%>
+              <div class="text-data">Заметите плёнку на этом Qashqai? Описание фотографии. Вторая строка текста. Третья строка Незаметна с близкого расстояния</div>
+            </div>
+            <div class="swiper-slide" data-popup-id="2">
+              <%- include('./../../blocks/images/images.ejs', {data:{type: "img-swiper-loop", loader:true, url:"~@slider-with-pop-up-standart-block-whidth-img/2.jpg", pt:68.9655,}})%>
+              <div class="text-data">Заметите плёнку на этом Qashqai? Описание фотографии. Третья строка Незаметна с близкого расстояния</div>
+            </div>
+            <div class="swiper-slide" data-popup-id="3">
+              <%- include('./../../blocks/images/images.ejs', {data:{type: "img-swiper-loop", loader:true, url:"~@slider-with-pop-up-standart-block-whidth-img/3.jpg", pt:68.9655,}})%>
+              <div class="text-data">Заметите плёнку на этом Qashqai? Описание фотографии. Вторая строка текста. </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <button class="swpusbw__pop-up-close-button button-maket-size icon--close"></button>
+      <div class="swpusbw__pop-up-control-buttons">
+        <button class="swpusbw__pop-up-control-buttons-button-prev icon--arrow-big"></button>
+        <button class="swpusbw__pop-up-control-buttons-button-next icon--arrow-big"></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="overlay-galery-pop-up" class="overlay"></div>

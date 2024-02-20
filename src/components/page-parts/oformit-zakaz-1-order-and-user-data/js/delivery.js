@@ -52,7 +52,7 @@ let delivery_input = qs('.oformit-zakaz-2 input'),
             GDS.delivery.price = +data.price;
             GDS.delivery.term = data.term;
             GDS.delivery.pvz_or_postomat_name = data.PVZ.Name;
-            GDS.delivery.pvz_or_postomat_address = data.PVZ.Address.replace('Нет приема и выдачи груза','');
+            GDS.delivery.pvz_or_postomat_address = data.PVZ.Address.replace('Нет приема и выдачи груза', '');
 
             delivery_input.value = data.id; //записываем id  в инпут чтоб он перестал быть пустым
 

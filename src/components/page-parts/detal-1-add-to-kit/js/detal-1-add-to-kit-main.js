@@ -1,5 +1,5 @@
 import { set_local_storage } from '@js-libs/func-kit';
-import Full_Kit_Configurator from '@komplekt-2-select-kit-composition-main-js';
+import Full_Kit_Configurator from '@komplekt-5-select-kit-composition-main-js';
 
 let input = qs('.detal-1-add-to-kit input'), //инпут в конфигураторе
     CONFIGURATOR_CONTROLLER = {
@@ -19,6 +19,12 @@ let input = qs('.detal-1-add-to-kit input'), //инпут в конфигура�
                     Full_Kit_Configurator.toggle_svg_active_status.bind(Full_Kit_Configurator)(); //меняет заливку svg детали связанной с данным инпутом
                 }
             }); //синхронизирует конфигураторы в разных вкладках браузера
+
+            let get_data = window.location.search.replace('?', ''); //получаем данные гет из адреса
+
+            if (get_data.includes('from-configurator=true')) {
+                [qs('.detal-1-add-to-kit__data a'), qs('.detal-5__link-wrap a')].forEach(el => (el.href += '#komplekt-configurator')); //если мы перешли из конфигуратора то ставим ссылку именно на блок конфигуратора
+            }
         },
 
         //срабатываем при клике на чекбокс, т.е. при смене его состояния включен/выключен на странице детали

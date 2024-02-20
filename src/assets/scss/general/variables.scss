@@ -16,13 +16,96 @@
     --gray: #999999;
     --gray-transparent: #{rgba(#999999, 0.2)}; //используется для скролбара
     --light: #e6e6e6;
-    --error: #ff5050;
-    --warning: #ffce50;
-    --success: #69d243;
+    --error-color: #ff5050;
+    --warning-color: #ffce50;
+    --success-color: #69d243;
     --link: #0049ff;
     --link-hover: #003acc;
     --link-visited: #4e00cc;
     /*цвета*/
+
+    //частоиспользуемые размеры
+    --1: #{rem(1)};
+    --2: #{rem(2)};
+    --3: #{rem(3)};
+    --4: #{rem(4)};
+    --5: #{rem(5)};
+    --6: #{rem(6)};
+    //--7: #{rem(7)};
+    --8: #{rem(8)};
+    //--9: #{rem(9)};
+    --10: #{rem(10)};
+    //--11: #{rem(11)};
+    --12: #{rem(12)};
+    --13: #{rem(13)};
+    --14: #{rem(14)};
+    --15: #{rem(15)};
+    --16: #{rem(16)};
+    --17: #{rem(17)};
+    --18: #{rem(18)};
+    --19: #{rem(19)};
+    --20: #{rem(20)};
+    //--21: #{rem(21)};
+    --22: #{rem(22)};
+    --23: #{rem(23)};
+    --24: #{rem(24)};
+    --25: #{rem(25)};
+    --26: #{rem(26)};
+    //--27: #{rem(27)};
+    --28: #{rem(28)};
+    //--29: #{rem(29)};
+    --30: #{rem(30)};
+    //--31: #{rem(31)};
+    --32: #{rem(32)};
+    //--33: #{rem(33)};
+    --34: #{rem(34)};
+    --35: #{rem(35)};
+    --36: #{rem(36)};
+    --37: #{rem(37)};
+    //--38: #{rem(38)};
+    //--39: #{rem(39)};
+    --40: #{rem(40)};
+    //--41: #{rem(41)};
+    --42: #{rem(42)};
+    //--43: #{rem(43)};
+    //--44: #{rem(44)};
+    --45: #{rem(45)};
+    //--46: #{rem(46)};
+    --47: #{rem(47)};
+    //--48: #{rem(48)};
+    //--49: #{rem(49)};
+    --50: #{rem(50)};
+    --53: #{rem(53)};
+    --55: #{rem(55)};
+    --60: #{rem(60)};
+    --64: #{rem(64)};
+    --70: #{rem(70)};
+    --80: #{rem(80)};
+    --90: #{rem(90)};
+    --95: #{rem(95)};
+    --100: #{rem(100)};
+    --110: #{rem(110)};
+    --120: #{rem(120)};
+    --160: #{rem(160)};
+    --168: #{rem(168)};
+    --180: #{rem(180)};
+    --190: #{rem(190)};
+    --200: #{rem(200)};
+    --205: #{rem(205)};
+    --260: #{rem(260)};
+    --280: #{rem(280)};
+    --300: #{rem(300)};
+    --310: #{rem(310)};
+    --380: #{rem(380)};
+    --400: #{rem(400)};
+    --480: #{rem(480)};
+    --580: #{rem(580)};
+    --600: #{rem(600)};
+    --640: #{rem(640)};
+    --800: #{rem(800)};
+    --1180: #{rem(1180)};
+    --1920: #{rem(1920)};
+    //частоиспользуемые размеры
 
     /*шрифты*/
     //эти размеры шрифта актуальны до самых малых размеров экрана, т.к. эти размеры не меняются
@@ -31,20 +114,20 @@
     --icon: 'icon-font';
 
     //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
-    --h1-fs: #{rem(25)};
-    --h1-lh: #{rem(30)};
+    --h1-fs: var(--25);
+    --h1-lh: var(--30);
 
-    --h2-fs: #{rem(22)};
-    --h2-lh: #{rem(30)};
+    --h2-fs: var(--22);
+    --h2-lh: var(--30);
 
-    --h3-fs: #{rem(18)};
-    --h3-lh: #{rem(25)};
+    --h3-fs: var(--18);
+    --h3-lh: var(--25);
 
-    --default-fs: #{rem(15)};
-    --default-lh: #{rem(20)};
+    --default-fs: var(--15);
+    --default-lh: var(--20);
 
-    --small-fs: #{rem(13)};
-    --small-lh: #{rem(20)};
+    --small-fs: var(--13);
+    --small-lh: var(--20);
     //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
 
     --h1: var(--h1-fs) / var(--h1-lh) var(--ff-bold);
@@ -56,45 +139,44 @@
 
     /*отступы между блоками*/
     //эти отсупы актуальны до самых малых размеров экрана, т.к. эти отсупы не меняются
-    --big-gap: #{rem(100)};
-    --medium-gap: #{rem(40)};
-    --small-gap: #{rem(20)};
-    --gap: #{rem(20)}; //стандартынй зазор в сетке и межу некторыми блоками
-    --gap-10: #{rem(10)}; //маленький зазор 10 пикселей между некоторыми блоками
+    --big-gap: var(--100);
+    --medium-gap: var(--40);
+    --small-gap: var(--20);
+    --gap: var(--20); //стандартынй зазор в сетке и межу некторыми блоками
     /*отступы между блоками*/
 
     --button-min-width: auto; //ширина кнопок
     --button-max-width: none; //ширина кнопок
-    --button-min-height: #{rem(50)}; //минимальняа высота кнопок
-    --button-maket-size: #{rem(30)}; //высота и ширина кнопок в мекете, не текстовых!
+    --button-min-height: var(--50); //минимальняа высота кнопок
+    --button-maket-size: var(--30); //высота и ширина кнопок в мекете, не текстовых!
 
     --standart-container-margin-lr: #{adaptiv_rem_size(20, 320, 30, 640)}; //боковые внешние отступы стандартного контейнера
     --standart-container-width: calc(100vw - var(--standart-container-margin-lr) * 2); //ширина стандартного контейнера
-    --standart-container-max-width: #{rem(1180)}; //максимальная ширина стандартного контейнера
+    --standart-container-max-width: var(--1180); //максимальная ширина стандартного контейнера
 
     --fast-anim: 0s ease-in-out;
     --standart-anim: 0.5s ease-in-out;
 
-    --border-width: #{rem(1)}; //стандартная тощина бордера для большинства элементов
-    --border-width-bold: #{rem(2)}; //более толстая граница для элементов
-    --border-radius: #{rem(10)}; //бордер радиус
+    --border-width: var(--1); //стандартная тощина бордера для большинства элементов
+    --border-width-bold: var(--2); //более толстая граница для элементов
+    --border-radius: var(--10); //бордер радиус
 
-    --scroll-width: #{rem(8)}; //ширина скролбара для внутрених блоков с контентом
-    --scroll-border-radius: #{rem(12)}; //для скролбара внутрених блоков с контентом
-    --scroll-page-width: #{rem(12)}; //ширина скролбара для страницы
-    --scroll-page-border-radius: #{rem(12)}; //для скролбара страницы
+    --scroll-width: var(--8); //ширина скролбара для внутрених блоков с контентом
+    --scroll-border-radius: var(--12); //для скролбара внутрених блоков с контентом
+    --scroll-page-width: var(--12); //ширина скролбара для страницы
+    --scroll-page-border-radius: var(--12); //для скролбара страницы
 
     //bottons size
-    --min-interactive-elements-width: #{rem(50)};
-    --min-interactive-elements-height: #{rem(50)};
+    --min-interactive-elements-width: var(--50);
+    --min-interactive-elements-height: var(--50);
 
     @media (min-width: rem(320)) {
-        --button-min-width: #{rem(280)}; //ширина кнопок
+        --button-min-width: var(--280); //ширина кнопок
     }
 
     @media (min-width: rem(640)) {
         $start_w: 640; //начальное значение ширины
-        $final_w: 1919; //конечное значение ширины
+        $final_w: 1919; //конечное значение ширины 
 
         /*шрифты*/
         //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
@@ -111,7 +193,6 @@
         --default-lh: #{adaptiv_rem_size(20, $start_w, 25, $final_w)};
 
         --small-fs: #{adaptiv_rem_size(13, $start_w, 14, $final_w)};
-        --small-lh: #{rem(20)};
         //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
         /*шрифты*/
 
@@ -121,10 +202,10 @@
         --small-gap: #{adaptiv_rem_size(20, $start_w, 40, $final_w)};
         /*отступы между блоками*/
 
-        --button-max-width: #{rem(280)}; //ширина кнопок
+        --button-max-width: var(--280); //ширина кнопок
         --button-min-height: #{adaptiv_rem_size(50, $start_w, 60, $final_w)}; //минимальняа высота кнопок
 
-        --standart-container-margin-lr: #{rem(30)}; //боковые внешние отступы стандартного контейнера
+        --standart-container-margin-lr: var(--30); //боковые внешние отступы стандартного контейнера
     }
 
     @media (min-width: rem(1240)) {
@@ -134,52 +215,188 @@
     }
 
     @media (min-width: rem(1920)) {
-        --min-interactive-elements-width: #{adaptiv_rem_size(50, 1920)};
-        --min-interactive-elements-height: #{adaptiv_rem_size(50, 1920)};
-
         $start_w: 1920; //начальное значение ширины
 
+        //частоиспользуемые размеры
+        --1: #{adaptiv_rem_size(1, $start_w)};
+        --2: #{adaptiv_rem_size(2, $start_w)};
+        --3: #{adaptiv_rem_size(3, $start_w)};
+        --4: #{adaptiv_rem_size(4, $start_w)};
+        --5: #{adaptiv_rem_size(5, $start_w)};
+        --6: #{adaptiv_rem_size(6, $start_w)};
+        //--7: #{adaptiv_rem_size(7, $start_w)};
+        --8: #{adaptiv_rem_size(8, $start_w)};
+        //--9: #{adaptiv_rem_size(9, $start_w)};
+        --10: #{adaptiv_rem_size(10, $start_w)};
+        //--11: #{adaptiv_rem_size(11, $start_w)};
+        --12: #{adaptiv_rem_size(12, $start_w)};
+        --13: #{adaptiv_rem_size(13, $start_w)};
+        --14: #{adaptiv_rem_size(14, $start_w)};
+        --15: #{adaptiv_rem_size(15, $start_w)};
+        --16: #{adaptiv_rem_size(16, $start_w)};
+        --17: #{adaptiv_rem_size(17, $start_w)};
+        --18: #{adaptiv_rem_size(18, $start_w)};
+        --19: #{adaptiv_rem_size(19, $start_w)};
+        --20: #{adaptiv_rem_size(20, $start_w)};
+        //--21: #{adaptiv_rem_size(21, $start_w)};
+        --22: #{adaptiv_rem_size(22, $start_w)};
+        --23: #{adaptiv_rem_size(23, $start_w)};
+        --24: #{adaptiv_rem_size(24, $start_w)};
+        --25: #{adaptiv_rem_size(25, $start_w)};
+        --26: #{adaptiv_rem_size(26, $start_w)};
+        //--27: #{adaptiv_rem_size(27, $start_w)};
+        --28: #{adaptiv_rem_size(28, $start_w)};
+        //--29: #{adaptiv_rem_size(29, $start_w)};
+        --30: #{adaptiv_rem_size(30, $start_w)};
+        //--31: #{adaptiv_rem_size(31, $start_w)};
+        --32: #{adaptiv_rem_size(32, $start_w)};
+        //--33: #{adaptiv_rem_size(33, $start_w)};
+        --34: #{adaptiv_rem_size(34, $start_w)};
+        --35: #{adaptiv_rem_size(35, $start_w)};
+        --36: #{adaptiv_rem_size(36, $start_w)};
+        --37: #{adaptiv_rem_size(37, $start_w)};
+        //--38: #{adaptiv_rem_size(38, $start_w)};
+        //--39: #{adaptiv_rem_size(39, $start_w)};
+        --40: #{adaptiv_rem_size(40, $start_w)};
+        //--41: #{adaptiv_rem_size(41, $start_w)};
+        --42: #{adaptiv_rem_size(42, $start_w)};
+        //--43: #{adaptiv_rem_size(43, $start_w)};
+        //--44: #{adaptiv_rem_size(44, $start_w)};
+        --45: #{adaptiv_rem_size(45, $start_w)};
+        //--46: #{adaptiv_rem_size(46, $start_w)};
+        --47: #{adaptiv_rem_size(47, $start_w)};
+        //--48: #{adaptiv_rem_size(48, $start_w)};
+        //--49: #{adaptiv_rem_size(49, $start_w)};
+        --50: #{adaptiv_rem_size(50, $start_w)};
+        --53: #{adaptiv_rem_size(53, $start_w)};
+        --55: #{adaptiv_rem_size(55, $start_w)};
+        --60: #{adaptiv_rem_size(60, $start_w)};
+        --64: #{adaptiv_rem_size(64, $start_w)};
+        --70: #{adaptiv_rem_size(70, $start_w)};
+        --80: #{adaptiv_rem_size(80, $start_w)};
+        --90: #{adaptiv_rem_size(90, $start_w)};
+        --95: #{adaptiv_rem_size(95, $start_w)};
+        --100: #{adaptiv_rem_size(100, $start_w)};
+        --110: #{adaptiv_rem_size(110, $start_w)};
+        --120: #{adaptiv_rem_size(120, $start_w)};
+        --160: #{adaptiv_rem_size(160, $start_w)};
+        --168: #{adaptiv_rem_size(168, $start_w)};
+        --180: #{adaptiv_rem_size(180, $start_w)};
+        --190: #{adaptiv_rem_size(190, $start_w)};
+        --200: #{adaptiv_rem_size(200, $start_w)};
+        --205: #{adaptiv_rem_size(205, $start_w)};
+        --260: #{adaptiv_rem_size(260, $start_w)};
+        --280: #{adaptiv_rem_size(280, $start_w)};
+        --300: #{adaptiv_rem_size(300, $start_w)};
+        --310: #{adaptiv_rem_size(310, $start_w)};
+        --380: #{adaptiv_rem_size(380, $start_w)};
+        --400: #{adaptiv_rem_size(400, $start_w)};
+        --480: #{adaptiv_rem_size(480, $start_w)};
+        --580: #{adaptiv_rem_size(580, $start_w)};
+        --600: #{adaptiv_rem_size(600, $start_w)};
+        --640: #{adaptiv_rem_size(640, $start_w)};
+        --800: #{adaptiv_rem_size(800, $start_w)};
+        --1180: #{adaptiv_rem_size(1180, $start_w)};
+        --1920: #{adaptiv_rem_size(1920, $start_w)};
+        //частоиспользуемые размеры
+
         /*шрифты*/
         //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
-        --h1-fs: #{adaptiv_rem_size(50, $start_w)};
-        --h1-lh: #{adaptiv_rem_size(60, $start_w)};
+        --h1-fs: var(--50);
+        --h1-lh: var(--60);
 
-        --h2-fs: #{adaptiv_rem_size(32, $start_w)};
-        --h2-lh: #{adaptiv_rem_size(40, $start_w)};
+        --h2-fs: var(--32);
+        --h2-lh: var(--40);
 
-        --h3-fs: #{adaptiv_rem_size(24, $start_w)};
-        --h3-lh: #{adaptiv_rem_size(30, $start_w)};
+        --h3-fs: var(--24);
+        --h3-lh: var(--30);
 
-        --default-fs: #{adaptiv_rem_size(17, $start_w)};
-        --default-lh: #{adaptiv_rem_size(25, $start_w)};
+        --default-fs: var(--17);
+        --default-lh: var(--25);
 
-        --small-fs: #{adaptiv_rem_size(14, $start_w)};
-        --small-lh: #{adaptiv_rem_size(20, $start_w)};
+        --small-fs: var(--14);
         //размер шрифта и высота строки дял каждого типа шрифта, эти переменные могут так же понадобиться есть нужно будет высчитывать где-то высоты
         /*шрифты*/
 
         /*отступы между блоками*/
-        --big-gap: #{adaptiv_rem_size(200, $start_w)};
-        --medium-gap: #{adaptiv_rem_size(80, $start_w)};
-        --small-gap: #{adaptiv_rem_size(40, $start_w)};
-        --gap: #{adaptiv_rem_size(20, $start_w)};
-        --gap-10: #{adaptiv_rem_size(10, $start_w)}; //маленький зазор 10 пикселей между некоторыми блоками
+        --big-gap: var(--200);
+        --medium-gap: var(--80);
+        --small-gap: var(--40);
+        --gap: var(--20);
         /*отступы между блоками*/
 
-        --button-min-width: #{adaptiv_rem_size(280, $start_w)}; //ширина кнопок
-        --button-max-width: #{adaptiv_rem_size(280, $start_w)}; //ширина кнопок
-        --button-min-height: #{adaptiv_rem_size(60, $start_w)}; //минимальняа высота кнопок
-        --button-maket-size: #{adaptiv_rem_size(30, $start_w)}; //высота и ширина кнопок в мекете, не текстовых!
-
-        --standart-container-max-width: #{adaptiv_rem_size(1180, 1920)}; //максимальная ширина стандартного контейнера
-
-        --border-width: #{adaptiv_rem_size(1, $start_w)};
-        --border-width-bold: #{adaptiv_rem_size(2, $start_w)};
-        --border-radius: #{adaptiv_rem_size(10, $start_w)};
-
-        --scroll-width: #{adaptiv_rem_size(8, $start_w)}; //ширина скролбара для внутрених блоков с контентом
-        --scroll-border-radius: #{adaptiv_rem_size(12, $start_w)}; //для скролбара внутрених блоков с контентом
-        --scroll-page-width: #{adaptiv_rem_size(12, $start_w)}; //ширина скролбара для страницы
-        --scroll-page-border-radius: #{adaptiv_rem_size(12, $start_w)}; //для скролбара страницы
+        --button-min-height: var(--60); //минимальняа высота кнопок
     }
+
+    --fon-v-kletochku: linear-gradient(var(--light), transparent var(--border-width-bold)), linear-gradient(90deg, var(--light), transparent var(--border-width-bold));
+
+    //иконки svg
+    //маркер капля используется на кнопках для перехода к партнёрам
+    --map-pointer: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjEgMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMC41IDNDNy43Mzg1OCAzIDUuNSA1LjIzODU4IDUuNSA4QzUuNSAxMS4zMTE3IDguODYyOTggMTQuODQgMTAuNSAxNy41QzEyLjEzNyAxNC44NCAxNS41IDExLjMxMTcgMTUuNSA4QzE1LjUgNS4yMzg1OCAxMy4yNjE0IDMgMTAuNSAzWiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz4KPGNpcmNsZSBjeD0iMTAuNSIgY3k9IjgiIHI9IjIiIGZpbGw9IiMwMDAiLz4KPC9zdmc+Cg==');
+
+    //иконка дял измененяи размеров поля ввода используетяс в формах
+    --resizer-textarea: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAxNSAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iNiIgeT0iNiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgZmlsbD0iIzI2MjYyNiIvPgo8cmVjdCB4PSIxMiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgZmlsbD0iIzI2MjYyNiIvPgo8cmVjdCB4PSIxNSIgeT0iNiIgd2lkdGg9IjMiIGhlaWdodD0iMyIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMTUgNikiIGZpbGw9IiMyNjI2MjYiLz4KPHJlY3QgeT0iMTIiIHdpZHRoPSIzIiBoZWlnaHQ9IjMiIGZpbGw9IiMyNjI2MjYiLz4KPHJlY3QgeD0iMTUiIHk9IjEyIiB3aWR0aD0iMyIgaGVpZ2h0PSIzIiB0cmFuc2Zvcm09InJvdGF0ZSg5MCAxNSAxMikiIGZpbGw9IiMyNjI2MjYiLz4KPHJlY3QgeD0iOSIgeT0iMTIiIHdpZHRoPSIzIiBoZWlnaHQ9IjMiIHRyYW5zZm9ybT0icm90YXRlKDkwIDkgMTIpIiBmaWxsPSIjMjYyNjI2Ii8+Cjwvc3ZnPgo=');
+
+    //звезда только обводка используется в отзывах
+    --star-outline: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAgMTkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMC4yNTAyIDEuNjU1NkwxMS45NjI2IDcuMDYwODNMMTIuMDczMiA3LjQwOTgzSDEyLjQzOTNIMTguMDE1M0wxMy40OTM0IDEwLjc3OTRMMTMuMjA4IDEwLjk5MjFMMTMuMzE1NSAxMS4zMzEzTDE1LjAzNiAxNi43NjIzTDEwLjU0OSAxMy40MTg3TDEwLjI1MDIgMTMuMTk2MUw5Ljk1MTQ4IDEzLjQxODdMNS40NjQ0OSAxNi43NjIzTDcuMTg1IDExLjMzMTNMNy4yOTI0OCAxMC45OTIxTDcuMDA3MTEgMTAuNzc5NEwyLjQ4NTIyIDcuNDA5ODNIOC4wNjEyM0g4LjQyNzMyTDguNTM3ODggNy4wNjA4M0wxMC4yNTAyIDEuNjU1NloiIHN0cm9rZT0iIzAwMCIvPgo8L3N2Zz4K');
+
+    //зевзда с заливкой
+    --star-s-zalivkoy: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAgMTkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik05Ljc1IDBMMTEuOTM5IDYuOTA5ODNIMTkuMDIyOEwxMy4yOTE5IDExLjE4MDNMMTUuNDgwOSAxOC4wOTAyTDkuNzUgMTMuODE5N0w0LjAxOTA5IDE4LjA5MDJMNi4yMDgxIDExLjE4MDNMMC40NzcxOTkgNi45MDk4M0g3LjU2MDk5TDkuNzUgMFoiIGZpbGw9IiMwMDAiLz4KPC9zdmc+Cg==');
+
+    //галочка отместки используется в чекбоксах и в списках деталей как декор элемент
+    --check-mark: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTUuNzAxOSAxLjcxMTk1TDUuODY5NDIgMTEuNDAzOUwwLjI5Nzg1MiA1LjkxMTk1TDEuNzAxODUgNC40ODc2TDUuODY5NDIgOC41OTU2MkwxNC4yOTc5IDAuMjg3NTk4TDE1LjcwMTkgMS43MTE5NVoiIGZpbGw9IiMwMDAiLz4KPC9zdmc+Cg==');
+
+    //поюсик исполбзуется в блоках с шаблоном и всплывающими окнами, а так же а блоках с часто задаваемыми вопросами в спойлерах
+    --plusik: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAgMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMCAzVjE3TTE3IDEwTDMgMTAiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPgo=');
+
+    //минус используется в блоках отзывов
+    --minus: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTQgMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0wIDBMMTQgNC43NjgzN2UtMDdWMkwwIDJWMFoiIGZpbGw9IiMwMDAiLz4KPC9zdmc+Cg==');
+
+    //используется для закрытия поакпов и других блоков
+    --close: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjIgMjIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yMSAxLjAwMDE2TDEgMjFNMjEgMjAuOTk5OEwxIDEiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPgo=");
+
+    //используется в некотрых блокакх как кнопка закрытия
+    --close-bold: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTQgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNS41ODU4NiA3TDAuMjkyOTY5IDEuNzA3MTFMMS43MDcxOCAwLjI5Mjg5Mkw3LjAwMDA4IDUuNTg1NzlMMTIuMjkzIDAuMjkyODkyTDEzLjcwNzIgMS43MDcxMUw4LjQxNDI5IDdMMTMuNzA3MiAxMi4yOTI5TDEyLjI5MyAxMy43MDcxTDcuMDAwMDggOC40MTQyMUwxLjcwNzE4IDEzLjcwNzFMMC4yOTI5NjkgMTIuMjkyOUw1LjU4NTg2IDdaIiBmaWxsPSIjMDAwIi8+Cjwvc3ZnPgo=');
+
+    //иконка корзины для больших экранов используется в хедере
+    --cart: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yNi42MTY3IDYuNUwyMi41IDE2SDUuNUwxIDYuNUgyNi42MTY3Wk0yNi42MTY3IDYuNUwyNy45NTU5IDMuNDA5NTdDMjguNTg5NyAxLjk0NjczIDMwLjAzMTggMSAzMS42MjYxIDFIMzRNMjYuNjE2NyA2LjVIMjdNMTAgMjFDMTAgMjIuMTA0NiA5LjEwNDU3IDIzIDggMjNDNi44OTU0MyAyMyA2IDIyLjEwNDYgNiAyMUM2IDE5Ljg5NTQgNi44OTU0MyAxOSA4IDE5QzkuMTA0NTcgMTkgMTAgMTkuODk1NCAxMCAyMVpNMjIgMjFDMjIgMjIuMTA0NiAyMS4xMDQ2IDIzIDIwIDIzQzE4Ljg5NTQgMjMgMTggMjIuMTA0NiAxOCAyMUMxOCAxOS44OTU0IDE4Ljg5NTQgMTkgMjAgMTlDMjEuMTA0NiAxOSAyMiAxOS44OTU0IDIyIDIxWiIgc3Ryb2tlPSIjMDAwIi8+Cjwvc3ZnPgo=');
+
+    //корзина для мобильного хедера
+    --cart-bold: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjggMTkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjIuNzUxOSAzLjMxMzc2QzIzLjA5MjIgMi41MDA4IDIzLjg1MjIgMiAyNC42NjU1IDJIMjYuNDk5OUMyNy4wNTIyIDIgMjcuNDk5OSAxLjU1MjI4IDI3LjQ5OTkgMC45OTk5OTlDMjcuNDk5OSAwLjQ0NzcxNCAyNy4wNTIyIDAgMjYuNDk5OSAwSDI0LjY2NTVDMjMuMDE1IDAgMjEuNTQ2NCAxLjAxMzk3IDIwLjkwNyAyLjU0MTU1TDIwLjEyOTEgNC40SDIuNTU3MThDMS4xMDA0NiA0LjQgMC4xMzI0MjIgNS45MDc0NiAwLjczODQ5OCA3LjIzMjExTDMuMzAwNyAxMi44MzIxQzMuNjI2MjYgMTMuNTQzNyA0LjMzNjg4IDE0IDUuMTE5MzggMTRIMTYuOTQ4MUMxNy43NTQzIDE0IDE4LjQ4MTcgMTMuNTE1OSAxOC43OTMgMTIuNzcyMkwyMi43NTE5IDMuMzEzNzZaTTIuNTU3MTggNi40SDE5LjI5MkwxNi45NDgxIDEySDUuMTE5MzhMMi41NTcxOCA2LjRaTTYuNDk5OTQgMTlDNy4zMjgzNyAxOSA3Ljk5OTk0IDE4LjMyODQgNy45OTk5NCAxNy41QzcuOTk5OTQgMTYuNjcxNiA3LjMyODM3IDE2IDYuNDk5OTQgMTZDNS42NzE1MSAxNiA0Ljk5OTk0IDE2LjY3MTYgNC45OTk5NCAxNy41QzQuOTk5OTQgMTguMzI4NCA1LjY3MTUxIDE5IDYuNDk5OTQgMTlaTTE1LjQ5OTkgMTlDMTYuMzI4NCAxOSAxNi45OTk5IDE4LjMyODQgMTYuOTk5OSAxNy41QzE2Ljk5OTkgMTYuNjcxNiAxNi4zMjg0IDE2IDE1LjQ5OTkgMTZDMTQuNjcxNSAxNiAxMy45OTk5IDE2LjY3MTYgMTMuOTk5OSAxNy41QzEzLjk5OTkgMTguMzI4NCAxNC42NzE1IDE5IDE1LjQ5OTkgMTlaIiBmaWxsPSIjMDAwIi8+Cjwvc3ZnPgo=');
+
+    //значёк лупы используется на картинках чтоб показать что их можно открыть в поп-апе
+    --magnifying-glass: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAgMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01LjU3ODM1IDE0LjQyMTZDOC42NDg3NCAxNy40OTIgMTMuNjI2OCAxNy40OTIgMTYuNjk3MiAxNC40MjE2QzE5Ljc2NzYgMTEuMzUxMyAxOS43Njc2IDYuMzczMTggMTYuNjk3MiAzLjMwMjc5QzEzLjYyNjggMC4yMzI0MDMgOC42NDg3NCAwLjIzMjQwMyA1LjU3ODM1IDMuMzAyNzlDMi41MDc5NyA2LjM3MzE4IDIuNTA3OTcgMTEuMzUxMyA1LjU3ODM1IDE0LjQyMTZaTTUuNTc4MzUgMTQuNDIxNkwxIDE5TTE1LjMwMDEgOC44NjIyMkgxMS4xMzc4TTExLjEzNzggOC44NjIyMkg2Ljk3NTQyTTExLjEzNzggOC44NjIyMlYxMy4wMjQ2TTExLjEzNzggOC44NjIyMlY0LjY5OTg3IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4K');
+
+    //иконка для кнопок поиска на больших экранах
+    --search: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTQgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTEuNTEwNCAyLjUzNTU1QzkuOTQyNDEgMC45Njc1MjYgNy40MzQ4IDAuOTU0MzMxIDUuOTA5NCAyLjQ3OTcyQzQuMzg0MDEgNC4wMDUxMiA0LjM5NzIxIDYuNTEyNzMgNS45NjUyMyA4LjA4MDc1QzcuNTMzMjUgOS42NDg3OCAxMC4wNDA5IDkuNjYxOTcgMTEuNTY2MyA4LjEzNjU4QzEzLjA5MTcgNi42MTExOSAxMy4wNzg1IDQuMTAzNTcgMTEuNTEwNCAyLjUzNTU1Wk01LjIwMjMgMS43NzI2MkM3LjEyOTk2IC0wLjE1NTA0NyAxMC4yNzA4IC0wLjExODI1NCAxMi4yMTc1IDEuODI4NDRDMTQuMTY0MiAzLjc3NTE0IDE0LjIwMSA2LjkxNjAyIDEyLjI3MzQgOC44NDM2OEMxMC40NjM4IDEwLjY1MzIgNy41ODUyIDEwLjczMTcgNS42Mjg4OSA5LjEyNDJMMS41MzU1NiAxMy4yMTc1TDAuODI4NDU0IDEyLjUxMDRMNC45MjE3OCA4LjQxNzA5QzMuMzE0MjkgNi40NjA3OSAzLjM5Mjc2IDMuNTgyMTYgNS4yMDIzIDEuNzcyNjJaIiBmaWxsPSIjMDAwIi8+Cjwvc3ZnPgo=');
+
+    //иконка для копки поиска на мобильных
+    --search-bold: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTUgMTUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTEuMTU1OCAzLjg4MDk5QzkuNzc3NTUgMi41MDU5IDcuNTg3MzQgMi41MDQ1NCA2LjI2MzU3IDMuODI1M0M0LjkzOTggNS4xNDYwNiA0Ljk0MTE3IDcuMzMxMjkgNi4zMTkzOSA4LjcwNjM4QzcuNjk3NjIgMTAuMDgxNSA5Ljg4NzgzIDEwLjA4MjggMTEuMjExNiA4Ljc2MjA3QzEyLjUzNTQgNy40NDEzMSAxMi41MzQgNS4yNTYwOCAxMS4xNTU4IDMuODgwOTlaTTQuODQ3NzUgMi40MTI3QzYuOTc2OTggMC4yODgzMTEgMTAuNDM1MiAwLjMzNjgxOCAxMi41NzE2IDIuNDY4MzlDMTQuNzA4IDQuNTk5OTcgMTQuNzU2NyA4LjA1MDI5IDEyLjYyNzQgMTAuMTc0N0MxMC43Mzg5IDEyLjA1ODkgNy44MDQ5MiAxMi4yMzM3IDUuNjc1IDEwLjc2MTlMMS44ODk4IDE0LjUzODVMMC40NzM5NzkgMTMuMTI1OUw0LjI1OTE3IDkuMzQ5MzFDMi43ODM5OCA3LjIyNDIzIDIuOTU5MjMgNC4yOTY5MiA0Ljg0Nzc1IDIuNDEyN1oiIGZpbGw9IiMwMDAiLz4KPC9zdmc+Cg==');
+
+    //иконка скрепки указывающая что можно прикрепить фал используется в блоке с отправкой отзыва
+    --add-fill: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAgMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik02IDcuMTM3VjEyLjhDNiAxMy45MTM5IDYuNDIxNDMgMTQuOTgyMiA3LjE3MTU3IDE1Ljc2OThDNy45MjE3MiAxNi41NTc1IDguOTM5MTMgMTcgMTAgMTdDMTEuMDYwOSAxNyAxMi4wNzgzIDE2LjU1NzUgMTIuODI4NCAxNS43Njk4QzEzLjU3ODYgMTQuOTgyMiAxNCAxMy45MTM5IDE0IDEyLjhWNS44QzE0IDUuMDU3MzkgMTMuNzE5IDQuMzQ1MiAxMy4yMTkgMy44MjAxQzEyLjcxODkgMy4yOTUgMTIuMDQwNiAzIDExLjMzMzMgM0MxMC42MjYxIDMgOS45NDc4MSAzLjI5NSA5LjQ0NzcyIDMuODIwMUM4Ljk0NzYyIDQuMzQ1MiA4LjY2NjY3IDUuMDU3MzkgOC42NjY2NyA1LjhWMTIuMjI3NEM4LjY2NjY3IDEyLjQxMTMgOC43MDExNSAxMi41OTMzIDguNzY4MTYgMTIuNzYzMkM4LjgzNTE3IDEyLjkzMyA4LjkzMzM4IDEzLjA4NzMgOS4wNTcxOSAxMy4yMTczQzkuMTgxIDEzLjM0NzQgOS4zMjc5OSAxMy40NTA1IDkuNDg5NzYgMTMuNTIwOEM5LjY1MTUyIDEzLjU5MTIgOS44MjQ5IDEzLjYyNzQgMTAgMTMuNjI3NEMxMC4zNTM2IDEzLjYyNzQgMTAuNjkyOCAxMy40Nzk5IDEwLjk0MjggMTMuMjE3M0MxMS4xOTI5IDEyLjk1NDggMTEuMzMzMyAxMi41OTg3IDExLjMzMzMgMTIuMjI3NFY3LjIiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=');
+
+    //используется в информационных по-апах для сообщения об успехе
+    --success: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzAgMzAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTYuNTQxNCAwLjAzMjAzNDRDMjAuMDE0NiAwLjI0NTU5NyAyMy4yNzA3IDEuOTU0MSAyNS42NTg1IDQuMzAzMjhDMjguNDgwNSA3LjI5MzE2IDMwIDEwLjkyMzcgMzAgMTUuMTk1QzMwIDE4LjYxMiAyOC42OTc2IDIxLjgxNTQgMjYuNTI2OCAyNC41OTE3QzI0LjM1NjEgMjcuMTU0NSAyMS4zMTcgMjkuMDc2NSAxNy44NDM4IDI5LjcxNzJDMTQuMzcwNiAzMC4zNTc5IDEwLjg5NzQgMjkuOTMwOCA3Ljg1ODQgMjguMjIyM0M0LjgxOTM2IDI2LjUxMzggMi40MzE1NCAyMy45NTEgMS4xMjkwOSAyMC43NDc2Qy0wLjE3MzM1OCAxNy41NDQyIC0wLjM5MDQzMiAxMy45MTM2IDAuNjk0OTQgMTAuNzEwMkMxLjc4MDMxIDcuMjkzMTYgMy43MzM5OCA0LjUxNjg1IDYuNzczMDMgMi41OTQ3OEM5LjU5NSAwLjY3MjcyMiAxMy4wNjgyIC0wLjE4MTUyOCAxNi41NDE0IDAuMDMyMDM0NFpNMTcuNjI2OCAyNy41ODE2QzIwLjQ0ODcgMjYuOTQwOSAyMy4wNTM2IDI1LjQ0NiAyNS4wMDczIDIzLjA5NjhDMjYuNzQzOSAyMC43NDc2IDI3LjgyOTMgMTcuOTcxMyAyNy42MTIyIDE0Ljk4MTRDMjcuNjEyMiAxMS41NjQ0IDI2LjMwOTcgOC4xNDc0MSAyMy45MjE5IDUuNzk4MjJDMjEuNzUxMiAzLjY2MjYgMTkuMTQ2MyAyLjM4MTIyIDE2LjEwNzIgMi4xNjc2NkMxMy4yODUzIDEuOTU0MSAxMC4yNDYyIDIuNTk0NzggNy44NTg0IDQuMzAzMjhDNS40NzA1OCA2LjAxMTc4IDMuNzMzOTggOC4zNjA5NyAyLjg2NTY5IDExLjM1MDhDMS45OTczOSAxNC4xMjcyIDEuOTk3MzkgMTcuMTE3IDMuMjk5ODMgMTkuODkzM0M0LjYwMjI4IDIyLjY2OTcgNi41NTU5NSAyNC44MDUzIDkuMTYwODUgMjYuMzAwMkMxMS43NjU3IDI3Ljc5NTEgMTQuODA0OCAyOC4yMjIzIDE3LjYyNjggMjcuNTgxNloiIGZpbGw9IiMwMDAiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMi40NDExIDExLjUwNjNMMTMuNzAyOSAyMC4wMDI5TDcuNTA4NTcgMTMuOTA4OEw5LjA0MzUyIDEyLjM5ODdMMTMuNzAyOSAxNi45ODI3TDIwLjkwNjEgOS45OTYxNEwyMi40NDExIDExLjUwNjNaIiBmaWxsPSIjMDAwIi8+Cjwvc3ZnPgo=');
+
+    //используется в информационных по-апах для сообщения предупреждения
+    --warning: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAgMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTAuNSA0VjEySDkuNVY0SDEwLjVaTTEwLjUgMTRWMTZIOS41VjE0SDEwLjVaTTEwIDE5QzE0Ljk3MDYgMTkgMTkgMTQuOTcwNiAxOSAxMEMxOSA1LjAyOTQ0IDE0Ljk3MDYgMSAxMCAxQzUuMDI5NDQgMSAxIDUuMDI5NDQgMSAxMEMxIDE0Ljk3MDYgNS4wMjk0NCAxOSAxMCAxOVpNMTAgMjBDMTUuNTIyOCAyMCAyMCAxNS41MjI4IDIwIDEwQzIwIDQuNDc3MTUgMTUuNTIyOCAwIDEwIDBDNC40NzcxNSAwIDAgNC40NzcxNSAwIDEwQzAgMTUuNTIyOCA0LjQ3NzE1IDIwIDEwIDIwWiIgZmlsbD0iIzAwMCIvPgo8L3N2Zz4K');
+
+    //используется в информационных по-апах для сообщения об ошибке
+    --error: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzAgMzAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTYuNTQxNCAwLjAzMjAzNDRDMjAuMDE0NiAwLjI0NTU5NyAyMy4yNzA3IDEuOTU0MSAyNS42NTg1IDQuMzAzMjhDMjguNDgwNSA3LjI5MzE2IDMwIDEwLjkyMzcgMzAgMTUuMTk1QzMwIDE4LjYxMiAyOC42OTc2IDIxLjgxNTQgMjYuNTI2OCAyNC41OTE3QzI0LjM1NjEgMjcuMTU0NSAyMS4zMTcgMjkuMDc2NSAxNy44NDM4IDI5LjcxNzJDMTQuMzcwNiAzMC4zNTc5IDEwLjg5NzQgMjkuOTMwOCA3Ljg1ODQgMjguMjIyM0M0LjgxOTM2IDI2LjUxMzggMi40MzE1NCAyMy45NTEgMS4xMjkwOSAyMC43NDc2Qy0wLjE3MzM1OCAxNy41NDQyIC0wLjM5MDQzMiAxMy45MTM2IDAuNjk0OTQgMTAuNzEwMkMxLjc4MDMxIDcuMjkzMTYgMy43MzM5OCA0LjUxNjg1IDYuNzczMDMgMi41OTQ3OEM5LjU5NSAwLjY3MjcyMiAxMy4wNjgyIC0wLjE4MTUyOCAxNi41NDE0IDAuMDMyMDM0NFpNMTcuNjI2OCAyNy41ODE2QzIwLjQ0ODcgMjYuOTQwOSAyMy4wNTM2IDI1LjQ0NiAyNS4wMDczIDIzLjA5NjhDMjYuNzQzOSAyMC43NDc2IDI3LjgyOTMgMTcuOTcxMyAyNy42MTIyIDE0Ljk4MTRDMjcuNjEyMiAxMS41NjQ0IDI2LjMwOTcgOC4xNDc0MSAyMy45MjE5IDUuNzk4MjJDMjEuNzUxMiAzLjY2MjYgMTkuMTQ2MyAyLjM4MTIyIDE2LjEwNzIgMi4xNjc2NkMxMy4yODUzIDEuOTU0MSAxMC4yNDYyIDIuNTk0NzggNy44NTg0IDQuMzAzMjhDNS40NzA1OCA2LjAxMTc4IDMuNzMzOTggOC4zNjA5NyAyLjg2NTY5IDExLjM1MDhDMS45OTczOSAxNC4xMjcyIDEuOTk3MzkgMTcuMTE3IDMuMjk5ODMgMTkuODkzM0M0LjYwMjI4IDIyLjY2OTcgNi41NTU5NSAyNC44MDUzIDkuMTYwODUgMjYuMzAwMkMxMS43NjU3IDI3Ljc5NTEgMTQuODA0OCAyOC4yMjIzIDE3LjYyNjggMjcuNTgxNloiIGZpbGw9IiMwMDAiLz4KPHBhdGggZD0iTTIwLjIzMTUgOC41NzQ4MkwxNS4wMjE3IDEzLjkxMzlMOS44MTE5MiA4LjU3NDgyTDguMjkyMzkgMTAuMDY5OEwxMy41MDIyIDE1LjQwODhMOC4yOTIzOSAyMC43NDc5TDkuODExOTIgMjIuMjQyOEwxNS4wMjE3IDE2LjkwMzhMMjAuMjMxNSAyMi4yNDI4TDIxLjc1MSAyMC43NDc5TDE2LjU0MTIgMTUuNDA4OEwyMS43NTEgMTAuMDY5OEwyMC4yMzE1IDguNTc0ODJaIiBmaWxsPSIjMDAwIi8+Cjwvc3ZnPgo=');
+
+    //икнока телефона используется возле телефона
+    --phone: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yLjY1MzU1IDAuMDc0NTE5MUMzLjAxMTk0IC0wLjA0MDk1MjEgMy4zOTY1MyAtMC4wMjE3Njg1IDMuNzQzMyAwLjEyODg3N0M0LjA5MDA3IDAuMjc5NTIyIDQuMzc4MDkgMC41NTI1NCA0LjU1OTQzIDAuOTAyNDgyTDQuNjIwODYgMS4wMzI4OUw1LjE2MjI0IDIuMzIwMzVDNS4zMjY3OSAyLjcxMTEyIDUuMzgwMiAzLjE0NDk3IDUuMzE1ODMgMy41Njc5M0M1LjI1MTQ3IDMuOTkwODggNS4wNzIxNyA0LjM4NDI5IDQuODAwMjIgNC42OTkyMUw0LjY5MjExIDQuODE0NzRMMy44MzcwNSA1LjY2NjMzQzMuNjgzMDcgNS44MjIxMiAzLjc5ODU1IDYuNDI1MTYgNC4zNTYzMSA3LjQ1NjE3QzQuODU2NzQgOC4zODM5MSA1LjI2NTQzIDguODE3MTUgNS40NjUyOCA4Ljg0MDc4SDUuNTAwNDlMNS41NDM5IDguODMyMDJMNy4yMjI5MSA4LjI4MzI2QzcuNDQ4NTYgOC4yMDkzMSA3LjY4OTM3IDguMjA2MzggNy45MTY1NCA4LjI3NDgzQzguMTQzNzEgOC4zNDMyOCA4LjM0NzYyIDguNDgwMiA4LjUwMzg4IDguNjY5MjNMOC41NzkyMyA4Ljc2OTg4TDkuNjg5ODMgMTAuNDE1M0M5LjkwNzc2IDEwLjczNzcgMTAuMDE2NCAxMS4xMjk4IDkuOTk3OTggMTEuNTI3MUM5Ljk3OTUyIDExLjkyNDMgOS44MzUwMiAxMi4zMDMgOS41ODgyNyAxMi42MDA3TDkuNDg4MzUgMTIuNzExTDkuMDQzNjIgMTMuMTYwOUM4LjY0NDk5IDEzLjU2NDMgOC4xNDYzNCAxMy44MzY5IDcuNjA2OTYgMTMuOTQ2M0M3LjA2NzU3IDE0LjA1NTcgNi41MTAxMyAxMy45OTcyIDYuMDAwOTIgMTMuNzc3OUM0LjQxNjEgMTMuMDk1MiAyLjk3NjI1IDExLjUzNTYgMS42NjgyNiA5LjExNDcyQzAuMzU3ODA5IDYuNjg3NzIgLTAuMTg2ODQ1IDQuNTcyMyAwLjA1NjQwNjMgMi43NjA1OUMwLjEzMDA4NyAyLjIxMjgzIDAuMzQxMjQ2IDEuNjk2NjMgMC42Njc0NDkgMS4yNjY4M0MwLjk5MzY1MSAwLjgzNzAzNiAxLjQyMjcxIDAuNTA5NjkzIDEuOTA5MDUgMC4zMTk1ODJMMi4wNjcxMiAwLjI2MzU2OEwyLjY1MzU1IDAuMDc0NTE5MVYwLjA3NDUxOTFaIiBmaWxsPSIjMDAwIi8+Cjwvc3ZnPgo=');
+
+    //стрелочка без центральной палки используется для блоков списков таких как выбор марки и модели
+    --arrow: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOCAxMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik01LjA4NTg2IDYuNDk5OTJMMC43OTI5NjkgMTAuNzkyOEwyLjIwNzE4IDEyLjIwN0w3LjkxNDI5IDYuNDk5OTJMMi4yMDcxOCAwLjc5MjgxOEwwLjc5Mjk2OSAyLjIwNzAzTDUuMDg1ODYgNi40OTk5MloiIGZpbGw9IiMwMDAiLz4KPC9zdmc+Cg==');
+
+    //используется в блоке краткой информации о товаре
+    --arrow-middle: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjIgMTgiICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE3LjU2ODcgNy45OTk5NUwxMS4yMTYyIDEuNzEwNTdMMTIuNjIzNCAwLjI4OTMyMkwyMS40MjEzIDguOTk5OTVMMTIuNjIzNCAxNy43MTA2TDExLjIxNjIgMTYuMjg5M0wxNy41Njg3IDkuOTk5OTVINy42MjkzOWUtMDZWNy45OTk5NUwxNy41Njg3IDcuOTk5OTVaIi8+Cjwvc3ZnPgo=');
+
+    //большая стрелка используется в навигации слайдеров
+    --arrow-big: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDAgMTgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMzUuNTY4MiA3Ljk5OTgzTDI5LjIxNTggMS43MTA0NUwzMC42MjMgMC4yODkyTDM5LjQyMDkgOC45OTk4M0wzMC42MjMgMTcuNzEwNEwyOS4yMTU4IDE2LjI4OTJMMzUuNTY4MiA5Ljk5OTgzTC0wLjAwMDQxOTYxNyA5Ljk5OTgzVjcuOTk5ODNMMzUuNTY4MiA3Ljk5OTgzWiIgZmlsbD0iIzAwMCIvPgo8L3N2Zz4K');
+
+    //стркелка кнопки скрола вверх
+    --arrow-scroll-to-top: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTcgMjYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNy41MDAwOCA0LjQ3Mjk2TDEuNzE4OTkgMTAuNDUyMUwwLjI4MTE2NSA5LjA2MTkzTDguNTAwMDggMC41NjE0MDJMMTYuNzE5IDkuMDYxOTNMMTUuMjgxMiAxMC40NTIxTDkuNTAwMDggNC40NzI5Nkw5LjUwMDA4IDI2TDcuNTAwMDggMjZMNy41MDAwOCA0LjQ3Mjk2WiIvPgo8L3N2Zz4K');
 }

@@ -1,12 +1,23 @@
-let MAP = {
+import { Header } from '@header-main-js';
+
+let to_partners_map_url_string = '#partners-map',
+    MAP = {
         YNDEX_MAP: null, //экземпляр карты яндекса
         clusterer: null, //кластер со всеми метками
-        map_wrap: qs('.instrukczii-3-map'), //оболочка карты
-        map_body: qs('.instrukczii-3-map-body'), //карта
+        map_wrap: qs('.instrukczii-3__map'), //оболочка карты
+        map_body: qs('.instrukczii-3__map-body'), //карта
+
         active_point: null,
 
         init: function () {
             w._on('load', this.load_ym_script.bind(this)); //после загрузки страницы зыгружаем скрипт для работы яндекс карты
+
+            //если мы перешли на страницу целенаправлино на блок с картой партнёров
+            if (location.hash == to_partners_map_url_string) {
+                Header.hide_and_lock_on_time(); //скрываем хедер скрываем и блокируем показ хедера на секунду чтоб он не закрывал часть экрана
+                history.pushState(null, '', location.href.replace(to_partners_map_url_string, '')); //делаем в истории браузера ссылку на эту страницу но уже без примиски #send-request-for-new-car чтоб при обновлении не перекидывало на карту, хз обязательно это или нет не тестил во всех браузерах, пусть лучше будет =)
+            }
+            //если мы перешли на страницу целенаправлино на блок с картой партнёров
         },
 
         //загружает скрипт яндекс карты и после загрузки запускает её рендер
@@ -193,14 +204,14 @@ let MAP = {
         //проверяет попадание координат в прямоугольник
     },
     POP_UP = {
-        wrap: qs('.instrukczii-3-map-point-pop-up'),
-        close_button: qs('.instrukczii-3-map-point-pop-up-close-button'),
-        info_wrap: qs('.instrukczii-3-map-point-pop-up-info'),
-        name_block: qs('.instrukczii-3-map-point-pop-up-info-name'),
-        description_block: qs('.instrukczii-3-map-point-pop-up-info-description'),
-        address_block: qs('.instrukczii-3-map-point-pop-up-info-address'),
-        site_block: qs('.instrukczii-3-map-point-pop-up-info-site'),
-        phone_block: qs('.instrukczii-3-map-point-pop-up-info-phone'),
+        wrap: qs('.instrukczii-3__map-point-pop-up'),
+        close_button: qs('.instrukczii-3__map-point-pop-up-close-button'),
+        info_wrap: qs('.instrukczii-3__map-point-pop-up-info'),
+        name_block: qs('.instrukczii-3__map-point-pop-up-info-name'),
+        description_block: qs('.instrukczii-3__map-point-pop-up-info-description'),
+        address_block: qs('.instrukczii-3__map-point-pop-up-info-address'),
+        site_block: qs('.instrukczii-3__map-point-pop-up-info-site'),
+        phone_block: qs('.instrukczii-3__map-point-pop-up-info-phone'),
 
         init: function () {
             this.close_button._on('click', this.close.bind(this)); //скрываем попап при клике на крестик
@@ -235,17 +246,18 @@ let MAP = {
     AREA_LIST = {
         status: 'close',
         area_list_nead_height: null, //нужная высота списка
-        area_list_block: qs('.instrukczii-3-map-area-list'), //оболочка модуля списка територий
-        search_wrap: qs('.instrukczii-3-map-area-list-search'), //оболочка блока поиска
-        search_input: qs('.instrukczii-3-map-area-list-search-input'), //инпут поиска
-        search_arrow: qs('.instrukczii-3-map-area-list-search-arrow'), //кнопка-стрелка разворачивания списка
-        area_list: qs('.instrukczii-3-map-area-list-wrap'), //оболочка списка територий
-        all_items: qsa('.instrukczii-3-map-area-list-wrap-item', this.area_list), //все элементы списка
+        area_list_block: qs('.instrukczii-3__map-area-list'), //оболочка модуля списка територий
+        search_wrap: qs('.instrukczii-3__map-area-list-search'), //оболочка блока поиска
+        search_input: qs('.instrukczii-3__map-area-list-search-input'), //инпут поиска
+        search_arrow: qs('.instrukczii-3__map-area-list-search-arrow'), //кнопка-стрелка разворачивания списка
+        area_list: qs('.instrukczii-3__map-area-list-wrap'), //оболочка списка територий
         active_item: null, //текущший активный элемент списка
-        search_title: qs('.instrukczii-3-map-area-list-search-title'), //облочка названия текущей области в блоке поиска
-        search_title_text: qs('.instrukczii-3-map-area-list-search-title-text'), //название обаласти в блоке поиска
-        search_title_counter: qs('.instrukczii-3-map-area-list-search-title-counter'), //количества точек в текущнй области в блоке поиска
+        search_title: qs('.instrukczii-3__map-area-list-search-title'), //облочка названия текущей области в блоке поиска
+        search_title_text: qs('.instrukczii-3__map-area-list-search-title-text'), //название обаласти в блоке поиска
+        search_title_counter: qs('.instrukczii-3__map-area-list-search-title-counter'), //количества точек в текущнй области в блоке поиска
         init: function () {
+            this.all_items = qsa('.instrukczii-3__map-area-list-wrap-item', qs('.instrukczii-3__map-area-list-wrap')); //все элементы списка
+
             this.size_recalkulate(); //пересчитывает высоту списка територий
 
             w._on('resize', this.size_recalkulate.bind(this)); //пересчитывает высоту списка територий ghb htcfqpf[]
@@ -263,7 +275,7 @@ let MAP = {
         set_active_area: function (area_name) {
             if (this.active_item) this.active_item.removeAttribute('data-active'); //если был активный элемент списка снимаем выделение
 
-            let new_active_item = [...this.all_items].find(el => qs('.instrukczii-3-map-area-list-wrap-item-title', el).textContent === area_name); //ищем элемент списка этой области
+            let new_active_item = [...this.all_items].find(el => qs('.instrukczii-3__map-area-list-wrap-item-title', el).textContent === area_name); //ищем элемент списка этой области
 
             //выделяем элемент и записываем его
             this.active_item = new_active_item;
@@ -290,7 +302,7 @@ let MAP = {
 
             //отсеиваем те элементы которые нам не подходят
             let invalid_items = [...this.all_items].filter(el => {
-                let area_name = qs('.instrukczii-3-map-area-list-wrap-item-title', el).textContent.toLowerCase(); //получаем название области элемента
+                let area_name = qs('.instrukczii-3__map-area-list-wrap-item-title', el).textContent.toLowerCase(); //получаем название области элемента
 
                 return area_name.slice(0, searched_text.length) !== searched_text; //добавляем её в списох неподходящиъ если вводимый текст не соответствует названию области
             });
@@ -339,7 +351,7 @@ let MAP = {
 
         //срабатывает при клике на элемент списка
         click_on_item: function (e) {
-            let target = e.composedPath().find(el => el.classList?.contains('instrukczii-3-map-area-list-wrap-item')); //ищем именно оболочку элемента
+            let target = e.composedPath().find(el => el.classList?.contains('instrukczii-3__map-area-list-wrap-item')); //ищем именно оболочку элемента
 
             if (this.active_item) this.active_item.removeAttribute('data-active'); //если был активный элемент списка снимаем выделение
 
@@ -347,7 +359,7 @@ let MAP = {
 
             target.setAttribute('data-active', ''); //добавляем атрибут активного элемента
 
-            let area_name = qs('.instrukczii-3-map-area-list-wrap-item-title', target).textContent; //получеам имя региона выделенного элемента
+            let area_name = qs('.instrukczii-3__map-area-list-wrap-item-title', target).textContent; //получеам имя региона выделенного элемента
 
             this.update_search_title(area_name); //обновляет данные области и количества точек в блоке поиска
 
@@ -361,7 +373,7 @@ let MAP = {
     };
 
 (() => {
-    let map_wrap = qs('.instrukczii-3-map'); //оболочка карты
+    let map_wrap = qs('.instrukczii-3__map'); //оболочка карты
 
     if (!map_wrap) return; //прерываем если на странице нет карты
 

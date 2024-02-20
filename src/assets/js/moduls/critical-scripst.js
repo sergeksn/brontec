@@ -110,11 +110,11 @@ w.critical_scripts = {
     /*подключаем при необходимости полифилы, а после их загрузки подключаем основной скрипт*/
 
     /*скрипт задаёт высоту блокс с текстом для слайдов по высоте самого большого блока с текстом*/
-    set_slider_size_in_home_page: function () {
+    slider_full_width_page_set_size: function () {
         function set_toggler_height() {
-            let sc_width = parseFloat(w.getComputedStyle(qs('.glavnaya-4>.standart-container')).width),
-                toggler = qs('.glavnaya-4__toggler'),
-                swiper_slides = qsa('.glavnaya-4__wrap-slider-swiper-wrap .swiper-slide'),
+            let sc_width = parseFloat(w.getComputedStyle(qs('.slider-full-width-page>.standart-container')).width),
+                toggler = qs('.slider-full-width-page__toggler'),
+                swiper_slides = qsa('.slider-full-width-page__wrap-slider-swiper-wrap .swiper-slide'),
                 greatest_length = 0,
                 greatest_str,
                 div = d.createElement('div');

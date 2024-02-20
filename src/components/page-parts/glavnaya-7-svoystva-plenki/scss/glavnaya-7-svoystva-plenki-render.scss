@@ -1,0 +1,22 @@
+.glavnaya-7 {
+    margin-bottom: var(--big-gap);
+    position: relative;
+
+    //нужно добавить т.к. мы сместили блок со слоями вниз
+    @media (min-width: rem(1280)) {
+        margin-bottom: calc(var(--big-gap) + adaptiv_rem_size(85, 1280, 90, 1920));
+    }
+
+    @media (min-width: rem(1920)) {
+        margin-bottom: calc(var(--big-gap) + var(--90));
+    }
+    //нужно добавить т.к. мы сместили блок со слоями вниз
+
+    h2 {
+        margin-bottom: var(--small-gap);
+
+        @media (min-width: rem(960)) {
+            grid-column: 1/7;
+        }
+    }
+}

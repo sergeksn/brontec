@@ -83,26 +83,25 @@ w.ksn_order_controler = {
             komplectov = [5, 6, 7, 8, 9, 0, 11, 12, 13, 14, 15, 16, 17, 18, 19],
             length = value.length,
             single_value = value => {
-                if (komplect.includes(+value)) return 'komplect';
-                if (komplecta.includes(+value)) return 'komplecta';
-                if (komplectov.includes(+value)) return 'komplectov';
+                if (komplect.includes(+value)) return ' комплект';
+                if (komplecta.includes(+value)) return ' комплекта';
+                if (komplectov.includes(+value)) return ' комплектов';
             };
 
         if (length == 1) return single_value(value);
 
-        if (komplectov.includes(+value.toString().slice(-2))) return 'komplectov';
+        if (komplectov.includes(+value.toString().slice(-2))) return ' комплектов';
 
         return single_value(value.toString().slice(-1));
     },
     //функция определяет какое слов вставить для подписи количества комплекта в зависимости от их количества
 
-    //функция добавляет нужный класс к полю с количеством комплектов чтоб словко комплек читалось логично
-    set_amount_area_postfix_class: function (postfix) {
-        ['oformit-zakaz-1__you-order-info-amount--komplect', 'oformit-zakaz-1__you-order-info-amount--komplecta', 'oformit-zakaz-1__you-order-info-amount--komplectov'].forEach(class_name => this.order_product_amount_area.classList.remove(class_name)); //убираем все классы
-
-        this.order_product_amount_area.classList.add('oformit-zakaz-1__you-order-info-amount--' + postfix); //добавляем подходящий класс
+    //функция добавляет нужный текст к полю с количеством комплектов чтоб словко комплек читалось логично
+    set_amount_area_postfix: function (postfix) {
+        let area = this.order_product_amount_area;
+        area.textContent = area.textContent.replace(/(\d+).*/i, '$1' + postfix);
     },
-    //функция добавляет нужный класс к полю с количеством комплектов чтоб словко комплек читалось логично
+    //функция добавляет нужный текст к полю с количеством комплектов чтоб словко комплек читалось логично
 
     //показываем блок с сообщением, подходит для лоадера, сообщения о пустой корзине и сообщение что цена товаров в корзине равна нулю
     order_info_block_show: async function (message_block) {
@@ -475,16 +474,17 @@ w.ksn_order_controler = {
             amount = data.amount,
             //ВАЖНО: если товар в заказе всего один то мы раскрываем его в любом случае даже не смотря на то что пользователь ранее мог его скрывать
             spoiler_hide = single_product_in_order ? false : data.spoiler_hide, //состояние спойлера комплектации товара в заказе
-            spoiler_toggle_button_class = spoiler_hide ? '' : ' order__product-toggle-composition--open', //меняем поворот стрелочки у кнопки спойлера состава товара в зависимости от того один товар в заказе или нет
+            spoiler_toggle_button_class = spoiler_hide ? '' : ' order__product-toggle-composition--open',
+            spoiler_toggle_button_text = spoiler_hide ? 'Состав комплекта' : 'Свернуть', //меняем поворот стрелочки у кнопки спойлера состава товара в зависимости от того один товар в заказе или нет
             spoiler_class = spoiler_hide ? ' spoiler-hidden' : '', //скрываем/показываем спойлер у товара
             spoilet_content_style = spoiler_hide ? '' : ' style="opacity:1;"', //если нужно показать спойлер делаем его контент видимым
             marka_model = data.marka_model,
             order_product_body = d.createElement('div'), //создаём элемент товара в заказе
-            order_product_body_title_class = (() => {
-                if (tools) return ' order__product-title--tools'; //если это просто инструмент
-                if (is_full_kit) return ' order__product-title--full-kit'; //если полный комплект
+            product_title = (()=>{
+                if(is_full_kit) return 'Полный комплект защиты Brontero® '+ marka_model.replace('@@', ' ');
+                if(tools) return 'Набор инструментов Brontero®';
+                return 'Комплект частичной защиты Brontero®  '+ marka_model.replace('@@', ' ');
             })(),
-            product_title = tools ? '' : marka_model.replace('@@', ' '),
             price = (() => {
                 //сумма всех добавленых деталей или всего комплекта если он полный
                 if (is_full_kit || tools) return data.price * amount; //если полный комплект или соло инструмент
@@ -500,24 +500,24 @@ w.ksn_order_controler = {
         order_product_body.dataset.id = id; //записываем id товара чтоб можно было удобно сохранять статус его спойлера
 
         let content = `
-            <div class="order__product-title${order_product_body_title_class ?? ''}">${product_title}</div>
+            <div class="order__product-title">${product_title}</div>
             <div class="order__product-info">
-                <div class="order__product-info-amount">${amount}</div>
-                <div class="order__product-info-price ruble-price">${price.toLocaleString('ru')}</div>
+                <div class="order__product-info-amount">${amount} шт</div>
+                <div class="order__product-info-price">${price.toLocaleString('ru')} ₽</div>
             </div>
-            <button class="order__product-toggle-composition set-min-interactive-size${spoiler_toggle_button_class}" disabled></button>
+            <button class="order__product-toggle-composition set-min-interactive-size icon--arrow${spoiler_toggle_button_class}" disabled>${spoiler_toggle_button_text}</button>
             <div class="order__product-spoiler-wrap${spoiler_class}">
                 <div class="order__product-spoiler-wrap-content"${spoilet_content_style}>`;
         //если это соло инструмент
         if (tools) {
-            content += `<div class="order__product-spoiler-wrap-content-item">${GDS.products_detal_types['tools']}</div>`;
+            content += `<div class="order__product-spoiler-wrap-content-item icon--check-mark">${GDS.products_detal_types['tools']}</div>`;
         }
         //если это соло инструмент
 
         //если это полный или частичный комплект
         else {
             for (let detal in composition) {
-                content += `<div class="order__product-spoiler-wrap-content-item">${GDS.products_detal_types[detal]}</div>`; //вставляем только добавленые в состав детали
+                content += `<div class="order__product-spoiler-wrap-content-item icon--check-mark">${GDS.products_detal_types[detal]}</div>`; //вставляем только добавленые в состав детали
             }
         }
         //если это полный или частичный комплект
@@ -562,9 +562,9 @@ w.ksn_order_controler = {
 
         this.order_product_amount_area.textContent = cart_total_amount; //записываем количество комплектов в поле
 
-        this.set_amount_area_postfix_class(cart_total_amount_area_postfix); //функция добавляет нужный класс к полю с количеством комплектов чтоб словко комплек читалось логично
+        this.set_amount_area_postfix(cart_total_amount_area_postfix); //функция добавляет нужный текст к полю с количеством комплектов чтоб словко комплек читалось логично
 
-        this.order_common_price_area.textContent = common_price.toLocaleString('ru'); //получаем общую цену товаров в корзине и записывает её в поле для финальной цены
+        this.order_common_price_area.textContent = common_price.toLocaleString('ru') + ' ₽'; //получаем общую цену товаров в корзине и записывает её в поле для финальной цены
 
         cart_data = this.prepare_cart_data_for_order(); //функция подготованивает данные из корзины для работы с заказом, удаляе пустые комплекты,генерируюя товары соло инструментов и объединяя дубликаты
 

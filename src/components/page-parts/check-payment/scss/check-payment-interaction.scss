@@ -1,12 +1,12 @@
 .check-payment {
-    margin: rem(40) 0 rem(120) 0;
+    margin: var(--40) 0 rem(120) 0;
 
     @media (min-width: rem(640)) {
         margin: adaptiv_rem_size(100, 640, 120, 1920) 0 adaptiv_rem_size(130, 640, 205, 1920) 0;
     }
 
     @media (min-width: rem(1920)) {
-        margin: adaptiv_rem_size(120, 1920) 0 adaptiv_rem_size(205, 1920) 0;
+        margin: var(--120) 0 var(--205) 0;
     }
 
     h1,

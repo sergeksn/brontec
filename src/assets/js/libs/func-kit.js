@@ -154,7 +154,7 @@ function set_session_storage(key, value) {
 //проверяем доступность локального хранилища и записываем данные
 
 //позволяет отправлять запросы на сервер и обрабатывать ответ и ошибки
-//request_data - все данные для запроса включая мотод, заголовки, тело запроса и другое
+//request_data - все данные для запроса включая метод, заголовки, тело запроса и другое
 //url - адрес для запроса
 async function request_to_server(request_data, url = GDS.ajax_url) {
     return new Promise((resolve, reject) => {
@@ -170,7 +170,11 @@ async function request_to_server(request_data, url = GDS.ajax_url) {
 
                 if (e.message === 'Failed to fetch') return reject({ ksn_message: 'Failed to fetch' }); //не удалось подключиться к GDS.ajax_url ресурсу
 
-                if (typeof e.ksn_message === 'undefined') return console.error(e); //если ошибка не наша и не вышеперечисленная выводим её в консоль
+                if (typeof e.ksn_message === 'undefined') {
+                    console.error(e);
+                    reject(e);
+                    return;
+                } //если ошибка не наша и не вышеперечисленная выводим её в консоль
                 //ПРИМЕЧАНИЕ: return reject() тут можно не втсавлять т.к. ошибка выведенная в консоль уже сообщает что скрипт сломан и на продакшене её быть не должно
             });
     });

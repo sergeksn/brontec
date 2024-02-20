@@ -1,0 +1,31 @@
+<%
+let ruchki = data.ruchki ? ' data-active' : null,
+    fary = data.fary ? ' data-active' : null,
+    peredniye_stoyki = data.peredniye_stoyki ? ' data-active' : null,
+    kapot = data.kapot ? ' data-active' : null,
+    krylya = data.krylya ? ' data-active' : null,
+    krysha = data.krysha ? ' data-active' : null,
+    bagazhnik = data.bagazhnik ? ' data-active' : null;
+%>
+
+<div class="komplekt-configurator-images" data-showed-on-scroll>
+  <div class="image" data-front style="padding-top:66.6667%;">
+    <img data-img-type="img" data-main data-src="~@configurator-images-img/front.jpg" data-original-w="2145" data-original-h="1430">
+    <div data-img-type="svg-kit-items">
+      <object id="ruchki"<%-ruchki%> data-src="~@configurator-images-img/ruchki.svg"></object>
+      <object id="fary"<%-fary%> data-src="~@configurator-images-img/fary.svg"></object>
+      <object id="peredniye-stoyki"<%-peredniye_stoyki%> data-src="~@configurator-images-img/peredniye-stoyki.svg"></object>
+      <object id="kapot"<%-kapot%> data-src="~@configurator-images-img/kapot.svg"></object>
+      <object id="krylya"<%-krylya%> data-src="~@configurator-images-img/krylya.svg"></object>
+      <object id="krysha"<%-krysha%> data-src="~@configurator-images-img/krysha.svg"></object>
+    </div>
+    <%- include('./../../blocks/loader/loader.ejs')%>
+  </div>
+  <div class="image" data-back style="padding-top:66.6667%;">
+    <img data-img-type="img" data-main data-src="~@configurator-images-img/back.jpg" data-original-w="2145" data-original-h="1430">
+    <div data-img-type="svg-kit-items">
+      <object id="bagazhnik"<%-bagazhnik%> data-src="~@configurator-images-img/bagazhnik.svg"></object>
+    </div>
+    <%- include('./../../blocks/loader/loader.ejs')%>
+  </div>
+</div>

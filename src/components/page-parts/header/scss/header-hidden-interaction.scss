@@ -17,7 +17,7 @@
     }
 
     &__menu {
-        padding: rem(40) 0 rem(70) 0;
+        padding: var(--40) 0 var(--70) 0;
 
         font: var(--h2);
 
@@ -27,24 +27,23 @@
 
         ul {
             display: grid;
-            grid-row-gap: rem(10);
+            grid-row-gap: var(--10);
 
-            a{
+            a {
                 width: max-content;
             }
         }
     }
 
     &__phone {
-        padding-bottom: rem(60);
+        padding-bottom: var(--60);
 
         @media (min-width: rem(640)) {
             display: none;
         }
 
-        .icon--phone {
-            font-size: rem(15);
-            margin-right: rem(17);
+        div {
+            margin-right: var(--17);
         }
 
         span {

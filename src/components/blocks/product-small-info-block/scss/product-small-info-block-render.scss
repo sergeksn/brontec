@@ -1,10 +1,10 @@
 .product-info {
     width: 100%;
-    min-height: rem(160);
+    min-height: var(--160);
     position: relative;
     border: var(--border-width) solid var(--gray);
     border-radius: var(--border-radius);
-    padding: rem(20) 0 rem(20) rem(14);
+    padding: var(--20) 0 var(--20) var(--14);
 
     @media (min-width: rem(640)) {
         min-height: adaptiv_rem_size(160, 640, 200, 1920);
@@ -12,23 +12,16 @@
     }
 
     @media (min-width: rem(1920)) {
-        padding: adaptiv_rem_size(30, 1920) 0 adaptiv_rem_size(30, 1920) adaptiv_rem_size(40, 1920);
+        padding: var(--30) 0 var(--30) var(--40);
     }
 
     @media (any-hover: hover) {
-        &:hover {
-            border-color: var(--blue-hover);
-
-            .product-info__arrow {
-                color: var(--blue);
-            }
-        }
-
+        &:hover,
         &:focus {
             border-color: var(--blue-hover);
 
-            .product-info__arrow {
-                color: var(--blue);
+            .product-info__arrow:before {
+                background-color: var(--blue);
             }
         }
     }
@@ -38,37 +31,33 @@
     }
 
     &__description {
-        width: rem(205);
+        width: var(--205);
         z-index: 2;
         position: relative;
 
         @media (min-width: rem(640)) {
-            width: adaptiv_rem_size(205, 640, 310, 1920);
+            width: adaptiv_rem_size(200, 640, 310, 1920);
         }
 
         @media (min-width: rem(1920)) {
-            width: adaptiv_rem_size(310, 1920);
+            width: var(--310);
         }
     }
 
     &__title {
         font: var(--h3);
-        padding-bottom: rem(10);
-
-        @media (min-width: rem(1920)) {
-            padding-bottom: adaptiv_rem_size(10, 1920);
-        }
+        padding-bottom: var(--10);
     }
 
     &__small-description {
-        padding-bottom: rem(5);
+        padding-bottom: var(--5);
 
         @media (min-width: rem(640)) {
             padding-bottom: adaptiv_rem_size(5, 640, 25, 1920);
         }
 
         @media (min-width: rem(1920)) {
-            padding-bottom: adaptiv_rem_size(25, 1920);
+            padding-bottom: var(--25);
         }
     }
 
@@ -76,11 +65,7 @@
         display: flex;
 
         div {
-            padding-right: rem(10);
-
-            @media (min-width: rem(1920)) {
-                padding-right: adaptiv_rem_size(10, 1920);
-            }
+            padding-right: var(--10);
         }
 
         div:last-child {
@@ -103,8 +88,8 @@
     &__img-wrap {
         position: absolute;
         top: 50%;
-        right: rem(5);
-        width: rem(190);
+        right: var(--5);
+        width: var(--190);
         transform: translateY(-50%);
 
         @media (min-width: rem(640)) {
@@ -113,8 +98,8 @@
         }
 
         @media (min-width: rem(1920)) {
-            width: adaptiv_rem_size(280, 1920);
-            right: adaptiv_rem_size(20, 1920);
+            width: var(--280);
+            right: var(--20);
         }
 
         &-instruction-img {
@@ -135,20 +120,22 @@
         height: 100%;
         position: absolute;
         top: 0;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 96.28%);
+        background: var(--white-gradient);
         z-index: 1;
     }
-
+   
     &__arrow {
         //для неё не будем задавать минимальные размеры т.к. она всё равно одна в области активная и чтоб не поломать вёрстку
         position: absolute;
-        top: rem(20);
-        right: rem(8);
-        color: var(--gray);
-        font-size: rem(20);
+        top: var(--20);
+        right: var(--8);
 
-        @media (any-hover: none) {
-            color: var(--blue);
+        &:before {
+            background-color: var(--gray);
+
+            @media (any-hover: none) {
+                background-color: var(--blue);
+            }
         }
 
         @media (min-width: rem(640)) {
@@ -157,9 +144,8 @@
         }
 
         @media (min-width: rem(1920)) {
-            top: adaptiv_rem_size(34, 1920);
-            right: adaptiv_rem_size(20, 1920);
-            font-size: adaptiv_rem_size(20, 1920);
+            top: var(--34);
+            right: var(--20);
         }
     }
 }
@@ -172,3 +158,4 @@
         }
     }
 }
+

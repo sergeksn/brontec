@@ -17,22 +17,20 @@
         }
 
         &--empty-or-zero-cart {
-            min-height: rem(200);
+            min-height: var(--200);
         }
 
         h2 {
             padding-bottom: var(--small-gap);
             display: flex;
             justify-content: space-between;
+            align-items: center;
 
-            &:after {
-                content: '\e90c';
-                font-family: var(--icon);
-                font-size: rem(12);
+            &:before {
                 transform: rotate(90deg);
-                display: inline-block;
                 margin-left: var(--gap);
                 transition: transform var(--standart-anim);
+                order: 1;
 
                 @media (min-width: rem(640)) {
                     content: none;
@@ -40,7 +38,7 @@
             }
 
             &.open-order-title {
-                &:after {
+                &:before {
                     transform: rotate(-90deg);
                 }
             }
@@ -63,24 +61,6 @@
 
             &-amount {
                 color: var(--gray);
-
-                &--komplect {
-                    &:after {
-                        content: ' комплект';
-                    }
-                }
-
-                &--komplecta {
-                    &:after {
-                        content: ' комплекта';
-                    }
-                }
-
-                &--komplectov {
-                    &:after {
-                        content: ' комплектов';
-                    }
-                }
             }
 
             &-price {
@@ -129,7 +109,7 @@
                 display: block !important; //чтоб показать даже если спойлер был скрыт в мобильнйо версии
 
                 //добавить чтоб было как сказали дизайнеры для пк
-                max-height: rem(800); //эта настрйока отвечает за максимальную высоты блока с товарами в заказе
+                max-height: var(--800); //эта настрйока отвечает за максимальную высоты блока с товарами в заказе
                 //добавить чтоб было как сказали дизайнеры для пк
 
                 //убрать чтоб было как сказали дизайнеры для пк
@@ -138,12 +118,6 @@
                 // height: calc(100% - var(--h2-lh) - var(--small-gap) * 2 - var(--default-lh));
                 //убрать чтоб было как сказали дизайнеры для пк
             }
-
-            //добавить чтоб было как сказали дизайнеры для пк
-            @media (min-width: rem(1920)) {
-                max-height: adaptiv_rem_size(800, 1920); //эта настрйока отвечает за максимальную высоты блока с товарами в заказе
-            }
-            //добавить чтоб было как сказали дизайнеры для пк
 
             &-content {
                 opacity: 0; //для того чтоб спойлер заказа плавно появлялся из нивидмости при открытии
@@ -162,7 +136,7 @@
             content: '';
             border-top: var(--border-width) solid var(--gray);
             display: block;
-            margin: rem(20) 0 rem(40) 0;
+            margin: var(--20) 0 var(--40) 0;
 
             @media (min-width: rem(640)) {
                 content: none;
@@ -214,64 +188,31 @@
         &-title {
             font: var(--h3);
             margin-bottom: var(--gap);
-
-            &:before {
-                content: 'Комплект частичной защиты Brontero® ';
-            }
-
-            &--full-kit {
-                &:before {
-                    content: 'Полный комплект защиты Brontero® ';
-                }
-            }
-
-            &--tools {
-                &:before {
-                    content: 'Набор инструментов Brontero®';
-                }
-            }
         }
 
         &-info {
             display: flex;
             justify-content: space-between;
             margin: var(--gap) 0;
-
-            &-amount {
-                &:after {
-                    content: ' шт';
-                }
-            }
         }
 
         &-toggle-composition {
             color: var(--blue);
             transition: color var(--standart-anim);
+            display: flex;
 
             &:before {
-                content: 'Состав комплекта ';
-            }
-
-            &:after {
-                content: '\e90c';
-                font-family: var(--icon);
-                font-size: rem(12);
+                @include icon-element-base-style-mixin;
+                @include icon--arrow-mixin;
+                order: 1;
                 transform: rotate(90deg);
-                display: inline-block;
+                transition: transform var(--standart-anim), background-color var(--standart-anim);
                 margin-left: var(--gap);
-                transition: transform var(--standart-anim);
-
-                @media (min-width: rem(1920)) {
-                    font-size: adaptiv_rem_size(12, 1920);
-                }
+                background-color: var(--blue);
             }
 
             &--open {
                 &:before {
-                    content: 'Свернуть ';
-                }
-
-                &:after {
                     transform: rotate(-90deg);
                 }
             }
@@ -279,6 +220,10 @@
             &:disabled {
                 color: var(--gray);
                 cursor: not-allowed;
+
+                &:before {
+                    background-color: var(--gray);
+                }
             }
         }
 
@@ -286,27 +231,17 @@
             &-content {
                 padding-top: var(--gap);
                 display: grid;
-                grid-gap: var(--gap-10);
+                grid-gap: var(--10);
                 opacity: 0;
 
                 &-item {
                     display: grid;
                     grid-template-columns: var(--gap) auto;
-                    grid-gap: rem(30);
-
-                    @media (min-width: rem(1920)) {
-                        grid-gap: adaptiv_rem_size(30, 1920);
-                    }
+                    align-items: center;
+                    grid-gap: var(--30);
 
                     &:before {
-                        content: '\e912';
-                        font-family: var(--icon);
-                        font-size: rem(14);
-                        color: var(--gray);
-
-                        @media (min-width: rem(1920)) {
-                            font-size: adaptiv_rem_size(14, 1920);
-                        }
+                        background-color: var(--gray);
                     }
                 }
             }

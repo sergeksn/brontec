@@ -7,15 +7,17 @@
     transition: background-color var(--standart-anim);
     justify-content: center;
     align-items: center;
-    width: rem(50);
-    height: rem(50);
-    bottom: rem(40);
-    left: rem(30);
-    font-size: rem(25);
+    width: var(--50);
+    height: var(--50);
+    bottom: var(--40);
+    left: var(--30);
     z-index: map-get($z-index, scroll-to-top-button);
     cursor: pointer;
     pointer-events: none;
-    color: var(--white);
+
+    &:before {
+        background-color: var(--white);
+    }
 
     @media (any-hover: hover) {
         &:hover {
@@ -28,15 +30,12 @@
     }
 
     @media (min-width: rem(960)) {
-        left: calc(var(--wwr) - rem(50) - adaptiv_rem_size(30, 960, 50, 1920));
+        left: calc(var(--wwr) - var(--50) - adaptiv_rem_size(30, 960, 50, 1920));
         bottom: adaptiv_rem_size(110, 960, 120, 1920);
     }
 
     @media (min-width: rem(1920)) {
-        width: adaptiv_rem_size(50, 1920);
-        height: adaptiv_rem_size(50, 1920);
-        bottom: adaptiv_rem_size(120, 1920);
-        left: calc(var(--wwr) - adaptiv_rem_size(50, 1920) - adaptiv_rem_size(50, 1920));
-        font-size: adaptiv_rem_size(25, 1920);
+        bottom: var(--120);
+        left: calc(var(--wwr) - var(--50) - var(--50));
     }
 }
