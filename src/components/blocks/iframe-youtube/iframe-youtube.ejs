@@ -2,7 +2,11 @@
 let loader_html = data.loader ? include('./../../blocks/loader/loader.ejs') : null
 %>
 
-<div class="iframe-youtube">
-  <div data-src="<%-data.src%>"></div>
+<div class="iframe-youtube" data-video-id="<%-data.id%>">
+  <div class="iframe-youtube__video"></div>
+  <div class="iframe-youtube__poster">
+    <div class="iframe-youtube__poster-img"></div>
+    <button></button>
+  </div>
   <%-loader_html%>
 </div>

@@ -18,9 +18,8 @@ function check_visibility(entries) {
             //загружаем фрейм только если его блок был на экране минимум GDS.media.video_frames.min_vsible_time
             frame_wrap.start_intersecting_timeout_id = setTimeout(() => {
                 visible_observer.unobserve(frame_wrap); //удаляем данный фрейм из отслеживания видимости
-
-                render_frame(frame_wrap), GDS.media.video_frames.min_vsible_time; //записываем id данного таймаута в свойства элемента frame_wrap чтоб потом можно было его отключить если элемент слишком быстро пропал с экрана
-            });
+                render_preview(frame_wrap);
+            }, GDS.media.video_frames.min_vsible_time);
         }
         //из всех элементов берём только те которые пересекаются с экраном
 
@@ -37,30 +36,41 @@ function check_visibility(entries) {
 }
 //проверяет видимость фреймов
 
-//создаёт и вставляет фрейм в документ
-function render_frame(wrap) {
-    let src = qs('[data-src]', wrap).getAttribute('data-src') + '?rel=0', //ссылка на видео с доп параметром чтоб не показывалась сетка из похожих видео в конце ролика
-        iframe = d.createElement('iframe'); //создаём фрейм
+//создаём каркас из картинки превью видео чтоб пользователь мог нажать для запуска видео, но видео не грузилось по умолчанию
+function render_preview(wrap) {
+    let video_id = wrap.dataset.videoId, //id видео на ютубе
+        img = new Image(),
+        src = 'https://i.ytimg.com/vi/' + video_id + '/maxresdefault.jpg'; //адрес превьюшки
 
-    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
-    iframe.setAttribute('src', src);
+    img.src = src;
 
-    iframe.ksn_loader = new Loader(qs('.loader', wrap)); //записываем в свойства фрейма объект его лоадера
+    //после загрузки картинки
+    img.onload = async () => {
+        await wrap.ksn_loader.hide_and_remove(); //скрываем и удаляем лоадер если он есть
+        qs('.iframe-youtube__poster-img', wrap).append(img); //добавляем картнку почтера
+        wrap.classList.add('uploaded-poster'); //показываем картинку постера с кнопкой
+    };
+    //после загрузки картинки
 
-    iframe.onload = () => loaded_frame(iframe); //для фреймов onload сработает как для успеха так и для ошибки
+    wrap.ksn_loader = new Loader(qs('.loader', wrap)); //записываем в свойства оболочки объект его лоадера
 
-    wrap.append(iframe); //вставляем фрейм в документ
+    setTimeout(() => !wrap.classList.contains('uploaded-poster') && wrap.ksn_loader.show(), GDS.media.img.loader_delay_time); //если превьюшка не загрузилась за время GDS.media.img.loader_delay_time значит мы должны показать лоадер
 
-    setTimeout(() => !iframe.classList.contains('uploaded') && iframe.ksn_loader.show(), GDS.media.video_frames.loader_delay_time); //если фрейм не загрузился за время GDS.media.video_frames.loader_delay_time значит мы должны показать лоадер
+    qs('.iframe-youtube__poster', wrap)._on('click', render_frame.bind(null, wrap));
 
     delete wrap.start_intersecting_timeout_id; //удаляем свойство за ненадобностью
 }
+//создаём каркас из картинки превью видео чтоб пользователь мог нажать для запуска видео, но видео не грузилось по умолчанию
+
 //создаёт и вставляет фрейм в документ
+function render_frame(wrap) {
+    let video_id = wrap.dataset.videoId, //id видео на ютубе
+        iframe = d.createElement('iframe'); //создаём фрейм
 
-//после загрузки фрейма
-async function loaded_frame(iframe) {
-    await iframe.ksn_loader.hide_and_remove(); //скрываем и удаляем лоадер если он есть
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
+    iframe.setAttribute('src', 'https://www.youtube.com/embed/' + video_id + '?autoplay=1&rel=0');
 
-    iframe.classList.add('uploaded'); //помечаем что фрейм загружен чтоб он показался
+    qs('.iframe-youtube__poster', wrap).remove(); //удаляем постер
+    qs('.iframe-youtube__video', wrap).append(iframe); //вставляем фрейм в документ
 }
-//после загрузки фрейма
+//создаёт и вставляет фрейм в документ
