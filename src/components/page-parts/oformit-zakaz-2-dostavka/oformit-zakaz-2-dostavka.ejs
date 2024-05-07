@@ -2,6 +2,34 @@
 <div class="oformit-zakaz-2">
   <div class="standart-container standart-container--after-line" data-showed-on-scroll>
     <h2>Доставка (СДЭК)</h2>
+
+    <div class="oformit-zakaz-2__instruct">
+      <div class="oformit-zakaz-2__instruct-decor-arrow">
+        <div class="oformit-zakaz-2__instruct-decor-arrow-line"></div>
+        <div class="oformit-zakaz-2__instruct-decor-arrow-tip"></div>
+      </div>
+      <div class="oformit-zakaz-2__instruct-wrap">
+        <div class="oformit-zakaz-2__instruct-wrap-item punkt-1">
+          <div class="oformit-zakaz-2__instruct-wrap-item-img">
+            <%- include('./../../blocks/images/images.ejs', {data:{type: "bg",loader: false, url:"~@oformit-zakaz-2-dostavka-img/1.svg", pt:100,}})%>
+          </div>
+          <div>1 Введите название города</div>
+        </div>
+        <div class="oformit-zakaz-2__instruct-wrap-item punkt-2">
+          <div class="oformit-zakaz-2__instruct-wrap-item-img">
+            <%- include('./../../blocks/images/images.ejs', {data:{type: "bg",loader: false, url:"~@oformit-zakaz-2-dostavka-img/2.svg", pt:134.6,}})%>
+          </div>
+          <div>2 Отметьте на карте пункт выдачи</div>
+        </div>
+        <div class="oformit-zakaz-2__instruct-wrap-item punkt-3">
+          <div class="oformit-zakaz-2__instruct-wrap-item-img">
+            <%- include('./../../blocks/images/images.ejs', {data:{type: "bg",loader: false, url:"~@oformit-zakaz-2-dostavka-img/3.svg", pt:59.649,}})%>
+          </div>
+          <div>3 Нажмите кнопку "Выбрать" в появившемся справа окне</div>
+        </div>
+      </div>
+    </div>
+
     <div id="sdekmap"></div>
     <input type="text" form="user-data" required>
   </div>

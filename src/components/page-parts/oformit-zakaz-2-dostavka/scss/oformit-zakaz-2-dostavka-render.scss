@@ -10,6 +10,84 @@
         pointer-events: none;
         opacity: 0;
     }
+
+    &__instruct {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: var(--gap);
+        margin: var(--small-gap) 0 calc(var(--small-gap) * 2) 0;
+
+        &-decor-arrow {
+            grid-column: 1/2;
+            position: relative;
+
+            &-line {
+                height: calc(100% - var(--10));
+                border-left: var(--2) solid var(--blue);
+                left: var(--5);
+                position: relative;
+            }
+
+            &-tip {
+                width: 0;
+                border-left: var(--6) solid transparent; /* Ширина и цвет левой части стрелки */
+                border-right: var(--6) solid transparent; /* Ширина и цвет правой части стрелки */
+                border-top: var(--10) solid var(--blue); /* Высота и цвет верхней части стрелки */
+            }
+        }
+
+        &-wrap {
+            grid-column: 2/-1;
+            display: grid;
+            grid-gap: var(--gap);
+            justify-content: start;
+
+            @media (min-width: rem(640)) {
+                grid-template-columns: repeat(3, auto);
+            }
+
+            &-item {
+                @media (min-width: rem(640)) {
+                    max-width: var(--180);
+                }
+
+                &.punkt-1 {
+                    & > [class$='-img'] {
+                        width: var(--30);
+                    }
+                }
+
+                &.punkt-2 {
+                    & > [class$='-img'] {
+                        width: var(--26);
+                    }
+                }
+
+                &.punkt-3 {
+                    @media (min-width: rem(640)) {
+                        max-width: var(--280);
+                    }
+
+                    & > [class$='-img'] {
+                        width: var(--60);
+                    }
+                }
+
+                &-img {
+                    margin-bottom: var(--5);
+
+                    @media (min-width: rem(640)) {
+                        margin-bottom: var(--10);
+                    }
+
+                    @media (min-width: rem(960)) {
+                        margin-bottom: var(--20);
+                    }
+                }
+            }
+        }
+    }
 }
 
 #sdekmap {
