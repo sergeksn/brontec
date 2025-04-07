@@ -1,0 +1,13 @@
+<%
+let loader_html = data.loader ? include('./../../blocks/loader/loader.ejs') : null,
+    video_platform = data.platform ?? "rutube";
+%>
+
+<div class="iframe-video" data-video-id="<%-data.id%>" data-video-platform="<%-video_platform%>">
+  <div class="iframe-video__player"></div>
+  <div class="iframe-video__poster">
+    <div class="iframe-video__poster-img"></div>
+    <button></button>
+  </div>
+  <%-loader_html%>
+</div>

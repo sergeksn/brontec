@@ -225,41 +225,41 @@
             "@fqa-img/*": [
                 "@components\\blocks\\fqa\\img/*"
             ],
-            "@iframe-youtube": [
-                "@components\\blocks\\iframe-youtube"
+            "@iframe-video": [
+                "@components\\blocks\\iframe-video"
             ],
-            "@iframe-youtube/*": [
-                "@components\\blocks\\iframe-youtube/*"
+            "@iframe-video/*": [
+                "@components\\blocks\\iframe-video/*"
             ],
-            "@iframe-youtube-main-js": [
-                "@components\\blocks\\iframe-youtube\\js\\iframe-youtube-main.js"
+            "@iframe-video-main-js": [
+                "@components\\blocks\\iframe-video\\js\\iframe-video-main.js"
             ],
-            "@iframe-youtube-main-js/*": [
-                "@components\\blocks\\iframe-youtube\\js\\iframe-youtube-main.js/*"
+            "@iframe-video-main-js/*": [
+                "@components\\blocks\\iframe-video\\js\\iframe-video-main.js/*"
             ],
-            "@iframe-youtube-render-scss": [
-                "@components\\blocks\\iframe-youtube\\scss\\iframe-youtube-render.scss"
+            "@iframe-video-render-scss": [
+                "@components\\blocks\\iframe-video\\scss\\iframe-video-render.scss"
             ],
-            "@iframe-youtube-render-scss/*": [
-                "@components\\blocks\\iframe-youtube\\scss\\iframe-youtube-render.scss/*"
+            "@iframe-video-render-scss/*": [
+                "@components\\blocks\\iframe-video\\scss\\iframe-video-render.scss/*"
             ],
-            "@iframe-youtube-interaction-scss": [
-                "@components\\blocks\\iframe-youtube\\scss\\iframe-youtube-interaction.scss"
+            "@iframe-video-interaction-scss": [
+                "@components\\blocks\\iframe-video\\scss\\iframe-video-interaction.scss"
             ],
-            "@iframe-youtube-interaction-scss/*": [
-                "@components\\blocks\\iframe-youtube\\scss\\iframe-youtube-interaction.scss/*"
+            "@iframe-video-interaction-scss/*": [
+                "@components\\blocks\\iframe-video\\scss\\iframe-video-interaction.scss/*"
             ],
-            "@iframe-youtube-fonts": [
-                "@components\\blocks\\iframe-youtube\\fonts"
+            "@iframe-video-fonts": [
+                "@components\\blocks\\iframe-video\\fonts"
             ],
-            "@iframe-youtube-fonts/*": [
-                "@components\\blocks\\iframe-youtube\\fonts/*"
+            "@iframe-video-fonts/*": [
+                "@components\\blocks\\iframe-video\\fonts/*"
             ],
-            "@iframe-youtube-img": [
-                "@components\\blocks\\iframe-youtube\\img"
+            "@iframe-video-img": [
+                "@components\\blocks\\iframe-video\\img"
             ],
-            "@iframe-youtube-img/*": [
-                "@components\\blocks\\iframe-youtube\\img/*"
+            "@iframe-video-img/*": [
+                "@components\\blocks\\iframe-video\\img/*"
             ],
             "@images": [
                 "@components\\blocks\\images"

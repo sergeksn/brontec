@@ -36,7 +36,7 @@ import "@configurator-images-main-js";
 import "@configurator-switch-element-main-js";
 import "@decor-vertical-line-main-js";
 import "@fqa-main-js";
-import "@iframe-youtube-main-js";
+import "@iframe-video-main-js";
 import "@images-main-js";
 import "@info-box-plenka-main-js";
 import "@khlebnyye-kroshki-main-js";

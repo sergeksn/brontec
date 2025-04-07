@@ -1,0 +1,75 @@
+.iframe-video {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+
+    &__player {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    &__poster {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity var(--standart-anim);
+        background-color: #fff;
+
+        button {
+            background-image: var(--yt-button);
+            background-repeat: no-repeat;
+            background-position: center center;
+            width: 14%;
+            height: 20%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+        }
+
+        &-img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            img {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+
+    .loader {
+        opacity: 0;
+        display: none;
+    }
+}
+
+[data-video-platform='rutube'] button {
+    background-image: var(--rutube-button);
+}
+
+.iframe-video.uploaded-poster .iframe-video__poster {
+    opacity: 1;
+}
+
+.iframe-video.uploaded-poster {
+    background-color: #000;
+}
+
+.iframe-video.logo-poster .iframe-video__poster-img img {
+    width: 90%;
+}
