@@ -32,6 +32,7 @@ import '@js-moduls/textarea.js';//блок управление кастомны
 import '@js-moduls/user-info-save.js';//сохраняет информацию пользователя ввердённую в полях фио, почты, телефона и т.д.
 
 //@dinamic node import fils
+import "@accept-cookies-main-js";
 import "@configurator-images-main-js";
 import "@configurator-switch-element-main-js";
 import "@decor-vertical-line-main-js";

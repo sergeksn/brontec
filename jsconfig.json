@@ -81,6 +81,42 @@
             "@js-libs/*": [
                 "@js\\libs/*"
             ],
+            "@accept-cookies": [
+                "@components\\blocks\\accept-cookies"
+            ],
+            "@accept-cookies/*": [
+                "@components\\blocks\\accept-cookies/*"
+            ],
+            "@accept-cookies-main-js": [
+                "@components\\blocks\\accept-cookies\\js\\accept-cookies-main.js"
+            ],
+            "@accept-cookies-main-js/*": [
+                "@components\\blocks\\accept-cookies\\js\\accept-cookies-main.js/*"
+            ],
+            "@accept-cookies-render-scss": [
+                "@components\\blocks\\accept-cookies\\scss\\accept-cookies-render.scss"
+            ],
+            "@accept-cookies-render-scss/*": [
+                "@components\\blocks\\accept-cookies\\scss\\accept-cookies-render.scss/*"
+            ],
+            "@accept-cookies-interaction-scss": [
+                "@components\\blocks\\accept-cookies\\scss\\accept-cookies-interaction.scss"
+            ],
+            "@accept-cookies-interaction-scss/*": [
+                "@components\\blocks\\accept-cookies\\scss\\accept-cookies-interaction.scss/*"
+            ],
+            "@accept-cookies-fonts": [
+                "@components\\blocks\\accept-cookies\\fonts"
+            ],
+            "@accept-cookies-fonts/*": [
+                "@components\\blocks\\accept-cookies\\fonts/*"
+            ],
+            "@accept-cookies-img": [
+                "@components\\blocks\\accept-cookies\\img"
+            ],
+            "@accept-cookies-img/*": [
+                "@components\\blocks\\accept-cookies\\img/*"
+            ],
             "@configurator-images": [
                 "@components\\blocks\\configurator-images"
             ],

@@ -109,6 +109,9 @@ function render_frame(wrap) {
             iframe.mozallowfullscreen = true;
             iframe.allowFullScreen = true;
             iframe.setAttribute('src', 'https://rutube.ru/play/embed/' + video_id + '/');
+            iframe.setAttribute('webkitAllowFullScreen',"");
+            iframe.setAttribute('mozallowfullscreen',"");
+            iframe.setAttribute('allowFullScreen',"");
             break;
         case 'youtube':
             iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
